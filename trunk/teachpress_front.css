@@ -1,0 +1,136 @@
+/* Alle folgenden CSS-Anweisungen betreffen die Frontend Ausgabe von teachPress */
+
+/* Anzeige der Daten zur Veranstaltung, Shortcode [tpdate]
+div.untertitel {
+}
+.tpdate {
+}
+.tpdate tr {
+}
+.tpdate td {
+}
+*/
+.tpdatecol {
+	border-bottom:1px dotted silver; 
+	font-size:2px;
+}
+
+/* Anzeige Einschreibeliste, anzeige.php */
+.warteliste {
+	font-size:10px;
+	color:#FF0000;
+	padding-left:5px;
+}
+.einschreibefrist {
+	font-size:10px;
+	color:#FF0000;
+}
+
+/* Tabellendesign, anzeige.php */
+.teachpress_table{
+	border-collapse: collapse; 
+	border: 1px solid silver;
+	font-size:11px;
+}
+
+.teachpress_table th{
+	padding:5px; 
+	color:#FFFFFF;
+	background-image:url(images/table_background.png);
+	background-color:#418f7c;
+	background-repeat:repeat-x;
+	margin:5px;
+	border-collapse: collapse; 
+	border: 1px solid silver;
+	font-size:11px;
+}
+
+.teachpress_table tr {
+	padding:5px; 
+	background-color:#FFFFFF;
+	color:#000000;
+	margin:5px;
+	border-collapse: collapse; 
+	border: 1px solid silver;
+	font-size:12px;
+}
+#teachpress_copy {
+	background-image:url(images/logo_small.png);
+	background-repeat:no-repeat;
+	padding-left:20px;
+}
+
+/* teachPress Cloud, Shortcode [tpcloud] */
+.teachpress_filter {
+	text-align:center;
+	padding-top:5px;
+}
+.teachpress_cloud {
+	text-align:center;
+}
+/* Aktive Tags */
+.teachpress_cloud a.teachpress_cloud_active {
+	color:#418f7c;
+	font-weight:bold;
+}
+.teachpress_cloud a.teachpress_cloud_active:hover {
+	color:#418f7c;
+	font-weight:bold;
+	text-decoration:underline;
+}
+.teachpress_cloud a {
+	color:#AAAAAA;
+	text-decoration:none;
+}
+.teachpress_cloud a:hover {
+	color:#AAAAAA;
+	text-decoration:underline;
+}
+
+/* Publikationslisten Shortocdes [tpcloud] [tplist]*/
+.tp_publication {
+	padding:5px 5px 5px 5px;
+	border-bottom:1px solid silver;
+}
+.tp_pub_autor {
+	font-size:small;
+	margin-bottom:1px;
+	margin-top:1px;
+}
+.tp_pub_titel {
+	font-weight:bold;
+	margin-top:1px;
+	margin-bottom:1px;
+}
+.tp_pub_zusatz {
+	font-size:small;
+	margin-top:1px;
+	margin-bottom:1px;
+}
+.tp_pub_typ {
+	font-weight:bold;
+}
+h3.tp_h3 {
+	color: rgb(23, 118, 101);
+}
+.teachpress_mistake {
+	font-weight:bold;
+	border:1px solid silver;
+	padding:5px;
+	text-align:center;
+	background-color:#FFFFCC;
+}
+/* teachPress List, Shortcode [tplist] */
+ul.teachpress_list {
+	style="list-style:disc; 
+	padding-left:20px;
+}
+ul.teachpress_list li {
+}
+
+/* Anzeige aktuelle Lehrveranstaltungen, anzeige_lvs.php */
+.tp_auswahl {
+	border-bottom:1px dotted silver;
+	margin:3px;
+	padding:3px;
+}
