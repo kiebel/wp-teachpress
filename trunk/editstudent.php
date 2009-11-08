@@ -1,19 +1,12 @@
 <?php
-/*
- * Editiieren der Datensätze von Studenten
- *
- * Eingangsparameter von studenten.php:
- * $student_ID (Int)
- * $suche (String)
- * $studenten (String)
- * $suche und $studenten werden wieder an studenten.php zurueckgegeben um das vorherige Suchergebnis wieder anzuzeigen
- *
+/* Editiieren der Datensätze von Studenten
+ * from studenten.php
+ * @param $student_ID (Int)
+ * @param $suche (String)
+ * @param $studenten (String)
 */
 ?>
-<?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
+<?php  
 if ( is_user_logged_in() ) { 
 ?> 
 <div class="wrap">
@@ -206,7 +199,8 @@ else {
           <th><?php _e('Einschr.-Nr.','teachpress'); ?></th>
           <th><?php _e('Datum','teachpress'); ?></th>
           <th><?php _e('Lehrveranstaltung','teachpress'); ?></th>
-          <th><?php _e('Typ','teachpress'); ?></th> 
+          <th><?php _e('Typ','teachpress'); ?></th>
+          <th><?php _e('Termin','teachpress'); ?></th>
           <th><?php _e('Nachname','teachpress'); ?></th>
           <th><?php _e('Vorname','teachpress'); ?></th>
           <th><?php _e('User-ID','teachpress'); ?></th>
@@ -215,21 +209,29 @@ else {
     <tbody>
 <?php
 		// Nach Daten zur Person: Ausgabe aller Einschreibungen
-		$row2= "SELECT " . $teachpress_stud . ".wp_id, " . $teachpress_stud . ".vorname, " . $teachpress_stud . ".nachname, " . $teachpress_ver . ".name, " . $teachpress_ver . ".vtyp, " . $teachpress_kursbelegung . ".belegungs_id, " . $teachpress_kursbelegung . ".datum
+		$row2= "SELECT " . $teachpress_stud . ".wp_id, " . $teachpress_stud . ".vorname, " . $teachpress_stud . ".nachname, " . $teachpress_ver . ".name, " . $teachpress_ver . ".vtyp, " . $teachpress_ver . ".termin, " . $teachpress_ver . ".parent," . $teachpress_kursbelegung . ".belegungs_id, " . $teachpress_kursbelegung . ".datum
 					FROM " . $teachpress_kursbelegung . "
 					INNER JOIN " . $teachpress_ver . " ON " . $teachpress_ver . ".veranstaltungs_id=" . $teachpress_kursbelegung . ".veranstaltungs_id
 					INNER JOIN " . $teachpress_stud . " ON " . $teachpress_stud . ".wp_id= " . $teachpress_kursbelegung . ".wp_id
 					WHERE " . $teachpress_kursbelegung . ".wp_id = '$student'";
 		$row2 = tp_results($row2);
 		foreach($row2 as $row2) {
-			   // Ausgabe der Infos zur gewählten LVS mit integriertem Änderungsformular
+			if ($row2->parent != 0) {
+				$parent_name = tp_var("SELECT name FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$row2->parent'");
+				$parent_name = $parent_name . " ";
+			}
+			else {
+				$parent_name = "";
+			}
+			   // Ausgabe der Infos zur gewählten LVS mit integriertem Aenderungsformular
 			   ?>
 		    <tr>
 				<th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo "$row2->belegungs_id" ?>"/></th>
 				<td><?php echo "$row2->belegungs_id" ?></td>
 				<td><?php echo "$row2->datum" ?></td>
-				<td><?php echo "$row2->name" ?></td>
+				<td><?php echo $parent_name . $row2->name; ?></td>
 				<td><?php echo "$row2->vtyp" ?></td> 
+                <td><?php echo "$row2->termin" ?></td>
 				<td><?php echo "$row2->nachname" ?></td>
 				<td><?php echo "$row2->vorname" ?></td>
 				<td><?php echo "$row2->wp_id" ?></td>

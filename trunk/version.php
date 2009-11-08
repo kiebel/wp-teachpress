@@ -1,4 +1,4 @@
 <?php
-// Define teachPress-Versions
-$tp_version = "0.22.0";
+// Define teachPress-Version
+$tp_version = "0.30.0";
 ?>

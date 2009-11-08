@@ -1,17 +1,11 @@
-<?php
+<?php  
 /*
- * Zum Erstellen neuer Publikationen
- *
+ * Neue Publikationen hinzufuegen
 */
-?>
-
-<?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
 if ( is_user_logged_in() ) { 
 ?>
 <script type="text/javascript">
+	// for adding new tags
 	function inserttag(tag) {
 		if (document.getElementsByName("tags")[0].value == "") {
 			document.getElementsByName("tags")[0].value = tag;
@@ -30,10 +24,10 @@ global $teachpress_tags;
 global $teachpress_beziehung;
 global $teachpress_user;
 global $current_user;
-// User Infos von WordPress
+
 get_currentuserinfo();
 $user = $current_user->ID;
-// Formulardaten
+
 $erstellen = $_POST[erstellen];
 $typ = htmlentities(utf8_decode($_POST[typ]));
 $name = htmlentities(utf8_decode($_POST[name]));
@@ -46,7 +40,7 @@ $sort = htmlentities(utf8_decode($_POST[sortierung]));
 $comment = htmlentities(utf8_decode($_POST[comment]));
 $tags = htmlentities(utf8_decode($_POST[tags]));
 $bookmark = $_POST[bookmark];
-// Falls Publikation erstellt wurde, wird Dialog ausgegeben
+// if publications was created
 if (isset($erstellen)) {
 	add_pub($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $bookmark, $user, $comment);
 	$message = __('Publikation hinzugef&uuml;gt','teachpress');

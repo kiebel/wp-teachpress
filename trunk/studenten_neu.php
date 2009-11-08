@@ -1,13 +1,10 @@
 <?php 
-/* Formular für alle manuellen Eingriffe ins Einschreibesystem
- * Eingangsparameter: keine
+/* 
+ * Formular für alle manuellen Eingriffe ins Einschreibesystem
 */
 ?>
 
-<?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
+<?php  
 if ( is_user_logged_in() ) { 
 
 $wp_id = htmlentities(utf8_decode($_POST[wp_id]));
@@ -47,27 +44,74 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
           <tr>
             <td><select name="student" id="student">
               <option value="0"><?php _e('Student ausw&auml;hlen','teachpress'); ?></option>
-              <option>----------</option>
+              <option value="0">----------</option>
            <?php
 			global $teachpress_ver; 
 			global $teachpress_stud; 
 			global $teachpress_einstellungen;
 			$row1 = "SELECT wp_id, nachname, vorname, matrikel FROM " . $teachpress_stud . " ORDER BY nachname, vorname";
 			$row1 = tp_results($row1);
-			foreach($row1 as $row1) { ?>
-                   <option value="<?php echo"$row1->wp_id" ?>"><?php echo"$row1->nachname"?> <?php echo"$row1->vorname"?> <?php echo"$row1->matrikel"?></option>
-			<?php } ?>
+			$zahl = 0;
+			foreach($row1 as $row1) {
+				if ($zahl != 0 && $merke[0] != $row1->nachname[0]) {
+					echo '<option value="0">----------</option>';
+				}
+            	echo '<option value="' . $row1->wp_id . '">' . $row1->nachname . ' ' . $row1->vorname . ' ' . $row1->matrikel . '</option>';
+				$merke = $row1->nachname;
+				$zahl++;
+			} ?>
         </select>
             </select></td>
             <td><select name="veranstaltung" id="veranstaltung">
               <option value="0"><?php _e('Veranstaltung ausw&auml;hlen','teachpress'); ?></option>
-              <option>----------</option>
+              <option value="0">----------</option>
               <?php
-				$row1 = "SELECT veranstaltungs_id, name, semester FROM " . $teachpress_ver . " ORDER BY semester DESC, name";
+			  	// Semester
+                $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
+				$sem = tp_results($sem);
+				$x = 0;
+				foreach ($sem as $sem) { 
+					$period[$x] = $sem->wert;
+					$x++;
+                }
+				// Veranstaltungen
+				$row1 = "SELECT veranstaltungs_id, name, semester, parent FROM " . $teachpress_ver . " ORDER BY semester DESC, name";
 				$row1 = tp_results($row1);
-				foreach($row1 as $row1) { ?>
-				   <option value="<?php echo"$row1->veranstaltungs_id" ?>"><?php echo"$row1->name"?> <?php echo"$row1->semester"?></option>
-			   <?php } ?>
+				$v = 0;
+				foreach($row1 as $row1) { 
+					$veranstaltungen[$v][0] = $row1->veranstaltungs_id;
+					$veranstaltungen[$v][1] = $row1->name;
+					$veranstaltungen[$v][2] = $row1->semester;
+					$veranstaltungen[$v][3] = $row1->parent;
+					$v++;
+				}
+				// Semester
+				for ($i = 0; $i < $x; $i++) {
+					$zahl = 0;
+					//Veranstaltungen zum Semester
+					for ($j = 0; $j < $v; $j++) {
+						// Wenn's zum Semester passt
+						if ($period[($x - 1)-$i] == $veranstaltungen[$j][2] ) {
+							$parent_name = "";
+							// Wenn Child
+							if ($veranstaltungen[$j][3] != '0') {
+								// Parent_Name suchen
+								for ($k=0;$k<$v;$k++) {
+									if ($veranstaltungen[$j][3] == $veranstaltungen[$k][0]) {
+										$parent_name = $veranstaltungen[$k][1] . ' ';
+									}
+								}
+							}
+							echo '<option value="' . $veranstaltungen[$j][0] . '">' . $parent_name . ' ' . $veranstaltungen[$j][1] . ' ' . $veranstaltungen[$j][2] . '</option>';
+							$zahl++;
+						} 
+					}
+					// Wenn Semester wechselt
+					if ($zahl != 0) {
+						echo '<option value="0">------</option>';
+					}
+				}	
+				?>
             </select></td>
           </tr>
           <tr>

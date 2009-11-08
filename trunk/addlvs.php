@@ -1,18 +1,12 @@
-<?php
-/*
- * Zum Erstellen neuer Lehrveranstaltungen
- *
-*/
-?>
-
 <?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
+/*
+ * Neue Kurse hinzufuegen
 */ 
 if ( is_user_logged_in() ) { 
+
 global $teachpress_einstellungen;
 global $teachpress_ver;
- // Formular-Einträge aus dem Post Array holen
+
 $erstellen = $_POST[erstellen]; 
 $veranstaltungstyp = htmlentities(utf8_decode($_POST[veranstaltungstyp])) ;
 $lvname = htmlentities(utf8_decode($_POST[lvname])) ;
@@ -29,7 +23,7 @@ $url = htmlentities(utf8_decode($_POST[url]));
 $parent = htmlentities(utf8_decode($_POST[parent2]));
 $sichtbar = htmlentities(utf8_decode($_POST[sichtbar]));
 $warteliste = htmlentities(utf8_decode($_POST[warteliste]));
-//Übergabe der Variablen
+
 if (isset($erstellen)) {
 	add_lvs_in_database($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester,  $bemerkungen, $url, $parent, $sichtbar, $warteliste);
 	$message = __('Veranstaltung erstellt','teachpress');
@@ -41,8 +35,10 @@ if (isset($erstellen)) {
     <h2><?php _e('Neue Lehrveranstaltung erstellen','teachpress'); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Hilfe','teachpress'); ?></a></small></h2>
     <div id="hilfe_anzeigen">
     	<h3 class="teachpress_help"><?php _e('Hilfe','teachpress'); ?></h3>
+        <p class="hilfe_headline"><?php _e('Veranstaltungsname','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('F&uuml;r untergeordnete Veranstaltungen wird der Name der Parent-Veranstaltung im Backend automatisch vorgestellt. Es reichen also Namen wie &Uuml;bung 1','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Parent','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Hier kann die LVS einer übergeordneten Veranstaltung (muss vorher erstellt werden) zugeordnet werden.  Wenn Sie jetzt das Formular für die Erstellung einer untergeordneten LVS nutzen, achten Sie darauf, dass sie unter Parent die Übergeordnete LVS auswählen. Benennen Sie die Übung möglichst nach der Vorlesung, also beispielsweise: &quot;Einführung Recht Übung 1&quot;. Das dient der Übersicht in den Administrationsmenüs. Für das öffentliche Einschreibeformular wird nur der Veranstaltungstyp verwendet, die Nummer wird hochgezählt, daher sollten untergeordnete LVS des gleichen Typs immer in Reihenfolge erstellt werden.','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Hier kann die LVS einer übergeordneten Veranstaltung (muss vorher erstellt werden) zugeordnet werden. Wenn Sie jetzt das Formular für die Erstellung einer untergeordneten LVS nutzen, achten Sie darauf, dass sie unter Parent die Übergeordnete LVS auswählen.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Mehr als ein Termin','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('Wenn es mehr als einen Termin für eine LVS geben soll, dann kann man alle Termine mit Raum in das Feld Termin schreiben (max. 100 Zeichen) oder die Werte auf die Felder Termin und Raum aufteilen','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Sichtbar','teachpress'); ?></p>
@@ -92,6 +88,7 @@ if (isset($erstellen)) {
 <td>
                     <select name="parent2" id="parent2">
                       <option value="0"><?php _e('keine','teachpress'); ?></option>
+                      <option>------</option>
                       <?php
                         $abfrage = "SELECT veranstaltungs_id, name, semester FROM " . $teachpress_ver . " WHERE parent='0' ORDER BY semester DESC, name";
                         $row = tp_results($abfrage);
@@ -103,12 +100,16 @@ if (isset($erstellen)) {
 							$z++;
 						}
 						for ($i = 0; $i < $x; $i++) {
+							$zahl = 0;
 							for ($j = 0; $j < $z; $j++) {
 								if ($period[($x - 1)-$i] == $par[$j][2] ) {
-									echo '<option value="' . $par[$j][0] . '">' . $par[$j][1] . ' ' . $period[$x-$i] . '</option>';
+									echo '<option value="' . $par[$j][0] . '">' . $par[$j][1] . ' ' . $par[$j][2] . '</option>';
+									$zahl++;
 						        } 
-						    } 
-						    echo '<option>----</option>';  
+						    }
+							if ($zahl != 0) {
+						    	echo '<option>------</option>';
+							}
 					    }?>
                     </select>
                 </td>

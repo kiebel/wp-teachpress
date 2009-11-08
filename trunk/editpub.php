@@ -1,16 +1,12 @@
 <?php
 /* Bearbeiten von Publikationen
- * Eingangsvariablen von showpublications.php und yourpub.php:
- * $pub_ID (INT) - Bestimmt die Publikation die geladen wird
- * $search (String) - Dient zum Ruecksprung zum vorherigen Suchergebnis
- * Rückgabewerte: keine
+ * from showpublications.php, yourpub.php:
+ * @param $pub_ID (INT) - Bestimmt die Publikation die geladen wird
+ * @param $search (String) - Dient zum Ruecksprung zum vorherigen Suchergebnis
 */
 ?>
 
-<?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
+<?php
 if ( is_user_logged_in() ) { 
 ?> 
 
