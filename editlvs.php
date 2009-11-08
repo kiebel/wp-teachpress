@@ -1,17 +1,13 @@
 <?php 
 /* Bearbeitung von Lehrveranstaltungen
- * 
- * Eingangsparameter von showlvs.php:
- * $lvs_ID - INT (ID der Veranstaltung die geladen werden soll)
- * $sem - String (angezeigtes Semester auf showlvs.php)
- * $search - String (verwendeter Suchstring auf showlvs.php)
+ * from showlvs.php:
+ * @param $lvs_ID (INT) - ID der Veranstaltung die geladen werden soll
+ * @param $sem (String) - angezeigtes Semester auf showlvs.php
+ * @param $search (String) - verwendeter Suchstring auf showlvs.php
 */
 ?>
 
 <?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
 if ( is_user_logged_in() ) { 
 ?>
 <div class="wrap">
@@ -55,6 +51,25 @@ $veranstaltung = htmlentities(utf8_decode($_GET[lvs_ID]));
 // fuer Zurueckleitung an showlvs.php
 $search = htmlentities(utf8_decode($_GET[search]));
 $sem = htmlentities(utf8_decode($_GET[sem]));
+// Befehle ausfürhen
+if ( isset($speichern) ) {
+	change_lehrveranstaltung($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $url, $sichtbar, $veranstaltung, $parent, $warteliste);
+	$message = __('&Auml;nderungen erfolgreich.','teachpress');
+	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
+	tp_get_message($message, $site);
+}
+if ( isset($aufnehmen) ) {
+    aufnahme($checkbox);
+	$message = __('Teilnehmer aufgenommen','teachpress');
+	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
+	tp_get_message($message, $site);	
+    }	 
+if ( isset($delete)) {
+    delete_einschreibung($checkbox, $user_ID);
+	$message = __('Einschreibungen gel&ouml;scht.','teachpress');
+	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
+	tp_get_message($message, $site);	
+}
 // Abfrage-Arrays füllen
 // LVS-Daten
 $row = "SELECT * FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$veranstaltung'";
@@ -111,32 +126,13 @@ foreach($row as $row){
 	$counter3++;
 }
 
-
-if ( isset($speichern) ) {
-	change_lehrveranstaltung($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $url, $sichtbar, $veranstaltung, $parent, $warteliste);
-	$message = __('&Auml;nderungen erfolgreich.','teachpress');
-	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
-	tp_get_message($message, $site);
-}
-if ( isset($aufnehmen) ) {
-    aufnahme($checkbox);
-	$message = __('Teilnehmer aufgenommen','teachpress');
-	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
-	tp_get_message($message, $site);	
-    }	 
-if ( isset($delete)) {
-    delete_einschreibung($checkbox, $user_ID);
-	$message = __('Einschreibungen gel&ouml;scht.','teachpress');
-	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
-	tp_get_message($message, $site);	
-}
 if ($speichern != __('speichern','teachpress')) { ?>
     <p>
     <a href="admin.php?page=teachpress/teachpress.php&semester2=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('zur&uuml;ck zur &Uuml;bersicht','teachpress'); ?>">&larr; <?php _e('zur&uuml;ck','teachpress'); ?></a><a href="admin.php?page=teachpress/listen.php&lvs_ID=<?php echo"$weiter" ?>&sem=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('Druckvorlage f&uuml;r Anwesenheitsliste erstellen','teachpress'); ?>"><?php _e('Liste f&uuml;r Druck','teachpress'); ?></a>
       <select name="export" id="export" onchange="teachpress_jumpMenu('parent',this,0)" class="teachpress_select">
         <option><?php _e('Exportieren als','teachpress'); ?> ... </option>
+        <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=csv"><?php _e('csv-Datei','teachpress'); ?></option>
         <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=xls"><?php _e('xls-Datei','teachpress'); ?></option>
-        <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=xml"><?php _e('xml-Datei','teachpress'); ?></option>
       </select>
       <select name="mail" id="mail" onchange="teachpress_jumpMenu('parent',this,0)" class="teachpress_select">
       	<option><?php _e('E-Mail an','teachpress'); ?> ... </option>
@@ -149,7 +145,19 @@ if ($speichern != __('speichern','teachpress')) { ?>
 	<input name="page" type="hidden" value="teachpress/editlvs.php">
     <input name="sem" type="hidden" value="<?php echo"$sem" ?>" />
     <input name="search" type="hidden" value="<?php echo"$search" ?>" />
-    <h2 style="padding-top:5px;"><?php echo $daten[0][1]; ?> <?php echo $daten[0][10]; ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('name_anzeigen')" style="cursor:pointer;"><?php _e('bearbeiten','teachpress'); ?></a></small></h2>
+    <?php
+	if ($daten[0][13] != 0) {
+		for ($x=0; $x < $counter3; $x++) {
+			if ($par[$x][0] == $daten[0][13]) {
+				$parent_name = $par[$x][1];
+			}
+		}
+	}
+	else {
+		$parent_name = "";
+	}
+	?>
+    <h2 style="padding-top:5px;"><?php echo $parent_name; ?> <?php echo $daten[0][1]; ?> <?php echo $daten[0][10]; ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('name_anzeigen')" style="cursor:pointer;"><?php _e('bearbeiten','teachpress'); ?></a></small></h2>
     <div id="name_anzeigen" style="display:none; width:850px;">
     	<fieldset style="padding:10px; border:1px solid silver;">
         <legend><?php _e('Veranstaltung &auml;ndern','teachpress'); ?></legend>

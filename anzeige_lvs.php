@@ -1,20 +1,18 @@
 <?php
 /*
- * Anzeige der aktuellen Lehrveranstaltungen
- *
+ * Aktuelle Kursuebersicht fuer Frontend
 */
 ?>
 <div id="anzeigelvs">
     <form name="lvs" method="get">
 		<?php
-        // Aktuelles Semester abfragen
         global $teachpress_ver; 
         global $teachpress_einstellungen; 
         $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
         $sem = tp_var($sem);
         ?>
         <div class="tp_auswahl">
-            <?php _e('Semester ','teachpress'); ?>
+            <?php _e('Bitte w&auml;hlen Sie das Semester','teachpress'); ?>
             <select name="semester">
                 <option value="<?php echo $sem; ?>"><?php echo $sem;?></option>
                 <option>-----</option>
@@ -34,7 +32,6 @@
         </div>   
         <h3 style="color:#005A46;"><?php _e('Lehrveranstaltungen für das','teachpress'); ?> <?php echo"$sem" ;?></h3>
         <?php
-            // Abfrage aller LVS des ausgewählten Semesters	
             $row = "Select name, bemerkungen, url FROM " . $teachpress_ver . " WHERE semester = '$sem' AND parent = '0' ORDER BY name";
             $row = tp_results($row);
             foreach($row as $row) { ?>

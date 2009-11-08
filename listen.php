@@ -1,17 +1,13 @@
 <?php 
 /* Erzeugung von Anwesenheitslisten zum ausdrucken
- * 
- * Eingangsparameter von editlvs.php
- * $lvs_ID
- * $search
- * $sememster2
+ * from editlvs.php
+ * @param $lvs_ID
+ * @param $search
+ * @param $sememster2
 */
 ?>
 
 <?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
 if ( is_user_logged_in() ) { 
 ?>
 

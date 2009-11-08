@@ -1,14 +1,11 @@
 <?php 
 /* Uebersicht eigene Publikationen
- * Eingangsparameter:
- * $search (String) von editlvs.php - Rueckgabe des Suchstrings um Suchergebnis erneut auszugeben
+ * from editlvs.php
+ * @param $search (String)
 */
 ?>
 
 <?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
 if ( is_user_logged_in() ) { 
 ?> 
 
@@ -47,8 +44,14 @@ if ($del_id !="") {
 <div id="hilfe_anzeigen">
     	<h3 class="teachpress_help"><?php _e('Hilfe','teachpress'); ?></h3>
         <p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('F&uuml;r Publicationsliste mit Tag-Cloud:','teachpress'); ?> <strong><?php _e('[tpcloud id="x"] (x = WP-User-ID, 0 f&uuml;r alle)','teachpress'); ?></strong></p>
-        <p class="hilfe_text"><?php _e('F&uuml;r normale Publicationsliste:','teachpress'); ?> <strong><?php _e('[tplist user="w" tag="x" year="y" headline="z"]','teachpress'); ?></strong>
+        <p class="hilfe_text"><?php _e('F&uuml;r Publikationsliste mit Tag-Cloud:','teachpress'); ?> <strong><?php _e('[tpcloud id="w" maxsize="x" minsize="y" limit="z"]','teachpress'); ?></strong></p>
+         <ul style="list-style:disc; padding-left:40px;">
+        	<li><?php _e('id - WP User-ID (0 f&uuml;r alle)','teachpress'); ?></li>
+            <li><?php _e('maxsize - maximale Schriftgr&ouml;&szlig;e in der Tag-Cloud (default 35)','teachpress'); ?> </li>
+            <li><?php _e('minsize - minimale Schriftgr&ouml;&szlig;e in der Tag-Cloud (default 11)','teachpress'); ?></li>
+            <li><?php _e('limit - maximale Anzahl der angezeigten Tags (default: 30)','teachpress'); ?></li>
+        </ul>
+        <p class="hilfe_text"><?php _e('F&uuml;r normale Publikationsliste:','teachpress'); ?> <strong><?php _e('[tplist user="w" tag="x" year="y" headline="z"]','teachpress'); ?></strong>
         <ul style="list-style:disc; padding-left:40px;">
         	<li><?php _e('user - WP User-ID (0 for all)','teachpress'); ?></li>
             <li><?php _e('tag - Tag-ID','teachpress'); ?> </li>

@@ -1,14 +1,13 @@
 <?php 
 /* Suche nach Studenten, Anzeige von Uebersichtslisten
- * Eingangsparameter: 
  *
+ * from editstudent.php, studenten.php
+ * @param $suche - String
+ * @param $studenten - String
 */
 ?>
 
 <?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
 if ( is_user_logged_in() ) { 
 ?> 
 
@@ -43,13 +42,13 @@ if (isset($kontrolle)) {
       <td><label>
         <select name="studenten" id="studenten">
         <?php
-			if ($studenten != "") {
+			if ($studenten != "" && $suche == "") {
 				if ($studenten == 1) {
 					echo '<option value="1">' . __('Alle Studenten','teachpress') . '</option>';
 					echo '<option>------</option>';
 				}
 				else {
-					echo ' <option value="' . $studenten . '">' . $studenten . '</option>';
+					echo '<option value="' . $studenten . '">' . $studenten . '</option>';
 					echo '<option>------</option>';
 				}
             }    
@@ -59,7 +58,7 @@ if (isset($kontrolle)) {
 		?>
           <option value="1"><?php _e('Alle Studenten','teachpress'); ?></option>
            <?php
-			$row1 = "SELECT DISTINCT studiengang FROM " . $teachpress_stud . "";
+			$row1 = "SELECT DISTINCT studiengang FROM " . $teachpress_stud . " ORDER BY studiengang";
 			$row1 = tp_results($row1);
 			foreach($row1 as $row1){ ?>
                 <option value="<?php echo"$row1->studiengang" ?>"><?php echo"$row1->studiengang" ?></option>

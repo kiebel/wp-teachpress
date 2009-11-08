@@ -1,15 +1,12 @@
 <?php
 /* Tag-Verwaltung
- * Eingangsparameter von tags.php:
- * $search (String) - Suchergebnis
- * $tag_id (INT) - ID eines zu bearbeitenden Tags
+ * from tags.php:
+ * @param $search (String) - Suchergebnis
+ * @param $tag_id (INT) - ID eines zu bearbeitenden Tags
 */
 ?>
 
-<?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
+<?php  
 if ( is_user_logged_in() ) { 
 ?> 
 <div class="wrap" style="padding-top:10px;">

@@ -1,7 +1,6 @@
 <?php
 /*
  * Excel-Export von Lehrveranstaltungen und zugehörigen Einschreibungen
- *
 */
 if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 	include_once('parameters.php');
@@ -22,15 +21,17 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			header("Content-type: application/vnd-ms-excel"); 
 			header("Content-Disposition: attachment; filename=" . $filename . ".xls");
 		}
-		if ($type == "xml") {
-			header("Content-type: text/xml; charset=utf-8");
-			header("Content-Disposition: attachment; filename=" . $filename . ".xml"); 
+		if ($type == 'csv') {
+			header('Content-Type: text/x-csv');
+			header("Content-Disposition: attachment; filename=" . $filename . ".csv"); 
 		}
 		
-		global $teachpress_ver; 
-		global $teachpress_stud; 
-		global $teachpress_einstellungen; 
-		global $teachpress_kursbelegung;
+		// Define databases
+		global $wpdb;
+		$teachpress_ver = $wpdb->prefix . 'teachpress_ver';
+		$teachpress_stud = $wpdb->prefix . 'teachpress_stud';
+		$teachpress_einstellungen = $wpdb->prefix . 'teachpress_einstellungen';
+		$teachpress_kursbelegung = $wpdb->prefix . 'teachpress_kursbelegung';
 		// ID der Lehrveranstaltung auslesen
 		$lvs = htmlentities(utf8_decode($_GET[lvs_ID]));
 		settype($lvs, 'integer');
@@ -185,48 +186,25 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			global $tp_version;
 			?>       
 			<p style="font-size:11px; font-style:italic;"><?php _e('Erstellt am','teachpress'); ?>: <?php echo date("d.m.Y")?> | teachPress <?php echo $tp_version ?></p>  
-        <?php }
-if ($type == "xml") {?>
-<?xml version="1.0" encoding="utf-8"?>
-<export>
- <title><?php echo $daten[0][1] ?> <?php echo $daten[0][10] ?></title>
- <type><?php echo $daten[0][2]; ?></type>
- <dozent><?php echo $daten[0][4]; ?></dozent>
- <date><?php echo $daten[0][5]; ?></date>
- <room><?php echo $daten[0][3]; ?></room>
- <places><?php echo $daten[0][6]; ?></places>
- <freeplaces><?php echo $daten[0][7]; ?></freeplaces>
- <url><?php echo $daten[0][12]; ?></url>
- <bemerkungen><?php echo $daten[0][11]; ?></bemerkungen>
- <?php	
- for($i=0; $i<$counter2; $i++) {
-	if ($daten2[$i][8]== 0 ) { ?>
-	 <enrollment> 
-     	<id><?php echo $daten2[$i][7]; ?></id>          
-		<matrikel><?php echo $daten2[$i][0]; ?></matrikel>
-		<nachname><?php echo $daten2[$i][2]; ?></nachname>
-		<vorname><?php echo $daten2[$i][1]; ?></vorname>
-		<studiengang><?php echo $daten2[$i][3]; ?></studiengang>
-		<kennzeichen><?php echo $daten2[$i][4]; ?></kennzeichen>
-		<email><?php echo $daten2[$i][5]; ?></email>
-		<edate><?php echo $daten2[$i][6]; ?></edate>
-	 </enrollment>
- <?php } }
- for($i=0; $i<$counter2; $i++) {
-	if ($daten2[$i][8]== 1 ) { ?>
-	 <waiting>
-     	<id><?php echo $daten2[$i][7]; ?></id>
-		<matrikel><?php echo $daten2[$i][0]; ?></matrikel>
-		<nachname><?php echo $daten2[$i][2]; ?></nachname>
-		<vorname><?php echo $daten2[$i][1]; ?></vorname>
-		<studiengang><?php echo $daten2[$i][3]; ?></studiengang>
-		<kennzeichen><?php echo $daten2[$i][4]; ?></kennzeichen>
-		<email><?php echo $daten2[$i][5]; ?></email>
-		<edate><?php echo $daten2[$i][6]; ?></edate>
-	 </waiting>
- <?php } } ?>
-</export>
-<?php    
-}
+    <?php }  
+	if ($type == 'csv') {
+		$headline = "" . __('Matrikel','teachpress') . ";" . __('Vorname','teachpress') . ";" . __('Nachname','teachpress') . ";" . __('Studiengang','teachpress') . ";" . __('Nutzerkennzeichen','teachpress') . ";" . __('E-Mail','teachpress') . ";" . __('Datum','teachpress') . ";" . __('Datensatz-ID','teachpress') . ";" . __('Warteliste','teachpress') . "\r\n";
+		$array_1 = array('Ã¼','Ã¶', 'Ã¤', 'Ã¤', 'Ã?','Â§','Ãœ','Ã','Ã–');
+		$array_2 = array('ü','ö', 'ä', 'ä', 'ß', '§','Ü','Ä','Ö');
+		$headline = str_replace($array_1, $array_2, $headline);
+		echo $headline;
+		for($i=0; $i<$counter2; $i++) {
+				$daten2[$i][0] = str_replace($array_1, $array_2, $daten2[$i][0]);
+				$daten2[$i][1] = str_replace($array_1, $array_2, $daten2[$i][1]);
+				$daten2[$i][2] = str_replace($array_1, $array_2, $daten2[$i][2]);
+				$daten2[$i][3] = str_replace($array_1, $array_2, $daten2[$i][3]);
+				$daten2[$i][4] = str_replace($array_1, $array_2, $daten2[$i][4]);
+				$daten2[$i][5] = str_replace($array_1, $array_2, $daten2[$i][5]);
+				$daten2[$i][6] = str_replace($array_1, $array_2, $daten2[$i][6]);
+				$daten2[$i][7] = str_replace($array_1, $array_2, $daten2[$i][7]);
+				$daten2[$i][8] = str_replace($array_1, $array_2, $daten2[$i][8]);
+				echo "" . $daten2[$i][0] . ";" . $daten2[$i][1] . ";" . $daten2[$i][2] . ";" . $daten2[$i][3] . ";" . $daten2[$i][4] . ";" . $daten2[$i][5] . ";" . $daten2[$i][6] . ";" . $daten2[$i][7] . ";" . $daten2[$i][8]. "\r\n";
+	}
+	} 
 }
 } ?>   

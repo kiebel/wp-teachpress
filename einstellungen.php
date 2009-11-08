@@ -1,14 +1,10 @@
 <?php
 /*
  * Anzeige der Einstellungen im Backend
- *
 */
 ?>
 
-<?php 
-/* Sicherheitsabfrage ob User eingeloggt ist, um unbefugte Zugriffe von außen zu vermeiden
- * Nur wenn der User eingeloggt ist, wird das Script ausgeführt
-*/ 
+<?php  
 if ( is_user_logged_in() ) { 
 ?> 
 <div class="wrap">
