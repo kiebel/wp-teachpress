@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress
 Requires at least: 2.8
 Tested up to: 2.8.5
-Stable tag: 0.30.0
+Stable tag: 0.30.1
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -121,7 +121,7 @@ Use the following CSS-Classes in your theme to change the style of publications:
 .tp_pub_tags  
 
 == Changelog ==
-= 0.30.0 =
+= 0.30.1 =
 * New: Copy function for courses
 * New: Simple CSV-export for enrollments
 * New: Free selectable names for child courses
