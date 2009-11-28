@@ -26,34 +26,34 @@ $warteliste = htmlentities(utf8_decode($_POST[warteliste]));
 
 if (isset($erstellen)) {
 	add_lvs_in_database($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester,  $bemerkungen, $url, $parent, $sichtbar, $warteliste);
-	$message = __('Veranstaltung erstellt','teachpress');
+	$message = __('Course created','teachpress');
 	$site = 'admin.php?page=teachpress/addlvs.php';
     tp_get_message($message, $site);
 }
 ?>
 <div class="wrap" style="width:850px;">
-    <h2><?php _e('Neue Lehrveranstaltung erstellen','teachpress'); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Hilfe','teachpress'); ?></a></small></h2>
+    <h2><?php _e('Create a new course','teachpress'); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>
     <div id="hilfe_anzeigen">
-    	<h3 class="teachpress_help"><?php _e('Hilfe','teachpress'); ?></h3>
-        <p class="hilfe_headline"><?php _e('Veranstaltungsname','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('F&uuml;r untergeordnete Veranstaltungen wird der Name der Parent-Veranstaltung im Backend automatisch vorgestellt. Es reichen also Namen wie &Uuml;bung 1','teachpress'); ?></p>
+    	<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
+        <p class="hilfe_headline"><?php _e('Course name','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('For child courses: The name of the parent course will be add automatically.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Parent','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Hier kann die LVS einer übergeordneten Veranstaltung (muss vorher erstellt werden) zugeordnet werden. Wenn Sie jetzt das Formular für die Erstellung einer untergeordneten LVS nutzen, achten Sie darauf, dass sie unter Parent die Übergeordnete LVS auswählen.','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Mehr als ein Termin','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Wenn es mehr als einen Termin für eine LVS geben soll, dann kann man alle Termine mit Raum in das Feld Termin schreiben (max. 100 Zeichen) oder die Werte auf die Felder Termin und Raum aufteilen','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Sichtbar','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Gibt an, ob für die LVS eine Einschreibung stattfinden soll und ob die LVS bei den Einschreibungen angezeigt werden soll. Falls es untergeordnete LVS mit Einschreibungen geben soll dann unbedingt auf &quot;Ja&quot; stellen','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('More than one date','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('If you have more than one date for a course and the date field have not enough chars, so you can use the room field in addition.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Visibility','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('URL','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('&Uuml;ber die URL wird die Lehrveranstaltung mit einer statischen WordPress-Seite  oder einer externen Seite verlinkt, auf der man weitere Angaben zur Veranstaltung geben kann.','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('With the URL you can connect the course with a static page or an external URL.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('F&uuml;r Kursinfos:','teachpress'); ?> <strong><?php _e('[tpdate id="x"] (x = ID des Kurses)','teachpress'); ?></strong></p>
-        <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('schlie&szlig;en','teachpress'); ?></a></strong></p>
+        <p class="hilfe_text"><?php _e('For course informations','teachpress'); ?>: <strong><?php _e('[tpdate id="x"] (x = Course-ID)','teachpress'); ?></strong></p>
+        <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
     </div>
   <form id="addlvs" name="form1" method="post" action="<?php echo $PHP_SELF ?>">
         <table class="widefat">
          <thead>
           <tr>
-            <th><?php _e('Veranstaltungstyp','teachpress'); ?></th>
+            <th><?php _e('Course type','teachpress'); ?></th>
             <td>
               <select name="veranstaltungstyp" id="veranstaltungstyp">
               <?php 
@@ -63,7 +63,7 @@ if (isset($erstellen)) {
                 	<option value="<?php echo $row->wert; ?>"><?php echo $row->wert; ?></option>
                 <?php } ?>
             </select>            </td>
-            <th><?php _e('Semester','teachpress'); ?></th>
+            <th><?php _e('Term','teachpress'); ?></th>
             <td>
               <select name="semester" id="semester">
                     <?php
@@ -87,7 +87,7 @@ if (isset($erstellen)) {
                 <th><?php _e('Parent','teachpress'); ?></th>
 <td>
                     <select name="parent2" id="parent2">
-                      <option value="0"><?php _e('keine','teachpress'); ?></option>
+                      <option value="0"><?php _e('none','teachpress'); ?></option>
                       <option>------</option>
                       <?php
                         $abfrage = "SELECT veranstaltungs_id, name, semester FROM " . $teachpress_ver . " WHERE parent='0' ORDER BY semester DESC, name";
@@ -113,10 +113,10 @@ if (isset($erstellen)) {
 					    }?>
                     </select>
                 </td>
-                <th><?php _e('Sichtbar','teachpress'); ?></th>
+                <th><?php _e('Visibility','teachpress'); ?></th>
                 <td><select name="sichtbar" id="sichtbar">
-                  <option value="1"><?php _e('ja','teachpress'); ?></option>
-                  <option value="0"><?php _e('nein','teachpress'); ?></option>
+                  <option value="1"><?php _e('yes','teachpress'); ?></option>
+                  <option value="0"><?php _e('no','teachpress'); ?></option>
                 </select>            </td>
               </tr>
         </thead>      
@@ -125,27 +125,27 @@ if (isset($erstellen)) {
         <table class="widefat">
          <thead>
               <tr>
-                <th><?php _e('Veranstaltungsname','teachpress'); ?></th>
+                <th><?php _e('Course name','teachpress'); ?></th>
                 <td><input name="lvname" type="text" id="lvname" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Dozent','teachpress'); ?></th>
+                <th><?php _e('Lecturer','teachpress'); ?></th>
                 <td><input name="dozent" type="text" id="dozent" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Termin','teachpress'); ?></th>
+                <th><?php _e('Date','teachpress'); ?></th>
                 <td><input name="termin" type="text" id="termin" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Raum','teachpress'); ?></th>
+                <th><?php _e('Room','teachpress'); ?></th>
                 <td><input name="raum" type="text" id="raum" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Anzahl Pl&auml;tze','teachpress'); ?></th>
+                <th><?php _e('Number of places','teachpress'); ?></th>
                 <td><input name="platz" type="text" id="platz" size="6" /></td>
               </tr>
               <tr>
-                <th><?php _e('Bemerkungen','teachpress'); ?></th>
+                <th><?php _e('Comment','teachpress'); ?></th>
                 <td><input name="bemerkungen" type="text" id="bemerkungen" size="75" /></td>
               </tr>
               <tr>
@@ -154,29 +154,29 @@ if (isset($erstellen)) {
               </tr>
        </thead>       
       </table>
-    <h4 style="margin-bottom:7px; margin-top:7px;"><?php _e('Einschreibungen','teachpress'); ?></h4>
+    <h4 style="margin-bottom:7px; margin-top:7px;"><?php _e('Enrollments','teachpress'); ?></h4>
         <table class="widefat">
          <thead>
           <tr>
-            <td colspan="6" style="font-size:11px; color:#FF0000;"><strong><?php _e('Format für das Datum','teachpress'); ?> <?php _e('JJJJ-MM-TT','teachpress'); ?></strong></td>
+            <td colspan="6" style="font-size:11px; color:#FF0000;"><strong><?php _e('Format for the date','teachpress'); ?> <?php _e('JJJJ-MM-TT','teachpress'); ?></strong></td>
           </tr>
           <tr>
-            <th><?php _e('Beginn','teachpress'); ?></th>
+            <th><?php _e('Start','teachpress'); ?></th>
             <td><input name="startein" type="text" id="startein" value="JJJJ-MM-TT" size="15"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
-            <th><?php _e('Ende','teachpress'); ?></th>
+            <th><?php _e('End','teachpress'); ?></th>
             <td><input name="endein" type="text" id="endein" value="JJJJ-MM-TT" size="15"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
-            <th><?php _e('Warteliste','teachpress'); ?></th>
+            <th><?php _e('Waiting list','teachpress'); ?></th>
             <td><select name="warteliste" id="warteliste">
-              <option value="0"><?php _e('nein','teachpress'); ?></option>
-              <option value="1"><?php _e('ja','teachpress'); ?></option>
+              <option value="0"><?php _e('no','teachpress'); ?></option>
+              <option value="1"><?php _e('yes','teachpress'); ?></option>
             </select>
             </td>
           </tr>
       </thead>    
     </table>
       <p>
-        <input name="erstellen" type="submit" id="teachpress_erstellen" onclick="teachpress_validateForm('lvname','','R','dozent','','R','platz','','NisNum');return document.teachpress_returnValue" value="<?php _e('Erstellen','teachpress'); ?>" class="teachpress_button">
-        <input type="reset" name="Reset" value="<?php _e('Reset','teachpress'); ?>" id="teachpress_reset" class="teachpress_button">
+        <input name="erstellen" type="submit" id="teachpress_erstellen" onclick="teachpress_validateForm('lvname','','R','dozent','','R','platz','','NisNum');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>" class="teachpress_button">
+        <input type="reset" name="Reset" value="<?php _e('reset','teachpress'); ?>" id="teachpress_reset" class="teachpress_button">
         <input type="hidden" name="gesendet" value="1">
     </p>
     </form>

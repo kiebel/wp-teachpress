@@ -29,23 +29,6 @@ msgstr ""
 msgid "<!--LVS2-->"
 msgstr ""
 
-#: addlvs.php:35
-#@ teachpress
-msgid "Neue Lehrveranstaltung erstellen"
-msgstr "Create a new course"
-
-#: addlvs.php:35
-#: addlvs.php:37
-#: einstellungen.php:11
-#: einstellungen.php:13
-#: showpublications.php:51
-#: showpublications.php:62
-#: yourpub.php:43
-#: yourpub.php:45
-#@ teachpress
-msgid "Hilfe"
-msgstr "Help"
-
 #: addlvs.php:40
 #: addlvs.php:87
 #: editlvs.php:207
@@ -54,120 +37,6 @@ msgstr "Help"
 #@ teachpress
 msgid "Parent"
 msgstr "Parent"
-
-#: addlvs.php:42
-#@ teachpress
-msgid "Mehr als ein Termin"
-msgstr "More than one date"
-
-#: addlvs.php:44
-#: addlvs.php:116
-#: editlvs.php:196
-#: editlvs.php:297
-#: showlvs.php:125
-#@ teachpress
-msgid "Sichtbar"
-msgstr "Visibility"
-
-#: addlvs.php:45
-#@ teachpress
-msgid "Gibt an, ob für die LVS eine Einschreibung stattfinden soll und ob die LVS bei den Einschreibungen angezeigt werden soll. Falls es untergeordnete LVS mit Einschreibungen geben soll dann unbedingt auf &quot;Ja&quot; stellen"
-msgstr "Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select \\\"Yes\\\"."
-
-#: addlvs.php:50
-#: einstellungen.php:25
-#: showpublications.php:79
-#: yourpub.php:62
-#@ teachpress
-msgid "schlie&szlig;en"
-msgstr "close"
-
-#: addlvs.php:178
-#: addpublications.php:192
-#: studenten_neu.php:118
-#: studenten_neu.php:201
-#@ teachpress
-msgid "Erstellen"
-msgstr "create"
-
-#: addlvs.php:56
-#: editlvs.php:167
-#@ teachpress
-msgid "Veranstaltungstyp"
-msgstr "Course type"
-
-#: addlvs.php:66
-#: anzeige.php:267
-#: anzeige.php:305
-#: editlvs.php:181
-#: einstellungen.php:129
-#: einstellungen.php:134
-#: showlvs.php:123
-#@ teachpress
-msgid "Semester"
-msgstr "Term"
-
-#: addlvs.php:90
-#: editlvs.php:212
-#@ teachpress
-msgid "keine"
-msgstr "no"
-
-#: addlvs.php:38
-#: addlvs.php:128
-#: editlvs.php:230
-#@ teachpress
-msgid "Veranstaltungsname"
-msgstr "Course name"
-
-#: addlvs.php:132
-#: editlvs.php:234
-#: editlvs.php:307
-#: export.php:88
-#: listen.php:43
-#: showlvs.php:119
-#@ teachpress
-msgid "Dozent"
-msgstr "Lecturer"
-
-#: addlvs.php:136
-#: anzeige.php:265
-#: anzeige.php:303
-#: editlvs.php:238
-#: editlvs.php:309
-#: editstudent.php:203
-#: export.php:90
-#: listen.php:45
-#: showlvs.php:120
-#@ teachpress
-msgid "Termin"
-msgstr "Date"
-
-#: addlvs.php:140
-#: anzeige.php:266
-#: anzeige.php:304
-#: editlvs.php:242
-#: editlvs.php:311
-#: export.php:92
-#: listen.php:47
-#: showlvs.php:118
-#@ teachpress
-msgid "Raum"
-msgstr "Room"
-
-#: addlvs.php:144
-#: editlvs.php:262
-#@ teachpress
-msgid "Anzahl Pl&auml;tze"
-msgstr "Number of places"
-
-#: addlvs.php:148
-#: editlvs.php:246
-#: editlvs.php:323
-#: export.php:104
-#@ teachpress
-msgid "Bemerkungen"
-msgstr "Comment"
 
 #: addlvs.php:46
 #: addlvs.php:152
@@ -178,18 +47,6 @@ msgstr "Comment"
 msgid "URL"
 msgstr "URL"
 
-#: addlvs.php:157
-#: editlvs.php:255
-#: showlvs.php:122
-#@ teachpress
-msgid "Einschreibungen"
-msgstr "Enrollments"
-
-#: addlvs.php:161
-#@ teachpress
-msgid "Format für das Datum"
-msgstr "Format for the date"
-
 #: addlvs.php:161
 #: addpublications.php:115
 #: editlvs.php:259
@@ -198,115 +55,10 @@ msgstr "Format for the date"
 msgid "JJJJ-MM-TT"
 msgstr "YYYY-MM-DD"
 
-#: addlvs.php:164
-#: editlvs.php:269
-#@ teachpress
-msgid "Beginn"
-msgstr "Start"
-
-#: addlvs.php:166
-#: editlvs.php:271
-#@ teachpress
-msgid "Ende"
-msgstr "End"
-
-#: addlvs.php:168
-#: editlvs.php:273
-#: export.php:156
-#: export.php:191
-#@ teachpress
-msgid "Warteliste"
-msgstr "Waiting list"
-
-#: addlvs.php:119
-#: addlvs.php:170
-#: editlvs.php:201
-#: editlvs.php:277
-#: editlvs.php:298
-#: einstellungen.php:273
-#: einstellungen.php:276
-#@ teachpress
-msgid "nein"
-msgstr "no"
-
-#: addlvs.php:118
-#: addlvs.php:171
-#: editlvs.php:200
-#: editlvs.php:278
-#: editlvs.php:298
-#: einstellungen.php:273
-#: einstellungen.php:275
-#@ teachpress
-msgid "ja"
-msgstr "yes"
-
-#: addlvs.php:179
-#: addpublications.php:193
-#@ teachpress
-msgid "Reset"
-msgstr "Reset"
-
-#: anzeige.php:47
-#: anzeige.php:89
-#: teachpress.php:178
-#@ teachpress
-msgid "weiter"
-msgstr "resume"
-
-#: addpublications.php:20
-#@ teachpress
-msgid "Publikationen hinzuf&uuml;gen"
-msgstr "Add publication"
-
-#: addpublications.php:46
-#@ teachpress
-msgid "Publikation hinzugef&uuml;gt"
-msgstr "Publication added"
-
 #: addpublications.php:54
 #@ teachpress
 msgid "Bookmarks"
 msgstr "Bookmarks"
-
-#: addpublications.php:55
-#@ teachpress
-msgid "zur eigenen Liste hinzuf&uuml;gen"
-msgstr "add to your own list"
-
-#: addpublications.php:55
-#@ teachpress
-msgid "Anklicken, damit die Publikation in Ihre Publikationsliste aufgenommen wird"
-msgstr "click to add the publication in your own list"
-
-#: addpublications.php:67
-#@ teachpress
-msgid "Bookmark f&uuml;r"
-msgstr "Bookmark for"
-
-#: addpublications.php:77
-#: anzeige.php:264
-#: anzeige.php:302
-#: editlvs.php:291
-#: editpub.php:74
-#: editstudent.php:202
-#: showlvs.php:117
-#: showpublications.php:90
-#: yourpub.php:70
-#@ teachpress
-msgid "Typ"
-msgstr "Type"
-
-#: addpublications.php:80
-#: editpub.php:78
-#@ teachpress
-msgid "Buch"
-msgstr "Book"
-
-#: addpublications.php:81
-#: editpub.php:79
-#@ teachpress
-msgid "Vortrag"
-msgstr "Presentation"
 
 #: addpublications.php:82
 #: editpub.php:80
@@ -326,21 +78,9 @@ msgstr "Conference paper"
 msgid "Journal article"
 msgstr "Journal article"
 
-#: addpublications.php:85
-#: editpub.php:83
-#@ teachpress
-msgid "Bericht"
-msgstr "Report"
-
-#: addpublications.php:86
-#: editpub.php:84
-#@ teachpress
-msgid "Sonstiges"
-msgstr "Others"
-
 #: addpublications.php:90
-#: anzeige.php:263
-#: anzeige.php:301
+#: anzeige.php:261
+#: anzeige.php:299
 #: editpub.php:88
 #: einstellungen.php:87
 #: einstellungen.php:183
@@ -354,178 +94,13 @@ msgstr "Others"
 msgid "Name"
 msgstr "Name"
 
-#: addpublications.php:94
-#: editpub.php:92
-#: showpublications.php:91
-#: yourpub.php:71
-#@ teachpress
-msgid "Autor(en)"
-msgstr "Author(s)"
-
-#: addpublications.php:98
-#: editpub.php:96
-#@ teachpress
-msgid "Erschienen/Verlag"
-msgstr "Published by"
-
-#: addpublications.php:102
-#: editpub.php:100
-#: showpublications.php:93
-#: yourpub.php:73
-#@ teachpress
-msgid "Jahr"
-msgstr "Year"
-
-#: addpublications.php:106
-#: editpub.php:104
-#@ teachpress
-msgid "ISBN (optinal)"
-msgstr "ISBN"
-
-#: addpublications.php:110
-#: editpub.php:108
-#@ teachpress
-msgid "Link (optinal)"
-msgstr "Link"
-
-#: addpublications.php:114
-#: editpub.php:112
-#@ teachpress
-msgid "Sortierdatum"
-msgstr "Sorting date"
-
-#: addpublications.php:119
-#@ teachpress
-msgid "Kommentar (f&uuml;r interne Zwecke)"
-msgstr "Comment"
-
-#: addpublications.php:123
-#@ teachpress
-msgid "Tags (durch Komma trennen)"
-msgstr "Tags (seperate by comma)"
-
-#: addpublications.php:186
-#: editpub.php:203
-#@ teachpress
-msgid "als Tag hinzuf&uuml;gen"
-msgstr "add as tag"
-
-#: anzeige.php:88
-#@ teachpress
-msgid "Anmeldung erfolgreich"
-msgstr "Registration successful"
-
-#: anzeige.php:98
-#@ teachpress
-msgid "Du musst dich erst noch im System eintragen, damit du das Einschreibesystem nutzen kannst. Diese Eintragung ist einmalig. Du kannst deine Daten sp&auml;ter &auml;ndern."
-msgstr "Please fill in the following registration form and sign up in the system. You can edit your data later."
-
-#: anzeige.php:100
-#: anzeige.php:190
-#@ teachpress
-msgid "Deine Daten"
-msgstr "Your data"
-
-#: anzeige.php:103
-#: anzeige.php:193
-#: editlvs.php:348
-#: editlvs.php:393
-#: editstudent.php:80
-#: editstudent.php:162
-#: export.php:117
-#: export.php:160
-#: export.php:191
-#: studenten.php:77
-#: studenten_neu.php:136
-#@ teachpress
-msgid "Matrikel"
-msgstr "Registr.-Number"
-
-#: anzeige.php:107
-#: anzeige.php:197
-#: editlvs.php:350
-#: editlvs.php:395
-#: editstudent.php:84
-#: editstudent.php:205
-#: export.php:119
-#: export.php:162
-#: export.php:191
-#: studenten.php:79
-#: studenten_neu.php:140
-#@ teachpress
-msgid "Vorname"
-msgstr "First name"
-
-#: anzeige.php:111
-#: anzeige.php:201
-#: editlvs.php:349
-#: editlvs.php:394
-#: editstudent.php:88
-#: editstudent.php:204
-#: export.php:118
-#: export.php:161
-#: export.php:191
-#: studenten.php:78
-#: studenten_neu.php:144
-#@ teachpress
-msgid "Nachname"
-msgstr "Last name"
-
-#: anzeige.php:115
-#: anzeige.php:205
-#: editlvs.php:351
-#: editlvs.php:396
-#: editstudent.php:92
-#: editstudent.php:166
-#: export.php:120
-#: export.php:163
-#: export.php:191
-#: studenten.php:80
-#: studenten_neu.php:148
-#@ teachpress
-msgid "Studiengang"
-msgstr "Course of studies"
-
-#: anzeige.php:130
-#: anzeige.php:219
-#: editstudent.php:106
-#: editstudent.php:170
-#: studenten.php:81
-#: studenten_neu.php:161
-#@ teachpress
-msgid "Fachsemester"
-msgstr "Number of terms"
-
-#: anzeige.php:155
-#: editlvs.php:352
-#: editlvs.php:397
-#: editstudent.php:133
-#: editstudent.php:178
-#: export.php:121
-#: export.php:164
-#: listen.php:55
-#: studenten.php:83
-#: studenten_neu.php:186
-#@ teachpress
-msgid "URZ-K&uuml;rzel"
-msgstr "Computer Center ID"
-
 #: anzeige.php:159
-#: anzeige.php:244
-#: editstudent.php:137
-#: editstudent.php:174
-#: studenten_neu.php:190
-#@ teachpress
-msgid "Geburtsdatum"
-msgstr "Date of birth"
-
-#: anzeige.php:161
 #@ teachpress
 msgid "Format: JJJJ-MM-TT"
 msgstr "Format: YYYY-MM-DD"
 
-#: anzeige.php:164
-#: anzeige.php:249
+#: anzeige.php:162
+#: anzeige.php:247
 #: editlvs.php:353
 #: editlvs.php:398
 #: editstudent.php:142
@@ -539,163 +114,10 @@ msgstr "Format: YYYY-MM-DD"
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: anzeige.php:170
-#@ teachpress
-msgid "Senden"
-msgstr "Send"
-
-#: anzeige.php:57
-#@ teachpress
-msgid "Einschreibungen f&uuml;r das"
-msgstr "Enrollments for the"
-
-#: anzeige.php:181
-#@ teachpress
-msgid "Hallo"
-msgstr "Hy"
-
-#: anzeige.php:184
-#@ teachpress
-msgid "Deine Einschreibungen anzeigen"
-msgstr "Your enrollments"
-
-#: anzeige.php:185
-#@ teachpress
-msgid "Deine Nutzerdaten &auml;ndern"
-msgstr "Your user data"
-
-#: anzeige.php:258
-#@ teachpress
-msgid "Bisherige Einschreibungen"
-msgstr "Previous enrollments"
-
-#: anzeige.php:259
-#@ teachpress
-msgid "Eingeschrieben in"
-msgstr "Signed up for"
-
-#: anzeige.php:324
-#@ teachpress
-msgid "austragen"
-msgstr "unsubscribe"
-
-#: anzeige.php:354
-#@ teachpress
-msgid "ausw&auml;hlen"
-msgstr "select"
-
-#: anzeige.php:359
-#: anzeige.php:393
-#: teachpress.php:875
-#@ teachpress
-msgid "Termin(e)"
-msgstr "Date(s)"
-
-#: anzeige.php:369
-#: anzeige.php:403
-#@ teachpress
-msgid "Wartelisteneintrag m&ouml;glich"
-msgstr "Possible to subscribe in the waiting list"
-
-#: anzeige.php:370
-#: anzeige.php:404
-#@ teachpress
-msgid "Einschreibefrist"
-msgstr "Registration period"
-
-#: anzeige.php:360
-#: anzeige.php:394
-#: editlvs.php:264
-#: editlvs.php:317
-#: export.php:98
-#@ teachpress
-msgid "freie Pl&auml;tze"
-msgstr "free places"
-
-#: anzeige.php:414
-#@ teachpress
-msgid "Einschreiben"
-msgstr "Sign up"
-
-#: anzeige.php:333
-#@ teachpress
-msgid "Du musst dich einloggen, damit du dich einschreiben kannst."
-msgstr "You must be logged in, before you can use the registration."
-
-#: anzeige.php:418
-#@ teachpress
-msgid "Veranstaltungs- und Publikationsmanagement für WordPress"
-msgstr "course and publication management for WordPress"
-
-#: anzeige_lvs.php:31
-#: showlvs.php:99
-#: studenten.php:69
-#@ teachpress
-msgid "anzeigen"
-msgstr "show"
-
-#: anzeige_lvs.php:33
-#@ teachpress
-msgid "Lehrveranstaltungen für das"
-msgstr "Courses for the"
-
-#: anzeige_lvs.php:44
+#: anzeige_lvs.php:45
 #@ teachpress
 msgid "Details"
 msgstr "Details"
-
-#: editlvs.php:57
-#: editstudent.php:48
-#@ teachpress
-msgid "&Auml;nderungen erfolgreich."
-msgstr "Changes successful"
-
-#: editlvs.php:63
-#@ teachpress
-msgid "Teilnehmer aufgenommen"
-msgstr "Participant added"
-
-#: editlvs.php:69
-#@ teachpress
-msgid "Einschreibungen gel&ouml;scht."
-msgstr "Enrollments deleted"
-
-#: editlvs.php:129
-#: editlvs.php:283
-#: editstudent.php:148
-#: einstellungen.php:281
-#: tags.php:79
-#@ teachpress
-msgid "speichern"
-msgstr "save"
-
-#: editlvs.php:131
-#: editstudent.php:56
-#@ teachpress
-msgid "zur&uuml;ck zur &Uuml;bersicht"
-msgstr "back to the overview"
-
-#: editlvs.php:131
-#: editstudent.php:56
-#: listen.php:23
-#@ teachpress
-msgid "zur&uuml;ck"
-msgstr "back"
-
-#: editlvs.php:131
-#@ teachpress
-msgid "Druckvorlage f&uuml;r Anwesenheitsliste erstellen"
-msgstr "print template for an attendance list"
-
-#: editlvs.php:131
-#@ teachpress
-msgid "Liste f&uuml;r Druck"
-msgstr "create attendance list"
-
-#: editlvs.php:163
-#@ teachpress
-msgid "Veranstaltung &auml;ndern"
-msgstr "change course"
 
 #: editlvs.php:205
 #: editlvs.php:293
@@ -707,152 +129,6 @@ msgstr "change course"
 msgid "ID"
 msgstr "ID"
 
-#: editlvs.php:259
-#@ teachpress
-msgid "Format f&uuml;r das Datum"
-msgstr "Format for the date"
-
-#: editlvs.php:283
-#: editstudent.php:149
-#: showlvs.php:38
-#: showlvs.php:64
-#: tags.php:80
-#@ teachpress
-msgid "abbrechen"
-msgstr "cancel"
-
-#: editlvs.php:315
-#: export.php:96
-#: showlvs.php:121
-#@ teachpress
-msgid "Pl&auml;tze"
-msgstr "Places"
-
-#: editlvs.php:336
-#@ teachpress
-msgid "Beginn Einschreibungen"
-msgstr "Start"
-
-#: editlvs.php:338
-#@ teachpress
-msgid "Ende Einschreibungen"
-msgstr "End"
-
-#: editlvs.php:354
-#: editlvs.php:399
-#: editstudent.php:200
-#: export.php:123
-#: export.php:166
-#: export.php:191
-#@ teachpress
-msgid "Datum"
-msgstr "Date"
-
-#: editlvs.php:370
-#: editlvs.php:413
-#@ teachpress
-msgid "E-Mail senden"
-msgstr "send E-Mail"
-
-#: editlvs.php:425
-#@ teachpress
-msgid "In Kurs aufnehmen"
-msgstr "ingest in course"
-
-#: editlvs.php:426
-#@ teachpress
-msgid "aufnehmen"
-msgstr "ingest"
-
-#: editlvs.php:427
-#: editstudent.php:244
-#@ teachpress
-msgid "Einschreibung l&ouml;schen"
-msgstr "delete enrollment"
-
-#: editlvs.php:428
-#: editpub.php:136
-#: editstudent.php:245
-#: showlvs.php:37
-#: showlvs.php:104
-#: showpublications.php:56
-#: tags.php:56
-#@ teachpress
-msgid "l&ouml;schen"
-msgstr "delete"
-
-#: editpub.php:52
-#@ teachpress
-msgid "Publikation ge&auml;ndert"
-msgstr "Publication changed"
-
-#: editpub.php:58
-#@ teachpress
-msgid "Alle Publikationen anzeigen"
-msgstr "Show all publications"
-
-#: editpub.php:58
-#: showpublications.php:51
-#@ teachpress
-msgid "Alle Publikationen"
-msgstr "All publications"
-
-#: editpub.php:58
-#@ teachpress
-msgid "Eigene Publikationen anzeigen"
-msgstr "Show own publications"
-
-#: editpub.php:58
-#: yourpub.php:43
-#@ teachpress
-msgid "Eigene Publikationen"
-msgstr "Your publications"
-
-#: editpub.php:62
-#@ teachpress
-msgid "Publikation bearbeiten"
-msgstr "Edit publications"
-
-#: editpub.php:116
-#@ teachpress
-msgid "Kommentar"
-msgstr "Comment"
-
-#: editpub.php:124
-#@ teachpress
-msgid "aktuelle Tags"
-msgstr "current Tags"
-
-#: editpub.php:141
-#@ teachpress
-msgid "neu"
-msgstr "new"
-
-#: editpub.php:143
-#@ teachpress
-msgid "durch Komma trennen"
-msgstr "seperate with comma"
-
-#: editpub.php:146
-#@ teachpress
-msgid "neu aus Tag-Cloud"
-msgstr "new from tag-cloud"
-
-#: editpub.php:211
-#@ teachpress
-msgid "Speichern"
-msgstr "save"
-
-#: editstudent.php:42
-#@ teachpress
-msgid "Einschreibung gel&ouml;scht"
-msgstr "Enrollment deleted"
-
-#: editstudent.php:73
-#@ teachpress
-msgid "Daten bearbeiten"
-msgstr "Change Data"
-
 #: editstudent.php:76
 #: editstudent.php:158
 #: studenten_neu.php:131
@@ -860,42 +136,10 @@ msgstr "Change Data"
 msgid "WordPress User-ID"
 msgstr "WordPress User-ID"
 
-#: editlvs.php:138
-#: editstudent.php:183
-#@ teachpress
-msgid "E-Mail an"
-msgstr "E-Mail to"
-
-#: editstudent.php:199
-#@ teachpress
-msgid "Einschr.-Nr."
-msgstr "Enrollment-Nr."
-
-#: editstudent.php:201
-#@ teachpress
-msgid "Lehrveranstaltung"
-msgstr "Course"
-
 #: editstudent.php:206
 #@ teachpress
 msgid "User-ID"
 msgstr "User-ID"
-
-#: einstellungen.php:11
-#@ teachpress
-msgid "teachPress Einstellungen"
-msgstr "teachPress settings"
-
-#: einstellungen.php:14
-#: einstellungen.php:250
-#@ teachpress
-msgid "Aktuelles Semester"
-msgstr "Current Term"
-
-#: einstellungen.php:15
-#@ teachpress
-msgid "Geben Sie hier das aktuelle Semester an. Durch diesen Wert wird bestimmt welches Semester in den Anzeigen verwendet wird. Unabh&auml;nig von dieser Einstellung k&ouml;nnen Lehrveranstaltungen f&uuml;r andere Semester angelegt werden."
-msgstr "Here you can change the current term. This value is used for the default settings for all menus"
 
 #: einstellungen.php:16
 #: einstellungen.php:267
@@ -903,269 +147,23 @@ msgstr "Here you can change the current term. This value is used for the default
 msgid "Permalinks"
 msgstr "Permalinks"
 
-#: einstellungen.php:17
-#@ teachpress
-msgid "Geben Sie hier an, ob Sie WordPress mit Permalinks verwenden oder nicht. Wird ben&ouml;tigt, damit die Tag-Clouds im Frontend funktionieren. Wenn sie WordPress ohne Permalinks verwenden funktionieren die Tag-Clouds derzeit nur auf Seiten."
-msgstr "Here you can specify, if your WordPress installation is using permalinks or not."
-
-#: einstellungen.php:18
-#@ teachpress
-msgid "Verwaltung Studieng&auml;nge"
-msgstr "Course of studies"
-
-#: einstellungen.php:19
-#@ teachpress
-msgid "Bestimmt die Auswahlm&ouml;glichkeiten f&uuml;r Studenten bei der Anmeldung im Einschreibesystem"
-msgstr "Menu to add new courses of studies"
-
-#: einstellungen.php:20
-#@ teachpress
-msgid "Verwaltung Veranstaltungstypen"
-msgstr "Types of courses"
-
-#: einstellungen.php:21
-#@ teachpress
-msgid "Bestimmt die Auswahlm&ouml;glichkeiten f&uuml;r Veranstaltungstypen"
-msgstr "Menu to add new types of courses"
-
-#: einstellungen.php:53
-#@ teachpress
-msgid "Einstellungen aktualisiert"
-msgstr "Settings updated"
-
-#: einstellungen.php:56
-#: einstellungen.php:122
-#@ teachpress
-msgid "Studiengang hinzuf&uuml;gen"
-msgstr "Add course of studies"
-
-#: einstellungen.php:58
-#@ teachpress
-msgid "Studiengang hinzugef&uuml;gt"
-msgstr "Course of studies added"
-
-#: einstellungen.php:61
-#: einstellungen.php:217
-#@ teachpress
-msgid "Typ hinzuf&uuml;gen"
-msgstr "Add type"
-
-#: einstellungen.php:63
-#@ teachpress
-msgid "Typ hinzugef&uuml;gt"
-msgstr "Type added"
-
-#: einstellungen.php:178
-#@ teachpress
-msgid "Veranstaltungstypen"
-msgstr "Types of courses"
-
-#: einstellungen.php:184
-#: tags.php:93
-#@ teachpress
-msgid "Anzahl"
-msgstr "Number"
-
-#: einstellungen.php:82
-#@ teachpress
-msgid "Studieng&auml;nge"
-msgstr "Courses of studies"
-
-#: einstellungen.php:88
-#@ teachpress
-msgid "Anzahl Studenten"
-msgstr "Number of students"
-
-#: einstellungen.php:123
-#: einstellungen.php:170
-#: einstellungen.php:218
-#@ teachpress
-msgid "erstellen"
-msgstr "create"
-
-#: einstellungen.php:246
-#@ teachpress
-msgid "installieren"
-msgstr "Install"
-
-#: einstellungen.php:228
-#@ teachpress
-msgid "teachPress Version"
-msgstr "teachPress Version"
-
-#: export.php:113
-#@ teachpress
-msgid "Eingeschriebene Teilnehmer"
-msgstr "Registered participants"
-
-#: export.php:188
-#@ teachpress
-msgid "Erstellt am"
-msgstr "Created on"
-
-#: listen.php:23
-#@ teachpress
-msgid "zur&uuml;ck zur Lehrveranstaltung"
-msgstr "back to the course"
-
-#: showlvs.php:79
-#: showpublications.php:44
-#: studenten.php:35
-#: tags.php:44
-#: yourpub.php:38
-#@ teachpress
-msgid "Suche abbrechen"
-msgstr "Cancel"
-
-#: showlvs.php:90
-#@ teachpress
-msgid "Alle Semester"
-msgstr "All terms"
-
-#: showlvs.php:150
-#: showpublications.php:116
-#: studenten.php:104
-#: tags.php:112
-#: yourpub.php:104
-#@ teachpress
-msgid "Keine Eintr&auml;ge vorhanden"
-msgstr "Sorry, no entries matched your criteria"
-
-#: showlvs.php:179
-#: showlvs.php:198
-#: showlvs.php:226
-#: showpublications.php:134
-#: studenten.php:112
-#: tags.php:132
-#: yourpub.php:113
-#@ teachpress
-msgid "Zum Bearbeiten klicken"
-msgstr "Click to edit"
-
 #: studenten.php:133
+#@ teachpress
 msgid "submit"
 msgstr "submit"
 
-#: showpublications.php:37
-#@ teachpress
-msgid "ausgew&auml;hlte Publikationen gel&ouml;scht"
-msgstr "delete publications"
-
-#: showlvs.php:81
-#: showpublications.php:46
-#: studenten.php:37
-#: yourpub.php:40
-#@ teachpress
-msgid "suche"
-msgstr "search"
-
-#: showpublications.php:92
-#: yourpub.php:72
-#@ teachpress
-msgid "Erschienen in/bei"
-msgstr "Published by"
-
+#: addpublications.php:106
+#: editpub.php:104
 #: showpublications.php:94
 #: yourpub.php:74
 #@ teachpress
 msgid "ISBN"
 msgstr "ISBN"
 
-#: showpublications.php:130
-#@ teachpress
-msgid "Zur eigenen Publikationsliste hinzuf&uuml;gen"
-msgstr "Add to your own publication list"
-
-#: studenten.php:25
-#@ teachpress
-msgid "ausgew&auml;hlte Studenten gel&ouml;scht"
-msgstr "delete students"
-
-#: studenten.php:56
-#@ teachpress
-msgid "bitte ausw&auml;hlen"
-msgstr "please select"
-
-#: studenten.php:47
-#: studenten.php:59
-#@ teachpress
-msgid "Alle Studenten"
-msgstr "All students"
-
-#: studenten.php:82
-#@ teachpress
-msgid "Geb.-Datum"
-msgstr "Date of birth"
-
-#: studenten.php:130
-#@ teachpress
-msgid "Ausgew&auml;hlte Studenten l&ouml;schen"
-msgstr "delete students"
-
-#: studenten.php:131
-#@ teachpress
-msgid "Markieren sie dieses Feld und bet&auml;tigen Sie anschlie&szlig;end den Submit-Button, um die ausgew&auml;hltes Studenten zu l&ouml;schen"
-msgstr "Markup this field and click on the submit button to delete the student"
-
-#: studenten_neu.php:26
-#@ teachpress
-msgid "Student hinzugef&uuml;gt"
-msgstr "Student added"
-
-#: studenten_neu.php:32
-#@ teachpress
-msgid "Einschreibung f&uuml;r ausgew&auml;hlten Studenten vorgenommen"
-msgstr "Enrollment successful"
-
-#: studenten_neu.php:41
-#@ teachpress
-msgid "Einschreibung"
-msgstr "Enrollment"
-
-#: studenten_neu.php:42
-#@ teachpress
-msgid "Wenn der Student in die Lehrveranstaltung eingeschrieben wird, werden die freien Pl&auml;tze<u> bis 0 </u>heruntergez&auml;hlt! Eine Pr&uuml;fung, ob der Student bereits in die Lehrveranstaltung eingeschrieben ist, oder ob noch freie Pl&auml;tze vorhanden sind, erfolgt nicht!"
-msgstr "If the student is registered for this course, the number of free places drops up to 0. The system ignores any criteria for the registration"
-
-#: studenten_neu.php:46
-#@ teachpress
-msgid "Student ausw&auml;hlen"
-msgstr "Select student"
-
-#: studenten_neu.php:66
-#@ teachpress
-msgid "Veranstaltung ausw&auml;hlen"
-msgstr "Select course"
-
-#: studenten_neu.php:126
-#@ teachpress
-msgid "Student hinzuf&uuml;gen"
-msgstr "Add Student"
-
-#: studenten_neu.php:127
-#@ teachpress
-msgid "Bitte alle Felder ausf&uuml;llen"
-msgstr "All fields required"
-
 #: studenten_neu.php:192
 #@ teachpress
 msgid "Format"
 msgstr "Format"
-
-#: tags.php:31
-#@ teachpress
-msgid "ausgew&auml;hlte Tags gel&ouml;scht"
-msgstr "Selected tags are deleted"
-
-#: tags.php:37
-#@ teachpress
-msgid "Tag gespeichert"
-msgstr "Tag saved"
-
-#: tags.php:46
-#@ teachpress
-msgid "Tag suchen"
-msgstr "search tag"
 
 #: tags.php:51
 #: teachpress.php:68
@@ -1173,108 +171,10 @@ msgstr "search tag"
 msgid "Tags"
 msgstr "Tags"
 
-#: tags.php:69
-#@ teachpress
-msgid "Tag bearbeiten"
-msgstr "change tags"
-
 #: tags.php:75
 #@ teachpress
 msgid "Tag-ID"
 msgstr "Tag-ID"
-
-#: teachpress.php:50
-#@ teachpress
-msgid "Veranstaltung"
-msgstr "Courses"
-
-#: teachpress.php:53
-#@ teachpress
-msgid "Einstellungen"
-msgstr "Settings"
-
-#: teachpress.php:52
-#@ teachpress
-msgid "Studenten"
-msgstr "Students"
-
-#: teachpress.php:67
-#@ teachpress
-msgid "Neu"
-msgstr "New"
-
-#: teachpress.php:65
-#: teachpress.php:1026
-#@ teachpress
-#@ teachPress
-msgid "Publikationen"
-msgstr "Publications"
-
-#: teachpress.php:66
-#@ teachpress
-msgid "Eigene"
-msgstr "Your publications"
-
-#: teachpress.php:327
-#@ teachpress
-msgid "Eintrag in"
-msgstr "Entrace in"
-
-#: teachpress.php:327
-#@ teachpress
-msgid "erfolgreich"
-msgstr "successful"
-
-#: teachpress.php:330
-#@ teachpress
-msgid "Du bist schon in"
-msgstr "You are for"
-
-#: teachpress.php:330
-#@ teachpress
-msgid "eingeschrieben"
-msgstr "already registered"
-
-#: teachpress.php:344
-#: teachpress.php:353
-#@ teachpress
-msgid "F&uuml;r"
-msgstr "For"
-
-#: teachpress.php:344
-#@ teachpress
-msgid "gibt es leider keine Freien Pl&auml;tze mehr. Du wurdest daher automatisch auf die Warteliste gesetzt."
-msgstr "there are no more free places. You are automatically signed in a waiting list"
-
-#: teachpress.php:348
-#@ teachpress
-msgid "Du bist bereits f&uuml;r"
-msgstr "You are for"
-
-#: teachpress.php:348
-#@ teachpress
-msgid "registriert"
-msgstr "registered"
-
-#: teachpress.php:353
-#@ teachpress
-msgid "gibt es leider keine Freien Pl&auml;tze mehr."
-msgstr "there are no more free places."
-
-#: teachpress.php:446
-#@ teachpress
-msgid "&Auml;nderungen am Nutzerprofil erfolgreich."
-msgstr "Changes in your profile successful"
-
-#: teachpress.php:504
-#@ teachpress
-msgid "Du wurdest erfolgreich ausgetragen"
-msgstr "You are signed out successful"
-
-#: teachpress.php:847
-#@ teachpress
-msgid "Datenbank ist bereits auf dem aktuellen Stand."
-msgstr "Update isn't necessary"
 
 #: teachpress.php:1105
 #@ teachpress
@@ -1306,83 +206,17 @@ msgstr "Presentations"
 msgid "Reports"
 msgstr "Reports"
 
+#: addpublications.php:86
+#: editpub.php:84
 #: teachpress.php:1111
 #@ teachpress
 msgid "Others"
 msgstr "Others"
 
-#: yourpub.php:112
-#@ teachpress
-msgid "Aus der eigenen Publikationsliste entfernen"
-msgstr "Delete from you own publication list"
-
-#: einstellungen.php:22
-#@ teachpress
-msgid "Verwaltung Semester"
-msgstr "Terms"
-
-#: einstellungen.php:23
-#@ teachpress
-msgid "Erm&ouml;glicht das Hinzuf&uuml;gen neuer Semester."
-msgstr "Menu to add new terms"
-
-#: einstellungen.php:24
-#@ teachpress
-msgid "Beim L&ouml;schen von Veranstaltungstypen, Semestern und Studieng&auml;ngen, werden keine mit diesen Werten in Verbindung stehenden Daten gel&ouml;scht."
-msgstr "If you delete types, terms or courses of studies the connected data will not be deleted"
-
-#: einstellungen.php:66
-#: einstellungen.php:169
-#@ teachpress
-msgid "Semester hinzuf&uuml;gen"
-msgstr "add Term"
-
-#: einstellungen.php:68
-#@ teachpress
-msgid "Semester hinzugef&uuml;gt"
-msgstr "Term added"
-
-#: einstellungen.php:224
-#@ teachpress
-msgid "Allgemein"
-msgstr "General"
-
-#: einstellungen.php:135
-#@ teachpress
-msgid "Anzahl Veranstaltungen"
-msgstr "Number of courses"
-
-#: editlvs.php:160
-#: editstudent.php:70
-#@ teachpress
-msgid "bearbeiten"
-msgstr "change"
-
-#: einstellungen.php:242
-#@ teachpress
-msgid "Update auf"
-msgstr "Update to"
-
-#: teachpress.php:859
-#@ teachpress
-msgid "Update abgeschlossen"
-msgstr "Update successful"
-
-#: addlvs.php:43
-#@ teachpress
-msgid "Wenn es mehr als einen Termin für eine LVS geben soll, dann kann man alle Termine mit Raum in das Feld Termin schreiben (max. 100 Zeichen) oder die Werte auf die Felder Termin und Raum aufteilen"
-msgstr "If you have more than one date for a course and the date field havn't enough chars, so you can use the room field in addition."
-
 #: teachpress.php:1450
 #@ teachpress
 msgid "de"
 msgstr "en"
-
-#: teachpress.php:1037
-#: teachpress.php:1054
-#@ teachpress
-msgid "Tag als Filter entfernen"
-msgstr "Delete tag as filter"
 
 #: teachpress.php:1093
 #@ teachpress
@@ -1404,84 +238,12 @@ msgstr "All authors"
 msgid "Sorry, no publications matched your criteria."
 msgstr "Sorry, no publications matched your criteria."
 
-#: addlvs.php:29
-#@ teachpress
-msgid "Veranstaltung erstellt"
-msgstr "Course created"
-
-#: editlvs.php:133
-#@ teachpress
-msgid "Exportieren als"
-msgstr "Export as"
-
-#: editlvs.php:135
-#@ teachpress
-msgid "xls-Datei"
-msgstr "xls-file"
-
-#: editlvs.php:139
-#@ teachpress
-msgid "eingeschriebene Teilnehmer"
-msgstr "registered participants"
-
-#: editlvs.php:140
-#@ teachpress
-msgid "Teilnehmer in Warteliste"
-msgstr "participants in waiting list"
-
-#: editlvs.php:141
-#@ teachpress
-msgid "alle Teilnehmer"
-msgstr "all participants"
-
-#: showlvs.php:102
-#: showpublications.php:55
-#: tags.php:55
-#@ teachpress
-msgid "Aktion w&auml;hlen"
-msgstr "Bulk Actions"
-
-#: studenten_neu.php:38
-#@ teachpress
-msgid "Studenten manuell hinzuf&uuml;gen"
-msgstr "Add students manually"
-
-#: studenten_neu.php:133
-#@ teachpress
-msgid "Falls der Student noch keinen WP-User-Account besitzt, m&uuml;ssen Sie dieses per Hand anlegen"
-msgstr "If the student hasn't an account for your blog, so you must create this account manually."
-
-#: teachpress.php:51
-#@ teachpress
-msgid "Neue Veranstaltung"
-msgstr "New course"
-
-#: teachpress.php:54
-#@ teachpress
-msgid "Manueller Eingriff"
-msgstr "Add manually"
-
-#: addlvs.php:47
-#@ teachpress
-msgid "&Uuml;ber die URL wird die Lehrveranstaltung mit einer statischen WordPress-Seite  oder einer externen Seite verlinkt, auf der man weitere Angaben zur Veranstaltung geben kann."
-msgstr "With the URL you can connect the course with a static page or an external URL."
-
 #: addlvs.php:48
 #: showpublications.php:63
 #: yourpub.php:46
 #@ teachpress
 msgid "Shortcodes"
 msgstr "Shortcodes"
-
-#: addlvs.php:49
-#@ teachpress
-msgid "F&uuml;r Kursinfos:"
-msgstr "For course informations"
-
-#: addlvs.php:49
-#@ teachpress
-msgid "[tpdate id=\"x\"] (x = ID des Kurses)"
-msgstr "[tpdate id=\"x\"] (x = Course ID)"
 
 #: showpublications.php:71
 #: yourpub.php:54
@@ -1507,89 +269,10 @@ msgstr "tag - Tag-ID"
 msgid "year"
 msgstr "year"
 
-#: showpublications.php:76
-#: yourpub.php:59
-#@ teachpress
-msgid "headline - 0(an) oder 1(aus)"
-msgstr "headline - 0(on) or 1(off)"
-
-#: addlvs.php:39
-#@ teachpress
-msgid "F&uuml;r untergeordnete Veranstaltungen wird der Name der Parent-Veranstaltung im Backend automatisch vorgestellt. Es reichen also Namen wie &Uuml;bung 1"
-msgstr "For child courses: The name of the parent course will be add automatically."
-
-#: anzeige.php:342
-#: anzeige.php:380
-#@ teachpress
-msgid "Sprache"
-msgstr "Language"
-
-#: editlvs.php:134
-#@ teachpress
-msgid "csv-Datei"
-msgstr "csv-file"
-
-#: export.php:191
-#@ teachpress
-msgid "Nutzerkennzeichen"
-msgstr "user account"
-
-#: export.php:191
-#@ teachpress
-msgid "Datensatz-ID"
-msgstr "Record-ID"
-
-#: showlvs.php:36
-#@ teachpress
-msgid "Veranstaltungen wirklich l&ouml;schen?"
-msgstr "Are you sure to delete the selected courses?"
-
-#: showlvs.php:45
-#@ teachpress
-msgid "Ausgew&auml;hlte Lehrveranstaltung gel&ouml;scht"
-msgstr "Course(s) deleted"
-
-#: showlvs.php:52
-#@ teachpress
-msgid "Veranstaltungen kopieren"
-msgstr "Copy Courses"
-
-#: showlvs.php:53
-#@ teachpress
-msgid "W&auml;hlen Sie das Semester, in welches Sie die ausgew&auml;hlte(n) Veranstaltung(en) kopieren wollen."
-msgstr "Select the term, in which you will copy the selected courses."
-
-#: showlvs.php:63
-#: showlvs.php:103
-#@ teachpress
-msgid "kopieren"
-msgstr "copy"
-
-#: showlvs.php:72
-#@ teachpress
-msgid "Kopiervorgang erfolgreich"
-msgstr "Copying successful"
-
 #: showlvs.php:107
 #@ teachpress
 msgid "ok"
 msgstr "ok"
-
-#: anzeige_lvs.php:15
-#@ teachpress
-msgid "Bitte w&auml;hlen Sie das Semester"
-msgstr "Select the term"
-
-#: addlvs.php:41
-#@ teachpress
-msgid "Hier kann die LVS einer übergeordneten Veranstaltung (muss vorher erstellt werden) zugeordnet werden. Wenn Sie jetzt das Formular für die Erstellung einer untergeordneten LVS nutzen, achten Sie darauf, dass sie unter Parent die Übergeordnete LVS auswählen."
-msgstr "Here you can connect a course with a parent course. With this function you can create courses with an hierarchical order."
-
-#: showpublications.php:64
-#: yourpub.php:47
-#@ teachpress
-msgid "F&uuml;r Publikationsliste mit Tag-Cloud:"
-msgstr "For a publication list with tag cloud:"
 
 #: showpublications.php:64
 #: yourpub.php:47
@@ -1597,43 +280,1335 @@ msgstr "For a publication list with tag cloud:"
 msgid "[tpcloud id=\"w\" maxsize=\"x\" minsize=\"y\" limit=\"z\"]"
 msgstr "[tpcloud id=\"w\" maxsize=\"x\" minsize=\"y\" limit=\"z\"]"
 
+#: addlvs.php:29
+#@ teachpress
+msgid "Course created"
+msgstr "Course created"
+
+#: addlvs.php:35
+#@ teachpress
+msgid "Create a new course"
+msgstr "Create a new course"
+
+#: addlvs.php:35
+#: addlvs.php:37
+#: einstellungen.php:11
+#: einstellungen.php:13
+#: showpublications.php:51
+#: showpublications.php:62
+#: yourpub.php:43
+#: yourpub.php:45
+#@ teachpress
+msgid "Help"
+msgstr "Help"
+
+#: addlvs.php:38
+#: addlvs.php:128
+#: editlvs.php:230
+#@ teachpress
+msgid "Course name"
+msgstr "Course name"
+
+#: addlvs.php:39
+#@ teachpress
+msgid "For child courses: The name of the parent course will be add automatically."
+msgstr "For child courses: The name of the parent course will be add automatically."
+
+#: addlvs.php:41
+#@ teachpress
+msgid "Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order."
+msgstr "Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order."
+
+#: addlvs.php:42
+#@ teachpress
+msgid "More than one date"
+msgstr "More than one date"
+
+#: addlvs.php:43
+#@ teachpress
+msgid "If you have more than one date for a course and the date field have not enough chars, so you can use the room field in addition."
+msgstr "If you have more than one date for a course and the date field have not enough chars, so you can use the room field in addition."
+
+#: addlvs.php:44
+#: addlvs.php:116
+#: editlvs.php:196
+#: editlvs.php:297
+#: showlvs.php:125
+#@ teachpress
+msgid "Visibility"
+msgstr "Visibility"
+
+#: addlvs.php:45
+#@ teachpress
+msgid "Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select \"Yes\"."
+msgstr "Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select \"Yes\"."
+
+#: addlvs.php:47
+#@ teachpress
+msgid "With the URL you can connect the course with a static page or an external URL."
+msgstr "With the URL you can connect the course with a static page or an external URL."
+
+#: addlvs.php:49
+#@ teachpress
+msgid "For course informations"
+msgstr "For course informations"
+
+#: addlvs.php:49
+#@ teachpress
+msgid "[tpdate id=\"x\"] (x = Course-ID)"
+msgstr "[tpdate id=\"x\"] (x = Course-ID)"
+
+#: addlvs.php:50
+#: einstellungen.php:25
+#: showpublications.php:79
+#: yourpub.php:62
+#@ teachpress
+msgid "close"
+msgstr "close"
+
+#: addlvs.php:56
+#: editlvs.php:167
+#@ teachpress
+msgid "Course type"
+msgstr "Course type"
+
+#: addlvs.php:66
+#: anzeige.php:265
+#: anzeige.php:303
+#: editlvs.php:181
+#: einstellungen.php:129
+#: einstellungen.php:134
+#: showlvs.php:123
+#@ teachpress
+msgid "Term"
+msgstr "Term"
+
+#: addlvs.php:90
+#: editlvs.php:212
+#@ teachpress
+msgid "none"
+msgstr "none"
+
+#: addlvs.php:118
+#: addlvs.php:171
+#: editlvs.php:198
+#: editlvs.php:200
+#: editlvs.php:275
+#: editlvs.php:278
+#: editlvs.php:298
+#: einstellungen.php:273
+#: einstellungen.php:275
+#: showlvs.php:210
+#: showlvs.php:238
+#@ teachpress
+msgid "yes"
+msgstr "yes"
+
+#: addlvs.php:119
+#: addlvs.php:170
+#: editlvs.php:198
+#: editlvs.php:201
+#: editlvs.php:275
+#: editlvs.php:277
+#: editlvs.php:298
+#: einstellungen.php:273
+#: einstellungen.php:276
+#: showlvs.php:210
+#: showlvs.php:238
+#@ teachpress
+msgid "no"
+msgstr "no"
+
+#: addlvs.php:132
+#: editlvs.php:234
+#: editlvs.php:307
+#: export.php:88
+#: listen.php:43
+#: showlvs.php:119
+#@ teachpress
+msgid "Lecturer"
+msgstr "Lecturer"
+
+#: addlvs.php:136
+#: anzeige.php:263
+#: anzeige.php:301
+#: editlvs.php:238
+#: editlvs.php:309
+#: editlvs.php:354
+#: editstudent.php:203
+#: export.php:90
+#: listen.php:45
+#: showlvs.php:120
+#@ teachpress
+msgid "Date"
+msgstr "Date"
+
+#: addlvs.php:140
+#: anzeige.php:264
+#: anzeige.php:302
+#: editlvs.php:242
+#: editlvs.php:311
+#: export.php:92
+#: listen.php:47
+#: showlvs.php:118
+#@ teachpress
+msgid "Room"
+msgstr "Room"
+
+#: addlvs.php:144
+#: editlvs.php:262
+#@ teachpress
+msgid "Number of places"
+msgstr "Number of places"
+
+#: addlvs.php:148
+#: addpublications.php:119
+#: editlvs.php:246
+#: editlvs.php:323
+#: editpub.php:116
+#: export.php:104
+#@ teachpress
+msgid "Comment"
+msgstr "Comment"
+
+#: addlvs.php:157
+#: editlvs.php:255
+#: showlvs.php:122
+#@ teachpress
+msgid "Enrollments"
+msgstr "Enrollments"
+
+#: addlvs.php:161
+#: editlvs.php:259
+#@ teachpress
+msgid "Format for the date"
+msgstr "Format for the date"
+
+#: addlvs.php:164
+#: editlvs.php:269
+#@ teachpress
+msgid "Start"
+msgstr "Start"
+
+#: addlvs.php:166
+#: editlvs.php:271
+#@ teachpress
+msgid "End"
+msgstr "End"
+
+#: addlvs.php:168
+#: anzeige.php:295
+#: editlvs.php:273
+#: export.php:156
+#: export.php:191
+#@ teachpress
+msgid "Waiting list"
+msgstr "Waiting list"
+
+#: addlvs.php:178
+#: addpublications.php:192
+#: einstellungen.php:123
+#: einstellungen.php:170
+#: einstellungen.php:218
+#: studenten_neu.php:118
+#: studenten_neu.php:201
+#@ teachpress
+msgid "create"
+msgstr "create"
+
+#: addlvs.php:179
+#: addpublications.php:193
+#@ teachpress
+msgid "reset"
+msgstr "reset"
+
+#: addpublications.php:20
+#@ teachpress
+msgid "Add publications"
+msgstr "Add publications"
+
+#: addpublications.php:46
+#@ teachpress
+msgid "Publication added"
+msgstr "Publication added"
+
+#: addpublications.php:55
+#@ teachpress
+msgid "click to add the publication in your own list"
+msgstr "click to add the publication in your own list"
+
+#: addpublications.php:55
+#@ teachpress
+msgid "add to your own list"
+msgstr "add to your own list"
+
+#: addpublications.php:67
+#@ teachpress
+msgid "Bookmark for"
+msgstr "Bookmark for"
+
+#: addpublications.php:77
+#: anzeige.php:262
+#: anzeige.php:300
+#: editlvs.php:291
+#: editpub.php:74
+#: editstudent.php:202
+#: showlvs.php:117
+#: showpublications.php:90
+#: yourpub.php:70
+#@ teachpress
+msgid "Type"
+msgstr "Type"
+
+#: addpublications.php:80
+#: editpub.php:78
+#@ teachpress
+msgid "Book"
+msgstr "Book"
+
+#: addpublications.php:81
+#: editpub.php:79
+#@ teachpress
+msgid "Presentation"
+msgstr "Presentation"
+
+#: addpublications.php:85
+#: editpub.php:83
+#@ teachpress
+msgid "Report"
+msgstr "Report"
+
+#: addpublications.php:94
+#: editpub.php:92
+#: showpublications.php:91
+#: yourpub.php:71
+#@ teachpress
+msgid "Author(s)"
+msgstr "Author(s)"
+
+#: addpublications.php:98
+#: editpub.php:96
+#: showpublications.php:92
+#: yourpub.php:72
+#@ teachpress
+msgid "Published by"
+msgstr "Published by"
+
+#: addpublications.php:102
+#: editpub.php:100
+#: showpublications.php:93
+#: yourpub.php:73
+#@ teachpress
+msgid "Year"
+msgstr "Year"
+
+#: addpublications.php:110
+#: editpub.php:108
+#@ teachpress
+msgid "Link"
+msgstr "Link"
+
+#: addpublications.php:114
+#: editpub.php:112
+#@ teachpress
+msgid "Sorting date"
+msgstr "Sorting date"
+
+#: addpublications.php:123
+#@ teachpress
+msgid "Tags (seperate by comma)"
+msgstr "Tags (seperate by comma)"
+
+#: addpublications.php:186
+#: editpub.php:203
+#@ teachpress
+msgid "add as tag"
+msgstr "add as tag"
+
+#: anzeige.php:46
+#: anzeige.php:87
+#: teachpress.php:178
+#@ teachpress
+msgid "resume"
+msgstr "resume"
+
+#: anzeige.php:55
+#@ teachpress
+msgid "Enrollments for the"
+msgstr "Enrollments for the"
+
+#: anzeige.php:86
+#@ teachpress
+msgid "Registration successful"
+msgstr "Registration successful"
+
+#: anzeige.php:96
+#@ teachpress
+msgid "Please fill in the following registration form and sign up in the system. You can edit your data later."
+msgstr "Please fill in the following registration form and sign up in the system. You can edit your data later."
+
+#: anzeige.php:98
+#: anzeige.php:188
+#@ teachpress
+msgid "Your data"
+msgstr "Your data"
+
+#: anzeige.php:101
+#: anzeige.php:191
+#: editlvs.php:348
+#: editlvs.php:393
+#: editstudent.php:80
+#: editstudent.php:162
+#: export.php:117
+#: export.php:160
+#: export.php:191
+#: studenten.php:77
+#: studenten_neu.php:136
+#@ teachpress
+msgid "Registr.-Number"
+msgstr "Registr.-Number"
+
+#: anzeige.php:105
+#: anzeige.php:195
+#: editlvs.php:350
+#: editlvs.php:395
+#: editstudent.php:84
+#: editstudent.php:205
+#: export.php:119
+#: export.php:162
+#: export.php:191
+#: studenten.php:79
+#: studenten_neu.php:140
+#@ teachpress
+msgid "First name"
+msgstr "First name"
+
+#: anzeige.php:109
+#: anzeige.php:199
+#: editlvs.php:349
+#: editlvs.php:394
+#: editstudent.php:88
+#: editstudent.php:204
+#: export.php:118
+#: export.php:161
+#: export.php:191
+#: studenten.php:78
+#: studenten_neu.php:144
+#@ teachpress
+msgid "Last name"
+msgstr "Last name"
+
+#: anzeige.php:113
+#: anzeige.php:203
+#: editlvs.php:351
+#: editlvs.php:396
+#: editstudent.php:92
+#: editstudent.php:166
+#: einstellungen.php:18
+#: export.php:120
+#: export.php:163
+#: export.php:191
+#: studenten.php:80
+#: studenten_neu.php:148
+#@ teachpress
+msgid "Course of studies"
+msgstr "Course of studies"
+
+#: anzeige.php:128
+#: anzeige.php:217
+#: editstudent.php:106
+#: editstudent.php:170
+#: studenten.php:81
+#: studenten_neu.php:161
+#@ teachpress
+msgid "Number of terms"
+msgstr "Number of terms"
+
+#: anzeige.php:153
+#: editlvs.php:352
+#: editlvs.php:397
+#: editstudent.php:133
+#: editstudent.php:178
+#: export.php:121
+#: export.php:164
+#: export.php:191
+#: listen.php:55
+#: studenten.php:83
+#: studenten_neu.php:186
+#@ teachpress
+msgid "User account"
+msgstr "User account"
+
+#: anzeige.php:157
+#: anzeige.php:242
+#: editstudent.php:137
+#: editstudent.php:174
+#: studenten.php:82
+#: studenten_neu.php:190
+#@ teachpress
+msgid "Date of birth"
+msgstr "Date of birth"
+
+#: anzeige.php:168
+#@ teachpress
+msgid "Send"
+msgstr "Send"
+
+#: anzeige.php:179
+#@ teachpress
+msgid "Hello"
+msgstr "Hello"
+
+#: anzeige.php:182
+#@ teachpress
+msgid "Your enrollments"
+msgstr "Your enrollments"
+
+#: anzeige.php:183
+#@ teachpress
+msgid "Your user data"
+msgstr "Your user data"
+
+#: anzeige.php:256
+#@ teachpress
+msgid "Previous enrollments"
+msgstr "Previous enrollments"
+
+#: anzeige.php:257
+#@ teachpress
+msgid "Signed up for"
+msgstr "Signed up for"
+
+#: anzeige.php:322
+#@ teachpress
+msgid "unsubscribe"
+msgstr "unsubscribe"
+
+#: anzeige.php:331
+#@ teachpress
+msgid "You must be logged in, before you can use the registration."
+msgstr "You must be logged in, before you can use the registration."
+
+#: anzeige.php:340
+#: anzeige.php:378
+#@ teachpress
+msgid "Language"
+msgstr "Language"
+
+#: anzeige.php:352
+#@ teachpress
+msgid "select"
+msgstr "select"
+
+#: anzeige.php:357
+#: anzeige.php:391
+#: teachpress.php:875
+#@ teachpress
+msgid "Date(s)"
+msgstr "Date(s)"
+
+#: anzeige.php:358
+#: anzeige.php:392
+#: editlvs.php:264
+#: editlvs.php:317
+#: export.php:98
+#@ teachpress
+msgid "free places"
+msgstr "free places"
+
+#: anzeige.php:367
+#: anzeige.php:401
+#@ teachpress
+msgid "Possible to subscribe in the waiting list"
+msgstr "Possible to subscribe in the waiting list"
+
+#: anzeige.php:368
+#: anzeige.php:402
+#@ teachpress
+msgid "Registration period"
+msgstr "Registration period"
+
+#: anzeige.php:412
+#@ teachpress
+msgid "Sign up"
+msgstr "Sign up"
+
+#: anzeige.php:416
+#@ teachpress
+msgid "course and publication management for WordPress"
+msgstr "course and publication management for WordPress"
+
+#: anzeige_lvs.php:20
+#@ teachpress
+msgid "Select the term"
+msgstr "Select the term"
+
+#: anzeige_lvs.php:31
+#: showlvs.php:99
+#: studenten.php:69
+#@ teachpress
+msgid "show"
+msgstr "show"
+
+#: anzeige_lvs.php:33
+#@ teachpress
+msgid "Courses for the"
+msgstr "Courses for the"
+
+#: anzeige_lvs.php:52
+#: showlvs.php:150
+#: showpublications.php:116
+#: studenten.php:104
+#: tags.php:112
+#: yourpub.php:104
+#@ teachpress
+msgid "Sorry, no entries matched your criteria."
+msgstr "Sorry, no entries matched your criteria."
+
+#: editlvs.php:57
+#: editstudent.php:48
+#@ teachpress
+msgid "Changes successful"
+msgstr "Changes successful"
+
+#: editlvs.php:63
+#@ teachpress
+msgid "Participant added"
+msgstr "Participant added"
+
+#: editlvs.php:69
+#@ teachpress
+msgid "Enrollments deleted"
+msgstr "Enrollments deleted"
+
+#: editlvs.php:129
+#: editlvs.php:283
+#: editpub.php:211
+#: editstudent.php:148
+#: einstellungen.php:281
+#: tags.php:79
+#@ teachpress
+msgid "save"
+msgstr "save"
+
+#: editlvs.php:131
+#: editstudent.php:56
+#@ teachpress
+msgid "back to the overview"
+msgstr "back to the overview"
+
+#: editlvs.php:131
+#: editstudent.php:56
+#: listen.php:23
+#@ teachpress
+msgid "back"
+msgstr "back"
+
+#: editlvs.php:131
+#@ teachpress
+msgid "print template for an attendance list"
+msgstr "print template for an attendance list"
+
+#: editlvs.php:131
+#@ teachpress
+msgid "create attendance list"
+msgstr "create attendance list"
+
+#: editlvs.php:133
+#@ teachpress
+msgid "Export as"
+msgstr "Export as"
+
+#: editlvs.php:134
+#@ teachpress
+msgid "csv-file"
+msgstr "csv-file"
+
+#: editlvs.php:135
+#@ teachpress
+msgid "xls-file"
+msgstr "xls-file"
+
+#: editlvs.php:138
+#@ teachpress
+msgid "E-Mail to"
+msgstr "E-Mail to"
+
+#: editlvs.php:139
+#@ teachpress
+msgid "registered participants"
+msgstr "registered participants"
+
+#: editlvs.php:140
+#@ teachpress
+msgid "participants in waiting list"
+msgstr "participants in waiting list"
+
+#: editlvs.php:141
+#@ teachpress
+msgid "all participants"
+msgstr "all participants"
+
+#: editlvs.php:160
+#: editstudent.php:70
+#@ teachpress
+msgid "edit"
+msgstr "edit"
+
+#: editlvs.php:163
+#@ teachpress
+msgid "Edit course"
+msgstr "Edit course"
+
+#: editlvs.php:283
+#: editstudent.php:149
+#: showlvs.php:38
+#: showlvs.php:64
+#: tags.php:80
+#@ teachpress
+msgid "cancel"
+msgstr "cancel"
+
+#: editlvs.php:315
+#: export.php:96
+#: showlvs.php:121
+#@ teachpress
+msgid "Places"
+msgstr "Places"
+
+#: editlvs.php:336
+#@ teachpress
+msgid "Start of enrollments"
+msgstr "Start of enrollments"
+
+#: editlvs.php:338
+#@ teachpress
+msgid "End of enrollments"
+msgstr "End of enrollments"
+
+#: editlvs.php:370
+#: editlvs.php:413
+#@ teachpress
+msgid "send E-Mail"
+msgstr "send E-Mail"
+
+#: editlvs.php:399
+#: editstudent.php:200
+#: export.php:123
+#: export.php:166
+#: export.php:191
+#@ teachpress
+msgid "Registered at"
+msgstr "Registered at"
+
+#: editlvs.php:425
+#@ teachpress
+msgid "ingest in course"
+msgstr "ingest in course"
+
+#: editlvs.php:426
+#@ teachpress
+msgid "ingest"
+msgstr "ingest"
+
+#: editlvs.php:427
+#: editstudent.php:244
+#@ teachpress
+msgid "delete enrollment"
+msgstr "delete enrollment"
+
+#: editlvs.php:428
+#: editpub.php:136
+#: editstudent.php:245
+#: showlvs.php:37
+#: showlvs.php:104
+#: showpublications.php:56
+#: tags.php:56
+#@ teachpress
+msgid "delete"
+msgstr "delete"
+
+#: editpub.php:52
+#@ teachpress
+msgid "Publication changed"
+msgstr "Publication changed"
+
+#: editpub.php:58
+#@ teachpress
+msgid "Show all publications"
+msgstr "Show all publications"
+
+#: editpub.php:58
+#: showpublications.php:51
+#@ teachpress
+msgid "All publications"
+msgstr "All publications"
+
+#: editpub.php:58
+#@ teachpress
+msgid "Show own publications"
+msgstr "Show own publications"
+
+#: editpub.php:58
+#: teachpress.php:66
+#: yourpub.php:43
+#@ teachpress
+msgid "Your publications"
+msgstr "Your publications"
+
+#: editpub.php:62
+#@ teachpress
+msgid "Edit publications"
+msgstr "Edit publications"
+
+#: editpub.php:124
+#@ teachpress
+msgid "current Tags"
+msgstr "current Tags"
+
+#: editpub.php:141
+#@ teachpress
+msgid "new"
+msgstr "new"
+
+#: editpub.php:143
+#@ teachpress
+msgid "seperate with comma"
+msgstr "seperate with comma"
+
+#: editpub.php:146
+#@ teachpress
+msgid "new from tag-cloud"
+msgstr "new from tag-cloud"
+
+#: editstudent.php:42
+#@ teachpress
+msgid "Enrollment deleted"
+msgstr "Enrollment deleted"
+
+#: editstudent.php:73
+#@ teachpress
+msgid "Edit Data"
+msgstr "Edit Data"
+
+#: editstudent.php:183
+#@ teachpress
+msgid "Send E-Mail to"
+msgstr "Send E-Mail to"
+
+#: editstudent.php:199
+#@ teachpress
+msgid "Enrollment-Nr."
+msgstr "Enrollment-Nr."
+
+#: editstudent.php:201
+#: teachpress.php:50
+#@ teachpress
+msgid "Course"
+msgstr "Course"
+
+#: einstellungen.php:11
+#@ teachpress
+msgid "teachPress settings"
+msgstr "teachPress settings"
+
+#: einstellungen.php:14
+#: einstellungen.php:250
+#@ teachpress
+msgid "Current term"
+msgstr "Current term"
+
+#: einstellungen.php:15
+#@ teachpress
+msgid "Here you can change the current term. This value is used for the default settings for all menus."
+msgstr "Here you can change the current term. This value is used for the default settings for all menus."
+
+#: einstellungen.php:17
+#@ teachpress
+msgid "Here you can specify, if your WordPress installation using permalinks or not."
+msgstr "Here you can specify, if your WordPress installation using permalinks or not."
+
+#: einstellungen.php:19
+#@ teachpress
+msgid "Menu to add new courses of studies."
+msgstr "Menu to add new courses of studies."
+
+#: einstellungen.php:20
+#: einstellungen.php:178
+#@ teachpress
+msgid "Types of courses"
+msgstr "Types of courses"
+
+#: einstellungen.php:21
+#@ teachpress
+msgid "Menu to add new types of courses."
+msgstr "Menu to add new types of courses."
+
+#: einstellungen.php:22
+#@ teachpress
+msgid "Terms"
+msgstr "Terms"
+
+#: einstellungen.php:23
+#@ teachpress
+msgid "Menu to add new terms."
+msgstr "Menu to add new terms."
+
+#: einstellungen.php:24
+#@ teachpress
+msgid "If you delete types, terms or courses of studies the connected data will not be deleted."
+msgstr "If you delete types, terms or courses of studies the connected data will not be deleted."
+
+#: einstellungen.php:53
+#@ teachpress
+msgid "Settings updated"
+msgstr "Settings updated"
+
+#: einstellungen.php:56
+#: einstellungen.php:122
+#@ teachpress
+msgid "Add course of studies"
+msgstr "Add course of studies"
+
+#: einstellungen.php:58
+#@ teachpress
+msgid "Course of studies added"
+msgstr "Course of studies added"
+
+#: einstellungen.php:61
+#: einstellungen.php:217
+#@ teachpress
+msgid "Add type"
+msgstr "Add type"
+
+#: einstellungen.php:63
+#@ teachpress
+msgid "Type added"
+msgstr "Type added"
+
+#: einstellungen.php:66
+#: einstellungen.php:169
+#@ teachpress
+msgid "Add term"
+msgstr "Add term"
+
+#: einstellungen.php:68
+#@ teachpress
+msgid "Term added"
+msgstr "Term added"
+
+#: einstellungen.php:82
+#@ teachpress
+msgid "Courses of studies"
+msgstr "Courses of studies"
+
+#: einstellungen.php:88
+#@ teachpress
+msgid "Number of students"
+msgstr "Number of students"
+
+#: einstellungen.php:135
+#: einstellungen.php:184
+#@ teachpress
+msgid "Number of courses"
+msgstr "Number of courses"
+
+#: einstellungen.php:224
+#@ teachpress
+msgid "General"
+msgstr "General"
+
+#: einstellungen.php:228
+#@ teachpress
+msgid "teachPress version"
+msgstr "teachPress version"
+
+#: einstellungen.php:242
+#@ teachpress
+msgid "Update to"
+msgstr "Update to"
+
+#: einstellungen.php:246
+#@ teachpress
+msgid "install"
+msgstr "install"
+
+#: export.php:113
+#@ teachpress
+msgid "Registered participants"
+msgstr "Registered participants"
+
+#: export.php:188
+#@ teachpress
+msgid "Created on"
+msgstr "Created on"
+
+#: export.php:191
+#@ teachpress
+msgid "Record-ID"
+msgstr "Record-ID"
+
+#: listen.php:23
+#@ teachpress
+msgid "back to the course"
+msgstr "back to the course"
+
+#: showlvs.php:36
+#@ teachpress
+msgid "Are you sure to delete the selected courses?"
+msgstr "Are you sure to delete the selected courses?"
+
+#: showlvs.php:45
+#@ teachpress
+msgid "Course(s) deleted"
+msgstr "Course(s) deleted"
+
+#: showlvs.php:52
+#@ teachpress
+msgid "Copy courses"
+msgstr "Copy courses"
+
+#: showlvs.php:53
+#@ teachpress
+msgid "Select the term, in which you will copy the selected courses."
+msgstr "Select the term, in which you will copy the selected courses."
+
+#: showlvs.php:63
+#: showlvs.php:103
+#@ teachpress
+msgid "copy"
+msgstr "copy"
+
+#: showlvs.php:72
+#@ teachpress
+msgid "Copying successful"
+msgstr "Copying successful"
+
+#: showlvs.php:79
+#: showpublications.php:44
+#: studenten.php:35
+#: tags.php:44
+#: yourpub.php:38
+#@ teachpress
+msgid "Cancel the search"
+msgstr "Cancel the search"
+
+#: showlvs.php:81
+#: showpublications.php:46
+#: studenten.php:37
+#: yourpub.php:40
+#@ teachpress
+msgid "search"
+msgstr "search"
+
+#: showlvs.php:90
+#@ teachpress
+msgid "All terms"
+msgstr "All terms"
+
+#: showlvs.php:102
+#: showpublications.php:55
+#: tags.php:55
+#@ teachpress
+msgid "Bulk actions"
+msgstr "Bulk actions"
+
+#: showlvs.php:179
+#: showlvs.php:198
+#: showlvs.php:226
+#: showpublications.php:134
+#: studenten.php:112
+#: tags.php:132
+#: yourpub.php:113
+#@ teachpress
+msgid "Click to edit"
+msgstr "Click to edit"
+
+#: showpublications.php:37
+#@ teachpress
+msgid "Publications deleted"
+msgstr "Publications deleted"
+
+#: showpublications.php:64
+#: yourpub.php:47
+#@ teachpress
+msgid "For a publication list with tag cloud:"
+msgstr "For a publication list with tag cloud:"
+
 #: showpublications.php:66
 #: yourpub.php:49
 #@ teachpress
-msgid "id - WP User-ID (0 f&uuml;r alle)"
+msgid "id - WP User-ID (0 for all)"
 msgstr "id - WP User-ID (0 for all)"
 
 #: showpublications.php:67
 #: yourpub.php:50
 #@ teachpress
-msgid "maxsize - maximale Schriftgr&ouml;&szlig;e in der Tag-Cloud (default 35)"
+msgid "maxsize - max. font size in the tag cloud (default: 35)"
 msgstr "maxsize - max. font size in the tag cloud (default: 35)"
 
 #: showpublications.php:68
 #: yourpub.php:51
 #@ teachpress
-msgid "minsize - minimale Schriftgr&ouml;&szlig;e in der Tag-Cloud (default 11)"
+msgid "minsize - min. font size in the tag cloud (default: 11)"
 msgstr "minsize - min. font size in the tag cloud (default: 11)"
 
 #: showpublications.php:69
 #: yourpub.php:52
 #@ teachpress
-msgid "limit - maximale Anzahl der angezeigten Tags (default: 30)"
+msgid "limit - maximum of visible tags (default: 30)"
 msgstr "limit - maximum of visible tags (default: 30)"
 
 #: showpublications.php:71
 #: yourpub.php:54
 #@ teachpress
-msgid "F&uuml;r normale Publikationsliste:"
-msgstr "For normal publication lists"
+msgid "For normal publication lists:"
+msgstr "For normal publication lists:"
+
+#: showpublications.php:76
+#: yourpub.php:59
+#@ teachpress
+msgid "headline - 0(off) or 1(on)"
+msgstr "headline - 0(off) or 1(on)"
+
+#: showpublications.php:130
+#@ teachpress
+msgid "Add to your own list"
+msgstr "Add to your own list"
+
+#: studenten.php:25
+#@ teachpress
+msgid "Students deleted"
+msgstr "Students deleted"
+
+#: studenten.php:47
+#: studenten.php:59
+#@ teachpress
+msgid "All students"
+msgstr "All students"
+
+#: studenten.php:56
+#@ teachpress
+msgid "please select"
+msgstr "please select"
+
+#: studenten.php:130
+#@ teachpress
+msgid "Delete students"
+msgstr "Delete students"
+
+#: studenten.php:131
+#@ teachpress
+msgid "Markup this field and click on the submit button to delete the student."
+msgstr "Markup this field and click on the submit button to delete the student."
+
+#: studenten_neu.php:26
+#@ teachpress
+msgid "Student added"
+msgstr "Student added"
+
+#: studenten_neu.php:32
+#@ teachpress
+msgid "The enrollment for the selected student was successful."
+msgstr "The enrollment for the selected student was successful."
+
+#: studenten_neu.php:38
+#@ teachpress
+msgid "Add students manually"
+msgstr "Add students manually"
+
+#: studenten_neu.php:41
+#@ teachpress
+msgid "Enrollment"
+msgstr "Enrollment"
+
+#: studenten_neu.php:42
+#@ teachpress
+msgid "If the student is registered for this course, the number of free places drops up to 0. The system ignores any criteria for the registration"
+msgstr "If the student is registered for this course, the number of free places drops up to 0. The system ignores any criteria for the registration"
+
+#: studenten_neu.php:46
+#@ teachpress
+msgid "Select student"
+msgstr "Select student"
+
+#: studenten_neu.php:66
+#@ teachpress
+msgid "Select course"
+msgstr "Select course"
+
+#: studenten_neu.php:126
+#@ teachpress
+msgid "Add student"
+msgstr "Add student"
+
+#: studenten_neu.php:127
+#@ teachpress
+msgid "All fields required"
+msgstr "All fields required"
+
+#: studenten_neu.php:133
+#@ teachpress
+msgid "If the student has not an account for your blog, so you must create this account manually."
+msgstr "If the student has not an account for your blog, so you must create this account manually."
+
+#: tags.php:31
+#@ teachpress
+msgid "Selected tags are deleted"
+msgstr "Selected tags are deleted"
+
+#: tags.php:37
+#@ teachpress
+msgid "Tag saved"
+msgstr "Tag saved"
+
+#: tags.php:46
+#@ teachpress
+msgid "search tag"
+msgstr "search tag"
+
+#: tags.php:69
+#@ teachpress
+msgid "Edit tag"
+msgstr "Edit tag"
+
+#: tags.php:93
+#@ teachpress
+msgid "Number"
+msgstr "Number"
+
+#: teachpress.php:51
+#@ teachpress
+msgid "New course"
+msgstr "New course"
+
+#: teachpress.php:52
+#@ teachpress
+msgid "Students"
+msgstr "Students"
+
+#: teachpress.php:53
+#@ teachpress
+msgid "Settings"
+msgstr "Settings"
+
+#: teachpress.php:54
+#@ teachpress
+msgid "Add manually"
+msgstr "Add manually"
+
+#: teachpress.php:65
+#@ teachpress
+msgid "Publications"
+msgstr "Publications"
+
+#: teachpress.php:67
+#@ teachpress
+msgid "New"
+msgstr "New"
+
+#: teachpress.php:327
+#@ teachpress
+msgid "Registration for"
+msgstr "Registration for"
+
+#: teachpress.php:327
+#@ teachpress
+msgid "successful"
+msgstr "successful"
+
+#: teachpress.php:330
+#: teachpress.php:348
+#@ teachpress
+msgid "You are already for"
+msgstr "You are already for"
+
+#: teachpress.php:330
+#: teachpress.php:348
+#@ teachpress
+msgid "registered"
+msgstr "registered"
+
+#: teachpress.php:344
+#: teachpress.php:353
+#@ teachpress
+msgid "For"
+msgstr "For"
+
+#: teachpress.php:344
+#@ teachpress
+msgid "there are no more free places. You are automatically signed in a waiting list."
+msgstr "there are no more free places. You are automatically signed in a waiting list."
+
+#: teachpress.php:353
+#@ teachpress
+msgid "there are no more free places."
+msgstr "there are no more free places."
+
+#: teachpress.php:446
+#@ teachpress
+msgid "Changes in your profile successful."
+msgstr "Changes in your profile successful."
+
+#: teachpress.php:504
+#@ teachpress
+msgid "You are signed out successful"
+msgstr "You are signed out successful"
+
+#: teachpress.php:847
+#@ teachpress
+msgid "An update is not necessary."
+msgstr "An update is not necessary."
+
+#: teachpress.php:859
+#@ teachpress
+msgid "Update successful"
+msgstr "Update successful"
 
 #: teachpress.php:1023
 #@ teachpress
-msgid "Publikation"
+msgid "publication"
 msgstr "publication"
+
+#: teachpress.php:1026
+#@ teachpress
+msgid "publications"
+msgstr "publications"
+
+#: teachpress.php:1037
+#: teachpress.php:1054
+#@ teachpress
+msgid "Delete tag as filter"
+msgstr "Delete tag as filter"
+
+#: teachpress.php:1149
+#: teachpress.php:1152
+#@ teachpress
+msgid "Show all"
+msgstr "Show all"
 
 #: teachpress.php:1258
 #@ teachpress
-msgid "Alle Publikationen dieses Tags anzeigen"
+msgid "Show all publications which have a relationship to this tag"
 msgstr "Show all publications which have a relationship to this tag"
+
+#: yourpub.php:112
+#@ teachpress
+msgid "Delete from you own publication list"
+msgstr "Delete from you own publication list"
+
+#: test.php:4
+#@ teachpress
+msgid "Buch"
+msgstr "Book"
+
+#: test.php:5
+#@ teachpress
+msgid "Sonstiges"
+msgstr "Others"
+
+#: test.php:6
+#@ teachpress
+msgid "Vortrag"
+msgstr "Presentation"
 

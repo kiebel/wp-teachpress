@@ -8,21 +8,21 @@
 if ( is_user_logged_in() ) { 
 ?> 
 <div class="wrap">
-    <h2 style="padding-bottom:0px;"><?php _e('teachPress Einstellungen','teachpress'); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Hilfe','teachpress'); ?></a></small></h2> 
+    <h2 style="padding-bottom:0px;"><?php _e('teachPress settings','teachpress'); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2> 
     <div id="hilfe_anzeigen">
-    	<h3 class="teachpress_help"><?php _e('Hilfe','teachpress'); ?></h3>
-        <p class="hilfe_headline"><?php _e('Aktuelles Semester','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Geben Sie hier das aktuelle Semester an. Durch diesen Wert wird bestimmt welches Semester in den Anzeigen verwendet wird. Unabh&auml;nig von dieser Einstellung k&ouml;nnen Lehrveranstaltungen f&uuml;r andere Semester angelegt werden.','teachpress'); ?></p>
+    	<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
+        <p class="hilfe_headline"><?php _e('Current term','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Here you can change the current term. This value is used for the default settings for all menus.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Permalinks','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Geben Sie hier an, ob Sie WordPress mit Permalinks verwenden oder nicht. Wird ben&ouml;tigt, damit die Tag-Clouds im Frontend funktionieren. Wenn sie WordPress ohne Permalinks verwenden funktionieren die Tag-Clouds derzeit nur auf Seiten.','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Verwaltung Studieng&auml;nge','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Bestimmt die Auswahlm&ouml;glichkeiten f&uuml;r Studenten bei der Anmeldung im Einschreibesystem','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Verwaltung Veranstaltungstypen','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Bestimmt die Auswahlm&ouml;glichkeiten f&uuml;r Veranstaltungstypen','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Verwaltung Semester','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Erm&ouml;glicht das Hinzuf&uuml;gen neuer Semester.','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Beim L&ouml;schen von Veranstaltungstypen, Semestern und Studieng&auml;ngen, werden keine mit diesen Werten in Verbindung stehenden Daten gel&ouml;scht.','teachpress'); ?></p>
-        <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('schlie&szlig;en','teachpress'); ?></a></strong></p>
+        <p class="hilfe_text"><?php _e('Here you can specify, if your WordPress installation using permalinks or not.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Course of studies','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Menu to add new courses of studies.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Types of courses','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Menu to add new types of courses.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Terms','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Menu to add new terms.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('If you delete types, terms or courses of studies the connected data will not be deleted.','teachpress'); ?></p>
+        <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
         
     </div>
     <?php
@@ -50,22 +50,22 @@ if ( is_user_logged_in() ) {
 	}
 	if (isset($einstellungen)) {
 		change_einstellungen($semester, $permalink);
-		$message = __('Einstellungen aktualisiert','teachpress');
+		$message = __('Settings updated','teachpress');
 		tp_get_message($message, $site);
 	}
-	if (isset($addstud) && $name != __('Studiengang hinzuf&uuml;gen','teachpress')) {
+	if (isset($addstud) && $name != __('Add course of studies','teachpress')) {
 		add_einstellung($name, 'studiengang');
-		$message = __('Studiengang hinzugef&uuml;gt','teachpress');
+		$message = __('Course of studies added','teachpress');
 		tp_get_message($message, $site);
 	}
-	if (isset($addtyp) && $typ != __('Typ hinzuf&uuml;gen','teachpress')) {
+	if (isset($addtyp) && $typ != __('Add type','teachpress')) {
 		add_einstellung($typ, 'veranstaltungstyp');
-		$message = __('Typ hinzugef&uuml;gt','teachpress');
+		$message = __('Type added','teachpress');
 		tp_get_message($message, $site);
 	}
-	if (isset($addsem) && $newsem != __('Semester hinzuf&uuml;gen','teachpress')) {
+	if (isset($addsem) && $newsem != __('Add term','teachpress')) {
 		add_einstellung($newsem, 'semester');
-		$message = __('Semester hinzugef&uuml;gt','teachpress');
+		$message = __('Term added','teachpress');
 		tp_get_message($message, $site);
 	}
 	if (isset($delete)) {
@@ -79,13 +79,13 @@ if ( is_user_logged_in() ) {
 	<div style="min-width:780px; width:100%;">
 	<div style="width:48%; float:left; padding-right:2%;">
 		 <div>
-		  <h4><strong><?php _e('Studieng&auml;nge','teachpress'); ?></strong></h4> 
+		  <h4><strong><?php _e('Courses of studies','teachpress'); ?></strong></h4> 
 		  <table class="widefat">
 			  <thead>
 				  <tr>
 					<th>&nbsp;</th>
 					<th><?php _e('Name','teachpress'); ?></th>
-					<th><?php _e('Anzahl Studenten','teachpress'); ?></th>
+					<th><?php _e('Number of students','teachpress'); ?></th>
 				  </tr>
 			  </thead>
 		  <?php
@@ -119,20 +119,20 @@ if ( is_user_logged_in() ) {
 		  <table class="widefat" style="margin-top:10px;">
 			  <thead>
 				  <tr>
-					<td><input name="name" type="text" id="name" size="30" value="<?php _e('Studiengang hinzuf&uuml;gen','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('Studiengang hinzuf&uuml;gen','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('Studiengang hinzuf&uuml;gen','teachpress'); ?>') this.value='';"/></td>
-					<td><input name="addstud" type="submit" class="teachpress_button" value="<?php _e('erstellen','teachpress'); ?>"/></td>
+					<td><input name="name" type="text" id="name" size="30" value="<?php _e('Add course of studies','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('Add course of studies','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('Add course of studies','teachpress'); ?>') this.value='';"/></td>
+					<td><input name="addstud" type="submit" class="teachpress_button" value="<?php _e('create','teachpress'); ?>"/></td>
 				  </tr>
 			  </thead>
 		</table>
 		</div>
 		 <div style="padding-top:10px;">
-			<h4><strong><?php _e('Semester','teachpress'); ?></strong></h4>
+			<h4><strong><?php _e('Term','teachpress'); ?></strong></h4>
 			<table border="0" cellspacing="0" cellpadding="0" class="widefat">
 			 <thead>
 			  <tr>
 				<th>&nbsp;</th>
-				<th><?php _e('Semester','teachpress'); ?></th>
-				<th><?php _e('Anzahl Veranstaltungen','teachpress'); ?></th>
+				<th><?php _e('Term','teachpress'); ?></th>
+				<th><?php _e('Number of courses','teachpress'); ?></th>
 			  </tr>
 			 <?php    
 			   $row = "SELECT einstellungs_id, wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
@@ -166,8 +166,8 @@ if ( is_user_logged_in() ) {
 			<table class="widefat" style="margin-top:10px;">
 				  <thead>
 					  <tr>
-						<td><input name="newsem" type="text" id="newsem" size="30" value="<?php _e('Semester hinzuf&uuml;gen','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('Semester hinzuf&uuml;gen','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('Semester hinzuf&uuml;gen','teachpress'); ?>') this.value='';"/></td>
-						<td><input name="addsem" type="submit" class="teachpress_button" value="<?php _e('erstellen','teachpress'); ?>"/></td>
+						<td><input name="newsem" type="text" id="newsem" size="30" value="<?php _e('Add term','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('Add term','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('Add term','teachpress'); ?>') this.value='';"/></td>
+						<td><input name="addsem" type="submit" class="teachpress_button" value="<?php _e('create','teachpress'); ?>"/></td>
 					  </tr>
 				  </thead>
 			</table>
@@ -175,13 +175,13 @@ if ( is_user_logged_in() ) {
 	</div>
 	<div style="width:48%; float:left; padding-left:2%;">
 		<div>
-			<h4><strong><?php _e('Veranstaltungstypen','teachpress'); ?></strong></h4> 
+			<h4><strong><?php _e('Types of courses','teachpress'); ?></strong></h4> 
 			 <table border="0" cellspacing="0" cellpadding="0" class="widefat">
 				<thead>
 				  <tr>
 					<th>&nbsp;</th>
 					<th><?php _e('Name','teachpress'); ?></th>
-					<th><?php _e('Anzahl','teachpress'); ?></th>
+					<th><?php _e('Number of courses','teachpress'); ?></th>
 				  </tr>
 				</thead>
 			<?php    
@@ -214,18 +214,18 @@ if ( is_user_logged_in() ) {
 		   <table class="widefat" style="margin-top:10px;">
 			  <thead>
 				  <tr>
-					<td><input name="typ" type="text" id="typ" size="30" value="<?php _e('Typ hinzuf&uuml;gen','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('Typ hinzuf&uuml;gen','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('Typ hinzuf&uuml;gen','teachpress'); ?>') this.value='';"/></td>
-					<td><input name="addtyp" type="submit" class="teachpress_button" value="<?php _e('erstellen','teachpress'); ?>"/></td>
+					<td><input name="typ" type="text" id="typ" size="30" value="<?php _e('Add type','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('Add type','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('Add type','teachpress'); ?>') this.value='';"/></td>
+					<td><input name="addtyp" type="submit" class="teachpress_button" value="<?php _e('create','teachpress'); ?>"/></td>
 				  </tr>
 			  </thead>
 		   </table>   
 		</div>
 		<div style="padding-top:10px;">
-			<h4><strong><?php _e('Allgemein','teachpress'); ?></strong></h4>
+			<h4><strong><?php _e('General','teachpress'); ?></strong></h4>
 			<table border="0" cellspacing="0" cellpadding="0" class="widefat">
 			 <thead>
 			  <tr>
-				<th><?php _e('teachPress Version','teachpress'); ?>:</th>
+				<th><?php _e('teachPress version','teachpress'); ?>:</th>
 				<td><?php 
 					// Test ob Datenbank installiert ist
 					$test = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
@@ -239,15 +239,15 @@ if ( is_user_logged_in() ) {
 							<?php echo $version; ?> <span style="color:#00FF00; font-weight:bold;">&radic;</span>
 						<?php } 
 						else { ?>
-							<?php echo $test; ?> <span style="color:#FF0000; font-weight:bold;">X</span> <a href="admin.php?page=teachpress/einstellungen.php&up=1"><strong><?php _e('Update auf','teachpress'); ?> <?php echo $version; ?></strong></a>
+							<?php echo $test; ?> <span style="color:#FF0000; font-weight:bold;">X</span> <a href="admin.php?page=teachpress/einstellungen.php&up=1"><strong><?php _e('Update to','teachpress'); ?> <?php echo $version; ?></strong></a>
 						<?php }
 					} 
 					else { ?>
-						<a href="admin.php?page=teachpress/einstellungen.php&ins=1"><strong><?php _e('installieren','teachpress'); ?></strong></a>
+						<a href="admin.php?page=teachpress/einstellungen.php&ins=1"><strong><?php _e('install','teachpress'); ?></strong></a>
 					<?php } ?>   </td>
 			  </tr>
 			  <tr>
-				<th><?php _e('Aktuelles Semester','teachpress'); ?></th>
+				<th><?php _e('Current term','teachpress'); ?></th>
 				<td><select name="semester" id="semester">
 						<?php
 						$abfrage = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
@@ -270,15 +270,15 @@ if ( is_user_logged_in() ) {
 					  $abfrage = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'permalink'";
 					  $wert = tp_var($abfrage);
 					  ?>
-					  <option value="<?php echo"$>wert" ?>"><?php if ($wert == 0) { _e('nein','teachpress'); } else { _e('ja','teachpress'); }?></option>
+					  <option value="<?php echo"$>wert" ?>"><?php if ($wert == 0) { _e('no','teachpress'); } else { _e('yes','teachpress'); }?></option>
 					  <option>---</option>  
-					  <option value="1"><?php _e('ja','teachpress'); ?></option>
-					  <option value="0"><?php _e('nein','teachpress'); ?></option>
+					  <option value="1"><?php _e('yes','teachpress'); ?></option>
+					  <option value="0"><?php _e('no','teachpress'); ?></option>
 					</select></td>
 			  </tr>
 			 </thead> 
 			</table>
-			  <p style="padding-left:20px;"><input name="einstellungen" type="submit" id="teachpress_einstellungen" value="<?php _e('speichern','teachpress'); ?>" class="teachpress_button"/></p>
+			  <p style="padding-left:20px;"><input name="einstellungen" type="submit" id="teachpress_einstellungen" value="<?php _e('save','teachpress'); ?>" class="teachpress_button"/></p>
 		</div>
 	</div>
      </div>   

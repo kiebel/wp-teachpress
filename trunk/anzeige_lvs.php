@@ -10,41 +10,46 @@
         global $teachpress_einstellungen; 
         $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
         $sem = tp_var($sem);
+		// Falls Semester vom User gewaehlt
+		$semester = htmlspecialchars($_GET[semester]);	
+		if ($semester != "") {
+			$sem = $semester;
+		}
         ?>
         <div class="tp_auswahl">
-            <?php _e('Bitte w&auml;hlen Sie das Semester','teachpress'); ?>
+            <?php _e('Select the term','teachpress'); ?>
             <select name="semester">
                 <option value="<?php echo $sem; ?>"><?php echo $sem;?></option>
                 <option>-----</option>
                 <?php
-                $rowsem = "SELECT DISTINCT semester FROM " . $teachpress_ver . "";
+                $rowsem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
                 $rowsem = tp_results($rowsem);
                 foreach($rowsem as $rowsem) { ?>
-                    <option value="<?php echo $rowsem->semester; ?>"><?php echo $rowsem->semester; ?></option>
-                <?php } 
-                $semester = htmlspecialchars($_GET[semester]);	
-                if ($semester != "") {
-                    $sem = $semester;
-                }
-                ?>
+                    <option value="<?php echo $rowsem->wert; ?>"><?php echo $rowsem->wert; ?></option>
+                <?php } ?>
             </select>  
-            <input type="submit" name="start" value="<?php _e('anzeigen','teachpress'); ?>" id="teachpress_submit" class="teachpress_button"/>
+            <input type="submit" name="start" value="<?php _e('show','teachpress'); ?>" id="teachpress_submit" class="teachpress_button"/>
         </div>   
-        <h3 style="color:#005A46;"><?php _e('Lehrveranstaltungen für das','teachpress'); ?> <?php echo"$sem" ;?></h3>
+        <h3><?php _e('Courses for the','teachpress'); ?> <?php echo"$sem" ;?></h3>
         <?php
             $row = "Select name, bemerkungen, url FROM " . $teachpress_ver . " WHERE semester = '$sem' AND parent = '0' ORDER BY name";
-            $row = tp_results($row);
-            foreach($row as $row) { ?>
-               <div style="margin:10px; border:1px solid silver; padding:5px;">
-               <div style="background-image:none; padding-left:5px; font-size:14px; color:#005A46;"><strong><?php echo "$row->name"; ?></strong></div>
-               <div style="border-bottom:1px dotted silver; font-size:2px; margin-left:10px;">&nbsp;</div>
-               <table border="0" cellspacing="0" cellpadding="0" width="100%" style="padding-top:5px;">
-                  <tr>
-                    <td style="font-size:12px; padding-left:15px;"><?php echo "$row->bemerkungen"; ?></td>
-                    <td style="text-align:right; font-size:14px;"><a href="<?php echo "$row->url"; ?>"><?php _e('Details','teachpress'); ?></a></td>
-                  </tr>
-               </table>
-               </div>
-           <?php } ?>
+			$test = tp_query($row);
+			if ($test != 0){
+				$row = tp_results($row);
+				foreach($row as $row) { ?>
+				   <div class="tp_lvs_container">
+				   <div class="tp_lvs_name"><strong><?php echo "$row->name"; ?></strong></div>
+				   <table border="0" cellspacing="0" cellpadding="0" width="100%" style="padding-top:5px;">
+					  <tr>
+						<td style="font-size:12px;"><?php echo "$row->bemerkungen"; ?></td>
+						<td style="text-align:right; font-size:14px;"><a href="<?php echo "$row->url"; ?>"><?php _e('Details','teachpress'); ?></a></td>
+					  </tr>
+				   </table>
+				   </div>
+			   <?php } 
+		   }
+		   else {
+		   		echo '<p class="teachpress_message"><strong>' . __('Sorry, no entries matched your criteria.','teachpress') . '</p>';
+		   }?>
     </form>
 </div>

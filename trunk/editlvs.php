@@ -54,19 +54,19 @@ $sem = htmlentities(utf8_decode($_GET[sem]));
 // Befehle ausfürhen
 if ( isset($speichern) ) {
 	change_lehrveranstaltung($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $url, $sichtbar, $veranstaltung, $parent, $warteliste);
-	$message = __('&Auml;nderungen erfolgreich.','teachpress');
+	$message = __('Changes successful','teachpress');
 	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
 	tp_get_message($message, $site);
 }
 if ( isset($aufnehmen) ) {
     aufnahme($checkbox);
-	$message = __('Teilnehmer aufgenommen','teachpress');
+	$message = __('Participant added','teachpress');
 	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
 	tp_get_message($message, $site);	
     }	 
 if ( isset($delete)) {
     delete_einschreibung($checkbox, $user_ID);
-	$message = __('Einschreibungen gel&ouml;scht.','teachpress');
+	$message = __('Enrollments deleted','teachpress');
 	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
 	tp_get_message($message, $site);	
 }
@@ -126,19 +126,19 @@ foreach($row as $row){
 	$counter3++;
 }
 
-if ($speichern != __('speichern','teachpress')) { ?>
+if ($speichern != __('save','teachpress')) { ?>
     <p>
-    <a href="admin.php?page=teachpress/teachpress.php&semester2=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('zur&uuml;ck zur &Uuml;bersicht','teachpress'); ?>">&larr; <?php _e('zur&uuml;ck','teachpress'); ?></a><a href="admin.php?page=teachpress/listen.php&lvs_ID=<?php echo"$weiter" ?>&sem=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('Druckvorlage f&uuml;r Anwesenheitsliste erstellen','teachpress'); ?>"><?php _e('Liste f&uuml;r Druck','teachpress'); ?></a>
+    <a href="admin.php?page=teachpress/teachpress.php&semester2=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('back to the overview','teachpress'); ?>">&larr; <?php _e('back','teachpress'); ?></a><a href="admin.php?page=teachpress/listen.php&lvs_ID=<?php echo"$weiter" ?>&sem=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('print template for an attendance list','teachpress'); ?>"><?php _e('create attendance list','teachpress'); ?></a>
       <select name="export" id="export" onchange="teachpress_jumpMenu('parent',this,0)" class="teachpress_select">
-        <option><?php _e('Exportieren als','teachpress'); ?> ... </option>
-        <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=csv"><?php _e('csv-Datei','teachpress'); ?></option>
-        <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=xls"><?php _e('xls-Datei','teachpress'); ?></option>
+        <option><?php _e('Export as','teachpress'); ?> ... </option>
+        <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=csv"><?php _e('csv-file','teachpress'); ?></option>
+        <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=xls"><?php _e('xls-file','teachpress'); ?></option>
       </select>
       <select name="mail" id="mail" onchange="teachpress_jumpMenu('parent',this,0)" class="teachpress_select">
-      	<option><?php _e('E-Mail an','teachpress'); ?> ... </option>
-      	<option value="mailto:<?php for($i=0; $i<$counter2; $i++) { if ($daten2[$i][8]== 0 ) { ?><?php echo $daten2[$i][5]; ?> ,<?php } } ?>"><?php _e('eingeschriebene Teilnehmer','teachpress'); ?></option>
-        <option value="mailto:<?php for($i=0; $i<$counter2; $i++) { if ($daten2[$i][8]== 1 ) { ?><?php echo $daten2[$i][5]; ?> ,<?php } } ?>"><?php _e('Teilnehmer in Warteliste','teachpress'); ?></option>
-        <option value="mailto:<?php for($i=0; $i<$counter2; $i++) { echo '' . $daten2[$i][5] . ' ,'; } ?>"><?php _e('alle Teilnehmer','teachpress'); ?></option>
+      	<option><?php _e('E-Mail to','teachpress'); ?> ... </option>
+      	<option value="mailto:<?php for($i=0; $i<$counter2; $i++) { if ($daten2[$i][8]== 0 ) { ?><?php echo $daten2[$i][5]; ?> ,<?php } } ?>"><?php _e('registered participants','teachpress'); ?></option>
+        <option value="mailto:<?php for($i=0; $i<$counter2; $i++) { if ($daten2[$i][8]== 1 ) { ?><?php echo $daten2[$i][5]; ?> ,<?php } } ?>"><?php _e('participants in waiting list','teachpress'); ?></option>
+        <option value="mailto:<?php for($i=0; $i<$counter2; $i++) { echo '' . $daten2[$i][5] . ' ,'; } ?>"><?php _e('all participants','teachpress'); ?></option>
       </select>
     </p>
   <?php } ?>
@@ -157,14 +157,14 @@ if ($speichern != __('speichern','teachpress')) { ?>
 		$parent_name = "";
 	}
 	?>
-    <h2 style="padding-top:5px;"><?php echo $parent_name; ?> <?php echo $daten[0][1]; ?> <?php echo $daten[0][10]; ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('name_anzeigen')" style="cursor:pointer;"><?php _e('bearbeiten','teachpress'); ?></a></small></h2>
+    <h2 style="padding-top:5px;"><?php echo $parent_name; ?> <?php echo $daten[0][1]; ?> <?php echo $daten[0][10]; ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('name_anzeigen')" style="cursor:pointer;"><?php _e('edit','teachpress'); ?></a></small></h2>
     <div id="name_anzeigen" style="display:none; width:850px;">
     	<fieldset style="padding:10px; border:1px solid silver;">
-        <legend><?php _e('Veranstaltung &auml;ndern','teachpress'); ?></legend>
+        <legend><?php _e('Edit course','teachpress'); ?></legend>
             <table class="widefat">
 				<thead>
             	<tr>
-                    <th><?php _e('Veranstaltungstyp','teachpress'); ?></th>
+                    <th><?php _e('Course type','teachpress'); ?></th>
 					<td>
                       <select name="vtyp" id="vtyp">
                           <option value="<?php echo $daten[0][2]; ?>"><?php echo $daten[0][2]; ?></option>
@@ -178,7 +178,7 @@ if ($speichern != __('speichern','teachpress')) { ?>
 							<?php } ?>
                       </select>
                     </td>
-                    <th><?php _e('Semester','teachpress'); ?></th>
+                    <th><?php _e('Term','teachpress'); ?></th>
 					<td>
                         <select name="semester" id="semester">
                             <option value="<?php echo $daten[0][10]; ?>"><?php echo $daten[0][10]; ?></option>
@@ -193,12 +193,12 @@ if ($speichern != __('speichern','teachpress')) { ?>
 								<option value="<?php echo $sem->wert; ?>"><?php echo $sem->wert; ?></option>
 							<?php } ?> 
                         </select>            </td>
-                    <th><?php _e('Sichtbar','teachpress'); ?></th>
+                    <th><?php _e('Visibility','teachpress'); ?></th>
 <td><select name="sichtbar" id="sichtbar">
-                      <option value="<?php echo $daten[0][14]; ?>"><?php if ($daten[0][14] == 1) {echo"ja";} else {echo"nein";} ?></option>
+                      <option value="<?php echo $daten[0][14]; ?>"><?php if ($daten[0][14] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></option>
                       <option>----</option>
-                      <option value="1"><?php _e('ja','teachpress'); ?></option>
-                      <option value="0"><?php _e('nein','teachpress'); ?></option>
+                      <option value="1"><?php _e('yes','teachpress'); ?></option>
+                      <option value="0"><?php _e('no','teachpress'); ?></option>
                     </select></td>
                   </tr>
                   <tr>
@@ -209,7 +209,7 @@ if ($speichern != __('speichern','teachpress')) { ?>
                       <select name="par" id="par">
                         <option value="<?php echo $daten[0][13]; ?>"><?php echo $daten[0][13]; ?></option>
                         <option>------</option>
-                        <option value="0"><?php _e('keine','teachpress'); ?></option>
+                        <option value="0"><?php _e('none','teachpress'); ?></option>
                          <?php 	for ($i = 0; $i < $x; $i++) {
 									for ($j = 0; $j < $counter3; $j++) {
 										if ($period[($x - 1)-$i] == $par[$j][2] ) {
@@ -227,23 +227,23 @@ if ($speichern != __('speichern','teachpress')) { ?>
                 <table class="widefat">
                  <thead>
                   <tr>
-                    <th><?php _e('Veranstaltungsname','teachpress'); ?></th>
+                    <th><?php _e('Course name','teachpress'); ?></th>
                     <td><input name="name" type="text" id="name" value="<?php echo $daten[0][1]; ?>" size="40"/></td>
                    </tr>
                   <tr>
-                    <th><?php _e('Dozent','teachpress'); ?></th>
+                    <th><?php _e('Lecturer','teachpress'); ?></th>
                     <td><input name="dozent" type="text" value="<?php echo $daten[0][4]; ?>" size="40"/></td>
                   </tr>
                   <tr>
-                    <th><?php _e('Termin','teachpress'); ?></th>
+                    <th><?php _e('Date','teachpress'); ?></th>
                     <td><input name="termin" type="text" value="<?php echo $daten[0][5]; ?>" size="40"/></td>
                   </tr>
                   <tr>
-                    <th><?php _e('Raum','teachpress'); ?></th>
+                    <th><?php _e('Room','teachpress'); ?></th>
                     <td><input name="raum" type="text" size="40" value="<?php echo $daten[0][3]; ?>"/></td>
                   </tr>
                   <tr>
-                    <th><?php _e('Bemerkungen','teachpress'); ?></th>
+                    <th><?php _e('Comment','teachpress'); ?></th>
                     <td><input name="bemerkungen" type="text" value="<?php echo $daten[0][11]; ?>" size="70"/></td>
                   </tr>
                   <tr>
@@ -252,35 +252,35 @@ if ($speichern != __('speichern','teachpress')) { ?>
                   </tr>
                  </thead> 
         </table>
-        <h4 style="margin-bottom:7px; margin-top:7px;"><?php _e('Einschreibungen','teachpress'); ?></h4>
+        <h4 style="margin-bottom:7px; margin-top:7px;"><?php _e('Enrollments','teachpress'); ?></h4>
             <table class="widefat">
              <thead>
               <tr>
-                <td colspan="6" style="font-size:11px; color:#FF0000;"><strong><?php _e('Format f&uuml;r das Datum','teachpress'); ?> <?php _e('JJJJ-MM-TT','teachpress'); ?></strong></td>
+                <td colspan="6" style="font-size:11px; color:#FF0000;"><strong><?php _e('Format for the date','teachpress'); ?> <?php _e('JJJJ-MM-TT','teachpress'); ?></strong></td>
               </tr>
               <tr>
-                <th><?php _e('Anzahl Pl&auml;tze','teachpress'); ?></th>
+                <th><?php _e('Number of places','teachpress'); ?></th>
                 <td><input name="plaetze" type="text" size="10" value="<?php echo $daten[0][6]; ?>"/></td>
-                <th><?php _e('freie Pl&auml;tze','teachpress'); ?></th>
+                <th><?php _e('free places','teachpress'); ?></th>
                 <td><input name="fplaetze" type="text" size="10" value="<?php echo $daten[0][7]; ?>"/></td>
                 <td colspan="2">&nbsp;</td>
                </tr>
               <tr>
-                <th><?php _e('Beginn','teachpress'); ?></th>
+                <th><?php _e('Start','teachpress'); ?></th>
                 <td><input name="startein" id="startein"type="text" size="10" value="<?php echo $daten[0][8]; ?>"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
-                <th><?php _e('Ende','teachpress'); ?></th>
+                <th><?php _e('End','teachpress'); ?></th>
                 <td><input name="endein" id="endein" type="text" size="10"  value="<?php echo $daten[0][9]; ?>"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
-                <th><?php _e('Warteliste','teachpress'); ?></th>
+                <th><?php _e('Waiting list','teachpress'); ?></th>
                 <td><select name="warteliste" id="warteliste">
-                   <option value="<?php echo $daten[0][15]; ?>"><?php if ($daten[0][15] == 1) {echo"ja";} else {echo"nein";} ?></option>
+                   <option value="<?php echo $daten[0][15]; ?>"><?php if ($daten[0][15] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></option>
                   <option>----</option> 
-                  <option value="0"><?php _e('nein','teachpress'); ?></option>
-                  <option value="1"><?php _e('ja','teachpress'); ?></option>
+                  <option value="0"><?php _e('no','teachpress'); ?></option>
+                  <option value="1"><?php _e('yes','teachpress'); ?></option>
                 </select>                </td>
               </tr>
              </thead> 
             </table>
-   		<p><input name="speichern" type="submit" value="<?php _e('speichern','teachpress'); ?>" id="teachpress_einzel_change" class="teachpress_button"/> <a onclick="teachpress_showhide('name_anzeigen')" style="cursor:pointer;"><?php _e('abbrechen','teachpress'); ?></a></p>
+   		<p><input name="speichern" type="submit" value="<?php _e('save','teachpress'); ?>" id="teachpress_einzel_change" class="teachpress_button"/> <a onclick="teachpress_showhide('name_anzeigen')" style="cursor:pointer;"><?php _e('cancel','teachpress'); ?></a></p>
             </fieldset>
         </div>
         <div id="einschreibungen" style="padding:5px;">
@@ -288,14 +288,14 @@ if ($speichern != __('speichern','teachpress')) { ?>
         <table border="1" cellspacing="0" cellpadding="0" class="widefat" id="teachpress_edit">
             <thead>
               <tr>
-                <th><?php _e('Typ','teachpress'); ?></th>
+                <th><?php _e('Type','teachpress'); ?></th>
                 <td><?php echo $daten[0][2]; ?></td>
                 <th><?php _e('ID','teachpress'); ?></th>
                 <td><?php echo $daten[0][0]; ?></td>
                 <th><?php _e('Parent','teachpress'); ?></th>
                 <td><?php echo $daten[0][13]; ?></td>
-                <th><?php _e('Sichtbar','teachpress'); ?></th>
-                <td><?php if ($daten[0][14] == 1) {_e('ja','teachpress');} else {_e('nein','teachpress');} ?></td>
+                <th><?php _e('Visibility','teachpress'); ?></th>
+                <td><?php if ($daten[0][14] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></td>
               </tr>
            </thead>               
          </table>
@@ -304,23 +304,23 @@ if ($speichern != __('speichern','teachpress')) { ?>
       <table border="1" cellspacing="0" cellpadding="0" class="widefat">
       		<thead>
               <tr>
-                <th><?php _e('Dozent','teachpress'); ?></th>
+                <th><?php _e('Lecturer','teachpress'); ?></th>
                 <td><?php echo $daten[0][4]; ?></td>
-                <th><?php _e('Termin','teachpress'); ?></th>
+                <th><?php _e('Date','teachpress'); ?></th>
                 <td><?php echo $daten[0][5]; ?></td>
-                <th><?php _e('Raum','teachpress'); ?></th>
+                <th><?php _e('Room','teachpress'); ?></th>
                 <td><?php echo $daten[0][3]; ?></td>
               </tr>
               <tr>
-                <th><?php _e('Pl&auml;tze','teachpress'); ?></th>
+                <th><?php _e('Places','teachpress'); ?></th>
                 <td><?php echo $daten[0][6]; ?></td>
-                <th><?php _e('freie Pl&auml;tze','teachpress'); ?></th>
+                <th><?php _e('free places','teachpress'); ?></th>
                 <td><?php echo $daten[0][7]; ?></td>
                 <td>&nbsp;</td>
                 <td>&nbsp;</td>
               </tr>
               <tr>
-                <th><?php _e('Bemerkungen','teachpress'); ?></th>
+                <th><?php _e('Comment','teachpress'); ?></th>
                 <td colspan="5"><?php echo $daten[0][11]; ?></td>
               </tr>
               <tr>
@@ -333,9 +333,9 @@ if ($speichern != __('speichern','teachpress')) { ?>
  		<table border="1" cellspacing="0" cellpadding="0" class="widefat">
          <thead>
           <tr>
-            <th><?php _e('Beginn Einschreibungen','teachpress'); ?></th>
+            <th><?php _e('Start of enrollments','teachpress'); ?></th>
             <td><?php echo $daten[0][8]; ?></td>
-            <th colspan="3"><?php _e('Ende Einschreibungen','teachpress'); ?></th>
+            <th colspan="3"><?php _e('End of enrollments','teachpress'); ?></th>
             <td><?php echo $daten[0][9]; ?></td>
            </tr>
           </thead>
@@ -345,13 +345,13 @@ if ($speichern != __('speichern','teachpress')) { ?>
          <thead>
           <tr>
             <th>&nbsp;</th>
-            <th><?php _e('Matrikel','teachpress'); ?></th>
-            <th><?php _e('Nachname','teachpress'); ?></th>
-            <th><?php _e('Vorname','teachpress'); ?></th>
-            <th><?php _e('Studiengang','teachpress'); ?></th>
-            <th><?php _e('URZ-K&uuml;rzel','teachpress'); ?></th>
+            <th><?php _e('Registr.-Number','teachpress'); ?></th>
+            <th><?php _e('Last name','teachpress'); ?></th>
+            <th><?php _e('First name','teachpress'); ?></th>
+            <th><?php _e('Course of studies','teachpress'); ?></th>
+            <th><?php _e('User account','teachpress'); ?></th>
             <th><?php _e('E-Mail','teachpress'); ?></th>
-            <th><?php _e('Datum','teachpress'); ?></th>
+            <th><?php _e('Date','teachpress'); ?></th>
           </tr>
          </thead>  
          <tbody> 
@@ -367,7 +367,7 @@ if ($speichern != __('speichern','teachpress')) { ?>
 					<td><?php echo $daten2[$i][1]; ?></td>
 					<td><?php echo $daten2[$i][3]; ?></td>
 					<td><?php echo $daten2[$i][4]; ?></td>
-					<td><a href="mailto:<?php echo $daten2[$i][5]; ?>" title="<?php _e('E-Mail senden','teachpress'); ?>"><?php echo $daten2[$i][5]; ?></a></td>
+					<td><a href="mailto:<?php echo $daten2[$i][5]; ?>" title="<?php _e('send E-Mail','teachpress'); ?>"><?php echo $daten2[$i][5]; ?></a></td>
 					<td><?php echo $daten2[$i][6]; ?></td>
 				  </tr>
 				  <?php
@@ -390,13 +390,13 @@ if ($speichern != __('speichern','teachpress')) { ?>
              <thead>
               <tr>
                 <th>&nbsp;</th>
-                <th><?php _e('Matrikel','teachpress'); ?></th>
-                <th><?php _e('Nachname','teachpress'); ?></th>
-                <th><?php _e('Vorname','teachpress'); ?></th>
-                <th><?php _e('Studiengang','teachpress'); ?></th>
-                <th><?php _e('URZ-K&uuml;rzel','teachpress'); ?></th>
+                <th><?php _e('Registr.-Number','teachpress'); ?></th>
+                <th><?php _e('Last name','teachpress'); ?></th>
+                <th><?php _e('First name','teachpress'); ?></th>
+                <th><?php _e('Course of studies','teachpress'); ?></th>
+                <th><?php _e('User account','teachpress'); ?></th>
                 <th><?php _e('E-Mail','teachpress'); ?></th>
-                <th><?php _e('Datum','teachpress'); ?></th>
+                <th><?php _e('Registered at','teachpress'); ?></th>
               </tr>
              </thead>  
              <tbody> 
@@ -410,7 +410,7 @@ if ($speichern != __('speichern','teachpress')) { ?>
                         <td><?php echo $daten2[$i][1]; ?></td>
                         <td><?php echo $daten2[$i][3]; ?></td>
                         <td><?php echo $daten2[$i][4]; ?></td>
-                        <td><a href="mailto:<?php echo $daten2[$i][5]; ?>" title="<?php _e('E-Mail senden','teachpress'); ?>"><?php echo $daten2[$i][5]; ?></a></td>
+                        <td><a href="mailto:<?php echo $daten2[$i][5]; ?>" title="<?php _e('send E-Mail','teachpress'); ?>"><?php echo $daten2[$i][5]; ?></a></td>
                         <td><?php echo $daten2[$i][6]; ?></td>
                     </tr> 
 				<?php } }?>
@@ -422,10 +422,10 @@ if ($speichern != __('speichern','teachpress')) { ?>
             <td colspan="4"></td>
           </tr>
           <tr>
-            <td><?php if ($test != 0) { ?><?php _e('In Kurs aufnehmen','teachpress'); ?> <?php } ?></td>
-            <td><?php if ($test != 0) { ?><input name="aufnehmen" type="submit" value="<?php _e('aufnehmen','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/><?php } ?></td>
-            <td><?php _e('Einschreibung l&ouml;schen','teachpress'); ?></td>
-            <td><input name="loeschen" type="submit" value="<?php _e('l&ouml;schen','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/></td>
+            <td><?php if ($test != 0) { ?><?php _e('ingest in course','teachpress'); ?> <?php } ?></td>
+            <td><?php if ($test != 0) { ?><input name="aufnehmen" type="submit" value="<?php _e('ingest','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/><?php } ?></td>
+            <td><?php _e('delete enrollment','teachpress'); ?></td>
+            <td><input name="loeschen" type="submit" value="<?php _e('delete','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/></td>
           </tr>
     </table>
 </form>

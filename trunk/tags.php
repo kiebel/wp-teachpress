@@ -28,22 +28,22 @@ $speichern = $_GET[speichern];
 
 if ( $action == "delete" ) {
 	delete_tags($checkbox);
-	$message = __('ausgew&auml;hlte Tags gel&ouml;scht','teachpress');
+	$message = __('Selected tags are deleted','teachpress');
 	$site = 'admin.php?page=teachpress/tags.php&search=' . $search . '';
 	tp_get_message($message, $site);
 }
 if ( isset($speichern)) {
 	edit_tag($tag_id, $name);
-	$message = __('Tag gespeichert','teachpress');
+	$message = __('Tag saved','teachpress');
 	$site = 'admin.php?page=teachpress/tags.php&search=' . $search . '';
 	tp_get_message($message, $site);
 }
 ?>
 <table border="0" cellspacing="0" cellpadding="5" style="float:right;">
   <tr>
-    <td><?php if ($search != "") { ?><a href="admin.php?page=teachpress/tags.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Suche abbrechen','teachpress'); ?>">&crarr;</a><?php } ?></td>
+    <td><?php if ($search != "") { ?><a href="admin.php?page=teachpress/tags.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Cancel the search','teachpress'); ?>">&crarr;</a><?php } ?></td>
     <td><input type="text" name="search" id="pub_search_field" value="<?php echo $search; ?>"/></td>
-    <td><input type="submit" name="button" id="button" value="<?php _e('Tag suchen','teachpress'); ?>" class="teachpress_button"/></td>
+    <td><input type="submit" name="button" id="button" value="<?php _e('search tag','teachpress'); ?>" class="teachpress_button"/></td>
   </tr>
 </table>  
 <table border="0" cellpadding="0" cellspacing="0" id="tags_optionen">
@@ -52,8 +52,8 @@ if ( isset($speichern)) {
   </tr>
   <tr>  
     <td><select name="action">
-    		<option><?php _e('Aktion w&auml;hlen','teachpress'); ?></option>
-            <option value="delete"><?php _e('l&ouml;schen','teachpress'); ?></option>
+    		<option><?php _e('Bulk actions','teachpress'); ?></option>
+            <option value="delete"><?php _e('delete','teachpress'); ?></option>
     	</select>
         <input name="ok" value="ok" type="submit" class="teachpress_button"/></td>    
     </tr>
@@ -66,7 +66,7 @@ if ($tag_id != "") {
 	$name = tp_var($name);
 	?>
     <fieldset style="width:590px; padding:5px; margin-bottom:15px; border:1px solid silver;">
-    	<legend><?php _e('Tag bearbeiten','teachpress'); ?></legend>
+    	<legend><?php _e('Edit tag','teachpress'); ?></legend>
         <input name="tag_ID" type="hidden" value="<?php echo $tag_id; ?>" />
         <input name="search" type="hidden" value="<?php echo $search; ?>" />
         <table border="0" cellspacing="0" cellpadding="0" class="widefat">
@@ -76,8 +76,8 @@ if ($tag_id != "") {
             <td><?php echo $tag_id; ?></td>
             <th><?php _e('Name','teachpress'); ?></th>
             <td><input name="name" type="text" value="<?php echo $name; ?>"/></td>
-            <td><input name="speichern" type="submit" value="<?php _e('speichern','teachpress'); ?>" class="teachpress_button"/></td>
-            <td><a title="<?php _e('abbrechen','teachpress'); ?>" href="admin.php?page=teachpress/tags.php&search=<?php echo $search; ?>" ><?php _e('abbrechen','teachpress'); ?></a></td>
+            <td><input name="speichern" type="submit" value="<?php _e('save','teachpress'); ?>" class="teachpress_button"/></td>
+            <td><a title="<?php _e('cancel','teachpress'); ?>" href="admin.php?page=teachpress/tags.php&search=<?php echo $search; ?>" ><?php _e('cancel','teachpress'); ?></a></td>
           </tr>
          </thead> 
         </table>
@@ -90,7 +90,7 @@ if ($tag_id != "") {
         <th>&nbsp;</th>
         <th><?php _e('ID','teachpress'); ?></th>
         <th><?php _e('Name','teachpress'); ?></th>
-        <th><?php _e('Anzahl','teachpress'); ?></th>
+        <th><?php _e('Number','teachpress'); ?></th>
       </tr>
     </thead> 
     <?php
@@ -109,7 +109,7 @@ if ($tag_id != "") {
 	if ($test == 0) {
 		?>
         	<tr>
-           	  <td colspan="4"><strong><?php _e('Keine Eintr&auml;ge vorhanden','teachpress'); ?></strong></td>
+           	  <td colspan="4"><strong><?php _e('Sorry, no entries matched your criteria.','teachpress'); ?></strong></td>
             </tr>
         <?php
 	}
@@ -129,7 +129,7 @@ if ($tag_id != "") {
           <tr>
             <th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo"$row2->tag_id" ?>"></th>
             <td><?php echo"$row2->tag_id" ?></td>
-            <td><a href="admin.php?page=teachpress/tags.php&tag_ID=<?php echo"$row2->tag_id" ?>&search=<?php echo "$search"?>" class="teachpress_link" title="<?php _e('Zum Bearbeiten klicken','teachpress'); ?>"><?php echo"$row2->name" ?></a></td>
+            <td><a href="admin.php?page=teachpress/tags.php&tag_ID=<?php echo"$row2->tag_id" ?>&search=<?php echo "$search"?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo"$row2->name" ?></a></td>
             <td>
 			<?php 
 			$anzahl = 0;

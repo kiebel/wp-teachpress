@@ -20,7 +20,7 @@ $weiter = htmlentities(utf8_decode($_GET[lvs_ID]));
 settype($weiter, 'integer');
 ?>
 <div class="wrap" style="padding-top:10px;">
-    <a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo"$weiter"; ?>&sem=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('zur&uuml;ck zur Lehrveranstaltung','teachpress'); ?>">&larr; <?php _e('zur&uuml;ck','teachpress'); ?></a>
+    <a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo"$weiter"; ?>&sem=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('back to the course','teachpress'); ?>">&larr; <?php _e('back','teachpress'); ?></a>
     <?php
     global $teachpress_ver; 
     global $teachpress_stud; 
@@ -40,11 +40,11 @@ settype($weiter, 'integer');
         <div style="width:700px; padding-bottom:10px;">
       		<table border="1" cellspacing="0" cellpadding="0" class="tp_print">
                   <tr>
-                    <th><?php _e('Dozent','teachpress'); ?></th>
+                    <th><?php _e('Lecturer','teachpress'); ?></th>
                     <td><?php echo"$row2->dozent" ?></td>
-                    <th><?php _e('Termin','teachpress'); ?></th>
+                    <th><?php _e('Date','teachpress'); ?></th>
                     <td><?php echo"$row2->termin" ?></td>
-                    <th><?php _e('Raum','teachpress'); ?></th>
+                    <th><?php _e('Room','teachpress'); ?></th>
                     <td><?php echo"$row2->raum" ?></td>
                   </tr>
             </table>
@@ -52,7 +52,7 @@ settype($weiter, 'integer');
         <table border="1" cellpadding="0" cellspacing="0" class="tp_print" width="100%">
           <tr style="border-collapse: collapse; border: 1px solid black;">
             <th height="100" width="250"><?php _e('Name','teachpress'); ?></th>
-            <th width="81" ><?php _e('URZ-K&uuml;rzel','teachpress'); ?></th>
+            <th width="81" ><?php _e('User account','teachpress'); ?></th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>

@@ -1,4 +1,4 @@
-/* for Shortcode [tpdate]
+/* for shortcode [tpdate]
 .the_course {
 }
 .tpdate {
@@ -13,7 +13,7 @@
 	font-size:2px;
 }
 
-/* Enrollments page, anzeige.php */
+/* enrollments page, anzeige.php */
 h3.tp_enrollments {
 	color:#005A46;
 }
@@ -29,13 +29,12 @@ h3.tp_enrollments {
 	color:#FF0000;
 }
 
-/* Tabellendesign, anzeige.php */
-.teachpress_table{
+/* table desgin, anzeige.php */
+.teachpress_table {
 	border-collapse: collapse; 
 	border: 1px solid silver;
 	font-size:11px;
 }
-
 .teachpress_table th{
 	padding:5px; 
 	color:#FFFFFF;
@@ -47,7 +46,6 @@ h3.tp_enrollments {
 	border: 1px solid silver;
 	font-size:11px;
 }
-
 .teachpress_table tr {
 	padding:5px; 
 	background-color:#FFFFFF;
@@ -57,13 +55,17 @@ h3.tp_enrollments {
 	border: 1px solid silver;
 	font-size:12px;
 }
+.teachpress_table td {
+	padding:5px;
+	margin:5px;
+}
 #teachpress_copy {
 	background-image:url(images/logo_small.png);
 	background-repeat:no-repeat;
 	padding-left:20px;
 }
 
-/* teachPress Cloud, Shortcode [tpcloud] */
+/* teachPress cloud, shortcode [tpcloud] */
 .teachpress_filter {
 	text-align:center;
 	padding-top:5px;
@@ -71,7 +73,7 @@ h3.tp_enrollments {
 .teachpress_cloud {
 	text-align:center;
 }
-/* Aktive Tags */
+/* active tags */
 .teachpress_cloud a.teachpress_cloud_active {
 	color:#418f7c;
 	font-weight:bold;
@@ -90,7 +92,7 @@ h3.tp_enrollments {
 	text-decoration:underline;
 }
 
-/* Publikationslisten Shortocdes [tpcloud] [tplist]*/
+/* shortcodes [tpcloud] [tplist]*/
 .tp_publication {
 	padding:5px 5px 5px 5px;
 	border-bottom:1px solid silver;
@@ -116,24 +118,35 @@ h3.tp_enrollments {
 h3.tp_h3 {
 	color: rgb(23, 118, 101);
 }
-.teachpress_mistake {
+.teachpress_message {
+	border:1px solid #f90;
+	border-left-width:0.9em;
 	font-weight:bold;
-	border:1px solid silver;
-	padding:5px;
-	text-align:center;
-	background-color:#FFFFCC;
+	margin:1em;
+	padding:.5em 1em;
 }
-/* teachPress List, Shortcode [tplist] */
+/* teachPress list, shortcode [tplist] */
 ul.teachpress_list {
 	style="list-style:disc; 
 	padding-left:20px;
 }
 ul.teachpress_list li {
 }
-
-/* Anzeige aktuelle Lehrveranstaltungen, anzeige_lvs.php */
+/* course overview, anzeige_lvs.php */
+#anzeigelvs h3 {
+	color:#005A46; 
+}
 .tp_auswahl {
 	border-bottom:1px dotted silver;
 	margin:3px;
 	padding:3px;
+}
+.tp_lvs_name {
+	font-size:14px; color:#005A46;
+}
+.tp_lvs_container {
+	margin:5px; 
+	border-bottom:1px solid silver; 
+	border-right:1px solid silver;
+	padding:5px;
 }

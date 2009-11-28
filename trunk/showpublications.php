@@ -34,49 +34,49 @@ if ($add_id != "") {
 // Prüfen welche Checkbox genutzt wurde und Aufteilung an die Funktionen mit Variablenübergabe
 if ( $action == "delete" ) {
 	delete_publication($checkbox);
-	$message = __('ausgew&auml;hlte Publikationen gel&ouml;scht','teachpress');
+	$message = __('Publications deleted','teachpress');
 	$site = 'admin.php?page=publikationen.php';
 	tp_get_message($message, $site);
 }
 ?> 
 <table border="0" cellspacing="0" cellpadding="5" style="float:right;">
   <tr>
-  	<td><?php if ($search != "") { ?><a href="admin.php?page=publikationen.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Suche abbrechen','teachpress'); ?>">&crarr;</a><?php } ?></td>
+  	<td><?php if ($search != "") { ?><a href="admin.php?page=publikationen.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Cancel the search','teachpress'); ?>">&crarr;</a><?php } ?></td>
     <td><input type="text" name="search" id="pub_search_field" value="<?php echo $search; ?>"/></td>
-    <td><input type="submit" name="pub_search_button" id="pub_search_button" value="<?php _e('suche','teachpress'); ?>" class="teachpress_button"/></td>
+    <td><input type="submit" name="pub_search_button" id="pub_search_button" value="<?php _e('search','teachpress'); ?>" class="teachpress_button"/></td>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" id="show_pub_optionen">
   <tr>
-    <td><h2><?php _e('Alle Publikationen','teachpress'); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Hilfe','teachpress'); ?></a></small></h2></td>
+    <td><h2><?php _e('All publications','teachpress'); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2></td>
   </tr>
   <tr>  
     <td><select name="action">
-    		<option><?php _e('Aktion w&auml;hlen','teachpress'); ?></option>
-            <option value="delete"><?php _e('l&ouml;schen','teachpress'); ?></option>
+    		<option><?php _e('Bulk actions','teachpress'); ?></option>
+            <option value="delete"><?php _e('delete','teachpress'); ?></option>
     	</select>
         <input name="ok" value="ok" type="submit" class="teachpress_button"/></td>    
   </tr>
 </table>
 <div id="hilfe_anzeigen">
-    	<h3 class="teachpress_help"><?php _e('Hilfe','teachpress'); ?></h3>
+    	<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
         <p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('F&uuml;r Publikationsliste mit Tag-Cloud:','teachpress'); ?> <strong><?php _e('[tpcloud id="w" maxsize="x" minsize="y" limit="z"]','teachpress'); ?></strong></p>
+        <p class="hilfe_text"><?php _e('For a publication list with tag cloud:','teachpress'); ?> <strong><?php _e('[tpcloud id="w" maxsize="x" minsize="y" limit="z"]','teachpress'); ?></strong></p>
          <ul style="list-style:disc; padding-left:40px;">
-        	<li><?php _e('id - WP User-ID (0 f&uuml;r alle)','teachpress'); ?></li>
-            <li><?php _e('maxsize - maximale Schriftgr&ouml;&szlig;e in der Tag-Cloud (default 35)','teachpress'); ?> </li>
-            <li><?php _e('minsize - minimale Schriftgr&ouml;&szlig;e in der Tag-Cloud (default 11)','teachpress'); ?></li>
-            <li><?php _e('limit - maximale Anzahl der angezeigten Tags (default: 30)','teachpress'); ?></li>
+        	<li><?php _e('id - WP User-ID (0 for all)','teachpress'); ?></li>
+            <li><?php _e('maxsize - max. font size in the tag cloud (default: 35)','teachpress'); ?> </li>
+            <li><?php _e('minsize - min. font size in the tag cloud (default: 11)','teachpress'); ?></li>
+            <li><?php _e('limit - maximum of visible tags (default: 30)','teachpress'); ?></li>
         </ul>
-        <p class="hilfe_text"><?php _e('F&uuml;r normale Publikationsliste:','teachpress'); ?> <strong><?php _e('[tplist user="w" tag="x" year="y" headline="z"]','teachpress'); ?></strong>
+        <p class="hilfe_text"><?php _e('For normal publication lists:','teachpress'); ?> <strong><?php _e('[tplist user="w" tag="x" year="y" headline="z"]','teachpress'); ?></strong>
         <ul style="list-style:disc; padding-left:40px;">
         	<li><?php _e('user - WP User-ID (0 for all)','teachpress'); ?></li>
             <li><?php _e('tag - Tag-ID','teachpress'); ?> </li>
             <li><?php _e('year','teachpress'); ?></li>
-            <li><?php _e('headline - 0(an) oder 1(aus)','teachpress'); ?></li>
+            <li><?php _e('headline - 0(off) or 1(on)','teachpress'); ?></li>
         </ul>
         </p>
-        <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('schlie&szlig;en','teachpress'); ?></a></strong></p>
+        <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 </div>
 
 <p style="margin:0px;">&nbsp;</p>
@@ -87,10 +87,10 @@ if ( $action == "delete" ) {
             <th>&nbsp;</th>
             <th><?php _e('Name','teachpress'); ?></th>
             <th><?php _e('ID','teachpress'); ?></th>
-            <th><?php _e('Typ','teachpress'); ?></th> 
-            <th><?php _e('Autor(en)','teachpress'); ?></th>
-            <th><?php _e('Erschienen in/bei','teachpress'); ?></th>
-            <th><?php _e('Jahr','teachpress'); ?></th>
+            <th><?php _e('Type','teachpress'); ?></th> 
+            <th><?php _e('Author(s)','teachpress'); ?></th>
+            <th><?php _e('Published by','teachpress'); ?></th>
+            <th><?php _e('Year','teachpress'); ?></th>
             <th><?php _e('ISBN','teachpress'); ?></th>
         </tr>
     </thead>
@@ -113,7 +113,7 @@ if ( $action == "delete" ) {
 	// Test ob Eintraege vorhanden
 	if ($test == 0) { ?>
         	<tr>
-           	  <td colspan="9"><strong><?php _e('Keine Eintr&auml;ge vorhanden','teachpress'); ?></strong></td>
+           	  <td colspan="9"><strong><?php _e('Sorry, no entries matched your criteria.','teachpress'); ?></strong></td>
             </tr>
     <?php }
 	else {
@@ -127,11 +127,11 @@ if ( $action == "delete" ) {
                 $test = tp_query($abfrage);
                 if ($test == 0) {
                 ?>
-                 <a href="<?php echo '' . $pagenow . '?page=publikationen.php&add_id='. $row->pub_id . '&user=' . $current_user->ID . '&search=' . $search . '' ?>" title="<?php _e('Zur eigenen Publikationsliste hinzuf&uuml;gen','teachpress'); ?>">+</a>
+                 <a href="<?php echo '' . $pagenow . '?page=publikationen.php&add_id='. $row->pub_id . '&user=' . $current_user->ID . '&search=' . $search . '' ?>" title="<?php _e('Add to your own list','teachpress'); ?>">+</a>
                 <?php } ?>
                 </td>
                 <td><input name="checkbox[]" type="checkbox" value="<?php echo"$row->pub_id" ?>" /></td>
-            <td><a href="admin.php?page=teachpress/editpub.php&pub_ID=<?php echo"$row->pub_id" ?>&search=<?php echo "$search"?>" class="teachpress_link" title="<?php _e('Zum Bearbeiten klicken','teachpress'); ?>"><?php echo"$row->name" ?></a></td>
+            <td><a href="admin.php?page=teachpress/editpub.php&pub_ID=<?php echo"$row->pub_id" ?>&search=<?php echo "$search"?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo"$row->name" ?></a></td>
                 <td><?php echo"$row->pub_id" ?></td>
                 <td><?php echo"$row->typ" ?></td>
                 <td><?php echo"$row->autor" ?></td>

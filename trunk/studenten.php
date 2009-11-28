@@ -22,7 +22,7 @@ $studenten = htmlentities(utf8_decode($_GET[studenten]));
 
 if (isset($kontrolle)) {
 	delete_student_admin ($checkbox, $user_ID);
-	$message = __('ausgew&auml;hlte Studenten gel&ouml;scht','teachpress');
+	$message = __('Students deleted','teachpress');
 	$site = 'admin.php?page=teachpress/studenten.php&suche=' . $suche . '&studenten=' . $studenten . '';
 	tp_get_message($message, $site);
 }
@@ -32,9 +32,9 @@ if (isset($kontrolle)) {
   <input name="page" type="hidden" value="teachpress/studenten.php" />
   <table border="0" cellpadding="0" cellspacing="0" style="padding-top:10px; padding-bottom:10px; float:right;">
   <tr>
-  	<td><?php if ($suche != "") { ?><a href="admin.php?page=teachpress/studenten.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Suche abbrechen','teachpress'); ?>">&crarr;</a><?php } ?></td>
+  	<td><?php if ($suche != "") { ?><a href="admin.php?page=teachpress/studenten.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Cancel the search','teachpress'); ?>">&crarr;</a><?php } ?></td>
     <td><input name="suche" type="text" value="<?php echo "$suche" ?>"/></td>
-    <td><input name="go" type="submit" value="<?php _e('suche','teachpress'); ?>" id="teachpress_suche_senden" class="teachpress_button"/></td>
+    <td><input name="go" type="submit" value="<?php _e('search','teachpress'); ?>" id="teachpress_suche_senden" class="teachpress_button"/></td>
   </tr>
 </table>
   <table cellpadding="0" cellspacing="5" id="auswahllisten" style="padding-top:5px; padding-bottom:5px;">
@@ -44,7 +44,7 @@ if (isset($kontrolle)) {
         <?php
 			if ($studenten != "" && $suche == "") {
 				if ($studenten == 1) {
-					echo '<option value="1">' . __('Alle Studenten','teachpress') . '</option>';
+					echo '<option value="1">' . __('All students','teachpress') . '</option>';
 					echo '<option>------</option>';
 				}
 				else {
@@ -53,10 +53,10 @@ if (isset($kontrolle)) {
 				}
             }    
 			else {
-				echo '<option value="0">' . __('bitte ausw&auml;hlen','teachpress') . '</option>';
+				echo '<option value="0">' . __('please select','teachpress') . '</option>';
 			}			
 		?>
-          <option value="1"><?php _e('Alle Studenten','teachpress'); ?></option>
+          <option value="1"><?php _e('All students','teachpress'); ?></option>
            <?php
 			$row1 = "SELECT DISTINCT studiengang FROM " . $teachpress_stud . " ORDER BY studiengang";
 			$row1 = tp_results($row1);
@@ -66,7 +66,7 @@ if (isset($kontrolle)) {
         </select>
       </label></td>
       <td><label>
-        <input name="anzeigen" type="submit" id="teachpress_suche_senden" value="<?php _e('anzeigen','teachpress'); ?>" class="teachpress_button"/>
+        <input name="anzeigen" type="submit" id="teachpress_suche_senden" value="<?php _e('show','teachpress'); ?>" class="teachpress_button"/>
       </label></td>
     </tr>
   </table>
@@ -74,13 +74,13 @@ if (isset($kontrolle)) {
 	<thead>
 	 <tr>
 	    <th>&nbsp;</th>
-        <th><?php _e('Matrikel','teachpress'); ?></th>
-        <th><?php _e('Nachname','teachpress'); ?></th>
-        <th><?php _e('Vorname','teachpress'); ?></th>
-        <th><?php _e('Studiengang','teachpress'); ?></th>
-        <th><?php _e('Fachsemester','teachpress'); ?></th>
-        <th><?php _e('Geb.-Datum','teachpress'); ?></th>
-        <th><?php _e('URZ-K&uuml;rzel','teachpress'); ?></th>
+        <th><?php _e('Registr.-Number','teachpress'); ?></th>
+        <th><?php _e('Last name','teachpress'); ?></th>
+        <th><?php _e('First name','teachpress'); ?></th>
+        <th><?php _e('Course of studies','teachpress'); ?></th>
+        <th><?php _e('Number of terms','teachpress'); ?></th>
+        <th><?php _e('Date of birth','teachpress'); ?></th>
+        <th><?php _e('User account','teachpress'); ?></th>
         <th><?php _e('E-Mail','teachpress'); ?></th>
 	 </tr>
     </thead>
@@ -101,7 +101,7 @@ if (isset($kontrolle)) {
 	// Test ob Eintraege vorhanden
 	if ($test == 0) { ?>
 			<tr>
-			  <td colspan="9"><strong><?php _e('Keine Eintr&auml;ge vorhanden','teachpress'); ?></strong></td>
+			  <td colspan="9"><strong><?php _e('Sorry, no entries matched your criteria.','teachpress'); ?></strong></td>
 			</tr>
 	<?php }
 	else {
@@ -109,7 +109,7 @@ if (isset($kontrolle)) {
 		foreach($row3 as $row3) { ?>
 			  <tr>
 				<th class="check-column"><input type="checkbox" name="checkbox[]" id="checkbox" value="<?php echo "$row3->wp_id" ?>"/></th>
-				<td><a href="admin.php?page=teachpress/editstudent.php&student_ID=<?php echo "$row3->wp_id" ?>&suche=<?php echo "$suche" ?>&studenten=<?php echo "$studenten" ?>" class="teachpress_link" title="<?php _e('Zum Bearbeiten klicken','teachpress'); ?>"><?php echo "$row3->matrikel" ?></a></td>
+				<td><a href="admin.php?page=teachpress/editstudent.php&student_ID=<?php echo "$row3->wp_id" ?>&suche=<?php echo "$suche" ?>&studenten=<?php echo "$studenten" ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo "$row3->matrikel" ?></a></td>
 				<td><?php echo "$row3->nachname" ?></td>
 				<td><?php echo "$row3->vorname" ?></td>
 				<td><?php echo "$row3->studiengang" ?></td>
@@ -127,10 +127,10 @@ if (isset($kontrolle)) {
 	if ($studenten !="0") { ?>
         <table border="0" cellspacing="7" cellpadding="0" id="einzel_optionen">
           <tr>
-            <td><?php _e('Ausgew&auml;hlte Studenten l&ouml;schen','teachpress'); ?> </td>
-            <td><input name="kontrolle" type="checkbox" id="kontrolle" value="delete" title="<?php _e('Markieren sie dieses Feld und bet&auml;tigen Sie anschlie&szlig;end den Submit-Button, um die ausgew&auml;hltes Studenten zu l&ouml;schen','teachpress'); ?>"/> 
+            <td><?php _e('Delete students','teachpress'); ?> </td>
+            <td><input name="kontrolle" type="checkbox" id="kontrolle" value="delete" title="<?php _e('Markup this field and click on the submit button to delete the student.','teachpress'); ?>"/> 
               </td>
-            <td> <input type="submit" name="delete" id="delete_student" value="<?php _e('submit'); ?>" class="teachpress_button"/></td>  
+            <td> <input type="submit" name="delete" id="delete_student" value="<?php _e('submit', 'teachpress'); ?>" class="teachpress_button"/></td>  
           </tr>
         </table>
 	<?php } ?>

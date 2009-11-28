@@ -49,17 +49,17 @@ $search = htmlentities(utf8_decode($_GET[search]));
 // Abgleich was zu tun ist, anhand des Inhalts der Variablen
 if (isset($speichern)) {
 	change_pub($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $comment, $tags, $pub_ID, $delbox);
-	$message = __('Publikation ge&auml;ndert','teachpress');
+	$message = __('Publication changed','teachpress');
 	$site = 'admin.php?page=teachpress/editpub.php&pub_ID=' . $pub_ID . '&search=' . $search . '';
 	tp_get_message($message, $site);
 }
 else {
 	?>
-	<p><a href="admin.php?page=publikationen.php&search=<?php echo "$search" ?>" class="teachpress_back" title="<?php _e('Alle Publikationen anzeigen','teachpress'); ?>">&larr; <?php _e('Alle Publikationen','teachpress'); ?></a> <a href="admin.php?page=teachpress/yourpub.php&search=<?php echo "$search" ?>" class="teachpress_back" title="<?php _e('Eigene Publikationen anzeigen','teachpress'); ?>">&larr; <?php _e('Eigene Publikationen','teachpress'); ?></a></p>
+	<p><a href="admin.php?page=publikationen.php&search=<?php echo "$search" ?>" class="teachpress_back" title="<?php _e('Show all publications','teachpress'); ?>">&larr; <?php _e('All publications','teachpress'); ?></a> <a href="admin.php?page=teachpress/yourpub.php&search=<?php echo "$search" ?>" class="teachpress_back" title="<?php _e('Show own publications','teachpress'); ?>">&larr; <?php _e('Your publications','teachpress'); ?></a></p>
 	<?php
 }
 ?>
-<h2 style="padding-top:5px;"><?php _e('Publikation bearbeiten','teachpress'); ?></h2>
+<h2 style="padding-top:5px;"><?php _e('Edit publications','teachpress'); ?></h2>
 <?php
 $row= "SELECT * FROM " . $teachpress_pub . " WHERE pub_id = '$pub_ID'";
 $row = tp_results($row);
@@ -71,17 +71,17 @@ foreach ($row as $row) {
 <input name="search" type="hidden" value="<?php echo "$search" ?>">
   <table class="widefat">
     <tr>
-    	<td><strong><?php _e('Typ','teachpress'); ?></strong></td>
+    	<td><strong><?php _e('Type','teachpress'); ?></strong></td>
         <td><select name="typ" id="typ">
               <option value="<?php echo "$row->typ"; ?>"><?php echo "$row->typ"; ?></option>
               <option>------</option>	
-              <option value="Buch"><?php _e('Buch','teachpress'); ?></option>
-              <option value="Vortrag"><?php _e('Vortrag','teachpress'); ?></option>
+              <option value="Buch"><?php _e('Book','teachpress'); ?></option>
+              <option value="Vortrag"><?php _e('Presentation','teachpress'); ?></option>
               <option value="Chapter in book"><?php _e('Chapter in book','teachpress'); ?></option>
               <option value="Conference paper"><?php _e('Conference paper','teachpress'); ?></option>
          	  <option value="Journal article"><?php _e('Journal article','teachpress'); ?></option>
-              <option value="Bericht"><?php _e('Bericht','teachpress'); ?></option>
-              <option value="Sonstiges"><?php _e('Sonstiges','teachpress'); ?></option>
+              <option value="Bericht"><?php _e('Report','teachpress'); ?></option>
+              <option value="Sonstiges"><?php _e('Others','teachpress'); ?></option>
             </select>    	</td>
     </tr>
     <tr>
@@ -89,31 +89,31 @@ foreach ($row as $row) {
       <td><textarea name="name" cols="75" wrap="virtual" id="name"><?php echo "$row->name"; ?></textarea></td>
     </tr>
     <tr>
-      <td><strong><?php _e('Autor(en)','teachpress'); ?></strong></td>
+      <td><strong><?php _e('Author(s)','teachpress'); ?></strong></td>
       <td><textarea name="autor" cols="75" wrap="virtual" id="autor"><?php echo "$row->autor"; ?></textarea></td>
     </tr>
     <tr>
-      <td><strong><?php _e('Erschienen/Verlag','teachpress'); ?></strong></td>
+      <td><strong><?php _e('Published by','teachpress'); ?></strong></td>
       <td><textarea name="erschienen" cols="75" wrap="virtual" id="erschienen"><?php echo "$row->verlag"; ?></textarea></td>
     </tr>
     <tr>
-      <td><strong><?php _e('Jahr','teachpress'); ?></strong></td>
+      <td><strong><?php _e('Year','teachpress'); ?></strong></td>
       <td><input type="text" name="jahr" id="jahr" value="<?php echo "$row->jahr"; ?>"></td>
     </tr>
     <tr>
-      <td><strong><?php _e('ISBN (optinal)','teachpress'); ?></strong></td>
+      <td><strong><?php _e('ISBN','teachpress'); ?></strong></td>
       <td><input type="text" name="isbn" id="isbn" value="<?php echo "$row->isbn"; ?>"></td>
     </tr>
     <tr>
-      <td><strong><?php _e('Link (optinal)','teachpress'); ?></strong></td>
+      <td><strong><?php _e('Link','teachpress'); ?></strong></td>
       <td><input name="links" type="text" id="links" size="75" value="<?php echo "$row->url"; ?>"></td>
     </tr>
     <tr>
-      <td><strong><?php _e('Sortierdatum','teachpress'); ?></strong></td>
+      <td><strong><?php _e('Sorting date','teachpress'); ?></strong></td>
       <td><input type="text" name="sortierung" id="sortierung" value="<?php echo "$row->sort"; ?>"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
     </tr>
     <tr>
-      <td><strong><?php _e('Kommentar','teachpress'); ?></strong></td>
+      <td><strong><?php _e('Comment','teachpress'); ?></strong></td>
       <td><textarea name="comment" cols="75" id="comment" wrap="virtual"><?php echo "$row->comment"; ?></textarea></td>
     </tr>
   </table>
@@ -121,7 +121,7 @@ foreach ($row as $row) {
   <table class="widefat">
   <thead>
   <tr>
-    <td><strong><?php _e('aktuelle Tags','teachpress'); ?></strong></td>
+    <td><strong><?php _e('current Tags','teachpress'); ?></strong></td>
     <td> 
 	<?php
 	  $row = "SELECT " . $teachpress_tags . ".name, " . $teachpress_beziehung . ".belegungs_id 
@@ -133,17 +133,17 @@ foreach ($row as $row) {
 	  $row = tp_results($row);
 	  foreach ($row as $row3){
 	  	?>
-	  	<input name="delbox[]" type="checkbox" value="<?php echo $row3->belegungs_id; ?>" title="Tag &laquo;<?php echo $row3->name; ?>&raquo; <?php _e('l&ouml;schen','teachpress'); ?>" id="checkbox_<?php echo $row3->belegungs_id; ?>"/><span style="font-size:12px;" ><label for="checkbox_<?php echo $row3->belegungs_id; ?>" title="Tag &laquo;<?php echo $row3->name; ?>&raquo; <?php _e('l&ouml;schen','teachpress'); ?>"><?php echo $row3->name; ?></label></span>
+	  	<input name="delbox[]" type="checkbox" value="<?php echo $row3->belegungs_id; ?>" title="Tag &laquo;<?php echo $row3->name; ?>&raquo; <?php _e('delete','teachpress'); ?>" id="checkbox_<?php echo $row3->belegungs_id; ?>"/><span style="font-size:12px;" ><label for="checkbox_<?php echo $row3->belegungs_id; ?>" title="Tag &laquo;<?php echo $row3->name; ?>&raquo; <?php _e('delete','teachpress'); ?>"><?php echo $row3->name; ?></label></span>
 		<?php } ?>  	
     </td>
   </tr>
   <tr>
-    <td><strong><?php _e('neu','teachpress'); ?></strong></td>
+    <td><strong><?php _e('new','teachpress'); ?></strong></td>
     <td><input name="tags" type="text" id="tags" size="60">
-    <span style="font-size:12px;"> (<?php _e('durch Komma trennen','teachpress'); ?>)</span></td>
+    <span style="font-size:12px;"> (<?php _e('seperate with comma','teachpress'); ?>)</span></td>
   </tr>
   <tr>
-    <td><strong><?php _e('neu aus Tag-Cloud','teachpress'); ?></strong></td>
+    <td><strong><?php _e('new from tag-cloud','teachpress'); ?></strong></td>
     <td>
      <div class="teachpress_cloud">
        <?php
@@ -200,7 +200,7 @@ foreach ($row as $row) {
 						$size = 11 ;
 					}
 					?>
-					<span style="font-size:<?php echo $size; ?>px;"><a href="javascript:inserttag('<?php echo $a[$i][1]; ?>')" title="&laquo;<?php echo $a[$i][1]; ?>&raquo; <?php _e('als Tag hinzuf&uuml;gen','teachpress'); ?>"><?php echo $a[$i][1]; ?></a></span>
+					<span style="font-size:<?php echo $size; ?>px;"><a href="javascript:inserttag('<?php echo $a[$i][1]; ?>')" title="&laquo;<?php echo $a[$i][1]; ?>&raquo; <?php _e('add as tag','teachpress'); ?>"><?php echo $a[$i][1]; ?></a></span>
                     <?php } ?>
            </div>
      </td>
@@ -208,7 +208,7 @@ foreach ($row as $row) {
   </thead>
 </table>
   <p>
-    <input type="submit" name="speichern" id="publikation_erstellen" value="<?php _e('Speichern','teachpress'); ?>" class="teachpress_button">
+    <input type="submit" name="speichern" id="publikation_erstellen" value="<?php _e('save','teachpress'); ?>" class="teachpress_button">
   </p>
 </form>
 <?php } 
