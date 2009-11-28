@@ -23,27 +23,27 @@ $einschreiben = $_POST[einschreiben];
 
 if (isset($insert)) {
 	add_student_manuell($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
-	$message = __('Student hinzugef&uuml;gt','teachpress');
+	$message = __('Student added','teachpress');
 	$site = 'admin.php?page=teachpress/studenten_neu.php';
 	tp_get_message($message, $site);
 }
 if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
 	student_manuell_eintragen ($student, $veranstaltung);
-	$message = __('Einschreibung f&uuml;r ausgew&auml;hlten Studenten vorgenommen','teachpress');
+	$message = __('The enrollment for the selected student was successful.','teachpress');
 	$site = 'admin.php?page=teachpress/studenten_neu.php';
 	tp_get_message($message, $site);
 }
 ?>
 <div class="wrap" style="padding-top:10px;">
-<h2><?php _e('Studenten manuell hinzuf&uuml;gen','teachpress'); ?></h2>
+<h2><?php _e('Add students manually','teachpress'); ?></h2>
 <form name="einschreibung" method="post" action="<?php echo $PHP_SELF ?>">
 	<fieldset style="padding:10px; border:1px solid silver;">
-	<legend><?php _e('Einschreibung','teachpress'); ?></legend>
-    	<p style="color:#FF0000;"><?php _e('Wenn der Student in die Lehrveranstaltung eingeschrieben wird, werden die freien Pl&auml;tze<u> bis 0 </u>heruntergez&auml;hlt! Eine Pr&uuml;fung, ob der Student bereits in die Lehrveranstaltung eingeschrieben ist, oder ob noch freie Pl&auml;tze vorhanden sind, erfolgt nicht!','teachpress'); ?></p>
+	<legend><?php _e('Enrollment','teachpress'); ?></legend>
+    	<p style="color:#FF0000;"><?php _e('If the student is registered for this course, the number of free places drops up to 0. The system ignores any criteria for the registration','teachpress'); ?></p>
 <table border="0" cellspacing="7" cellpadding="0">
           <tr>
             <td><select name="student" id="student">
-              <option value="0"><?php _e('Student ausw&auml;hlen','teachpress'); ?></option>
+              <option value="0"><?php _e('Select student','teachpress'); ?></option>
               <option value="0">----------</option>
            <?php
 			global $teachpress_ver; 
@@ -63,7 +63,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
         </select>
             </select></td>
             <td><select name="veranstaltung" id="veranstaltung">
-              <option value="0"><?php _e('Veranstaltung ausw&auml;hlen','teachpress'); ?></option>
+              <option value="0"><?php _e('Select course','teachpress'); ?></option>
               <option value="0">----------</option>
               <?php
 			  	// Semester
@@ -115,7 +115,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
             </select></td>
           </tr>
           <tr>
-            <td colspan="2"><input type="submit" name="einschreiben" id="std_einschreiben2" value="<?php _e('Erstellen','teachpress'); ?>" class="teachpress_button"/></td>
+            <td colspan="2"><input type="submit" name="einschreiben" id="std_einschreiben2" value="<?php _e('create','teachpress'); ?>" class="teachpress_button"/></td>
           </tr>
         </table>
 	</fieldset>
@@ -123,29 +123,29 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
 <p style="padding:0px; margin:0px;">&nbsp;</p>
 <form id="neuer_student" name="neuer_student" method="post" action="<?php echo $PHP_SELF ?>">
 <fieldset style="padding:10px; border:1px solid silver;">
-<legend><?php _e('Student hinzuf&uuml;gen','teachpress'); ?></legend>
-<p style="color:#FF0000;"><?php _e('Bitte alle Felder ausf&uuml;llen','teachpress'); ?>.</p>
+<legend><?php _e('Add student','teachpress'); ?></legend>
+<p style="color:#FF0000;"><?php _e('All fields required','teachpress'); ?>.</p>
 <table class="widefat">
 	<thead>
           <tr>
             <th><?php _e('WordPress User-ID','teachpress'); ?></th>
             <td style="text-align:left;"><input type="text" name="wp_id" id="wp_id" /> 
-              <span style="font-size:10px; color:#FF0000;"><?php _e('Falls der Student noch keinen WP-User-Account besitzt, m&uuml;ssen Sie dieses per Hand anlegen','teachpress'); ?></span></td>
+              <span style="font-size:10px; color:#FF0000;"><?php _e('If the student has not an account for your blog, so you must create this account manually.','teachpress'); ?></span></td>
       	  </tr>
           <tr>
-            <th><?php _e('Matrikel','teachpress'); ?></th>
+            <th><?php _e('Registr.-Number','teachpress'); ?></th>
             <td style="text-align:left;"><input type="text" name="matrikel" id="matrikel" /></td>
           </tr>
           <tr>
-            <th><?php _e('Vorname','teachpress'); ?></th>
+            <th><?php _e('First name','teachpress'); ?></th>
             <td><input name="vorname" type="text" id="vorname" size="40" /></td>
           </tr>
           <tr>
-            <th><?php _e('Nachname','teachpress'); ?></th>
+            <th><?php _e('Last name','teachpress'); ?></th>
             <td><input name="nachname" type="text" id="nachname" size="40" /></td>
           </tr>
           <tr>
-            <th><?php _e('Studiengang','teachpress'); ?></th>
+            <th><?php _e('Course of studies','teachpress'); ?></th>
             <td>
             <select name="studiengang" id="studiengang">
              <?php
@@ -158,7 +158,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
             </td>
           </tr>
           <tr>
-            <th><?php _e('Fachsemester','teachpress'); ?></th>
+            <th><?php _e('Number of terms','teachpress'); ?></th>
             <td style="text-align:left;"><label>
             <select name="fachsemester" id="fachsemester">
               <option value="1">1</option>
@@ -183,11 +183,11 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
             </label></td>
           </tr>
           <tr>
-            <th><?php _e('URZ-K&uuml;rzel','teachpress'); ?></th>
+            <th><?php _e('User account','teachpress'); ?></th>
             <td style="text-align:left;"><input type="text" name="urzkurz" id="urzkurz" /></td>
           </tr>
           <tr>
-            <th><?php _e('Geburtsdatum','teachpress'); ?></th>
+            <th><?php _e('Date of birth','teachpress'); ?></th>
             <td><input name="gebdat" type="text" id="gebdat" value="JJJJ-MM-TT" size="15"/>
               <em><?php _e('Format','teachpress'); ?>: <?php _e('JJJJ-MM-TT','teachpress'); ?></em></td>
           </tr>
@@ -198,7 +198,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
          </thead> 
         </table>
     <p>
-      <input name="insert" type="submit" id="std_einschreiben" onclick="teachpress_validateForm('wp_id','','RisNum','matrikel','','RisNum','vorname','','R','nachname','','R','urzkurz','','R','gebdat','','R','email','','RisEmail');return document.teachpress_returnValue" value="<?php _e('Erstellen','teachpress'); ?>" class="teachpress_button"/>
+      <input name="insert" type="submit" id="std_einschreiben" onclick="teachpress_validateForm('wp_id','','RisNum','matrikel','','RisNum','vorname','','R','nachname','','R','urzkurz','','R','gebdat','','R','email','','RisEmail');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>" class="teachpress_button"/>
       <input name="reset" type="reset" id="reset" value="Reset" class="teachpress_button"/>
     </p>
 </fieldset>

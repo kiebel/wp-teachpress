@@ -85,23 +85,23 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			<table border="1" cellspacing="0" cellpadding="5">
 			<thead>
 			  <tr>
-				<th><?php _e('Dozent','teachpress'); ?></th>
+				<th><?php _e('Lecturer','teachpress'); ?></th>
 				<td><?php echo $daten[0][4]; ?></td>
-				<th><?php _e('Termin','teachpress'); ?></th>
+				<th><?php _e('Date','teachpress'); ?></th>
 				<td><?php echo $daten[0][5]; ?></td>
-				<th><?php _e('Raum','teachpress'); ?></th>
+				<th><?php _e('Room','teachpress'); ?></th>
 				<td><?php echo $daten[0][3]; ?></td>
 			  </tr>
 			  <tr>
-				<th><?php _e('Pl&auml;tze','teachpress'); ?></th>
+				<th><?php _e('Places','teachpress'); ?></th>
 				<td><?php echo $daten[0][6]; ?></td>
-				<th><?php _e('freie Pl&auml;tze','teachpress'); ?></th>
+				<th><?php _e('free places','teachpress'); ?></th>
 				<td><?php echo $daten[0][7]; ?></td>
 				<td>&nbsp;</td>
 				<td>&nbsp;</td>
 			  </tr>
 			  <tr>
-				<th><?php _e('Bemerkungen','teachpress'); ?></th>
+				<th><?php _e('Comment','teachpress'); ?></th>
 				<td colspan="5"><?php echo $daten[0][11]; ?></td>
 			  </tr>
 			  <tr>
@@ -110,17 +110,17 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			  </tr>
 			  </thead>
 			</table>
-			<h3><?php _e('Eingeschriebene Teilnehmer','teachpress'); ?></h3>
+			<h3><?php _e('Registered participants','teachpress'); ?></h3>
 			 <table border="1" cellpadding="5" cellspacing="0">
 					 <thead>
 					  <tr>
-						  <th><?php _e('Matrikel','teachpress'); ?></th>
-						  <th><?php _e('Nachname','teachpress'); ?></th>
-						  <th><?php _e('Vorname','teachpress'); ?></th>
-						  <th><?php _e('Studiengang','teachpress'); ?></th>
-						  <th><?php _e('URZ-K&uuml;rzel','teachpress'); ?></th>
+						  <th><?php _e('Registr.-Number','teachpress'); ?></th>
+						  <th><?php _e('Last name','teachpress'); ?></th>
+						  <th><?php _e('First name','teachpress'); ?></th>
+						  <th><?php _e('Course of studies','teachpress'); ?></th>
+						  <th><?php _e('User account','teachpress'); ?></th>
 						  <th><?php _e('E-Mail','teachpress'); ?></th>
-						  <th><?php _e('Datum','teachpress'); ?></th>
+						  <th><?php _e('Registered at','teachpress'); ?></th>
 					  </tr>
 					 </thead>  
 					 <tbody> 
@@ -153,17 +153,17 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 						}
 					}	
 					if ($test != 0) { ?>
-						<h3><?php _e('Warteliste','teachpress'); ?></h3>
+						<h3><?php _e('Waiting list','teachpress'); ?></h3>
 						<table border="1" cellpadding="5" cellspacing="0">
 						 <thead>
 						  <tr>
-							<th><?php _e('Matrikel','teachpress'); ?></th>
-							<th><?php _e('Nachname','teachpress'); ?></th>
-							<th><?php _e('Vorname','teachpress'); ?></th>
-							<th><?php _e('Studiengang','teachpress'); ?></th>
-							<th><?php _e('URZ-K&uuml;rzel','teachpress'); ?></th>
-							<th><?php _e('E-Mail','teachpress'); ?></th>
-							<th><?php _e('Datum','teachpress'); ?></th>
+                              <th><?php _e('Registr.-Number','teachpress'); ?></th>
+                              <th><?php _e('Last name','teachpress'); ?></th>
+                              <th><?php _e('First name','teachpress'); ?></th>
+                              <th><?php _e('Course of studies','teachpress'); ?></th>
+                              <th><?php _e('User account','teachpress'); ?></th>
+                              <th><?php _e('E-Mail','teachpress'); ?></th>
+                              <th><?php _e('Registered at','teachpress'); ?></th>
 						  </tr>
 						 </thead>  
 						 <tbody> 
@@ -185,10 +185,10 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			<?php  } 
 			global $tp_version;
 			?>       
-			<p style="font-size:11px; font-style:italic;"><?php _e('Erstellt am','teachpress'); ?>: <?php echo date("d.m.Y")?> | teachPress <?php echo $tp_version ?></p>  
+			<p style="font-size:11px; font-style:italic;"><?php _e('Created on','teachpress'); ?>: <?php echo date("d.m.Y")?> | teachPress <?php echo $tp_version ?></p>  
     <?php }  
 	if ($type == 'csv') {
-		$headline = "" . __('Matrikel','teachpress') . ";" . __('Vorname','teachpress') . ";" . __('Nachname','teachpress') . ";" . __('Studiengang','teachpress') . ";" . __('Nutzerkennzeichen','teachpress') . ";" . __('E-Mail','teachpress') . ";" . __('Datum','teachpress') . ";" . __('Datensatz-ID','teachpress') . ";" . __('Warteliste','teachpress') . "\r\n";
+		$headline = "" . __('Registr.-Number','teachpress') . ";" . __('First name','teachpress') . ";" . __('Last name','teachpress') . ";" . __('Course of studies','teachpress') . ";" . __('User account','teachpress') . ";" . __('E-Mail','teachpress') . ";" . __('Registered at','teachpress') . ";" . __('Record-ID','teachpress') . ";" . __('Waiting list','teachpress') . "\r\n";
 		$array_1 = array('Ã¼','Ã¶', 'Ã¤', 'Ã¤', 'Ã?','Â§','Ãœ','Ã','Ã–');
 		$array_2 = array('ü','ö', 'ä', 'ä', 'ß', '§','Ü','Ä','Ö');
 		$headline = str_replace($array_1, $array_2, $headline);

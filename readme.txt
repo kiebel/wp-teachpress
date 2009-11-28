@@ -3,12 +3,14 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress
 Requires at least: 2.8
 Tested up to: 2.8.5
-Stable tag: 0.30.2
+Stable tag: 0.32.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
 teachPress is a powerful course and publication managment plugin, which is published under the terms of GPL-License. You can use it with WordPress 2.8.0 or higher.
+
+You can find a little Introduction for teachPress [here](http://www.mtrv.kilu.de/teachpress/en/) .
 
 = Features: =
 * Publication management
@@ -45,7 +47,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-**Special thanks for the great support to:**  
+**Special thanks for the great support:**  
 [Chair of Business Information Systems, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/)
 
 == Installation ==
@@ -66,23 +68,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 **For users of version 0.22.0:**
 
 Please rename your teachPress database tables after the update:  
-'teachpress_ver' --> '[your wp_prefix]teachpress_ver'  
-'teachpress_stud' --> '[your wp_prefix]teachpress_stud'  
-'teachpress_einstellungen' --> '[your wp_prefix]teachpress_einstellungen'  
-'teachpress_kursbelegung' --> '[your wp_prefix]teachpress_kursbelegung'  
-'teachpress_log' --> '[your wp_prefix]teachpress_log'  
-'teachpress_pub' --> '[your wp_prefix]teachpress_pub'  
-'teachpress_tags' --> '[your wp_prefix]teachpress_tags'  
-'teachpress_beziehung' --> '[your wp_prefix]teachpress_beziehung'  
-'teachpress_user' --> '[your wp_prefix]teachpress_user'  
+`teachpress_ver` --> `[your wp_prefix]teachpress_ver`  
+`teachpress_stud` --> `[your wp_prefix]teachpress_stud`  
+`teachpress_einstellungen` --> `[your wp_prefix]teachpress_einstellungen`  
+`teachpress_kursbelegung` --> `[your wp_prefix]teachpress_kursbelegung`  
+`teachpress_log` --> `[your wp_prefix]teachpress_log`  
+`teachpress_pub` --> `[your wp_prefix]teachpress_pub`  
+`teachpress_tags` --> `[your wp_prefix]teachpress_tags`  
+`teachpress_beziehung` --> `[your wp_prefix]teachpress_beziehung`  
+`teachpress_user` --> `[your wp_prefix]teachpress_user`  
 
 An example:  
-'teachpress_ver' --> 'wp_teachpress_ver'
+`teachpress_ver` --> `wp_teachpress_ver`
 
 == Screenshots ==
-[Screenshots](http://www.mtrv.kilu.de/teachpress/teachpress-images/)  
-
-[Introduction](http://www.mtrv.kilu.de/teachpress/en/)  
+[Screenshots](http://www.mtrv.kilu.de/teachpress/teachpress-images/)   
 
 == Frequently Asked Questions ==
 
@@ -118,11 +118,16 @@ Use the following CSS-Classes in your theme to change the style of publications:
 .tp_pub_autor  
 .tp_pub_titel  
 .tp_pub_typ  
-.tp_pub_tags  
+.tp_pub_tags
 
 == Changelog ==
+= 0.32.0 = 
+* Changed: Design for course overview
+* Changed: Default language changed from german to english
+* Bugfix: Fix bug when student unsubscribes from a course (Thanks to Jean T. )
+* Bugfix: Fix bug in the course overview (frontend)
 = 0.30.2 =
-* Fix a little problem with the version name, sorry for this
+* Fix a little problem with the version name, sorry for this.
 = 0.30.0 =
 * New: Copy function for courses
 * New: Simple CSV-export for enrollments

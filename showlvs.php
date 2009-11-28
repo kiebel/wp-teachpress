@@ -33,24 +33,24 @@ if ( is_user_logged_in() ) {
 	// Veranstaltungen loeschen
     if ( $bulk == "delete" ) {?>
 		<div class="teachpress_message">
-        <p class="hilfe_headline"><?php _e('Veranstaltungen wirklich l&ouml;schen?','teachpress'); ?></p>
-        <p><input name="delete_ok" type="submit" class="teachpress_button" value="<?php _e('l&ouml;schen','teachpress'); ?>"/>
-        <a href="<?php echo 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . ''; ?>"> <?php _e('abbrechen','teachpress'); ?></a></p>
+        <p class="hilfe_headline"><?php _e('Are you sure to delete the selected courses?','teachpress'); ?></p>
+        <p><input name="delete_ok" type="submit" class="teachpress_button" value="<?php _e('delete','teachpress'); ?>"/>
+        <a href="<?php echo 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . ''; ?>"> <?php _e('cancel','teachpress'); ?></a></p>
 		</div>
         <?php
     }
 	// Veranstaltung loeschen Teil 2
 	if ( isset($_GET[delete_ok]) ) {
 		delete_lehrveranstaltung($checkbox);
-		$message = __('Ausgew&auml;hlte Lehrveranstaltung gel&ouml;scht','teachpress');
+		$message = __('Course(s) deleted','teachpress');
 		$site = 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . '';
 		tp_get_message($message, $site);
 	}
 	// Veranstaltungen kopieren
 	if ( $bulk == "copy" ) { ?>
     	<div class="teachpress_message">
-        <p class="hilfe_headline"><?php _e('Veranstaltungen kopieren','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('W&auml;hlen Sie das Semester, in welches Sie die ausgew&auml;hlte(n) Veranstaltung(en) kopieren wollen.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Copy courses','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Select the term, in which you will copy the selected courses.','teachpress'); ?></p>
         <p class="hilfe_text">
     	<select name="copysem" id="copysem">
             <?php    
@@ -60,8 +60,8 @@ if ( is_user_logged_in() ) {
 				<option value="<?php echo $sem->wert; ?>"><?php echo $sem->wert; ?></option>
 			<?php } ?> 
         </select>
-        <input name="copy_ok" type="submit" class="teachpress_button" value="<?php _e('kopieren','teachpress'); ?>"/>
-        <a href="<?php echo 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . ''; ?>"> <?php _e('abbrechen','teachpress'); ?></a>
+        <input name="copy_ok" type="submit" class="teachpress_button" value="<?php _e('copy','teachpress'); ?>"/>
+        <a href="<?php echo 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . ''; ?>"> <?php _e('cancel','teachpress'); ?></a>
         </p>
         </div>
     <?php
@@ -69,16 +69,16 @@ if ( is_user_logged_in() ) {
 	// Kopiervorgang Teil 2
 	if ( isset($_GET[copy_ok]) ) {
 		copy_veranstaltung($checkbox, $copysem);
-		$message = __('Kopiervorgang erfolgreich','teachpress');
+		$message = __('Copying successful','teachpress');
 		$site = 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . '';
 		tp_get_message($message, $site);
 	}
     ?>
     <table border="0" cellspacing="0" cellpadding="5" style="float:right;">
         <tr>
-            <td><?php if ($search != "") { ?><a href="admin.php?page=teachpress/teachpress.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Suche abbrechen','teachpress'); ?>">&crarr;</a><?php } ?></td>
+            <td><?php if ($search != "") { ?><a href="admin.php?page=teachpress/teachpress.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Cancel the search','teachpress'); ?>">&crarr;</a><?php } ?></td>
             <td><input type="text" name="search" id="pub_search_field" value="<?php echo $search; ?>"/></td>
-            <td><input type="submit" name="pub_search_button" id="pub_search_button" value="<?php _e('suche','teachpress'); ?>" class="teachpress_button"/></td>
+            <td><input type="submit" name="pub_search_button" id="pub_search_button" value="<?php _e('search','teachpress'); ?>" class="teachpress_button"/></td>
         </tr>
     </table>  
   <table cellpadding="5" id="filter">
@@ -87,7 +87,7 @@ if ( is_user_logged_in() ) {
         <select name="semester2" id="semester2">
             <option value="<?php echo"$semester2" ?>"><?php echo"$semester2" ?></option>
             <option>------</option>
-        	<option value="alle"><?php _e('Alle Semester','teachpress'); ?></option>
+        	<option value="alle"><?php _e('All terms','teachpress'); ?></option>
             <?php    
 		    $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
 			$sem = tp_results($sem);
@@ -96,12 +96,12 @@ if ( is_user_logged_in() ) {
 			<?php } ?> 
         </select>
       </td>
-      <td style="padding-left:10px;"><input type="submit" name="start" value="<?php _e('anzeigen','teachpress'); ?>" id="teachpress_submit" class="teachpress_button"/></td>
+      <td style="padding-left:10px;"><input type="submit" name="start" value="<?php _e('show','teachpress'); ?>" id="teachpress_submit" class="teachpress_button"/></td>
       <td style="padding-left:10px;">
       	<select name="bulk" id="bulk">
-        	<option><?php _e('Aktion w&auml;hlen','teachpress'); ?></option>
-            <option value="copy"><?php _e('kopieren','teachpress'); ?></option>
-            <option value="delete"><?php _e('l&ouml;schen','teachpress'); ?></option>
+        	<option><?php _e('Bulk actions','teachpress'); ?></option>
+            <option value="copy"><?php _e('copy','teachpress'); ?></option>
+            <option value="delete"><?php _e('delete','teachpress'); ?></option>
       </select>
       </td>
       <td style="padding-left:10px;"><input type="submit" name="teachpress_submit" value="<?php _e('ok','teachpress'); ?>" id="teachpress_submit2" class="teachpress_button"/></td>
@@ -114,15 +114,15 @@ if ( is_user_logged_in() ) {
 	  	<th>&nbsp;</th>
       	<th><?php _e('Name','teachpress'); ?></th>
     	<th><?php _e('ID','teachpress'); ?></th>
-        <th><?php _e('Typ','teachpress'); ?></th> 
-        <th><?php _e('Raum','teachpress'); ?></th>
-        <th><?php _e('Dozent','teachpress'); ?></th>
-        <th><?php _e('Termin','teachpress'); ?></th>
-        <th colspan="2" align="center" style="text-align:center;"><?php _e('Pl&auml;tze','teachpress'); ?></th>
-        <th colspan="2" align="center" style="text-align:center;"><?php _e('Einschreibungen','teachpress'); ?></th>
-        <th><?php _e('Semester','teachpress'); ?></th>
+        <th><?php _e('Type','teachpress'); ?></th> 
+        <th><?php _e('Room','teachpress'); ?></th>
+        <th><?php _e('Lecturer','teachpress'); ?></th>
+        <th><?php _e('Date','teachpress'); ?></th>
+        <th colspan="2" align="center" style="text-align:center;"><?php _e('Places','teachpress'); ?></th>
+        <th colspan="2" align="center" style="text-align:center;"><?php _e('Enrollments','teachpress'); ?></th>
+        <th><?php _e('Term','teachpress'); ?></th>
         <th><?php _e('Parent','teachpress'); ?></th>
-        <th><?php _e('Sichtbar','teachpress'); ?></th>
+        <th><?php _e('Visibility','teachpress'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -147,7 +147,7 @@ if ( is_user_logged_in() ) {
 	// Falls es keine Treffer gibt
 	if ($test == 0) { ?>
         	<tr>
-           	  <td colspan="14"><strong><?php _e('Keine Eintr&auml;ge vorhanden','teachpress'); ?></strong></td>
+           	  <td colspan="14"><strong><?php _e('Sorry, no entries matched your criteria.','teachpress'); ?></strong></td>
             </tr>
     <?php }
 	// Zusammenstellung Ergebnisse
@@ -176,7 +176,7 @@ if ( is_user_logged_in() ) {
 				if ($courses[$i][11] == 0) {?>
 					<tr id="teachpress_table">
 						<th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo $courses[$i][0]; ?>" <?php if ( $bulk == "copy" || $bulk == "delete") { for( $k = 0; $k < count( $checkbox ); $k++ ) { if ( $courses[$i][0] == $checkbox[$k] ) {?>checked="checked"<?php } } }?>/></th>
-						<td><a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo $courses[$i][0]; ?>&sem=<?php echo"$semester2" ?>&search=<?php echo"$search" ?>" class="teachpress_link" title="<?php _e('Zum Bearbeiten klicken','teachpress'); ?>"><?php echo $courses[$i][1]; ?></a></td>
+						<td><a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo $courses[$i][0]; ?>&sem=<?php echo"$semester2" ?>&search=<?php echo"$search" ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo $courses[$i][1]; ?></a></td>
 						<td><?php echo $courses[$i][0]; ?></td>
 						<td><?php echo $courses[$i][2]; ?></td>
 						<td><?php echo $courses[$i][3]; ?></td>
@@ -188,14 +188,14 @@ if ( is_user_logged_in() ) {
 						<td><?php echo $courses[$i][9]; ?></td>
 						<td><?php echo $courses[$i][10]; ?></td>
 						<td><?php echo $courses[$i][11]; ?></td>
-						<td><?php if ($courses[$i][12] == 1) {echo"ja";} else {echo"nein";} ?></td>
+						<td><?php if ($courses[$i][12] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></td>
 					</tr> <?php
 					// Childs suchen
 					for ($j=0; $j<$z; $j++) {
 						if ($courses[$i][0] == $courses[$j][11]) { ?>
 						   <tr id="teachpress_table">
 								<th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo $courses[$j][0]; ?>" <?php if ( $bulk == "copy" || $bulk == "delete") { for( $k = 0; $k < count( $checkbox ); $k++ ) { if ( $courses[$j][0] == $checkbox[$k] ) {?>checked="checked"<?php } } }?>/></th>
-								<td><a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo $courses[$j][0]; ?>&sem=<?php echo"$semester2" ?>&search=<?php echo"$search" ?>" class="teachpress_link" title="<?php _e('Zum Bearbeiten klicken','teachpress'); ?>"><?php echo $courses[$i][1]; ?> <?php echo $courses[$j][1]; ?></a></td>
+								<td><a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo $courses[$j][0]; ?>&sem=<?php echo"$semester2" ?>&search=<?php echo"$search" ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo $courses[$i][1]; ?> <?php echo $courses[$j][1]; ?></a></td>
 								<td><?php echo $courses[$j][0]; ?></td>
 								<td><?php echo $courses[$j][2]; ?></td>
 								<td><?php echo $courses[$j][3]; ?></td>
@@ -207,7 +207,7 @@ if ( is_user_logged_in() ) {
 								<td><?php echo $courses[$j][9]; ?></td>
 								<td><?php echo $courses[$j][10]; ?></td>
 								<td><?php echo $courses[$j][11]; ?></td>
-								<td><?php if ($courses[$j][12] == 1) {echo"ja";} else {echo"nein";} ?></td>
+								<td><?php if ($courses[$j][12] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></td>
 						   </tr><?php
 						}
 					}
@@ -223,7 +223,7 @@ if ( is_user_logged_in() ) {
 				} ?>
                 <tr id="teachpress_table">
                     <th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo $courses[$i][0]; ?>" <?php if ( $bulk == "copy" || $bulk == "delete") { for( $k = 0; $k < count( $checkbox ); $k++ ) { if ( $courses[$i][0] == $checkbox[$k] ) {?>checked="checked"<?php } } }?>/></th>
-                    <td><a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo $courses[$i][0]; ?>&sem=<?php echo"$semester2" ?>&search=<?php echo"$search" ?>" class="teachpress_link" title="<?php _e('Zum Bearbeiten klicken','teachpress'); ?>"><?php echo $parent_name . $courses[$i][1]; ?></a></td>
+                    <td><a href="admin.php?page=teachpress/editlvs.php&lvs_ID=<?php echo $courses[$i][0]; ?>&sem=<?php echo"$semester2" ?>&search=<?php echo"$search" ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo $parent_name . $courses[$i][1]; ?></a></td>
                     <td><?php echo $courses[$i][0]; ?></td>
                     <td><?php echo $courses[$i][2]; ?></td>
                     <td><?php echo $courses[$i][3]; ?></td>
@@ -235,7 +235,7 @@ if ( is_user_logged_in() ) {
                     <td><?php echo $courses[$i][9]; ?></td>
                     <td><?php echo $courses[$i][10]; ?></td>
                     <td><?php echo $courses[$i][11]; ?></td>
-                    <td><?php if ($courses[$i][12] == 1) {echo"ja";} else {echo"nein";} ?></td>
+                    <td><?php if ($courses[$i][12] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></td>
                 </tr> <?php
 			}
 		}	

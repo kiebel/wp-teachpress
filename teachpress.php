@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 0.30.2
+Version: 0.32.0
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8
@@ -47,11 +47,11 @@ include_once('version.php');
 // Admin-Menu
 // Courses and students
 function teachpress_add_menu() {
-	add_menu_page(__('Veranstaltung','teachpress'), __('Veranstaltung','teachpress'),3, __FILE__, 'teachpress_admin_page', WP_PLUGIN_URL . '/teachpress/images/logo_small.png');
-	add_submenu_page('teachpress/teachpress.php',__('Neue Veranstaltung','teachpress'), __('Neue Veranstaltung','teachpress'),3,'teachpress/addlvs.php','teachpress_neue_lvs_page');
-	add_submenu_page('teachpress/teachpress.php',__('Studenten','teachpress'), __('Studenten','teachpress'),3, 'teachpress/studenten.php', 'teachpress_studenten_page');
-	add_submenu_page('teachpress/teachpress.php', __('Einstellungen','teachpress'), __('Einstellungen','teachpress'),3,'teachpress/einstellungen.php', 'teachpress_einstellungen_page');
-	add_submenu_page('teachpress/teachpress.php', __('Manueller Eingriff','teachpress'), __('Manueller Eingriff','teachpress'),3,'teachpress/studenten_neu.php', 'teachpress_studenten_neu_page');
+	add_menu_page(__('Course','teachpress'), __('Course','teachpress'),3, __FILE__, 'teachpress_admin_page', WP_PLUGIN_URL . '/teachpress/images/logo_small.png');
+	add_submenu_page('teachpress/teachpress.php',__('New course','teachpress'), __('New course','teachpress'),3,'teachpress/addlvs.php','teachpress_neue_lvs_page');
+	add_submenu_page('teachpress/teachpress.php',__('Students','teachpress'), __('Students','teachpress'),3, 'teachpress/studenten.php', 'teachpress_studenten_page');
+	add_submenu_page('teachpress/teachpress.php', __('Settings','teachpress'), __('Settings','teachpress'),3,'teachpress/einstellungen.php', 'teachpress_einstellungen_page');
+	add_submenu_page('teachpress/teachpress.php', __('Add manually','teachpress'), __('Add manually','teachpress'),3,'teachpress/studenten_neu.php', 'teachpress_studenten_neu_page');
 	// Hack um den Zugriff auf Bearbeitungsseiten ab WP 2.8.1 zu ermoeglichen
 	add_submenu_page('teachpress/addlvs.php', 'Edit LVS','Edit LVS',3,'teachpress/editlvs.php','teachpress_editlvs_page');
 	add_submenu_page('teachpress/addlvs.php', 'Listen', 'Listen',3,'teachpress/listen.php','teachpress_listen_page');
@@ -62,9 +62,9 @@ function teachpress_add_menu() {
 	}
 // Publications
 function teachpress_add_menu2() {
-	add_menu_page (__('Publikationen','teachpress'), __('Publikationen','teachpress'), 3, 'publikationen.php', 'teachpress_admin_page3', WP_PLUGIN_URL . '/teachpress/images/logo_small.png');
-	add_submenu_page('publikationen.php',__('Eigene','teachpress'), __('Eigene','teachpress'),3,'teachpress/yourpub.php','teachpress_publikationen_eigene');
-	add_submenu_page('publikationen.php',__('Neu','teachpress'), __('Neu','teachpress'),3,'teachpress/addpublications.php','teachpress_publikationen_neu');
+	add_menu_page (__('Publications','teachpress'), __('Publications','teachpress'), 3, 'publikationen.php', 'teachpress_admin_page3', WP_PLUGIN_URL . '/teachpress/images/logo_small.png');
+	add_submenu_page('publikationen.php',__('Your publications','teachpress'), __('Your publications','teachpress'),3,'teachpress/yourpub.php','teachpress_publikationen_eigene');
+	add_submenu_page('publikationen.php',__('New','teachpress'), __('New','teachpress'),3,'teachpress/addpublications.php','teachpress_publikationen_neu');
 	add_submenu_page('publikationen.php',__('Tags','teachpress'),__('Tags','teachpress'),3,'teachpress/tags.php','teachpress_tags');
 }	
 
@@ -175,7 +175,7 @@ function tp_var($tp_query) {
 function tp_get_message($message, $site) {
 	echo '<p class="teachpress_message">';
 	echo '<strong>' . $message . '</strong>';
-	echo '<a href="' . $site . '" class="teachpress_back">' . __('weiter', 'teachpress') . '</a>';
+	echo '<a href="' . $site . '" class="teachpress_back">' . __('resume', 'teachpress') . '</a>';
 	echo '</p>';
 }
 /* Funktion zum Einfuegen einer Lehrveranstaltung 
@@ -324,10 +324,10 @@ function add_einschreibung($checkbox, $wp_id){
 						$neu = $fplaetze - 1;
 						$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$checkbox[$i]'";
 						tp_query( $aendern );
-						echo "<p style='color:#00BB00'><strong>" . __('Eintrag in','teachpress') . " &quot;$row1->name&quot; " . __('erfolgreich','teachpress') . ".</strong><p>";
+						echo "<span>" . __('Registration for','teachpress') . " &quot;$row1->name&quot; " . __('successful','teachpress') . ".</span> ";
 					}
 					else {
-						echo "<p style='color:#FF0000'><strong>" . __('Du bist schon in','teachpress') . " &quot;$row1->name&quot; " . __('eingeschrieben','teachpress') . "</strong></p>";
+						echo "<span>" . __('You are already for','teachpress') . " &quot;$row1->name&quot; " . __('registered','teachpress') . "</span> ";
 					}
 				}
 				// Falls die Veranstaltung schon voll ist, dann automatischer Eintrag als Warteliste wenn diese für LVS aktiviert
@@ -341,16 +341,16 @@ function add_einschreibung($checkbox, $wp_id){
 						if ($check == 0 ) {
 							$eintragen = "INSERT INTO " . $teachpress_kursbelegung . " (veranstaltungs_id, wp_id, warteliste, datum) VALUES ('$checkbox[$i]', '$wp_id', '1', NOW() )";
 							tp_query( $eintragen );
-							echo "<p style='color:#FF6600'><strong>" . __('F&uuml;r','teachpress') . " &quot;$row1->name&quot; " . __('gibt es leider keine Freien Pl&auml;tze mehr. Du wurdest daher automatisch auf die Warteliste gesetzt.','teachpress') . "</strong></p>";
+							echo "<span>" . __('For','teachpress') . " &quot;$row1->name&quot; " . __('there are no more free places. You are automatically signed in a waiting list.','teachpress') . "</span> ";
 						}
 						// Sonst Fehlermeldung ausgeben
 						else {
-							echo "<p style='color:#FF0000'><strong>" . __('Du bist bereits f&uuml;r','teachpress') . " &quot;$row1->name&quot; " . __('registriert','teachpress') . "</strong></p>";
+							echo "<span>" . __('You are already for','teachpress') . " &quot;$row1->name&quot; " . __('registered','teachpress') . "</span> ";
 						}
 					}
 					// Sonst Fehlermeldung ausgeben
 					else {
-						echo "<p style='color:#FF0000'><strong>" . __('F&uuml;r','teachpress') . " &quot;$row1->name&quot; " . __('gibt es leider keine Freien Pl&auml;tze mehr.','teachpress') . "</strong></p>";
+						echo "<span>" . __('For','teachpress') . " &quot;$row1->name&quot; " . __('there are no more free places.','teachpress') . "</span> ";
 					}
 				}
 			}
@@ -443,7 +443,7 @@ function change_student($wp_id, $vorname2, $nachname2, $studiengang2, $gebdat2, 
 	mysql_real_escape_string( "$" . $teachpress_stud . "_nachname" ) ,
 	mysql_real_escape_string( "$" . $teachpress_stud . "_email" ) );
     tp_query( $aendern );
-	echo "<p style='color:#00BB00'><strong>" . __('&Auml;nderungen am Nutzerprofil erfolgreich.','teachpress') . " </strong><p>";
+	echo "<span>" . __('Changes in your profile successful.','teachpress') . "<span> ";
 }
 
 /* Userdaten bearbeiten (Funktion im Backend)
@@ -489,11 +489,11 @@ function delete_einschreibung_student($checkbox2) {
 						}
 					}
 				}
-				// Wenn nein, dann erhöhe die Anzahl der freien Plätze
+				// Wenn nein, dann erhoehe die Anzahl der freien Plätze
 				else {
 					$fplaetze = "SELECT fplaetze FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
-					$fplaetze = tp_results($fplaetze);
-					// In Tabelle teachpress_ver die Anzahl der freien Plätze um eins erhöhen
+					$fplaetze = tp_var($fplaetze);
+					// In Tabelle teachpress_ver die Anzahl der freien Plaetze um eins erhoehen
 					$neu = $fplaetze + 1;
 					$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
 					tp_query( $aendern );
@@ -501,7 +501,7 @@ function delete_einschreibung_student($checkbox2) {
 			}
    		tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE belegungs_id = '$checkbox2[$i]'" );
     }	
-	echo"<p style='color:red;'><strong>" . __('Du wurdest erfolgreich ausgetragen','teachpress') . "</strong></p>";
+	echo "<span>" . __('You are signed out successful','teachpress') . "</span> ";
 }
 
 /* Einstellungen aendern
@@ -844,7 +844,7 @@ function tp_db_update() {
 	$site = 'admin.php?page=teachpress/einstellungen.php';
 	// bei versionen auf aktuellen Stand
 	if ($test == $version) {
-		$message = __('Datenbank ist bereits auf dem aktuellen Stand.','teachpress');
+		$message = __('An update is not necessary.','teachpress');
 		tp_get_message($message, $site);
 	} 
 	else {
@@ -856,7 +856,7 @@ function tp_db_update() {
 			// Aenderungen
 		}
 		// Abschluss
-		$message = __('Update abgeschlossen','teachpress');
+		$message = __('Update successful','teachpress');
 		tp_get_message($message, $site);
 	}
 }
@@ -872,7 +872,7 @@ function tp_db_update() {
 */
 function tpdate_shortcode($attr) {
 	// Rueckgabestring wird ueber verschiedene Teile zusammengesetzt
-	$a1 = '<div class="untertitel">' . __('Termin(e)','teachpress') . '</div>
+	$a1 = '<div class="untertitel">' . __('Date(s)','teachpress') . '</div>
 			<table border="0" cellspacing="0" cellpadding="5" width="100%" class= "tpdate">';
 	// Abfrage nach den Daten der Lehrveranstaltung deren ID im Shortcode angegeben wurde		
 	global $teachpress_ver; 
@@ -1020,10 +1020,10 @@ function tpcloud_shortcode($atts) {
 			$size = $minsize ;
 		}
 		if ($tagcloud['tagPeak'] == 1) {
-			$pub = __('Publikation', 'teachpress');
+			$pub = __('publication', 'teachpress');
 		}
 		else {
-			$pub = __('Publikationen', 'teachpress');
+			$pub = __('publications', 'teachpress');
 		}
 		// Falls Permalinks genutzt werden
 		if ($permalink == 1) {
@@ -1034,7 +1034,7 @@ function tpcloud_shortcode($atts) {
 			// String zusammensetzen
 			// fuer aktuellen Tag
 			if ( $tgid == $tagcloud['tag_id'] ) {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" class = "teachpress_cloud_active" title="' . __('Tag als Filter entfernen','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
+				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
 			}
 			// Normaler Tag
 			else {
@@ -1051,7 +1051,7 @@ function tpcloud_shortcode($atts) {
 			// String zusammensetzen
 			// fuer aktuellen Tag
 			if ( $tgid == $tagcloud['tag_id'] ) {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" class = "teachpress_cloud_active" title="' . __('Tag als Filter entfernen','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
+				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
 			}
 			else {
 				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=' . $tagcloud['tag_id'] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" title="' . $tagcloud['tagPeak'] . ' ' . $pub . '"> ' . $tagcloud['name'] . '</a></span> ';
@@ -1146,10 +1146,10 @@ function tpcloud_shortcode($atts) {
 		// das index.php aus der URL schneiden
 		$link = str_replace("index.php", "", $link);
 		if ($permalink == 1) {
-			$showall ='<a href="' . $link . '?tgid=0#tppubs" title="Show all">Show all</a>';
+			$showall ='<a href="' . $link . '?tgid=0#tppubs" title="' . __('Show all','teachpress') . '">' . __('Show all','teachpress') . '</a>';
 		}
 		else {
-			$showall ='<a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0#tppubs" title="Show all">Show all</a>';
+			$showall ='<a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0#tppubs" title="' . __('Show all','teachpress') . '">' . __('Show all','teachpress') . '</a>';
 		}
 	}
 	// fertige Tag-Cloud fuer return als String zusammensetzen
@@ -1255,7 +1255,7 @@ function tpcloud_shortcode($atts) {
 			// verbundene Tags suchen
 			for ($i = 0; $i < $atag; $i++) {
 				if ($all_tags[$i][2] == $row->pub_id) {
-					$tag_string = $tag_string . '<a href="' . $link . '?tgid=' . $all_tags[$i][1] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" title="' . __('Alle Publikationen dieses Tags anzeigen','teachpress') . '">' . $all_tags[$i][0] . '</a>, ';
+					$tag_string = $tag_string . '<a href="' . $link . '?tgid=' . $all_tags[$i][1] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . $all_tags[$i][0] . '</a>, ';
 				}
 			}
 			$tag_string = substr($tag_string, 0, -2);
@@ -1562,7 +1562,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default-Einstellungen			
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sem', 'WS09/10', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.30.0', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.32.0', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('permalink', '1', 'system')");		
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('WS09/10', 'WS09/10', 'semester')");									
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('Bachelor Wirtschaftsinformatik', 'Bachelor Wirtschaftsinformatik', 'studiengang')");	
