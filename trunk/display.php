@@ -18,10 +18,21 @@ global $teachpress_kursbelegung;
 
 $wp_id = $user_ID;
 $aendern = $_POST[aendern];
+$eintragen = $_POST[eintragen];
 $austragen = $_POST[austragen];
 $checkbox = $_POST[checkbox];
 $checkbox2 = $_POST[checkbox2];
 $einschreiben = $_POST[einschreiben];
+// Registrierungsformular
+$vorname = htmlentities(utf8_decode($_POST[vorname]));
+$nachname = htmlentities(utf8_decode($_POST[nachname]));
+$studiengang = htmlentities(utf8_decode($_POST[studiengang]));
+$fachsemester = htmlentities(utf8_decode($_POST[fachsemester]));
+$urzkurz = $user_login;
+$gebdat = htmlspecialchars($_POST[gebdat]);
+$email = $user_email;
+$matrikel = htmlentities(utf8_decode($_POST[matrikel]));
+// Aenderungsformular
 $matrikel2 = htmlentities(utf8_decode($_POST[matrikel2]));
 $vorname2 = htmlentities(utf8_decode($_POST[vorname2]));
 $nachname2 = htmlentities(utf8_decode($_POST[nachname2]));
@@ -30,7 +41,7 @@ $fachsemester2 = htmlentities(utf8_decode($_POST[fachsemester2]));
 $gebdat2 = htmlspecialchars($_POST[gebdat2]);
 $email2 = htmlentities(utf8_decode($_POST[email2]));
 			
-if ( isset($aendern) || isset($austragen) || isset($einschreiben) ) { ?>
+if ( isset($aendern) || isset($austragen) || isset($einschreiben) || isset($eintragen) ) { ?>
 	<div class="teachpress_message">
         <form method="POST" action="<?php echo $PHP_SELF ?>" id="teachpress_einstellungen_weiter">
         <?php
@@ -42,6 +53,10 @@ if ( isset($aendern) || isset($austragen) || isset($einschreiben) ) { ?>
         }
         if ( isset($einschreiben)) {
             add_einschreibung($checkbox, $wp_id);
+		}	
+		if ( isset($eintragen)) {
+			add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
+				
         } ?>
         <input type="submit" name="Submit" value="<?php _e('resume','teachpress'); ?>" id="teachpress_einstellungen_weiter">
         </form>
@@ -65,31 +80,6 @@ if (is_user_logged_in()) {
 		/*
 		 * Registration form
 		*/
-		$eintragen = $_POST[eintragen];
-		$einschreiben = $_POST[einschreiben];
-		$wp_id = $user_ID;
-		$vorname = htmlentities(utf8_decode($_POST[vorname]));
-		$nachname = htmlentities(utf8_decode($_POST[nachname]));
-		$studiengang = htmlentities(utf8_decode($_POST[studiengang]));
-		$fachsemester = htmlentities(utf8_decode($_POST[fachsemester]));
-		$urzkurz = $user_login;
-		$gebdat = htmlspecialchars($_POST[gebdat]);
-		$email = $user_email;
-		$matrikel = htmlentities(utf8_decode($_POST[matrikel]));
-		
-		if ( isset($eintragen) ) {
-			add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
-				?>
-				<div style="padding-left:40px;">
-			  <form method="POST" action="<?php echo $PHP_SELF ?>" id="teachpress_einstellungen_weiter">
-				  <p style="background-color:#FFFFCC; border:1px solid silver; padding:5px; width:80%;">
-				  <strong><?php _e('Registration successful','teachpress'); ?></strong>
-				  <input type="submit" name="Submit" value="<?php _e('resume','teachpress'); ?>" id="teachpress_einstellungen_weiter">
-				  </p>
-			  </form>
-			</div>
-			<?php
-		}
 		?>
 		<form name="anzeige" method="post" id="anzeige" action="<?php echo $PHP_SELF ?>">
 		<div id="eintragen">
@@ -155,7 +145,7 @@ if (is_user_logged_in()) {
 			  </tr>
 			  <tr>
 				<td><?php _e('Date of birth','teachpress'); ?></td>
-				<td><input name="gebdat" type="text" size="15" value="JJJJ-MM-TT"/>
+				<td><input name="gebdat" type="text" size="15"/>
 				  <em><?php _e('Format: JJJJ-MM-TT','teachpress'); ?></em></td>
 			  </tr>
 			  <tr>
@@ -343,7 +333,7 @@ foreach($row as $row) {
 	}
    ?>  
    <div style="margin:10px; padding:5px;">
-   <div class="the_course" style="font-size:15px;"><a href="<?php echo"$row->url" ?>"><?php echo"$row->name" ?></a></div>
+   <div class="the_course" style="font-size:15px;"><a href="<?php echo get_permalink($row->rel_page); ?>"><?php echo"$row->name" ?></a></div>
      <table width="100%" border="0" cellpadding="1" cellspacing="0">
        <tr>
          <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">

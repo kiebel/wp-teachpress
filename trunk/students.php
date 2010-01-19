@@ -1,7 +1,7 @@
 <?php 
 /* Suche nach Studenten, Anzeige von Uebersichtslisten
  *
- * from editstudent.php, studenten.php
+ * from editstudent.php, students.php
  * @param $suche - String
  * @param $studenten - String
 */
@@ -23,16 +23,16 @@ $studenten = htmlentities(utf8_decode($_GET[studenten]));
 if (isset($kontrolle)) {
 	delete_student_admin ($checkbox, $user_ID);
 	$message = __('Students deleted','teachpress');
-	$site = 'admin.php?page=teachpress/studenten.php&suche=' . $suche . '&studenten=' . $studenten . '';
+	$site = 'admin.php?page=teachpress/students.php&suche=' . $suche . '&studenten=' . $studenten . '';
 	tp_get_message($message, $site);
 }
 ?>
 <div class="wrap" style="padding-top:10px;">
   <form name="suche" method="get" action="<?php echo $PHP_SELF ?>">
-  <input name="page" type="hidden" value="teachpress/studenten.php" />
+  <input name="page" type="hidden" value="teachpress/students.php" />
   <table border="0" cellpadding="0" cellspacing="0" style="padding-top:10px; padding-bottom:10px; float:right;">
   <tr>
-  	<td><?php if ($suche != "") { ?><a href="admin.php?page=teachpress/studenten.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Cancel the search','teachpress'); ?>">&crarr;</a><?php } ?></td>
+  	<td><?php if ($suche != "") { ?><a href="admin.php?page=teachpress/students.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Cancel the search','teachpress'); ?>">&crarr;</a><?php } ?></td>
     <td><input name="suche" type="text" value="<?php echo "$suche" ?>"/></td>
     <td><input name="go" type="submit" value="<?php _e('search','teachpress'); ?>" id="teachpress_suche_senden" class="teachpress_button"/></td>
   </tr>

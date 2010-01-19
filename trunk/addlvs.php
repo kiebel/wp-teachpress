@@ -19,13 +19,13 @@ $startein = htmlentities(utf8_decode($_POST[startein]));
 $endein = htmlentities(utf8_decode($_POST[endein])); 
 $semester = htmlentities(utf8_decode($_POST[semester]));
 $bemerkungen = htmlentities(utf8_decode($_POST[bemerkungen]));
-$url = htmlentities(utf8_decode($_POST[url]));
+$rel_page = htmlentities(utf8_decode($_POST[rel_page]));
 $parent = htmlentities(utf8_decode($_POST[parent2]));
 $sichtbar = htmlentities(utf8_decode($_POST[sichtbar]));
 $warteliste = htmlentities(utf8_decode($_POST[warteliste]));
 
 if (isset($erstellen)) {
-	add_lvs_in_database($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester,  $bemerkungen, $url, $parent, $sichtbar, $warteliste);
+	add_lvs_in_database($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester,  $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste);
 	$message = __('Course created','teachpress');
 	$site = 'admin.php?page=teachpress/addlvs.php';
     tp_get_message($message, $site);
@@ -37,16 +37,16 @@ if (isset($erstellen)) {
     	<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
         <p class="hilfe_headline"><?php _e('Course name','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('For child courses: The name of the parent course will be add automatically.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Enrollments','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('If you have a course without enrollments, so add no dates in the fields start and end. teachPress will be deactivate the enrollments automatically.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Parent','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('More than one date','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('If you have more than one date for a course and the date field have not enough chars, so you can use the room field in addition.','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Visibility','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('URL','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('With the URL you can connect the course with a static page or an external URL.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Related Page','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('For course informations','teachpress'); ?>: <strong><?php _e('[tpdate id="x"] (x = Course-ID)','teachpress'); ?></strong></p>
+        <p class="hilfe_headline"><?php _e('Visibility','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?></p>
         <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
     </div>
   <form id="addlvs" name="form1" method="post" action="<?php echo $PHP_SELF ?>">
@@ -66,21 +66,27 @@ if (isset($erstellen)) {
             <th><?php _e('Term','teachpress'); ?></th>
             <td>
               <select name="semester" id="semester">
-                    <?php
-                    $abfrage = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
-                    $wert = tp_var($abfrage);
-                       ?>
+				<?php
+                $abfrage = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
+                $wert = tp_var($abfrage);
+                   ?>
                 <option value="<?php echo"$wert" ?>"><?php echo"$wert" ?></option>
                 <option>------</option>
                 <?php    
 				$sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
 				$sem = tp_results($sem);
 				$x = 0;
+				// Semester in array speichern - wird spaeter fuer Parent-Menu genutzt
 				foreach ($sem as $sem) { 
 					$period[$x] = $sem->wert;
-					$x++;?> 
-                   	<option value="<?php echo $sem->wert; ?>"><?php echo $sem->wert; ?></option>
-                <?php } ?> 
+					$x++;
+				}
+				$zahl = $x-1;
+				// gibt alle Semester aus (umgekehrte Reihenfolge)
+				while ($zahl != 0) {
+					echo '<option value="' . $period[$zahl] . '">' . $period[$zahl] . '</option>';
+					$zahl--;
+				}?> 
             </select></td>
           </tr>
               <tr>
@@ -149,8 +155,11 @@ if (isset($erstellen)) {
                 <td><input name="bemerkungen" type="text" id="bemerkungen" size="75" /></td>
               </tr>
               <tr>
-                <th><?php _e('URL','teachpress'); ?></th>
-                <td><input name="url" type="text" id="url" size="75" /></td>
+                <th><?php _e('Related Page','teachpress'); ?></th>
+                <td><select name="rel_page" id="rel_page">
+        			<?php teachpress_wp_pages("menu_order","ASC",$rel_page,0,0); ?>
+        			</select>
+                </td>
               </tr>
        </thead>       
       </table>
@@ -158,13 +167,10 @@ if (isset($erstellen)) {
         <table class="widefat">
          <thead>
           <tr>
-            <td colspan="6" style="font-size:11px; color:#FF0000;"><strong><?php _e('Format for the date','teachpress'); ?> <?php _e('JJJJ-MM-TT','teachpress'); ?></strong></td>
-          </tr>
-          <tr>
             <th><?php _e('Start','teachpress'); ?></th>
-            <td><input name="startein" type="text" id="startein" value="JJJJ-MM-TT" size="15"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
+            <td><input name="startein" type="text" id="startein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
             <th><?php _e('End','teachpress'); ?></th>
-            <td><input name="endein" type="text" id="endein" value="JJJJ-MM-TT" size="15"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
+            <td><input name="endein" type="text" id="endein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
             <th><?php _e('Waiting list','teachpress'); ?></th>
             <td><select name="warteliste" id="warteliste">
               <option value="0"><?php _e('no','teachpress'); ?></option>

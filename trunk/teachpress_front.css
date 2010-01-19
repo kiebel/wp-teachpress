@@ -116,7 +116,7 @@ h3.tp_enrollments {
 	font-weight:bold;
 }
 h3.tp_h3 {
-	color: rgb(23, 118, 101);
+	color:#177665;
 }
 .teachpress_message {
 	border:1px solid #f90;
@@ -134,7 +134,7 @@ ul.teachpress_list li {
 }
 /* course overview, anzeige_lvs.php */
 #anzeigelvs h3 {
-	color:#005A46; 
+	color:#177665; 
 }
 .tp_auswahl {
 	border-bottom:1px dotted silver;
@@ -142,11 +142,12 @@ ul.teachpress_list li {
 	padding:3px;
 }
 .tp_lvs_name {
-	font-size:14px; color:#005A46;
+	font-size:14px;
+	color:#177665;
 }
 .tp_lvs_container {
 	margin:5px; 
 	border-bottom:1px solid silver; 
 	border-right:1px solid silver;
-	padding:5px;
+	padding:10px;
 }

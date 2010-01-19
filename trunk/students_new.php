@@ -24,13 +24,13 @@ $einschreiben = $_POST[einschreiben];
 if (isset($insert)) {
 	add_student_manuell($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
 	$message = __('Student added','teachpress');
-	$site = 'admin.php?page=teachpress/studenten_neu.php';
+	$site = 'admin.php?page=teachpress/students_new.php';
 	tp_get_message($message, $site);
 }
 if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
 	student_manuell_eintragen ($student, $veranstaltung);
 	$message = __('The enrollment for the selected student was successful.','teachpress');
-	$site = 'admin.php?page=teachpress/studenten_neu.php';
+	$site = 'admin.php?page=teachpress/students_new.php';
 	tp_get_message($message, $site);
 }
 ?>
@@ -188,7 +188,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
           </tr>
           <tr>
             <th><?php _e('Date of birth','teachpress'); ?></th>
-            <td><input name="gebdat" type="text" id="gebdat" value="JJJJ-MM-TT" size="15"/>
+            <td><input name="gebdat" type="text" id="gebdat" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/>
               <em><?php _e('Format','teachpress'); ?>: <?php _e('JJJJ-MM-TT','teachpress'); ?></em></td>
           </tr>
           <tr>

@@ -22,7 +22,7 @@
                 <option value="<?php echo $sem; ?>"><?php echo $sem;?></option>
                 <option>-----</option>
                 <?php
-                $rowsem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
+                $rowsem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id DESC";
                 $rowsem = tp_results($rowsem);
                 foreach($rowsem as $rowsem) { ?>
                     <option value="<?php echo $rowsem->wert; ?>"><?php echo $rowsem->wert; ?></option>
@@ -32,7 +32,7 @@
         </div>   
         <h3><?php _e('Courses for the','teachpress'); ?> <?php echo"$sem" ;?></h3>
         <?php
-            $row = "Select name, bemerkungen, url FROM " . $teachpress_ver . " WHERE semester = '$sem' AND parent = '0' ORDER BY name";
+            $row = "Select name, bemerkungen, rel_page FROM " . $teachpress_ver . " WHERE semester = '$sem' AND parent = '0' ORDER BY name";
 			$test = tp_query($row);
 			if ($test != 0){
 				$row = tp_results($row);
@@ -41,8 +41,8 @@
 				   <div class="tp_lvs_name"><strong><?php echo "$row->name"; ?></strong></div>
 				   <table border="0" cellspacing="0" cellpadding="0" width="100%" style="padding-top:5px;">
 					  <tr>
-						<td style="font-size:12px;"><?php echo "$row->bemerkungen"; ?></td>
-						<td style="text-align:right; font-size:14px;"><a href="<?php echo "$row->url"; ?>"><?php _e('Details','teachpress'); ?></a></td>
+						<td><?php echo "$row->bemerkungen"; ?></td>
+						<td style="text-align:right;"><a href="<?php echo get_permalink($row->rel_page); ?>"><?php _e('Details','teachpress'); ?></a></td>
 					  </tr>
 				   </table>
 				   </div>
