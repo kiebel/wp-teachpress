@@ -16,8 +16,16 @@ if ( is_user_logged_in() ) {
 		}	
 	}
 </script>
-<div class="wrap" style="width:800px;">
-<h2><?php _e('Add publications','teachpress'); ?></h2>
+<div class="wrap">
+<h2><?php _e('Add publications','teachpress'); ?><span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>
+ <div id="hilfe_anzeigen">
+    	<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
+        <p class="hilfe_headline"><?php _e('Bookmarks','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Add the publication to different publication lists.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Image &amp; Related page','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('Both fields are for the teachPress Books widget. With the related page you can link a publication with a normal post/page.','teachpress'); ?></p>
+        <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
+    </div>
 <?php
 global $teachpress_pub;
 global $teachpress_tags;
@@ -39,20 +47,29 @@ $links = htmlentities(utf8_decode($_POST[links]));
 $sort = htmlentities(utf8_decode($_POST[sortierung]));
 $comment = htmlentities(utf8_decode($_POST[comment]));
 $tags = htmlentities(utf8_decode($_POST[tags]));
+$image_url = htmlentities(utf8_decode($_POST[image_url]));
+$rel_page = htmlentities(utf8_decode($_POST[rel_page]));
+$is_isbn = htmlentities(utf8_decode($_POST[isisbn]));
 $bookmark = $_POST[bookmark];
 // if publications was created
 if (isset($erstellen)) {
-	add_pub($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $bookmark, $user, $comment);
+	add_pub($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $bookmark, $user, $comment, $image_url, $rel_page, $is_isbn);
 	$message = __('Publication added','teachpress');
 	$site = 'admin.php?page=teachpress/addpublications.php';
 	tp_get_message($message, $site);
 }
 ?>
 <form name="form1" method="post" action="<?php echo $PHP_SELF ?>" id="form1">
+  <div style="min-width:780px; width:100%; max-width:1100px;">
+  <div style="width:30%; float:right; padding-right:2%; padding-left:1%;">
   <table class="widefat">
+  	<thead>
+  	<tr>
+   		<th><strong><?php _e('Bookmarks','teachpress'); ?></strong></th>
+    </tr>
     <tr>
-      <td><strong><?php _e('Bookmarks','teachpress'); ?></strong></td>
-      <td><input type="checkbox" name="bookmark[]" id="bookmark" value="<?php echo $user; ?>" title="<?php _e('click to add the publication in your own list','teachpress'); ?>"/> <label for="bookmark" title="<?php _e('click to add the publication in your own list','teachpress'); ?>"><?php _e('add to your own list','teachpress'); ?></label>
+      <td>
+      <input type="checkbox" name="bookmark[]" id="bookmark" value="<?php echo $user; ?>" title="<?php _e('click to add the publication in your own list','teachpress'); ?>"/> <label for="bookmark" title="<?php _e('click to add the publication in your own list','teachpress'); ?>"><?php _e('add to your own list','teachpress'); ?></label>
       <p>
       <?php
 	   // Abfrage der User mit Bookmark auf mindestens 1 Publikation
@@ -73,10 +90,39 @@ if (isset($erstellen)) {
       </p>
       </td>
     </tr>
+    </thead>
+    </table>
+   <p style="font-size:2px; margin:0px;">&nbsp;</p> 
+  <table class="widefat">
+  	<thead>
     <tr>
-      <td><strong><?php _e('Type','teachpress'); ?></strong></td>
+    	<th><?php _e('Image &amp; Related page','teachpress'); ?></th>
+    </tr>
+  	<tr>
+        <td><p><strong><?php _e('Image URL','teachpress'); ?></strong></p>
+        <input name="image_url" id="image_url" type="text" style="width:90%;"/>
+         <a id="add_image" class="thickbox" href="media-upload.php?post_id=0&type=image&TB_iframe=true&width=640&height=440" title="<?php _e('Add Image','teachpress'); ?>" onclick="return false;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
+        <p><strong><?php _e('Related page','teachpress'); ?></strong></p>
+        <div style="overflow:hidden;">
+        <select name="rel_page" id="rel_page" style="width:90%;">
+        <?php teachpress_wp_pages("menu_order","ASC",$rel_page,0,0); ?>
+        </select>
+        </div>
+        </td>
+    </tr>
+    </thead>
+  </table>
+  </div>
+    <div style="width:67%; float:left;">
+    <table class="widefat">
+    <thead>
+    <tr>
+    	<th><?php _e('Publication','teachpress'); ?></th>
+    </tr>
+    <tr>
       <td>
-        <select name="typ" id="typ">
+      <p><strong><?php _e('Type','teachpress'); ?></strong></p>
+      <select name="typ" id="typ">
           <option value="Buch"><?php _e('Book','teachpress'); ?></option>
           <option value="Vortrag"><?php _e('Presentation','teachpress'); ?></option>
           <option value="Chapter in book"><?php _e('Chapter in book','teachpress'); ?></option>
@@ -84,114 +130,91 @@ if (isset($erstellen)) {
           <option value="Journal article"><?php _e('Journal article','teachpress'); ?></option>
           <option value="Bericht"><?php _e('Report','teachpress'); ?></option>
           <option value="Sonstiges"><?php _e('Others','teachpress'); ?></option>
-        </select>      </td>
+      </select>
+      <p><strong><?php _e('Name','teachpress'); ?></strong></p>
+      <textarea name="name" wrap="virtual" id="name" style="width:95%"></textarea>
+      <p><strong><?php _e('Author(s)','teachpress'); ?></strong></p>
+      <textarea name="autor" wrap="virtual" id="autor" style="width:95%"></textarea>
+      <p><strong><?php _e('Published by','teachpress'); ?></strong></p>
+      <textarea name="erschienen" rows="3" wrap="virtual" id="erschienen" style="width:95%"></textarea>
+      <p><strong><?php _e('Year','teachpress'); ?></strong></p>
+      <input type="text" name="jahr" id="jahr">
+      <p><strong><?php _e('ISBN/ISSN','teachpress'); ?></strong></p>
+      <input type="text" name="isbn" id="isbn">
+        <span style="padding-left:7px;">
+          <label>
+            <input name="isisbn" type="radio" id="isisbn_0" value="1" checked="checked"/>
+            <?php _e('ISBN','teachpress'); ?></label>
+          <label>
+            <input name="isisbn" type="radio" value="0" id="isisbn_1" />
+            <?php _e('ISSN','teachpress'); ?></label>
+        </span>
+      <p><strong><?php _e('Link','teachpress'); ?></strong></p>
+      <input name="links" type="text" id="links" style="width:95%">
+      <p><strong><?php _e('Sorting date','teachpress'); ?></strong></p>
+      <input type="text" name="sortierung" id="sortierung" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';"/>
+      <input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/>
+      <p><strong><?php _e('Comment','teachpress'); ?></strong></p>
+      <textarea name="comment" wrap="virtual" id="comment" style="width:95%"></textarea></td>
+    </tr>
+    </thead>
+    </table>
+    <p style="font-size:2px; margin:0px;">&nbsp;</p>
+    <table class="widefat">
+    <thead>
+    <tr>
+    	<th><?php _e('Tags','teachpress'); ?></th>
     </tr>
     <tr>
-      <td><strong><?php _e('Name','teachpress'); ?></strong></td>
-      <td><textarea name="name" cols="80" wrap="virtual" id="name"></textarea></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('Author(s)','teachpress'); ?></strong></td>
-      <td><textarea name="autor" cols="80" wrap="virtual" id="autor"></textarea></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('Published by','teachpress'); ?></strong></td>
-      <td><textarea name="erschienen" cols="80" wrap="virtual" id="erschienen"></textarea></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('Year','teachpress'); ?></strong></td>
-      <td><input type="text" name="jahr" id="jahr"></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('ISBN','teachpress'); ?></strong></td>
-      <td><input type="text" name="isbn" id="isbn"></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('Link','teachpress'); ?></strong></td>
-      <td><input name="links" type="text" id="links" size="80"></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('Sorting date','teachpress'); ?></strong></td>
-      <td><input type="text" name="sortierung" id="sortierung" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>"/>
-        <input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('Comment','teachpress'); ?></strong></td>
-      <td><textarea name="comment" cols="80" id="comment" wrap="virtual"></textarea></td>
-    </tr>
-    <tr>
-      <td><strong><?php _e('Tags (seperate by comma)','teachpress'); ?></strong></td>
-      <td><input name="tags" type="text" id="tags" size="80" value=""></td>
-    </tr>
-    
-    <tr>
-      <td></td>
       <td>
-      <div class="teachpress_cloud">
-       <?php
-	   	// Abfrage aller Tags, Tag-Cloud erstellen
-		    $row = "SELECT name, tag_id FROM " . $teachpress_tags . " ORDER by name";
-		    $row = tp_results($row);
-			$z=0;
-			// Tags zu einem array zusammenfassen
-			foreach($row as $row) {
-				$a[$z][0] = $row->tag_id;
-				$a[$z][1] = $row->name;
-				$z++;
+      <p><strong><?php _e('New (seperate by comma)','teachpress'); ?></strong></p>
+      <input name="tags" type="text" id="tags" value="" style="width:95%">
+      <div class="teachpress_cloud" style="padding-top:15px;">
+         <?php
+	   // Anzahl darzustellender Tags
+	   	$limit = 50;
+		// Schriftgroessen
+		$maxsize = 35;
+		$minsize = 11;
+	   	// Ermittle Anzahl der Tags absteigend sortiert
+		$sql = "SELECT anzahlTags FROM ( SELECT COUNT(*) AS anzahlTags FROM " . $teachpress_beziehung . " GROUP BY " . $teachpress_beziehung . ".`tag_id` ORDER BY anzahlTags DESC ) as temp1 GROUP BY anzahlTags ORDER BY anzahlTags DESC";
+		// Ermittle einzelnes Vorkommen der Tags, sowie Min und Max
+		$sql = "SELECT MAX(anzahlTags) AS max, min(anzahlTags) AS min, COUNT(anzahlTags) as gesamt FROM (".$sql.") AS temp";
+		$tagcloud_temp = mysql_fetch_array(mysql_query($sql));
+		$max = $tagcloud_temp['max'];
+		$min = $tagcloud_temp['min'];
+		$insgesamt = $tagcloud_temp['gesamt'];
+		// Tags und Anzahl zusammenstellen
+		$sql = "SELECT tagPeak, name, tag_id FROM ( SELECT COUNT(b.tag_id) as tagPeak, t.name AS name,  t.tag_id as tag_id FROM " . $teachpress_beziehung . " b LEFT JOIN " . $teachpress_tags . " t ON b.tag_id = t.tag_id GROUP BY b.tag_id ORDER BY tagPeak DESC LIMIT " . $limit . " ) AS temp WHERE tagPeak>=".$min." ORDER BY name";
+		$temp = mysql_query($sql);
+		// Endausgabe der Cloud zusammenstellen
+		while ($tagcloud = mysql_fetch_array($temp)) {
+			// Schriftgröße berechnen
+			// Minimum ausgleichen
+			if ($min == 1) {
+				$min = 0;
 			}
-			$abfrage = "SELECT tag_id FROM " . $teachpress_beziehung . "";
-			$row = tp_results($abfrage);
-			$x=0;
-			foreach($row as $row) {
-				$b[$x] = $row->tag_id;
-				$x++;
+			// Formel: max. Schriftgroesse*(aktuelle anzahl - kleinste Anzahl)/ (groeßte Anzahl - kleinste Anzahl)
+			$size = floor(($maxsize*($tagcloud['tagPeak']-$min)/($max-$min)));
+			// Ausgleich der Schriftgröße
+			if ($size < $minsize) {
+				$size = $minsize ;
 			}
-			// nach Anzahl der häufigsten und seltensten Tags suchen
-			$max = 0;
-			$min = 0;
-			$zahl = 0;
-			for ($i=0; $i<$x; $i++ ) {
-				$search = $b[$i];	
-				for ($j=0; $j<$x; $j++) {
-					if ($search == $b[$j] ) {
-						$zahl++;
-					}
-				}	
-				if ($zahl > $max) {
-					$max = $zahl;
-				}
-				if ($zahl < $min) {
-					$min = $zahl;
-				}	
-				$zahl = 0;
-			}
-			// Zusammensetzung des Return
-			for($i=0; $i<$z; $i++) {
-					$anzahl = $a[$i][0];
-					$zahl=0;
-					// Anzahl ermitteln
-					for ($j=0; $j<$x; $j++) {
-						if ($anzahl == $b[$j] ) {
-							$zahl++;
-						}	
-					}
-					$t = $zahl;
-					// Schriftgröße berechnen
-					$size = floor((35*($t-$min)/($max-$min)));
-					// Ausgleich der Schriftgröße
-					if ($size < 11) {
-						$size = 11 ;
-					}
-					?>
-					<span style="font-size:<?php echo $size; ?>px;"><a href="javascript:inserttag('<?php echo $a[$i][1]; ?>')" title="&laquo;<?php echo $a[$i][1]; ?>&raquo; <?php _e('add as tag','teachpress'); ?>"><?php echo $a[$i][1]; ?></a></span>
-                    <?php } ?>
-           </div>       </td>
+			?>
+			<span style="font-size:<?php echo $size; ?>px;"><a href="javascript:inserttag('<?php echo $tagcloud['name']; ?>')" title="&laquo;<?php echo $tagcloud['name']; ?>&raquo; <?php _e('add as tag','teachpress'); ?>"><?php echo $tagcloud['name']; ?> </a></span> 
+            <?php 
+		  }
+		  ?>
+           </div>       
+      </td>
     </tr>
+    </thead>
   </table>
   <p>
     <input name="erstellen" type="submit" class="teachpress_button" id="publikation_erstellen" onclick="teachpress_validateForm('tags','','R','name','','R','autor','','R');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>">
     <input type="reset" name="Reset" value="<?php _e('reset','teachpress'); ?>" id="teachpress_reset" class="teachpress_button">
   </p>
+  </div>
 </form>
 <script type="text/javascript">
   Calendar.setup(

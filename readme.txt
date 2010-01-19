@@ -2,15 +2,17 @@
 Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress
 Requires at least: 2.8
-Tested up to: 2.8.5
-Stable tag: 0.32.0
+Tested up to: 2.9.1
+Stable tag: 0.40.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
 teachPress is a powerful course and publication managment plugin, which is published under the terms of GPL-License. You can use it with WordPress 2.8.0 or higher.
 
-You can find a little Introduction for teachPress [here](http://www.mtrv.kilu.de/teachpress/en/) .
+New in Version 0.40.0: The plugin supports ISSN and now you can add images to publications. But, it's currently not possible to insert images directly from the WordPress Media Library, so you must insert the url manually. This bug would be fixed with the next release.
+
+For more informations have a look in the FAQ, or see [here](http://www.mtrv.kilu.de/teachpress/).
 
 = Features: =
 * Publication management
@@ -21,17 +23,20 @@ You can find a little Introduction for teachPress [here](http://www.mtrv.kilu.de
 * Print templates for attendance lists
 * Integrated search functions
 * Some shortcodes for an easy using in posts an pages
+* **New**: ISSN support
+* **New**: An own widget for displaying books in the sidebar
+
 
 = Supported Languages =
+* English 
 * Deutsch
-* English  
 
 = Disclaimer =  
 Use at your own risk. No warranty expressed or implied is provided.  
 
 == Credits ==
 
-Copyright 2008-2009 by Michael Winkler
+Copyright 2008-2010 by Michael Winkler
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -63,36 +68,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 1. Download the plugin.
 2. Delete all files in the 'plugins/teachpress/' directory except parameters.php.
 3. Upload all files to the 'plugins/teachpress' directory.
-4. Go in WordPress menu to Courses->Settings and click on "Update to ....".
+4. Go in the backend to Courses->Settings and click on "Update to ....".
 
-**For users of version 0.22.0:**
+== Upgrade Notice == 
 
-Please rename your teachPress database tables after the update:  
-`teachpress_ver` --> `[your wp_prefix]teachpress_ver`  
-`teachpress_stud` --> `[your wp_prefix]teachpress_stud`  
-`teachpress_einstellungen` --> `[your wp_prefix]teachpress_einstellungen`  
-`teachpress_kursbelegung` --> `[your wp_prefix]teachpress_kursbelegung`  
-`teachpress_log` --> `[your wp_prefix]teachpress_log`  
-`teachpress_pub` --> `[your wp_prefix]teachpress_pub`  
-`teachpress_tags` --> `[your wp_prefix]teachpress_tags`  
-`teachpress_beziehung` --> `[your wp_prefix]teachpress_beziehung`  
-`teachpress_user` --> `[your wp_prefix]teachpress_user`  
+= 0.40.0 =
+Don't forget to click on the update button (teachpress settings page) after upgrading.
 
-An example:  
-`teachpress_ver` --> `wp_teachpress_ver`
+= 0.30.0 =
+For 0.22.0 Users: Please rename your teachPress database tables after the upgrade! ( `teachpress_ver` --> `[your wp_prefix]_teachpress_ver` )  
 
 == Screenshots ==
 [Screenshots](http://www.mtrv.kilu.de/teachpress/teachpress-images/)   
 
 == Frequently Asked Questions ==
 
-= 1. Adding Frontend Pages =
+= How I can added the Frontend Pages? =
 
-Create a new Page in WordPress and write the following strings in the textfield:  
+Create a new Page in WordPress and write the following strings in the textfield (html-mode):  
 for enrollment page: **`<!--LVS-->`**  
 for course overview: **`<!--LVS2-->`** 
 
-= 2. Shortcodes: = 
+= How I can use the shortcodes? = 
 
 For the dates of courses:  
 = [tpdate id="x"] =  
@@ -112,15 +109,33 @@ for normal publication lists:
 * year  
 * headline - 0(off) or 1(on)  
 
-= 3. CSS-Classes for publication lists =
-Use the following CSS-Classes in your theme to change the style of publications:  
+= How I can change the style of teachPress? =
+You can edit all frontend styles in the teachpress_front.css (Automatic updates overwrites your changes!) or you can use the following CSS-classes in your theme to change the style of publications:  
 .tp_publication  
 .tp_pub_autor  
 .tp_pub_titel  
 .tp_pub_typ  
-.tp_pub_tags
+.tp_pub_tags  
+and following classes to change the style in the course overview:  
+`#anzeigelvs h3`  
+.tp_lvs_container  
+.tp_lvs_name  
 
 == Changelog ==
+= 0.40.0 =
+* New: teachPress books widget
+* New: Add images to your publications
+* New: Related pages for publications
+* New: Related pages for courses
+* New: ISSN field for publications
+* Changed: Many little changes in the enrollment form (now display.php)
+* Changed: Many file names
+* Changed: Better script loading
+* Bugfix: Fixed bug when you add a student manually
+* Bugfix: Fixed bug in sort order of terms
+* Bugfix: Fixed charset and collation for teachpress tables
+* Bugfix: Fixed bug when parent and child course has the same name
+* Killed: URL field for courses
 = 0.32.0 = 
 * Changed: Design for course overview
 * Changed: Default language changed from german to english

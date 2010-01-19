@@ -15,7 +15,7 @@ if ( is_user_logged_in() ) {
         <p class="hilfe_text"><?php _e('Here you can change the current term. This value is used for the default settings for all menus.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Permalinks','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('Here you can specify, if your WordPress installation using permalinks or not.','teachpress'); ?></p>
-        <p class="hilfe_headline"><?php _e('Course of studies','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Courses of studies','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('Menu to add new courses of studies.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Types of courses','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('Menu to add new types of courses.','teachpress'); ?></p>
@@ -29,7 +29,7 @@ if ( is_user_logged_in() ) {
 	global $teachpress_einstellungen; 
 	global $teachpress_stud; 
 	global $teachpress_ver;
-	// Formularvariablen von einstellungen.php
+	// Formularvariablen von settings.php
 	$semester = htmlentities(utf8_decode($_GET[semester]));
 	$permalink = htmlentities(utf8_decode($_GET[permalink]));
 	$einstellungen = $_GET[einstellungen];
@@ -40,7 +40,7 @@ if ( is_user_logged_in() ) {
 	$addstud = $_GET[addstud];
 	$addtyp = $_GET[addtyp];
 	$addsem = $_GET[addsem];
-	$site = 'admin.php?page=teachpress/einstellungen.php';
+	$site = 'admin.php?page=teachpress/settings.php';
 	// Aktionen ausfuehren und Nachrichten ausgeben
 	if ($_GET[up] == 1) {
 		tp_db_update();
@@ -75,7 +75,7 @@ if ( is_user_logged_in() ) {
    
   <div id="einstellungen" style="float:left; width:97%;">
   <form id="form1" name="form1" method="get" action="<?php echo $PHP_SELF ?>">
-	<input name="page" type="hidden" value="teachpress/einstellungen.php">
+	<input name="page" type="hidden" value="teachpress/settings.php">
 	<div style="min-width:780px; width:100%;">
 	<div style="width:48%; float:left; padding-right:2%;">
 		 <div>
@@ -100,7 +100,7 @@ if ( is_user_logged_in() ) {
 			}
 			foreach ($row as $row) { ?>
 			  <tr>
-				<td><a title="Studiengang &#8220;<?php echo $row->wert; ?>&#8221; l&ouml;schen" href="admin.php?page=teachpress/einstellungen.php&delete=<?php echo $row->einstellungs_id; ?>" class="teachpress_delete">X</a></td>
+				<td><a title="Studiengang &#8220;<?php echo $row->wert; ?>&#8221; l&ouml;schen" href="admin.php?page=teachpress/settings.php&delete=<?php echo $row->einstellungs_id; ?>" class="teachpress_delete">X</a></td>
 				<td><?php echo $row->wert; ?></td>
 				<td>
 				<?php 
@@ -146,7 +146,7 @@ if ( is_user_logged_in() ) {
 				}
 				foreach ($row as $row) { ?> 
 			  <tr>
-				<td><a title="Studiengang &#8220;<?php echo $row->wert; ?>&#8221; l&ouml;schen" href="admin.php?page=teachpress/einstellungen.php&delete=<?php echo $row->einstellungs_id; ?>" class="teachpress_delete">X</a></td>
+				<td><a title="Studiengang &#8220;<?php echo $row->wert; ?>&#8221; l&ouml;schen" href="admin.php?page=teachpress/settings.php&delete=<?php echo $row->einstellungs_id; ?>" class="teachpress_delete">X</a></td>
 				<td><?php echo $row->wert; ?></td>
 				<td> 
 				<?php 
@@ -196,7 +196,7 @@ if ( is_user_logged_in() ) {
 				}
 				foreach ($row as $row) { ?>  
 			  <tr>
-				<td><a title="Kategorie &#8220;<?php echo $row->wert; ?>&#8221; l&ouml;schen" href="admin.php?page=teachpress/einstellungen.php&delete=<?php echo $row->einstellungs_id; ?>" class="teachpress_delete">X</a></td>
+				<td><a title="Kategorie &#8220;<?php echo $row->wert; ?>&#8221; l&ouml;schen" href="admin.php?page=teachpress/settings.php&delete=<?php echo $row->einstellungs_id; ?>" class="teachpress_delete">X</a></td>
 				<td><?php echo $row->wert; ?></td>
 				<td>
 				<?php 
@@ -239,11 +239,11 @@ if ( is_user_logged_in() ) {
 							<?php echo $version; ?> <span style="color:#00FF00; font-weight:bold;">&radic;</span>
 						<?php } 
 						else { ?>
-							<?php echo $test; ?> <span style="color:#FF0000; font-weight:bold;">X</span> <a href="admin.php?page=teachpress/einstellungen.php&up=1"><strong><?php _e('Update to','teachpress'); ?> <?php echo $version; ?></strong></a>
+							<?php echo $test; ?> <span style="color:#FF0000; font-weight:bold;">X</span> <a href="admin.php?page=teachpress/settings.php&up=1"><strong><?php _e('Update to','teachpress'); ?> <?php echo $version; ?></strong></a>
 						<?php }
 					} 
 					else { ?>
-						<a href="admin.php?page=teachpress/einstellungen.php&ins=1"><strong><?php _e('install','teachpress'); ?></strong></a>
+						<a href="admin.php?page=teachpress/settings.php&ins=1"><strong><?php _e('install','teachpress'); ?></strong></a>
 					<?php } ?>   </td>
 			  </tr>
 			  <tr>
@@ -256,7 +256,7 @@ if ( is_user_logged_in() ) {
 						<option value="<?php echo"$wert" ?>"><?php echo"$wert"?></option>
 						<option>------------</option>
 						<?php    
-					   $sem = "SELECT einstellungs_id, wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
+					   $sem = "SELECT einstellungs_id, wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id DESC";
 						$sem = tp_results($sem);
 						foreach ($sem as $sem) { ?> 
 							<option value="<?php echo $sem->wert; ?>"><?php echo $sem->wert; ?></option>
