@@ -1,13 +1,10 @@
 <?php
-/* Uebersicht Kurse
- * from editlvs.php, showlvs.php
+/* Course overview
+ * from editlvs.php (GET), showlvs.php (GET):
  * @param $semester2 (String) 
  * @param $search (String)
 */
-?>
-
-<?php 
-if ( is_user_logged_in() ) { 
+function teachpress_showlvs_page() { 
 ?> 
 
 <div class="wrap" style="padding-top:10px;">
@@ -56,9 +53,9 @@ if ( is_user_logged_in() ) {
             <?php    
 		    $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
 			$sem = tp_results($sem);
-			foreach ($sem as $sem) { ?> 
-				<option value="<?php echo $sem->wert; ?>"><?php echo $sem->wert; ?></option>
-			<?php } ?> 
+			foreach ($sem as $sem) { 
+				echo '<option value="' . $sem->wert . '">' . $sem->wert . '</option>';
+			} ?> 
         </select>
         <input name="copy_ok" type="submit" class="teachpress_button" value="<?php _e('copy','teachpress'); ?>"/>
         <a href="<?php echo 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . ''; ?>"> <?php _e('cancel','teachpress'); ?></a>
@@ -85,21 +82,25 @@ if ( is_user_logged_in() ) {
     <tr>
       <td>
         <select name="semester2" id="semester2">
-            <option value="<?php echo"$semester2" ?>"><?php echo"$semester2" ?></option>
-            <option>------</option>
         	<option value="alle"><?php _e('All terms','teachpress'); ?></option>
             <?php    
 		    $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id DESC";
 			$sem = tp_results($sem);
-			foreach ($sem as $sem) { ?> 
-				<option value="<?php echo $sem->wert; ?>"><?php echo $sem->wert; ?></option>
-			<?php } ?> 
+			foreach ($sem as $sem) { 
+				if ($sem->wert == $semester2) {
+					$current = 'selected="selected"' ;
+				}
+				else {
+					$current = '' ;
+				} 
+				echo '<option value="' . $sem->wert . '" ' . $current . '>' . $sem->wert . '</option>';
+			} ?> 
         </select>
       </td>
       <td style="padding-left:10px;"><input type="submit" name="start" value="<?php _e('show','teachpress'); ?>" id="teachpress_submit" class="teachpress_button"/></td>
       <td style="padding-left:10px;">
       	<select name="bulk" id="bulk">
-        	<option><?php _e('Bulk actions','teachpress'); ?></option>
+        	<option>- <?php _e('Bulk actions','teachpress'); ?> -</option>
             <option value="copy"><?php _e('copy','teachpress'); ?></option>
             <option value="delete"><?php _e('delete','teachpress'); ?></option>
       </select>
@@ -144,11 +145,9 @@ if ( is_user_logged_in() ) {
 	}
 	$test = tp_query($abfrage);	
 	// Falls es keine Treffer gibt
-	if ($test == 0) { ?>
-        	<tr>
-           	  <td colspan="13"><strong><?php _e('Sorry, no entries matched your criteria.','teachpress'); ?></strong></td>
-            </tr>
-    <?php }
+	if ($test == 0) { 
+		echo '<tr><td colspan="13"><strong>' . __('Sorry, no entries matched your criteria.','teachpress') . '</strong></td></tr>';
+    }
 	// Zusammenstellung Ergebnisse
 	else {
 		$z = 0;

@@ -1,17 +1,11 @@
 <?php 
 /* Erzeugung von Anwesenheitslisten zum ausdrucken
- * from editlvs.php
+ * from editlvs.php (GET):
  * @param $lvs_ID
  * @param $search
  * @param $sememster2
 */
-?>
-
-<?php 
-if ( is_user_logged_in() ) { 
-?>
-
-<?php
+function teachpress_lists_page () {
 // fuer Zurueckleitung an editlvs.php
 $search = htmlentities(utf8_decode($_GET[search]));
 $sem = htmlentities(utf8_decode($_GET[sem]));

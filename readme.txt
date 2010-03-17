@@ -1,30 +1,29 @@
 === teachPress ===
 Contributors: Michael Winkler
-Tags: management, publications, enrollments, teachpress
+Tags: management, publications, enrollments, teachpress, university
 Requires at least: 2.8
-Tested up to: 2.9.1
-Stable tag: 0.40.0
+Tested up to: 2.9.2
+Stable tag: 0.80.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
-teachPress is a powerful course and publication managment plugin, which is published under the terms of GPL-License. You can use it with WordPress 2.8.0 or higher.
+teachPress is a powerful course and publication managment plugin, which is published under the terms of GPL. The plugin is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
 
-New in Version 0.40.0: The plugin supports ISSN and now you can add images to publications. But, it's currently not possible to insert images directly from the WordPress Media Library, so you must insert the url manually. This bug would be fixed with the next release.
+After the installation do the following things to configure teachPress: Firstly create a new page in WordPress und write `<!--LVS-->` in the textfield (html-mode) for creating the enrollment page or `<!--LVS2-->` for the course overview. That's it. I hope, that the normal using and configuration is self explanatory. 
 
-For more informations have a look in the FAQ, or see [here](http://www.mtrv.kilu.de/teachpress/).
+Please note, that it's currently not possible to insert images directly from the WordPress Media Library to a publication, so you must insert the url manually.
+
+For more information see [here](http://www.mtrv.kilu.de/teachpress/).
 
 = Features: =
 * Publication management
-* Course management
+* Course management with enrollment system
 * Student management
-* Enrollments system with optional waiting lists
-* xls/csv-export
-* Print templates for attendance lists
+* xls/csv-export for course lists
 * Integrated search functions
-* Some shortcodes for an easy using in posts an pages
-* **New**: ISSN support
-* **New**: An own widget for displaying books in the sidebar
+* Shortcodes for easy using in posts an pages
+* Widget for displaying books in the sidebar
 
 
 = Supported Languages =
@@ -61,7 +60,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 2. Extract all the files. 
 3. For the CSV/XLS-export please define your root directory path in the parameters_sample.php and rename the file to parameters.php
 3. Upload everything (keeping the directory structure) to your plugins directory.
-4. Activate the plugin through the 'Plugins' menu in WordPress.
+4. Activate the plugin through the 'plugins' menu in WordPress.
 
 **For updates:**
 
@@ -70,7 +69,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 3. Upload all files to the 'plugins/teachpress' directory.
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
-== Upgrade Notice == 
+== Upgrade Notice ==
 
 = 0.40.0 =
 Don't forget to click on the update button (teachpress settings page) after upgrading.
@@ -79,49 +78,49 @@ Don't forget to click on the update button (teachpress settings page) after upgr
 For 0.22.0 Users: Please rename your teachPress database tables after the upgrade! ( `teachpress_ver` --> `[your wp_prefix]_teachpress_ver` )  
 
 == Screenshots ==
-[Screenshots](http://www.mtrv.kilu.de/teachpress/teachpress-images/)   
+[See here](http://www.mtrv.kilu.de/teachpress/teachpress-images/)   
 
 == Frequently Asked Questions ==
 
-= How I can added the Frontend Pages? =
-
-Create a new Page in WordPress and write the following strings in the textfield (html-mode):  
-for enrollment page: **`<!--LVS-->`**  
-for course overview: **`<!--LVS2-->`** 
+= Is it possible to connect the WordPress registration with the teachPress registration? =
+Currently not, sorry! teachPress was developed for using other login systems in WordPress like Shibboleth, where the plugin needs the extra registration.
 
 = How I can use the shortcodes? = 
 
-For the dates of courses:  
+For course informations:  
 = [tpdate id="x"] =  
 * x = Course ID
 
-for publication lists with tag-cloud:
+For publication lists with tag-cloud:
 = [tpcloud (args)] =  
 * user = WP-User-ID (0 for all)
 * minsize = min. font size in the tag-cloud
 * maxsize = max. font size in the tag-cloud
 * limit = number of tags in the tag-cloud
 
-for normal publication lists:  
+For normal publication lists:  
 = [tplist (args)] =  
 * id - WP User-ID (0 for all)  
 * tag - Tag-ID  
 * year  
-* headline - 0(off) or 1(on)  
-
-= How I can change the style of teachPress? =
-You can edit all frontend styles in the teachpress_front.css (Automatic updates overwrites your changes!) or you can use the following CSS-classes in your theme to change the style of publications:  
-.tp_publication  
-.tp_pub_autor  
-.tp_pub_titel  
-.tp_pub_typ  
-.tp_pub_tags  
-and following classes to change the style in the course overview:  
-`#anzeigelvs h3`  
-.tp_lvs_container  
-.tp_lvs_name  
+* headline - 0(off) or 1(on)   
 
 == Changelog ==
+= 0.80.0 =
+* New: Capabilities for backend access control
+* New: Posible to prevent sign outs for registrations 
+* Changed: Style of frontend course overview
+* Changed: Merge yourpub.php and showpublications.php to publications.php
+* Changed: Integration of editpub.php in addpublications.php
+* Changed: Central definition of publication types in the source code 
+* Changed: Select fields reworked
+* Changed: Translation for publication types
+* Changed: Put all javascript functions to standard.js
+* Changed: Put the teachPress settings page from the courses menu to the Wordpress settings menu
+* Bugfix: Fixed displaying child courses in display.php 
+* Bugfix: Cleaned backend CSS and more CSS3 compatibility
+* Bugfix: Fixed access bug for students.php
+* Bugfix: Fixed updater
 = 0.40.0 =
 * New: teachPress books widget
 * New: Add images to your publications

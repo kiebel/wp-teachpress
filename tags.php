@@ -1,13 +1,10 @@
 <?php
-/* Tag-Verwaltung
+/* Tag management
  * from tags.php:
  * @param $search (String) - Suchergebnis
  * @param $tag_id (INT) - ID eines zu bearbeitenden Tags
-*/
-?>
-
-<?php  
-if ( is_user_logged_in() ) { 
+*/ 
+function teachpress_tags_page(){ 
 ?> 
 <div class="wrap" style="padding-top:10px;">
   <form id="form1" name="form1" method="get" action="<?php echo $PHP_SELF ?>">
@@ -52,7 +49,7 @@ if ( isset($speichern)) {
   </tr>
   <tr>  
     <td><select name="action">
-    		<option><?php _e('Bulk actions','teachpress'); ?></option>
+    		<option value="">- <?php _e('Bulk actions','teachpress'); ?> -</option>
             <option value="delete"><?php _e('delete','teachpress'); ?></option>
     	</select>
         <input name="ok" value="ok" type="submit" class="teachpress_button"/></td>    
@@ -74,8 +71,8 @@ if ($tag_id != "") {
           <tr>
             <th><?php _e('Tag-ID','teachpress'); ?></th>
             <td><?php echo $tag_id; ?></td>
-            <th><?php _e('Name','teachpress'); ?></th>
-            <td><input name="name" type="text" value="<?php echo $name; ?>"/></td>
+            <th><label for="name"><?php _e('Name','teachpress'); ?></label></th>
+            <td><input name="name" type="text" id="name" value="<?php echo $name; ?>"/></td>
             <td><input name="speichern" type="submit" value="<?php _e('save','teachpress'); ?>" class="teachpress_button"/></td>
             <td><a title="<?php _e('cancel','teachpress'); ?>" href="admin.php?page=teachpress/tags.php&search=<?php echo $search; ?>" ><?php _e('cancel','teachpress'); ?></a></td>
           </tr>
@@ -107,11 +104,7 @@ if ($tag_id != "") {
 	$test = tp_query($abfrage);
 	// Test ob Eintraege vorhanden
 	if ($test == 0) {
-		?>
-        	<tr>
-           	  <td colspan="4"><strong><?php _e('Sorry, no entries matched your criteria.','teachpress'); ?></strong></td>
-            </tr>
-        <?php
+		echo '<tr><td colspan="4"><strong>' . __('Sorry, no entries matched your criteria.','teachpress') . '</strong></td></tr>';
 	}
 	else {
 		// Abfrage wie oft die Tags verwendet werden

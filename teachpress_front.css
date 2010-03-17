@@ -137,7 +137,6 @@ ul.teachpress_list li {
 	color:#177665; 
 }
 .tp_auswahl {
-	border-bottom:1px dotted silver;
 	margin:3px;
 	padding:3px;
 }
@@ -150,4 +149,7 @@ ul.teachpress_list li {
 	border-bottom:1px solid silver; 
 	border-right:1px solid silver;
 	padding:10px;
+}
+.tp_lvs_comments {
+	padding-top:5px;
 }

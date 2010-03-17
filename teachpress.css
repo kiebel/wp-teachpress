@@ -1,21 +1,9 @@
 /* Help container */
 div#hilfe_anzeigen {
-	-webkit-appearance: none;
-	-webkit-background-clip: border;
-	-webkit-background-origin: padding;
-	-webkit-border-bottom-left-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	-webkit-box-align: center;
-	-webkit-box-sizing: content-box;
-	-webkit-rtl-ordering: logical;
-	-webkit-user-select: text;
-	-moz-border-radius-bottomleft:5px;
-	-moz-border-radius-bottomright:5px;
-	-moz-border-radius-topleft:5px;
-	-moz-border-radius-topright:5px;
-	-moz-box-sizing:content-box;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 	background-color: rgb(243,243,243);
 	border:1px solid silver;
 	padding:5px;
@@ -38,27 +26,11 @@ p.hilfe_close {
 }
 /* Design for Submit-Buttons */
 .teachpress_back, input.teachpress_button {
-	-webkit-appearance: none;
-	-webkit-background-clip: border;
-	-webkit-background-origin: padding;
-	-webkit-border-bottom-left-radius: 11px;
-	-webkit-border-bottom-right-radius: 11px;
-	-webkit-border-top-left-radius: 11px;
-	-webkit-border-top-right-radius: 11px;
-	-webkit-box-align: center;
-	-webkit-box-sizing: content-box;
-	-webkit-rtl-ordering: logical;
-	-webkit-user-select: text;
-	-moz-border-radius-bottomleft:11px;
-	-moz-border-radius-bottomright:11px;
-	-moz-border-radius-topleft:11px;
-	-moz-border-radius-topright:11px;
-	-moz-box-sizing:content-box;
+	-webkit-border-radius: 11px;
+	-khtml-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
 	border: 2px inset;
-	white-space: pre;
-	letter-spacing: normal;
-	text-transform: none;
-	word-spacing: normal;
 	line-height: normal;
 	display: inline-block;
 	text-align: center;
@@ -96,21 +68,11 @@ a.teachpress_delete:hover {
 }
 /* Design for Select-Buttons*/
 .teachpress_select {
-	-webkit-background-clip: border;
-	-webkit-background-origin: padding;
-	-webkit-border-bottom-left-radius: 11px;
-	-webkit-border-bottom-right-radius: 11px;
-	-webkit-border-top-left-radius: 11px;
-	-webkit-border-top-right-radius: 11px;
-	-webkit-box-align: center;
-	-webkit-box-sizing: content-box;
-	-webkit-rtl-ordering: logical;
-	-webkit-user-select: text;
+	-webkit-border-radius: 11px;
+	-khtml-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
 	border: 2px inset;
-	white-space: pre;
-	letter-spacing: normal;
-	text-transform: none;
-	word-spacing: normal;
 	line-height: normal;
 	display: inline-block;
 	font: normal normal normal 13px/19px 'Lucida Grande', Verdana, Arial, 'Bitstream Vera Sans', sans-serif;
@@ -129,22 +91,10 @@ a.teachpress_delete:hover {
 	margin: 0px 1em 0px 10px;
 }
 .teachpress_message {
-	-webkit-appearance: none;
-	-webkit-background-clip: border;
-	-webkit-background-origin: padding;
-	-webkit-border-bottom-left-radius: 5px;
-	-webkit-border-bottom-right-radius: 5px;
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	-webkit-box-align: center;
-	-webkit-box-sizing: content-box;
-	-webkit-rtl-ordering: logical;
-	-webkit-user-select: text;
-	-moz-border-radius-bottomleft:5px;
-	-moz-border-radius-bottomright:5px;
-	-moz-border-radius-topleft:5px;
-	-moz-border-radius-topright:5px;
-	-moz-box-sizing:content-box;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 	background-color:#FFFFCC; 
 	border:1px solid silver; 
 	padding:5px;
