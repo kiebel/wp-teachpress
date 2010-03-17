@@ -1,14 +1,11 @@
 <?php 
 /* Bearbeitung von Lehrveranstaltungen
- * from showlvs.php:
+ * from showlvs.php (GET):
  * @param $lvs_ID (INT) - ID der Veranstaltung die geladen werden soll
  * @param $sem (String) - angezeigtes Semester auf showlvs.php
  * @param $search (String) - verwendeter Suchstring auf showlvs.php
 */
-?>
-
-<?php 
-if ( is_user_logged_in() ) { 
+function teachpress_editlvs_page () { 
 ?>
 <div class="wrap">
 <form id="einzel" name="einzel" action="<?php echo $PHP_SELF ?>" method="get">
@@ -48,7 +45,7 @@ $search = htmlentities(utf8_decode($_GET[search]));
 $sem = htmlentities(utf8_decode($_GET[sem]));
 // Befehle ausfürhen
 if ( isset($speichern) ) {
-	change_lehrveranstaltung($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $sichtbar, $veranstaltung, $parent, $warteliste);
+	change_lehrveranstaltung($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste, $veranstaltung);
 	$message = __('Changes successful','teachpress');
 	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
 	tp_get_message($message, $site);
@@ -163,25 +160,27 @@ if ($speichern != __('save','teachpress')) { ?>
             <table class="widefat">
 				<thead>
             	<tr>
-                <th><?php _e('Course type','teachpress'); ?></th>
+                <th><label for="vtyp"><?php _e('Course type','teachpress'); ?></label></th>
                 <td>
                   <select name="vtyp" id="vtyp">
-                      <option value="<?php echo $daten[0][2]; ?>"><?php echo $daten[0][2]; ?></option>
-                      <option>--------------</option>
-                      <?php 
+                      <?php
                         global $teachpress_einstellungen;
                         $row = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'veranstaltungstyp' ORDER BY wert";
                         $row = tp_results($row);
-                        foreach ($row as $row) { ?>  
-                            <option value="<?php echo $row->wert; ?>"><?php echo $row->wert; ?></option>
-                        <?php } ?>
+                        foreach ($row as $row) { 
+							if ($daten[0][2] == $row->wert) {
+								$current = 'selected="selected"' ;
+							}
+							else {
+								$current = '' ;
+							}  
+                            echo '<option value="' . $row->wert . '" ' . $current . '>' . $row->wert . '</option>';
+                        } ?>
                   </select>
                 </td>
-                <th><?php _e('Term','teachpress'); ?></th>
+                <th><label for="semester"><?php _e('Term','teachpress'); ?></label></th>
                 <td>
                     <select name="semester" id="semester">
-                        <option value="<?php echo $daten[0][10]; ?>"><?php echo $daten[0][10]; ?></option>
-                        <option>---------</option>
                        <?php    
                         $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
                         $sem = tp_results($sem);
@@ -191,38 +190,51 @@ if ($speichern != __('save','teachpress')) { ?>
                             $x++;
                         }
                         $zahl = $x-1;
-                        while ($zahl != 0) {
-                            echo '<option value="' . $period[$zahl] . '">' . $period[$zahl] . '</option>';
+                        while ($zahl >= 0) {
+							if ($period[$zahl] == $daten[0][10]) {
+								$current = 'selected="selected"' ;
+							}
+							else {
+								$current = '' ;
+							}
+                            echo '<option value="' . $period[$zahl] . '" ' . $current . '>' . $period[$zahl] . '</option>';
                             $zahl--;
                         }
                         ?> 
                     </select>            </td>
-                <th><?php _e('Visibility','teachpress'); ?></th>
+                <th><label for="sichtbar"><?php _e('Visibility','teachpress'); ?></label></th>
                 <td><select name="sichtbar" id="sichtbar">
-                  <option value="<?php echo $daten[0][14]; ?>"><?php if ($daten[0][14] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></option>
-                  <option>----</option>
-                  <option value="1"><?php _e('yes','teachpress'); ?></option>
-                  <option value="0"><?php _e('no','teachpress'); ?></option>
+                  <?php
+				  	if ($daten[0][14] == 1) {
+						echo '<option value="1" selected="selected">' . __('yes','teachpress') . '</option>';
+                  		echo '<option value="0">' . __('no','teachpress') . '</option>';
+					}
+					else {
+                    	echo '<option value="1">' . __('yes','teachpress') . '</option>';
+                  		echo '<option value="0" selected="selected">' . __('no','teachpress') . '</option>';
+					}?>
                 </select></td>
               </tr>
               <tr>
-                <th><?php _e('ID','teachpress'); ?></th>
+                <th><label for="lvs_ID"><?php _e('ID','teachpress'); ?></label></th>
                 <td><input name="lvs_ID" type="text" id="parent" size="10" readonly="true" value="<?php echo $daten[0][0]; ?>"/></td>
-                <th><?php _e('Parent','teachpress'); ?></th>
+                <th><label for="par"><?php _e('Parent','teachpress'); ?></label></th>
                 <td colspan="3">
                   <select name="par" id="par">
-                  	<?php if ($daten[0][13] != 0) {?>
-                    <option value="<?php echo $daten[0][13]; ?>"><?php echo $daten[0][13]; ?></option>
-                    <option>------</option>
-                    <?php } ?>
-                    <option value="0"><?php _e('none','teachpress'); ?></option>
-                    <option>------</option>
+                    <option value="0">- <?php _e('none','teachpress'); ?> -</option>
+                    <option value="0">------</option>
                      <?php 	
                     for ($i = 0; $i < $x; $i++) {
                         $zahl = 0;
                         for ($j = 0; $j < $counter3; $j++) {
                             if ($period[($x - 1)-$i] == $par[$j][2] ) {
-                                echo '<option value="' . $par[$j][0] . '">' . $par[$j][0] . ' - ' . $par[$j][1] . ' ' . $par[$j][2] . '</option>';
+								if ($par[$j][0] == $daten[0][13]) {
+									$current = 'selected="selected"' ;
+								}
+								else {
+									$current = '' ;
+								}
+                                echo '<option value="' . $par[$j][0] . '" ' . $current . '>' . $par[$j][0] . ' - ' . $par[$j][1] . ' ' . $par[$j][2] . '</option>';
                                 $zahl++;
                             } 
                         } 
@@ -239,27 +251,27 @@ if ($speichern != __('save','teachpress')) { ?>
         <table class="widefat">
          <thead>
           <tr>
-            <th><?php _e('Course name','teachpress'); ?></th>
+            <th><label for="name"><?php _e('Course name','teachpress'); ?></label></th>
             <td><input name="name" type="text" id="name" value="<?php echo $daten[0][1]; ?>" size="40"/></td>
            </tr>
           <tr>
-            <th><?php _e('Lecturer','teachpress'); ?></th>
-            <td><input name="dozent" type="text" value="<?php echo $daten[0][4]; ?>" size="40"/></td>
+            <th><label for="dozent"><?php _e('Lecturer','teachpress'); ?></label></th>
+            <td><input name="dozent" id="dozent" type="text" value="<?php echo $daten[0][4]; ?>" size="40"/></td>
           </tr>
           <tr>
-            <th><?php _e('Date','teachpress'); ?></th>
-            <td><input name="termin" type="text" value="<?php echo $daten[0][5]; ?>" size="40"/></td>
+            <th><label for="termin"><?php _e('Date','teachpress'); ?></label></th>
+            <td><input name="termin" id="termin" type="text" value="<?php echo $daten[0][5]; ?>" size="40"/></td>
           </tr>
           <tr>
-            <th><?php _e('Room','teachpress'); ?></th>
-            <td><input name="raum" type="text" size="40" value="<?php echo $daten[0][3]; ?>"/></td>
+            <th><label for="raum"><?php _e('Room','teachpress'); ?></label></th>
+            <td><input name="raum" id="raum" type="text" size="40" value="<?php echo $daten[0][3]; ?>"/></td>
           </tr>
           <tr>
-            <th><?php _e('Comment','teachpress'); ?></th>
-            <td><input name="bemerkungen" type="text" value="<?php echo $daten[0][11]; ?>" size="70"/></td>
+            <th><label for="bemerkungen"><?php _e('Comment','teachpress'); ?></label></th>
+            <td><input name="bemerkungen" id="bemerkungen" type="text" value="<?php echo $daten[0][11]; ?>" size="70"/></td>
           </tr>
           <tr>
-            <th><?php _e('Related Page','teachpress'); ?></th>
+            <th><label for="rel_page"><?php _e('Related Page','teachpress'); ?></label></th>
             <td><select name="rel_page" id="rel_page">
                 <?php teachpress_wp_pages("menu_order","ASC",$daten[0][12],0,0); ?>
                 </select>
@@ -274,24 +286,29 @@ if ($speichern != __('save','teachpress')) { ?>
             <td colspan="6" style="font-size:11px; color:#FF0000;"><strong><?php _e('Format for the date','teachpress'); ?> <?php _e('JJJJ-MM-TT','teachpress'); ?></strong></td>
           </tr>
           <tr>
-            <th><?php _e('Number of places','teachpress'); ?></th>
-            <td><input name="plaetze" type="text" size="10" value="<?php echo $daten[0][6]; ?>"/></td>
-            <th><?php _e('free places','teachpress'); ?></th>
-            <td><input name="fplaetze" type="text" size="10" value="<?php echo $daten[0][7]; ?>"/></td>
+            <th><label for="plaetze"><?php _e('Number of places','teachpress'); ?></label></th>
+            <td><input name="plaetze" id="plaetze" type="text" size="10" value="<?php echo $daten[0][6]; ?>"/></td>
+            <th><label for="fplaetze"><?php _e('free places','teachpress'); ?></label></th>
+            <td><input name="fplaetze" id="fplaetze" type="text" size="10" value="<?php echo $daten[0][7]; ?>"/></td>
             <td colspan="2">&nbsp;</td>
            </tr>
           <tr>
-            <th><?php _e('Start','teachpress'); ?></th>
+            <th><label for="startein"><?php _e('Start','teachpress'); ?></label></th>
             <td><input name="startein" id="startein"type="text" size="10" value="<?php echo $daten[0][8]; ?>"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
-            <th><?php _e('End','teachpress'); ?></th>
+            <th><label for="endein"><?php _e('End','teachpress'); ?></label></th>
             <td><input name="endein" id="endein" type="text" size="10"  value="<?php echo $daten[0][9]; ?>"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
-            <th><?php _e('Waiting list','teachpress'); ?></th>
+            <th><label for="warteliste"><?php _e('Waiting list','teachpress'); ?></label></th>
             <td><select name="warteliste" id="warteliste">
-               <option value="<?php echo $daten[0][15]; ?>"><?php if ($daten[0][15] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></option>
-              <option>----</option> 
-              <option value="0"><?php _e('no','teachpress'); ?></option>
-              <option value="1"><?php _e('yes','teachpress'); ?></option>
-            </select>                </td>
+            <?php
+			if ($daten[0][15] == 1) {
+				echo '<option value="1" selected="selected">' . __('yes','teachpress') . '</option>';
+				echo '<option value="0">' . __('no','teachpress') . '</option>';
+			}
+			else {
+				echo '<option value="1">' . __('yes','teachpress') . '</option>';
+				echo '<option value="0" selected="selected">' . __('no','teachpress') . '</option>';
+			}?>
+            </td>
           </tr>
          </thead> 
         </table>

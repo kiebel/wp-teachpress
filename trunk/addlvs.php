@@ -2,7 +2,7 @@
 /*
  * Neue Kurse hinzufuegen
 */ 
-if ( is_user_logged_in() ) { 
+function teachpress_addlvs_page() { 
 
 global $teachpress_einstellungen;
 global $teachpress_ver;
@@ -13,8 +13,7 @@ $lvname = htmlentities(utf8_decode($_POST[lvname])) ;
 $raum = htmlentities(utf8_decode($_POST[raum])) ;
 $dozent = htmlentities(utf8_decode($_POST[dozent]));
 $termin = htmlentities(utf8_decode($_POST[termin]));
-$plaetze = htmlentities(utf8_decode($_POST[platz])); 
-$fplaetze = $plaetze;
+$plaetze = htmlentities(utf8_decode($_POST[platz]));
 $startein = htmlentities(utf8_decode($_POST[startein])); 
 $endein = htmlentities(utf8_decode($_POST[endein])); 
 $semester = htmlentities(utf8_decode($_POST[semester]));
@@ -25,7 +24,7 @@ $sichtbar = htmlentities(utf8_decode($_POST[sichtbar]));
 $warteliste = htmlentities(utf8_decode($_POST[warteliste]));
 
 if (isset($erstellen)) {
-	add_lvs_in_database($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester,  $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste);
+	add_lvs_in_database($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $startein, $endein, $semester,  $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste);
 	$message = __('Course created','teachpress');
 	$site = 'admin.php?page=teachpress/addlvs.php';
     tp_get_message($message, $site);
@@ -53,28 +52,24 @@ if (isset($erstellen)) {
         <table class="widefat">
          <thead>
           <tr>
-            <th><?php _e('Course type','teachpress'); ?></th>
+            <th><label for="veranstaltungstyp"><?php _e('Course type','teachpress'); ?></label></th>
             <td>
               <select name="veranstaltungstyp" id="veranstaltungstyp">
               <?php 
 			    $row = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'veranstaltungstyp' ORDER BY wert";
 				$row = tp_results($row);
-				foreach ($row as $row) { ?>  
-                	<option value="<?php echo $row->wert; ?>"><?php echo $row->wert; ?></option>
-                <?php } ?>
+				foreach ($row as $row) {  
+                	echo '<option value="' . $row->wert . '">' . $row->wert . '</option>';
+                } ?>
             </select>            </td>
-            <th><?php _e('Term','teachpress'); ?></th>
+            <th><label for="semester"><?php _e('Term','teachpress'); ?></label></th>
             <td>
               <select name="semester" id="semester">
 				<?php
-                $abfrage = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
-                $wert = tp_var($abfrage);
-                   ?>
-                <option value="<?php echo"$wert" ?>"><?php echo"$wert" ?></option>
-                <option>------</option>
-                <?php    
-				$sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
-				$sem = tp_results($sem);
+                $sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
+                $wert = tp_var($sql);   
+				$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
+				$sem = tp_results($sql);
 				$x = 0;
 				// Semester in array speichern - wird spaeter fuer Parent-Menu genutzt
 				foreach ($sem as $sem) { 
@@ -83,14 +78,20 @@ if (isset($erstellen)) {
 				}
 				$zahl = $x-1;
 				// gibt alle Semester aus (umgekehrte Reihenfolge)
-				while ($zahl != 0) {
-					echo '<option value="' . $period[$zahl] . '">' . $period[$zahl] . '</option>';
+				while ($zahl >= 0) {
+					if ($period[$zahl] == $wert) {
+						$current = 'selected="selected"' ;
+					}
+					else {
+						$current = '' ;
+					}
+					echo '<option value="' . $period[$zahl] . '" ' . $current . '>' . $period[$zahl] . '</option>';
 					$zahl--;
 				}?> 
             </select></td>
           </tr>
               <tr>
-                <th><?php _e('Parent','teachpress'); ?></th>
+                <th><label for="parent2"><?php _e('Parent','teachpress'); ?></label></th>
 <td>
                     <select name="parent2" id="parent2">
                       <option value="0"><?php _e('none','teachpress'); ?></option>
@@ -119,7 +120,7 @@ if (isset($erstellen)) {
 					    }?>
                     </select>
                 </td>
-                <th><?php _e('Visibility','teachpress'); ?></th>
+                <th><label for="sichtbar"><?php _e('Visibility','teachpress'); ?></label></th>
                 <td><select name="sichtbar" id="sichtbar">
                   <option value="1"><?php _e('yes','teachpress'); ?></option>
                   <option value="0"><?php _e('no','teachpress'); ?></option>
@@ -131,31 +132,31 @@ if (isset($erstellen)) {
         <table class="widefat">
          <thead>
               <tr>
-                <th><?php _e('Course name','teachpress'); ?></th>
+                <th><label for="lvname"><?php _e('Course name','teachpress'); ?></label></th>
                 <td><input name="lvname" type="text" id="lvname" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Lecturer','teachpress'); ?></th>
+                <th><label for="dozent"><?php _e('Lecturer','teachpress'); ?></label></th>
                 <td><input name="dozent" type="text" id="dozent" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Date','teachpress'); ?></th>
+                <th><label for="termin"><?php _e('Date','teachpress'); ?></label></th>
                 <td><input name="termin" type="text" id="termin" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Room','teachpress'); ?></th>
+                <th><label for="raum"><?php _e('Room','teachpress'); ?></label></th>
                 <td><input name="raum" type="text" id="raum" size="50" /></td>
               </tr>
               <tr>
-                <th><?php _e('Number of places','teachpress'); ?></th>
+                <th><label for="platz"><?php _e('Number of places','teachpress'); ?></label></th>
                 <td><input name="platz" type="text" id="platz" size="6" /></td>
               </tr>
               <tr>
-                <th><?php _e('Comment','teachpress'); ?></th>
+                <th><label for="bemerkungen"><?php _e('Comment','teachpress'); ?></label></th>
                 <td><input name="bemerkungen" type="text" id="bemerkungen" size="75" /></td>
               </tr>
               <tr>
-                <th><?php _e('Related Page','teachpress'); ?></th>
+                <th><label for="rel_page"><?php _e('Related Page','teachpress'); ?></label></th>
                 <td><select name="rel_page" id="rel_page">
         			<?php teachpress_wp_pages("menu_order","ASC",$rel_page,0,0); ?>
         			</select>
@@ -167,11 +168,11 @@ if (isset($erstellen)) {
         <table class="widefat">
          <thead>
           <tr>
-            <th><?php _e('Start','teachpress'); ?></th>
+            <th><label for="startein"><?php _e('Start','teachpress'); ?></label></th>
             <td><input name="startein" type="text" id="startein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
-            <th><?php _e('End','teachpress'); ?></th>
+            <th><label for="endein"><?php _e('End','teachpress'); ?></label></th>
             <td><input name="endein" type="text" id="endein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
-            <th><?php _e('Waiting list','teachpress'); ?></th>
+            <th><label for="warteliste"><?php _e('Waiting list','teachpress'); ?></label></th>
             <td><select name="warteliste" id="warteliste">
               <option value="0"><?php _e('no','teachpress'); ?></option>
               <option value="1"><?php _e('yes','teachpress'); ?></option>

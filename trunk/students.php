@@ -1,17 +1,12 @@
 <?php 
 /* Suche nach Studenten, Anzeige von Uebersichtslisten
  *
- * from editstudent.php, students.php
+ * from editstudent.php (GET), students.php (GET):
  * @param $suche - String
  * @param $studenten - String
 */
-?>
+function teachpress_students_page() { 
 
-<?php 
-if ( is_user_logged_in() ) { 
-?> 
-
-<?php
 global $teachpress_stud;
 global $user_ID;
 get_currentuserinfo();
@@ -53,7 +48,7 @@ if (isset($kontrolle)) {
 				}
             }    
 			else {
-				echo '<option value="0">' . __('please select','teachpress') . '</option>';
+				echo '<option value="0">- ' . __('please select','teachpress') . ' -</option>';
 			}			
 		?>
           <option value="1"><?php _e('All students','teachpress'); ?></option>

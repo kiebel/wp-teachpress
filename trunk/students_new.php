@@ -1,11 +1,25 @@
 <?php 
 /* 
  * Formular für alle manuellen Eingriffe ins Einschreibesystem
-*/
-?>
-
-<?php  
-if ( is_user_logged_in() ) { 
+ * from students_new.php (POST):
+ * 1. Adding new students manually:
+ * @param wp_id - WordPress user-ID
+ * @param matrikel - Registration number
+ * @param vorname
+ * @param nachmane - Last name
+ * @param studiengang - Course of studies
+ * @param fachsemester - Number of termns
+ * @param uzrkurz - 
+ * @param gebdat - Date of birth
+ * @param email
+ * 2. Subscribe students manually
+ * @param student - WordPress user-ID
+ * @param veranstaltung - Course-ID
+ * 2. Actions
+ * @param insert
+ * @param einschreiben
+*/ 
+function teachpress_students_new_page() { 
 
 $wp_id = htmlentities(utf8_decode($_POST[wp_id]));
 $matrikel = htmlentities(utf8_decode($_POST[matrikel]));
@@ -43,8 +57,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
 <table border="0" cellspacing="7" cellpadding="0">
           <tr>
             <td><select name="student" id="student">
-              <option value="0"><?php _e('Select student','teachpress'); ?></option>
-              <option value="0">----------</option>
+              <option value="0">- <?php _e('Select student','teachpress'); ?>- </option>
            <?php
 			global $teachpress_ver; 
 			global $teachpress_stud; 
@@ -60,11 +73,10 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
 				$merke = $row1->nachname;
 				$zahl++;
 			} ?>
-        </select>
+        	</select>
             </select></td>
             <td><select name="veranstaltung" id="veranstaltung">
-              <option value="0"><?php _e('Select course','teachpress'); ?></option>
-              <option value="0">----------</option>
+              <option value="0">- <?php _e('Select course','teachpress'); ?> -</option>
               <?php
 			  	// Semester
                 $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
@@ -128,71 +140,57 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
 <table class="widefat">
 	<thead>
           <tr>
-            <th><?php _e('WordPress User-ID','teachpress'); ?></th>
+            <th><label for="wp_id"><?php _e('WordPress User-ID','teachpress'); ?></label></th>
             <td style="text-align:left;"><input type="text" name="wp_id" id="wp_id" /> 
               <span style="font-size:10px; color:#FF0000;"><?php _e('If the student has not an account for your blog, so you must create this account manually.','teachpress'); ?></span></td>
       	  </tr>
           <tr>
-            <th><?php _e('Registr.-Number','teachpress'); ?></th>
+            <th><label for="matrikel"><?php _e('Registr.-Number','teachpress'); ?></label></th>
             <td style="text-align:left;"><input type="text" name="matrikel" id="matrikel" /></td>
           </tr>
           <tr>
-            <th><?php _e('First name','teachpress'); ?></th>
+            <th><label for="vorname"><?php _e('First name','teachpress'); ?></label></th>
             <td><input name="vorname" type="text" id="vorname" size="40" /></td>
           </tr>
           <tr>
-            <th><?php _e('Last name','teachpress'); ?></th>
+            <th><label for="nachname"><?php _e('Last name','teachpress'); ?></label></th>
             <td><input name="nachname" type="text" id="nachname" size="40" /></td>
           </tr>
           <tr>
-            <th><?php _e('Course of studies','teachpress'); ?></th>
+            <th><label for="studiengang"><?php _e('Course of studies','teachpress'); ?></label></th>
             <td>
             <select name="studiengang" id="studiengang">
              <?php
               $stud = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'studiengang'";
 			  $stud = tp_results($stud);
-			  foreach ($stud as $stud) { ?>
-                  <option value="<?php echo $stud->wert; ?>"><?php echo $stud->wert; ?></option>
-              <?php } ?>
+			  foreach ($stud as $stud) {
+			  	echo '<option value="' . $stud->wert . '">' . $stud->wert . '</option>';
+              } ?>
             </select>
             </td>
           </tr>
           <tr>
-            <th><?php _e('Number of terms','teachpress'); ?></th>
-            <td style="text-align:left;"><label>
+            <th><label for="fachsemester"><?php _e('Number of terms','teachpress'); ?></label></th>
+            <td style="text-align:left;">
             <select name="fachsemester" id="fachsemester">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-              <option value="15">15</option>
-              <option value="16">16</option>
-              <option value="17">17</option>
-              <option value="18">18</option>
-              </select>
-            </label></td>
+            <?php
+			for ($i=1; $i<20; $i++) {
+				echo '<option value="' . $i . '">' . $i . '</option>';
+			} ?>
+            </select>
+            </td>
           </tr>
           <tr>
-            <th><?php _e('User account','teachpress'); ?></th>
+            <th><label for="urzkurz"><?php _e('User account','teachpress'); ?></label></th>
             <td style="text-align:left;"><input type="text" name="urzkurz" id="urzkurz" /></td>
           </tr>
           <tr>
-            <th><?php _e('Date of birth','teachpress'); ?></th>
+            <th><label for="gebdat"><?php _e('Date of birth','teachpress'); ?></label></th>
             <td><input name="gebdat" type="text" id="gebdat" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/>
               <em><?php _e('Format','teachpress'); ?>: <?php _e('JJJJ-MM-TT','teachpress'); ?></em></td>
           </tr>
           <tr>
-            <th><?php _e('E-Mail','teachpress'); ?></th>
+            <th><label for="email"><?php _e('E-Mail','teachpress'); ?></label></th>
             <td><input name="email" type="text" id="email" size="50" /></td>
           </tr>
          </thead> 

@@ -1,9 +1,19 @@
-// teachPress standart.js
+// teachPress standard.js
 
 // for jumpmenu
 function teachpress_jumpMenu(targ,selObj,restore){
   eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
   if (restore) selObj.selectedIndex=0;
+}
+// for adding new tags
+function teachpress_inserttag(tag) {
+	if (document.getElementsByName("tags")[0].value == "") {
+		document.getElementsByName("tags")[0].value = tag;
+	}
+	else {
+		document.getElementsByName("tags")[0].value = document.getElementsByName("tags")[0].value+', '+tag;
+		document.getElementsByName("tags")[0].value = document.getElementsByName("tags")[0].value;
+	}	
 }
 // for show/hide buttons
 function teachpress_showhide(where) {

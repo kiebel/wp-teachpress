@@ -2,6 +2,7 @@
 /* 
  * Einschreibungsformular
 */
+function teachpress_enrollment_frontend() {
 ?>
 <div class="enrollments">
 <?php 
@@ -67,7 +68,7 @@ if ( isset($aendern) || isset($austragen) || isset($einschreiben) || isset($eint
 $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
 $sem = tp_var($sem);
 ?>   
-<h3 class="tp_enrollments"><?php _e('Enrollments for the','teachpress'); ?> <?php echo"$sem" ;?></h3>
+<h2 class="tp_enrollments"><?php _e('Enrollments for the','teachpress'); ?> <?php echo"$sem" ;?></h2>
 <form name="anzeige" method="post" id="anzeige" action="<?php echo $PHP_SELF ?>">
 <?php
 
@@ -88,20 +89,20 @@ if (is_user_logged_in()) {
 			<legend><?php _e('Your data','teachpress'); ?></legend>
 			<table border="0" cellpadding="0" cellspacing="5" style="text-align:left; padding:5px;">
 			  <tr>
-				<td><?php _e('Registr.-Number','teachpress'); ?></td>
+				<td><label for="text"><?php _e('Registr.-Number','teachpress'); ?></label></td>
 				<td><input type="text" name="matrikel" id="matrikel" /></td>
 			  </tr>
 			  <tr>
-				<td><?php _e('First name','teachpress'); ?></td>
+				<td><label for="vorname"><?php _e('First name','teachpress'); ?></label></td>
 				<td><input name="vorname" type="text" id="vorname" /></td>
 			  </tr>
 			  <tr>
-				<td><?php _e('Last name','teachpress'); ?></td>
+				<td><label for="nachname"><?php _e('Last name','teachpress'); ?></label></td>
 				<td><input name="nachname" type="text" id="nachname" /></td>
 			  </tr>
 			  <tr>
-				<td><?php _e('Course of studies','teachpress'); ?></td>
-				<td><label>
+				<td><label for="studiengang"><?php _e('Course of studies','teachpress'); ?></label></td>
+				<td>
 				<select name="studiengang" id="studiengang">
 					<?php
 					  global $teachpress_einstellungen;
@@ -112,39 +113,25 @@ if (is_user_logged_in()) {
 					  <?php } 
 					  ?>
 				</select>
-				</label></td>
+				</td>
 			  </tr>
 			  <tr>
-				<td><?php _e('Number of terms','teachpress'); ?></td>
-				<td style="text-align:left;"><label>
+				<td><label for="fachsemester"><?php _e('Number of terms','teachpress'); ?></label></td>
+				<td style="text-align:left;">
 				<select name="fachsemester" id="fachsemester">
-				  <option value="1">1</option>
-				  <option value="2">2</option>
-				  <option value="3">3</option>
-				  <option value="4">4</option>
-				  <option value="5">5</option>
-				  <option value="6">6</option>
-				  <option value="7">7</option>
-				  <option value="8">8</option>
-				  <option value="9">9</option>
-				  <option value="10">10</option>
-				  <option value="11">11</option>
-				  <option value="12">12</option>
-				  <option value="13">13</option>
-				  <option value="14">14</option>
-				  <option value="15">15</option>
-				  <option value="16">16</option>
-				  <option value="17">17</option>
-				  <option value="18">18</option>
+                <?php
+				for ($i=1; $i<20; $i++) {
+					echo '<option value="' . $i . '">' . $i . '</option>';
+				} ?>
 				  </select>
-				</label></td>
+				</td>
 			  </tr>
 			  <tr>
 				<td><?php _e('User account','teachpress'); ?></td>
 				<td style="text-align:left;"><?php echo"$user_login" ?></td>
 			  </tr>
 			  <tr>
-				<td><?php _e('Date of birth','teachpress'); ?></td>
+				<td><label for="gebdat"><?php _e('Date of birth','teachpress'); ?></label></td>
 				<td><input name="gebdat" type="text" size="15"/>
 				  <em><?php _e('Format: JJJJ-MM-TT','teachpress'); ?></em></td>
 			  </tr>
@@ -161,6 +148,10 @@ if (is_user_logged_in()) {
 <?php
 	}
 	else {
+		// Check if sign_out is possible or not
+		$is_sign_out = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sign_out'";
+		$is_sign_out = tp_var($is_sign_out);
+		// Select all user information
 		$auswahl = "Select * FROM " . $teachpress_stud . " WHERE wp_id = '$user_ID'";
 		$auswahl = tp_results($auswahl);
 		foreach ($auswahl as $row) {
@@ -178,63 +169,59 @@ if (is_user_logged_in()) {
             <legend><?php _e('Your data','teachpress'); ?></legend>
                 <table border="0" cellpadding="0" cellspacing="5">
                   <tr>
-                    <td><?php _e('Registr.-Number','teachpress'); ?></td>
+                    <td><label for="matrikel2"><?php _e('Registr.-Number','teachpress'); ?></label></td>
                     <td><input type="text" name="matrikel2" id="matrikel2" value="<?php echo"$row->matrikel" ?>"/></td>
                   </tr>
                   <tr>
-                    <td><?php _e('First name','teachpress'); ?></td>
+                    <td><label for="vorname2"><?php _e('First name','teachpress'); ?></label></td>
                     <td><input name="vorname2" type="text" id="vorname2" value="<?php echo"$row->vorname" ?>" size="30"/></td>
                   </tr>
                   <tr>
-                    <td><?php _e('Last name','teachpress'); ?></td>
+                    <td><label for="nachname2"><?php _e('Last name','teachpress'); ?></label></td>
                     <td><input name="nachname2" type="text" id="nachname2" value="<?php echo"$row->nachname" ?>" size="30"/></td>
                   </tr>
                   <tr>
-                    <td><?php _e('Course of studies','teachpress'); ?></td>
+                    <td><label for="studiengang2"><?php _e('Course of studies','teachpress'); ?></label></td>
                     <td><select name="studiengang2" id="studiengang2">
-                      <option value="<?php echo"$row->studiengang" ?>"><?php echo"$row->studiengang" ?></option>
-                      <option>--------------------</option>
                       <?php
 					  $stud = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'studiengang'";
 					  $stud = tp_results($stud);
-					  foreach($stud as $stud) { ?>
-						  <option value="<?php echo $stud->wert; ?>"><?php echo $stud->wert; ?></option>
-					  <?php } 
+					  foreach($stud as $stud) { 
+						  if ($stud->wert == $row->studiengang) {
+								$current = 'selected="selected"' ;
+						  }
+						  else {
+								$current = '' ;
+						  }
+						  echo '<option value="' . $stud->wert . '" ' . $current . '>' . $stud->wert . '</option>';
+					  } 
 					  ?>
                     </select></td>
                   </tr>
                   <tr>
-                    <td><?php _e('Number of terms','teachpress'); ?></td>
+                    <td><label for="fachsemester2"><?php _e('Number of terms','teachpress'); ?></label></td>
                     <td><select name="fachsemester2" id="fachsemester2">
-                            <option value="<?php echo"$row->fachsemester" ?>"><?php echo"$row->fachsemester" ?></option>
-                            <option>--</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                      </select>                    </td>
+                    <?php
+						for ($i=1; $i<20; $i++) {
+						if ($i == $row->fachsemester) {
+							$current = 'selected="selected"' ;
+						}
+						  else {
+								$current = '' ;
+						  }
+						  echo '<option value="' . $i . '" ' . $current . '>' . $i . '</option>';
+						}  
+					?>
+                      </select>
+                    </td>
                   </tr>
                   <tr>
-                    <td><?php _e('Date of birth','teachpress'); ?></td>
+                    <td><label for="gebdat2"><?php _e('Date of birth','teachpress'); ?></label></td>
                     <td><input name="gebdat2" type="text" value="<?php echo"$row->gebdat" ?>" size="30"/>
-                      <em>Format: JJJJ-MM-TT</em></td>
+                      <em><?php _e('Format: JJJJ-MM-TT','teachpress'); ?></em></td>
                   </tr>
                   <tr>
-                    <td><?php _e('E-Mail','teachpress'); ?></td>
+                    <td><label for="email2"><?php _e('E-Mail','teachpress'); ?></label></td>
                     <td><input name="email2" type="text" id="email2" value="<?php echo"$row->email" ?>" size="50" readonly="true"/></td>
                   </tr>
                 </table>
@@ -247,7 +234,9 @@ if (is_user_logged_in()) {
             <p><strong><?php _e('Signed up for','teachpress'); ?></strong></p>    
             <table border="1" cellpadding="5" cellspacing="0" class="teachpress_table">
             <tr>
+            	<?php if ($is_sign_out == '0') {?>
             	<th>&nbsp;</th>
+                <?php } ?>
                 <th><?php _e('Name','teachpress'); ?></th>
                 <th><?php _e('Type','teachpress'); ?></th>
                 <th><?php _e('Date','teachpress'); ?></th>
@@ -263,10 +252,12 @@ if (is_user_logged_in()) {
 			foreach($row1 as $row1) {
 				if ($row1->parent_name != "") {
 					$row1->parent_name = '' . $row1->parent_name . ' -';
-				} 
+				}
+				if ($is_sign_out == '0') {
 				echo '<tr>
-						<td><input name="checkbox2[]" type="checkbox" value="' . $row1->b_id . '" title="' . $row1->name . '" id="ver_' . $row1->b_id . '"/></td>
-						<td><label for="ver_' . $row1->b_id . '" style="line-height:normal;" title="' . $row1->parent_name . ' ' .  $row1->name . '">' . $row1->parent_name . ' ' .  $row1->name . '</label></td>
+						<td><input name="checkbox2[]" type="checkbox" value="' . $row1->b_id . '" title="' . $row1->name . '" id="ver_' . $row1->b_id . '"/></td>';
+				}		
+				echo '<td><label for="ver_' . $row1->b_id . '" style="line-height:normal;" title="' . $row1->parent_name . ' ' .  $row1->name . '">' . $row1->parent_name . ' ' .  $row1->name . '</label></td>
 						<td>' . $row1->vtyp . '</td>
 						<td>' . $row1->termin . '</td>
 						<td>' . $row1->raum . '</td> 
@@ -285,7 +276,9 @@ if (is_user_logged_in()) {
         <p><strong><?php _e('Waiting list','teachpress'); ?></strong></p>
         <table border="1" cellpadding="5" cellspacing="0" class="teachpress_table">
             <tr>
+            	<?php if ($is_sign_out == '0') {?>
             	<th>&nbsp;</th>
+                <?php } ?>
                 <th><?php _e('Name','teachpress'); ?></th>
                 <th><?php _e('Type','teachpress'); ?></th>
                 <th><?php _e('Date','teachpress'); ?></th>
@@ -298,9 +291,11 @@ if (is_user_logged_in()) {
 				if ($row1->parent_name != "") {
 					$row1->parent_name = '' . $row1->parent_name . ' -';
 				} 
+				if ($is_sign_out == '0') {
 				echo '<tr>
-						<td><input name="checkbox2[]" type="checkbox" value="' . $row1->b_id . '" title="' . $row1->name . '" id="ver_' . $row1->b_id . '"/></td>
-						<td><label for="ver_' . $row1->b_id . '" style="line-height:normal;" title="' . $row1->parent_name . ' ' .  $row1->name . '">' . $row1->parent_name . ' ' .  $row1->name . '</label></td>
+						<td><input name="checkbox2[]" type="checkbox" value="' . $row1->b_id . '" title="' . $row1->name . '" id="ver_' . $row1->b_id . '"/></td>';
+				}		
+				echo '<td><label for="ver_' . $row1->b_id . '" style="line-height:normal;" title="' . $row1->parent_name . ' ' .  $row1->name . '">' . $row1->parent_name . ' ' .  $row1->name . '</label></td>
 						<td>' . $row1->vtyp . '</td>
 						<td>' . $row1->termin . '</td>
 						<td>' . $row1->raum . '</td> 
@@ -309,7 +304,9 @@ if (is_user_logged_in()) {
 			} ?>
         </table>
         <?php } ?>
+        <?php if ($is_sign_out == '0') {?>
         <p><input name="austragen" type="submit" value="<?php _e('unsubscribe','teachpress'); ?>" id="austragen" /></p>
+        <?php } ?>
         </fieldset>
         </div>
         </div>
@@ -354,7 +351,7 @@ foreach($row as $row) {
          <td align="center"><?php if ($datum1 != '0000-00-00') { ?><?php echo"$row->fplaetze" ?> von <?php echo"$row->plaetze" ?><?php } ?></td>
        </tr>
        <tr>
-         <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="warteliste"><?php if ($row->warteliste == 1 && $row->fplaetze == 0) {?><?php _e('Possible to subscribe in the waiting list','teachpress'); ?><?php } else { ?>&nbsp;<?php }?></td>
+         <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="warteliste"><?php echo $row->bemerkungen; ?> <?php if ($row->warteliste == 1 && $row->fplaetze == 0) {?><?php _e('Possible to subscribe in the waiting list','teachpress'); ?><?php } else { ?>&nbsp;<?php }?></td>
          <td style="border-bottom:1px solid silver; border-collapse: collapse;" align="center" class="einschreibefrist"><?php if ($datum1 != '0000-00-00') { ?><?php _e('Registration period','teachpress'); ?>: <?php echo"$row->startein" ?> - <?php echo"$row->endein" ?><?php }?></td>
        </tr>
      <?php
@@ -368,6 +365,9 @@ foreach($row as $row) {
 		if ( __('Language','teachpress') == 'Sprache') {
 	 		$row2->startein = date_mysql2german($row2->startein);
 			$row2->endein = date_mysql2german($row2->endein);
+		}
+		if ($row->name == $row2->name) {
+			$row2->name = $row->vtyp;
 		}
 	 	?>
                <tr>
@@ -388,7 +388,7 @@ foreach($row as $row) {
                  <td align="center"><?php echo"$row2->fplaetze" ?> von <?php echo"$row2->plaetze" ?></td>
                </tr>
                <tr>
-                 <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="warteliste"><?php if ($row->warteliste == 1 && $row->fplaetze == 0) {?><?php _e('Possible to subscribe in the waiting list','teachpress'); ?><?php } else { ?>&nbsp;<?php }?></td>
+                 <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="warteliste"><?php echo $row2->bemerkungen; ?> <?php if ($row2->warteliste == 1 && $row2->fplaetze == 0) {?><?php _e('Possible to subscribe in the waiting list','teachpress'); ?><?php } else { ?>&nbsp;<?php }?></td>
                  <td align="center" class="einschreibefrist" style="border-bottom:1px solid silver; border-collapse: collapse;"><?php if ($datum3 != '0000-00-00') { ?><?php _e('Registration period','teachpress'); ?>: <?php echo"$row2->startein" ?> - <?php echo"$row2->endein" ?><?php } ?></td>
                </tr> 
         <?php
@@ -405,3 +405,4 @@ if (is_user_logged_in() && $auswahl != '') { ?>
 <?php $version = get_tp_version(); ?>
 <p style="font-size:11px; color:#AAAAAA"><em><strong>teachPress <?php echo $version; ?></strong></em> - <?php _e('course and publication management for WordPress','teachpress'); ?></p>
 </div>
+<?php } ?>
