@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, university
 Requires at least: 2.8
 Tested up to: 2.9.2
-Stable tag: 0.80.0
+Stable tag: 0.80.1
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -106,6 +106,8 @@ For normal publication lists:
 * headline - 0(off) or 1(on)   
 
 == Changelog ==
+= 0.80.1 =
+* Bugfix: Fixed bug when adding a publication
 = 0.80.0 =
 * New: Capabilities for backend access control
 * New: Posible to prevent sign outs for registrations 

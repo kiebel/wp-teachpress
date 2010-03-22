@@ -66,6 +66,7 @@ if ($pub_ID != '') {
     <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 </div>
 <form name="form1" method="get" action="<?php echo $PHP_SELF ?>" id="form1">
+  <input name="page" type="hidden" value="teachpress/addpublications.php">
   <?php if ($pub_ID != '') { 
   $row = "SELECT * FROM " . $teachpress_pub . " WHERE pub_id = '$pub_ID'";
   $row = tp_results($row);
@@ -86,7 +87,6 @@ if ($pub_ID != '') {
   }
   ?>
   <input name="pub_ID" type="hidden" value="<?php echo $pub_ID; ?>">
-  <input name="page" type="hidden" value="teachpress/addpublications.php">
   <input name="search" type="hidden" value="<?php echo $search; ?>">
   <?php } ?>
   <div style="min-width:780px; width:100%; max-width:1100px;">

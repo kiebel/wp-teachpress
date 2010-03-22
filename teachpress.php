@@ -3,11 +3,11 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 0.80.0
+Version: 0.80.1
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8
-Max WP Version: 2.9.3
+Max WP Version: 2.9.2
 */
 
 /*
@@ -1026,11 +1026,6 @@ function tp_db_update() {
 		/*
 		 * teachpress_einstellungen
 		*/
-		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'userrole'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('userrole', 'author', 'system')");
-		}
 		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sign_out'";
 		$test = tp_query($sql);
 		if ($test == '0') {
@@ -1770,7 +1765,7 @@ function teachpress_install() {
 		}	
 	}
 	
-	//teachpress_ver
+	// teachpress_ver
 	$table_name = $teachpress_ver;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_ver. " (
@@ -1796,7 +1791,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		
 	 }
-	 //teachpress_stud
+	 // teachpress_stud
 	$table_name = $teachpress_stud;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_stud . " (
@@ -1813,7 +1808,7 @@ function teachpress_install() {
 					   ) $charset_collate;";
 		dbDelta($sql);
 	 }
-	 //teachpress_kursbelegung
+	 // teachpress_kursbelegung
 	$table_name = $teachpress_kursbelegung;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_kursbelegung . " (
@@ -1828,7 +1823,7 @@ function teachpress_install() {
 					   ) $charset_collate;";
 		dbDelta($sql);
 	 }
-	 //teachpress_einstellungen
+	 // teachpress_einstellungen
 	$table_name = $teachpress_einstellungen;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_einstellungen . " (
@@ -1841,7 +1836,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default-Einstellungen			
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sem', 'WS09/10', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.80.0', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.80.1', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('permalink', '1', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('userrole', 'administrator', 'system')");		
