@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 0.80.1
+Version: 0.80.2
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8
@@ -1836,7 +1836,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default-Einstellungen			
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sem', 'WS09/10', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.80.1', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.80.2', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('permalink', '1', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('userrole', 'administrator', 'system')");		

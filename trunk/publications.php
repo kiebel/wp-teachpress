@@ -36,7 +36,7 @@ if ($del_id !="") {
 if ( $action == "delete" ) {
 	delete_publication($checkbox);
 	$message = __('Publications deleted','teachpress');
-	$site = 'admin.php?page=publikationen.php';
+	$site = 'admin.php?page=publications.php';
 	tp_get_message($message, $site);
 }
 ?>
