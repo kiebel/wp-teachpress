@@ -56,7 +56,7 @@ if ($pub_ID != '') {
 	echo '<p><a href="admin.php?page=publications.php&amp;search=' . $search . '" class="teachpress_back" title="' . __('Show all publications','teachpress') . '">&larr; ' . __('All publications','teachpress') . '</a> <a href="admin.php?page=teachpress/publications.php&amp;search=' . $search . '" class="teachpress_back" title="' . __('Show own publications','teachpress') . '">&larr; ' . __('Your publications','teachpress') . '</a></p>';
 }
 ?>
-<h2><?php if ($pub_ID == '') {_e('Add publications','teachpress'); } else { _e('Edit publications','teachpress'); } ?><span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>
+<h2><?php if ($pub_ID == '') { _e('Add publications','teachpress'); } else { _e('Edit publications','teachpress'); } ?><span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>
 <div id="hilfe_anzeigen">
     <h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
     <p class="hilfe_headline"><?php _e('Bookmarks','teachpress'); ?></p>
@@ -126,11 +126,11 @@ if ($pub_ID != '') {
     </tr>
   	<tr>
         <td>
-        <?php if ($image_url != '') {
-			echo '<p><img name="tp_pub_image" src="' . $row->image_url . '" alt="' . $row->name . '" title="' . $row->name . '"/></p>';
+        <?php if ($daten[10] != '') {
+			echo '<p><img name="tp_pub_image" src="' . $daten[10] . '" alt="' . $daten[1] . '" title="' . $daten[1] . '"/></p>';
         } ?>
         <p><strong><?php _e('Image URL','teachpress'); ?></strong></p>
-        <input name="image_url" id="image_url" type="text" style="width:90%;"/>
+        <input name="image_url" id="image_url" type="text" style="width:90%;" value="<?php echo $daten[10]; ?>"/>
          <a id="add_image" class="thickbox" href="media-upload.php?post_id=0&type=image&TB_iframe=true&width=640&height=440" title="<?php _e('Add Image','teachpress'); ?>" onclick="return false;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
         <p><strong><?php _e('Related page','teachpress'); ?></strong></p>
         <div style="overflow:hidden;">
