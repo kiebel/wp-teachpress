@@ -16,7 +16,7 @@ $suche = htmlentities(utf8_decode($_GET[suche]));
 $studenten = htmlentities(utf8_decode($_GET[studenten]));
 
 if (isset($kontrolle)) {
-	delete_student_admin ($checkbox, $user_ID);
+	tp_delete_student($checkbox, $user_ID);
 	$message = __('Students deleted','teachpress');
 	$site = 'admin.php?page=teachpress/students.php&suche=' . $suche . '&studenten=' . $studenten . '';
 	tp_get_message($message, $site);

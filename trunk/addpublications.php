@@ -11,6 +11,7 @@ global $teachpress_tags;
 global $teachpress_user;
 global $pagenow;
 global $current_user;
+global $wpdb;
 // WordPress current unser info
 get_currentuserinfo();
 $user = $current_user->ID;
@@ -40,14 +41,14 @@ $search = htmlentities(utf8_decode($_GET[search]));
 <?php
 // if publications was created
 if (isset($erstellen)) {
-	add_pub($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $bookmark, $user, $comment, $image_url, $rel_page, $is_isbn);
+	tp_add_publication($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $bookmark, $user, $comment, $image_url, $rel_page, $is_isbn);
 	$message = __('Publication added','teachpress');
 	$site = 'admin.php?page=teachpress/addpublications.php';
 	tp_get_message($message, $site);
 }
 // if publication was saved
 if (isset($speichern)) {
-	change_pub($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $comment, $image_url, $rel_page, $is_isbn, $pub_ID, $delbox);
+	tp_change_publication($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $comment, $image_url, $rel_page, $is_isbn, $pub_ID, $delbox);
 	$message = __('Publication changed','teachpress');
 	$site = 'admin.php?page=teachpress/addpublications.php&amp;pub_ID=' . $pub_ID . '&amp;search=' . $search . '';
 	tp_get_message($message, $site);
@@ -60,9 +61,9 @@ if ($pub_ID != '') {
 <div id="hilfe_anzeigen">
     <h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
     <p class="hilfe_headline"><?php _e('Bookmarks','teachpress'); ?></p>
-    <p class="hilfe_text"><?php _e('Add the publication to different publication lists.','teachpress'); ?></p>
+    <p class="hilfe_text"><?php _e('Add a publication to different publication lists.','teachpress'); ?></p>
     <p class="hilfe_headline"><?php _e('Image &amp; Related page','teachpress'); ?></p>
-    <p class="hilfe_text"><?php _e('Both fields are for the teachPress Books widget. With the related page you can link a publication with a normal post/page.','teachpress'); ?></p>
+    <p class="hilfe_text"><?php _e('With the image field you can add an image to a publication. You can display images in all publication lists. With the related page you can link a publication with a normal post/page. It is only used for the teachPress books widget.','teachpress'); ?></p>
     <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 </div>
 <form name="form1" method="get" action="<?php echo $PHP_SELF ?>" id="form1">
@@ -127,7 +128,7 @@ if ($pub_ID != '') {
   	<tr>
         <td>
         <?php if ($daten[10] != '') {
-			echo '<p><img name="tp_pub_image" src="' . $daten[10] . '" alt="' . $daten[1] . '" title="' . $daten[1] . '"/></p>';
+			echo '<p><img name="tp_pub_image" src="' . $daten[10] . '" alt="' . $daten[1] . '" title="' . $daten[1] . '" style="max-width:100%;"/></p>';
         } ?>
         <p><strong><?php _e('Image URL','teachpress'); ?></strong></p>
         <input name="image_url" id="image_url" type="text" style="width:90%;" value="<?php echo $daten[10]; ?>"/>
@@ -213,15 +214,15 @@ if ($pub_ID != '') {
 		$sql = "SELECT anzahlTags FROM ( SELECT COUNT(*) AS anzahlTags FROM " . $teachpress_beziehung . " GROUP BY " . $teachpress_beziehung . ".`tag_id` ORDER BY anzahlTags DESC ) as temp1 GROUP BY anzahlTags ORDER BY anzahlTags DESC";
 		// Ermittle einzelnes Vorkommen der Tags, sowie Min und Max
 		$sql = "SELECT MAX(anzahlTags) AS max, min(anzahlTags) AS min, COUNT(anzahlTags) as gesamt FROM (".$sql.") AS temp";
-		$tagcloud_temp = mysql_fetch_array(mysql_query($sql));
+		$tagcloud_temp = $wpdb->get_row($sql, ARRAY_A);
 		$max = $tagcloud_temp['max'];
 		$min = $tagcloud_temp['min'];
 		$insgesamt = $tagcloud_temp['gesamt'];
 		// Tags und Anzahl zusammenstellen
 		$sql = "SELECT tagPeak, name, tag_id FROM ( SELECT COUNT(b.tag_id) as tagPeak, t.name AS name,  t.tag_id as tag_id FROM " . $teachpress_beziehung . " b LEFT JOIN " . $teachpress_tags . " t ON b.tag_id = t.tag_id GROUP BY b.tag_id ORDER BY tagPeak DESC LIMIT " . $limit . " ) AS temp WHERE tagPeak>=".$min." ORDER BY name";
-		$temp = mysql_query($sql);
+		$temp = $wpdb->get_results($sql, ARRAY_A);
 		// Endausgabe der Cloud zusammenstellen
-		while ($tagcloud = mysql_fetch_array($temp)) {
+		foreach ($temp as $tagcloud) {
 			// Schriftgröße berechnen
 			// Minimum ausgleichen
 			if ($min == 1) {

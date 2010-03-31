@@ -38,7 +38,7 @@ function teachpress_showlvs_page() {
     }
 	// Veranstaltung loeschen Teil 2
 	if ( isset($_GET[delete_ok]) ) {
-		delete_lehrveranstaltung($checkbox);
+		tp_delete_lvs($checkbox);
 		$message = __('Course(s) deleted','teachpress');
 		$site = 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . '';
 		tp_get_message($message, $site);
@@ -65,7 +65,7 @@ function teachpress_showlvs_page() {
 	}
 	// Kopiervorgang Teil 2
 	if ( isset($_GET[copy_ok]) ) {
-		copy_veranstaltung($checkbox, $copysem);
+		tp_copy_lvs($checkbox, $copysem);
 		$message = __('Copying successful','teachpress');
 		$site = 'admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . '';
 		tp_get_message($message, $site);

@@ -24,7 +24,7 @@ $sichtbar = htmlentities(utf8_decode($_POST[sichtbar]));
 $warteliste = htmlentities(utf8_decode($_POST[warteliste]));
 
 if (isset($erstellen)) {
-	add_lvs_in_database($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $startein, $endein, $semester,  $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste);
+	tp_add_lvs($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $startein, $endein, $semester,  $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste);
 	$message = __('Course created','teachpress');
 	$site = 'admin.php?page=teachpress/addlvs.php';
     tp_get_message($message, $site);
@@ -40,6 +40,8 @@ if (isset($erstellen)) {
         <p class="hilfe_text"><?php _e('If you have a course without enrollments, so add no dates in the fields start and end. teachPress will be deactivate the enrollments automatically.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Parent','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?></p>
+        <p class="hilfe_headline"><?php _e('Comment or Description','teachpress'); ?></p>
+        <p class="hilfe_text"><?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Related Page','teachpress'); ?></p>
         <p class="hilfe_text"><?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?></p>
         <p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
@@ -152,8 +154,8 @@ if (isset($erstellen)) {
                 <td><input name="platz" type="text" id="platz" size="6" /></td>
               </tr>
               <tr>
-                <th><label for="bemerkungen"><?php _e('Comment','teachpress'); ?></label></th>
-                <td><input name="bemerkungen" type="text" id="bemerkungen" size="75" /></td>
+                <th><label for="bemerkungen"><?php _e('Comment or Description','teachpress'); ?></label></th>
+                <td><textarea name="bemerkungen" cols="75" rows="2" id="bemerkungen"></textarea></td>
               </tr>
               <tr>
                 <th><label for="rel_page"><?php _e('Related Page','teachpress'); ?></label></th>

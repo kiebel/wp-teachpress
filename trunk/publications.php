@@ -26,15 +26,15 @@ settype($add_id, 'integer');
 settype($del_id, 'integer');
 // Add a bookmark for the publication
 if ($add_id != "") {
-	add_bookmark($add_id, $user);
+	tp_add_bookmark($add_id, $user);
 }
 // Delete bookmark for the publication
 if ($del_id !="") {
-	del_bookmark($del_id);
+	tp_delete_bookmark($del_id);
 }
 // Delete publications
 if ( $action == "delete" ) {
-	delete_publication($checkbox);
+	tp_delete_publications($checkbox);
 	$message = __('Publications deleted','teachpress');
 	$site = 'admin.php?page=publications.php';
 	tp_get_message($message, $site);
@@ -72,19 +72,23 @@ if ($page == 'publications.php') {?>
 <div id="hilfe_anzeigen">
     <h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
         <p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
-        <p class="hilfe_text"><?php _e('For a publication list with tag cloud:','teachpress'); ?> <strong><?php _e('[tpcloud id="w" maxsize="x" minsize="y" limit="z"]','teachpress'); ?></strong></p>
+        <p class="hilfe_text"><?php _e('For a publication list with tag cloud:','teachpress'); ?> <strong><?php _e('[tpcloud id="u" maxsize="v" minsize="w" limit="x" image="y" image_size="z"]','teachpress'); ?></strong></p>
          <ul style="list-style:disc; padding-left:40px;">
         	<li><?php _e('id - WP User-ID (0 for all)','teachpress'); ?></li>
             <li><?php _e('maxsize - max. font size in the tag cloud (default: 35)','teachpress'); ?> </li>
             <li><?php _e('minsize - min. font size in the tag cloud (default: 11)','teachpress'); ?></li>
             <li><?php _e('limit - maximum of visible tags (default: 30)','teachpress'); ?></li>
+            <li><?php _e('image - image position: left, right, bottom (default: none)','teachpress'); ?></li>
+            <li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0). ','teachpress'); ?></li>
         </ul>
-        <p class="hilfe_text"><?php _e('For normal publication lists:','teachpress'); ?> <strong><?php _e('[tplist user="w" tag="x" year="y" headline="z"]','teachpress'); ?></strong>
+        <p class="hilfe_text"><?php _e('For normal publication lists:','teachpress'); ?> <strong><?php _e('[tplist user="u" tag="v" year="w" headline="x" image="y" image_size="z"]','teachpress'); ?></strong>
         <ul style="list-style:disc; padding-left:40px;">
         	<li><?php _e('user - WP User-ID (0 for all)','teachpress'); ?></li>
-            <li><?php _e('tag - Tag-ID','teachpress'); ?> </li>
+            <li><?php _e('tag - Tag-ID (You can only choice one tag!)','teachpress'); ?> </li>
             <li><?php _e('year','teachpress'); ?></li>
             <li><?php _e('headline - 0(off) or 1(on)','teachpress'); ?></li>
+            <li><?php _e('image - image position: left, right, bottom (default: none)','teachpress'); ?></li>
+            <li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0). ','teachpress'); ?></li>
         </ul>
         </p>
         <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>

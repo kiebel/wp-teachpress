@@ -24,13 +24,13 @@ $name = htmlentities(utf8_decode($_GET[name]));
 $speichern = $_GET[speichern];
 
 if ( $action == "delete" ) {
-	delete_tags($checkbox);
+	tp_delete_tags($checkbox);
 	$message = __('Selected tags are deleted','teachpress');
 	$site = 'admin.php?page=teachpress/tags.php&search=' . $search . '';
 	tp_get_message($message, $site);
 }
 if ( isset($speichern)) {
-	edit_tag($tag_id, $name);
+	tp_edit_tag($tag_id, $name);
 	$message = __('Tag saved','teachpress');
 	$site = 'admin.php?page=teachpress/tags.php&search=' . $search . '';
 	tp_get_message($message, $site);
