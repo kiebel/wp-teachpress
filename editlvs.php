@@ -45,19 +45,19 @@ $search = htmlentities(utf8_decode($_GET[search]));
 $sem = htmlentities(utf8_decode($_GET[sem]));
 // Befehle ausfürhen
 if ( isset($speichern) ) {
-	change_lehrveranstaltung($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste, $veranstaltung);
+	tp_change_lvs($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste, $veranstaltung);
 	$message = __('Changes successful','teachpress');
 	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
 	tp_get_message($message, $site);
 }
 if ( isset($aufnehmen) ) {
-    aufnahme($checkbox);
+    tp_add_from_waitinglist($checkbox);
 	$message = __('Participant added','teachpress');
 	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
 	tp_get_message($message, $site);	
     }	 
 if ( isset($delete)) {
-    delete_einschreibung($checkbox, $user_ID);
+    tp_delete_registration($checkbox, $user_ID);
 	$message = __('Enrollments deleted','teachpress');
 	$site = 'admin.php?page=teachpress/editlvs.php&lvs_ID=' . $weiter . '&sem=' . $sem . '&search=' . $search . '';
 	tp_get_message($message, $site);	
@@ -267,8 +267,8 @@ if ($speichern != __('save','teachpress')) { ?>
             <td><input name="raum" id="raum" type="text" size="40" value="<?php echo $daten[0][3]; ?>"/></td>
           </tr>
           <tr>
-            <th><label for="bemerkungen"><?php _e('Comment','teachpress'); ?></label></th>
-            <td><input name="bemerkungen" id="bemerkungen" type="text" value="<?php echo $daten[0][11]; ?>" size="70"/></td>
+            <th><label for="bemerkungen"><?php _e('Comment or Description','teachpress'); ?></label></th>
+            <td><textarea name="bemerkungen" id="bemerkungen" cols="70" rows="2"/><?php echo $daten[0][11]; ?></textarea></td>
           </tr>
           <tr>
             <th><label for="rel_page"><?php _e('Related Page','teachpress'); ?></label></th>

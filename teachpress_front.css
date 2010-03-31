@@ -93,9 +93,18 @@ h3.tp_enrollments {
 }
 
 /* shortcodes [tpcloud] [tplist]*/
-.tp_publication {
-	padding:5px 5px 5px 5px;
+.teachpress_publication_list {
+	width:100%;
+}
+.teachpress_publication_list td {
+	padding:5px;
+}
+td.tp_pub_info {
 	border-bottom:1px solid silver;
+	vertical-align:top;
+	padding:8px;
+}
+.tp_publication {
 }
 .tp_pub_autor {
 	font-size:small;
@@ -115,6 +124,8 @@ h3.tp_enrollments {
 .tp_pub_typ {
 	font-weight:bold;
 }
+.tp_pub_image_bottom {
+}
 h3.tp_h3 {
 	color:#177665;
 }
@@ -124,13 +135,6 @@ h3.tp_h3 {
 	font-weight:bold;
 	margin:1em;
 	padding:.5em 1em;
-}
-/* teachPress list, shortcode [tplist] */
-ul.teachpress_list {
-	style="list-style:disc; 
-	padding-left:20px;
-}
-ul.teachpress_list li {
 }
 /* course overview, anzeige_lvs.php */
 #anzeigelvs h3 {

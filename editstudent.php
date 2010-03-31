@@ -36,13 +36,13 @@ global $user_ID;
 get_currentuserinfo();
 // Prüfen welche Checkbox genutzt wurde und Aufteilung an die Funktionen mit Variablenübergabe
 if ( isset($delete)) {
-	delete_einschreibung($checkbox, $user_ID);
+	tp_delete_registration($checkbox, $user_ID);
 	$message = __('Enrollment deleted','teachpress');
 	$site = 'admin.php?page=teachpress/editstudent.php&student_ID=' . $student . '&suche=' . $suche . '&studenten=' . $studenten . '';
 	tp_get_message($message, $site);
 }
 if ( isset($speichern)) {
-	change_student_manuell($wp_id, $vorname, $nachname, $studiengang, $urzkurz, $gebdat, $email, $fachsemester, $matrikel, $user_ID);
+	tp_change_student($wp_id, $vorname, $nachname, $studiengang, $gebdat, $email, $fachsemester, $matrikel, $user_ID);
 	$message = __('Changes successful','teachpress');
 	$site = 'admin.php?page=teachpress/editstudent.php&student_ID=' . $wp_id . '&suche=' . $suche . '&studenten=' . $studenten . '';
 	tp_get_message($message, $site);
@@ -196,9 +196,6 @@ else {
           <th><?php _e('Course','teachpress'); ?></th>
           <th><?php _e('Type','teachpress'); ?></th>
           <th><?php _e('Date','teachpress'); ?></th>
-          <th><?php _e('Last name','teachpress'); ?></th>
-          <th><?php _e('First name','teachpress'); ?></th>
-          <th><?php _e('User-ID','teachpress'); ?></th>
         </tr>
     </thead>    
     <tbody>
@@ -227,9 +224,6 @@ else {
 				<td><?php echo $parent_name . $row2->name; ?></td>
 				<td><?php echo "$row2->vtyp" ?></td> 
                 <td><?php echo "$row2->termin" ?></td>
-				<td><?php echo "$row2->nachname" ?></td>
-				<td><?php echo "$row2->vorname" ?></td>
-				<td><?php echo "$row2->wp_id" ?></td>
 			</tr>
         <?php } ?>
     </tbody>

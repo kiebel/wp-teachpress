@@ -47,16 +47,16 @@ if ( isset($aendern) || isset($austragen) || isset($einschreiben) || isset($eint
         <form method="POST" action="<?php echo $PHP_SELF ?>" id="teachpress_einstellungen_weiter">
         <?php
         if ( isset($aendern)) {
-            change_student($wp_id, $vorname2, $nachname2, $studiengang2, $gebdat2, $email2, $fachsemester2, $matrikel2);
+            tp_change_student($wp_id, $vorname2, $nachname2, $studiengang2, $gebdat2, $email2, $fachsemester2, $matrikel2);
         }
         if ( isset($austragen)) {
-            delete_einschreibung_student($checkbox2);
+            tp_delete_registration_student($checkbox2);
         }
         if ( isset($einschreiben)) {
-            add_einschreibung($checkbox, $wp_id);
+            tp_add_registration($checkbox, $wp_id);
 		}	
 		if ( isset($eintragen)) {
-			add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
+			tp_add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
 				
         } ?>
         <input type="submit" name="Submit" value="<?php _e('resume','teachpress'); ?>" id="teachpress_einstellungen_weiter">
@@ -325,8 +325,8 @@ foreach($row as $row) {
 	$datum2 = $row->endein;
 	// for german localisation: new date format
 	if ( __('Language','teachpress') == 'Sprache') {
-		$row->startein = date_mysql2german($row->startein);
-		$row->endein = date_mysql2german($row->endein);
+		$row->startein = tp_date_mysql2german($row->startein);
+		$row->endein = tp_date_mysql2german($row->endein);
 	}
    ?>  
    <div style="margin:10px; padding:5px;">
@@ -351,7 +351,7 @@ foreach($row as $row) {
          <td align="center"><?php if ($datum1 != '0000-00-00') { ?><?php echo"$row->fplaetze" ?> von <?php echo"$row->plaetze" ?><?php } ?></td>
        </tr>
        <tr>
-         <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="warteliste"><?php echo $row->bemerkungen; ?> <?php if ($row->warteliste == 1 && $row->fplaetze == 0) {?><?php _e('Possible to subscribe in the waiting list','teachpress'); ?><?php } else { ?>&nbsp;<?php }?></td>
+         <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="warteliste"><?php if ($row->warteliste == 1 && $row->fplaetze == 0) {?><?php _e('Possible to subscribe in the waiting list','teachpress'); ?><?php } else { ?>&nbsp;<?php }?></td>
          <td style="border-bottom:1px solid silver; border-collapse: collapse;" align="center" class="einschreibefrist"><?php if ($datum1 != '0000-00-00') { ?><?php _e('Registration period','teachpress'); ?>: <?php echo"$row->startein" ?> - <?php echo"$row->endein" ?><?php }?></td>
        </tr>
      <?php
@@ -363,8 +363,8 @@ foreach($row as $row) {
 		$datum4 = $row2->endein;
 		// for german localisation: new date format
 		if ( __('Language','teachpress') == 'Sprache') {
-	 		$row2->startein = date_mysql2german($row2->startein);
-			$row2->endein = date_mysql2german($row2->endein);
+	 		$row2->startein = tp_date_mysql2german($row2->startein);
+			$row2->endein = tp_date_mysql2german($row2->endein);
 		}
 		if ($row->name == $row2->name) {
 			$row2->name = $row->vtyp;

@@ -3,14 +3,14 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, university
 Requires at least: 2.8
 Tested up to: 2.9.2
-Stable tag: 0.80.2
+Stable tag: 0.85.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
 teachPress is a powerful course and publication managment plugin, which is published under the terms of GPL. The plugin is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
 
-After the installation do the following things to configure teachPress: Firstly create a new page in WordPress und write `<!--LVS-->` in the textfield (html-mode) for creating the enrollment page or `<!--LVS2-->` for the course overview. That's it. I hope, that the normal using and configuration is self explanatory. 
+After the installation do the following things to configure teachPress: Firstly create a new page in WordPress und write `<!--LVS-->` in the textfield (html-mode) for creating the enrollment page or `<!--LVS2-->` for the course overview. For publication lists use the shortcodes, which are explain in the FAQ. That's it. I hope, that the normal using and configuration is self explanatory. 
 
 Please note, that it's currently not possible to insert images directly from the WordPress Media Library to a publication, so you must insert the url manually.
 
@@ -24,7 +24,6 @@ For more information see [here](http://www.mtrv.kilu.de/teachpress/).
 * Integrated search functions
 * Shortcodes for easy using in posts an pages
 * Widget for displaying books in the sidebar
-
 
 = Supported Languages =
 * English 
@@ -59,8 +58,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 1. Download the plugin.
 2. Extract all the files. 
 3. For the CSV/XLS-export please define your root directory path in the parameters_sample.php and rename the file to parameters.php
-3. Upload everything (keeping the directory structure) to your plugins directory.
-4. Activate the plugin through the 'plugins' menu in WordPress.
+4. Upload everything (keeping the directory structure) to your plugins directory.
+5. Activate the plugin through the 'plugins' menu in WordPress.
 
 **For updates:**
 
@@ -70,6 +69,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
 == Upgrade Notice ==
+
+= 0.85.0 =
+The publication lists are now tables, so it's possible, that the lists looks differently than before.
 
 = 0.40.0 =
 Don't forget to click on the update button (teachpress settings page) after upgrading.
@@ -85,27 +87,37 @@ For 0.22.0 Users: Please rename your teachPress database tables after the upgrad
 = Is it possible to connect the WordPress registration with the teachPress registration? =
 Currently not, sorry! teachPress was developed for using other login systems in WordPress like Shibboleth, where the plugin needs the extra registration.
 
+= How can I display images in publication lists =
+An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
+
 = How I can use the shortcodes? = 
+ 
+= For course informations: [tpdate id="x"] =  
+* id = Course-ID
 
-For course informations:  
-= [tpdate id="x"] =  
-* x = Course ID
-
-For publication lists with tag-cloud:
-= [tpcloud (args)] =  
-* user = WP-User-ID (0 for all)
+= For publication lists with tag-cloud: [tpcloud (args)] =  
+* user = WP User-ID (0 for all)
 * minsize = min. font size in the tag-cloud
 * maxsize = max. font size in the tag-cloud
 * limit = number of tags in the tag-cloud
+* image = image position: left, right or bottom (default: none)
+* image_size = maximum size in of an image(default: 0)
 
-For normal publication lists:  
-= [tplist (args)] =  
+= For normal publication lists:  [tplist (args)] =  
 * id - WP User-ID (0 for all)  
 * tag - Tag-ID  
 * year  
 * headline - 0(off) or 1(on)   
+* image = image position: left, right or bottom (default: none)
+* image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 0.85.0 =
+* New: Displaying images in publication lists is possible
+* New: Larger edit field for course comments
+* Bugfix: Size of visible images in the publication edit menu is limited
+* Bufgix: Some function names now more unique
+* Bugfix: Fix some security vulnerabilities
 = 0.80.2 =
 * Bugfix: Fixed different bugs, which originated with the file merging in the publication management in 0.80.0
 = 0.80.1 =

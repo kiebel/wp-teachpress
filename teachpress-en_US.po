@@ -19,18 +19,18 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: teachpress.php:905
+#: teachpress.php:993
 #@ teachpress
 msgid "<!--LVS-->"
 msgstr ""
 
-#: teachpress.php:918
+#: teachpress.php:1006
 #@ teachpress
 msgid "<!--LVS2-->"
 msgstr ""
 
 #: addlvs.php:41
-#: addlvs.php:94
+#: addlvs.php:96
 #: editlvs.php:221
 #@ teachpress
 msgid "Parent"
@@ -41,9 +41,9 @@ msgstr "Parent"
 msgid "URL"
 msgstr "URL"
 
-#: addlvs.php:172
 #: addlvs.php:174
-#: addpublications.php:175
+#: addlvs.php:176
+#: addpublications.php:176
 #: editlvs.php:286
 #: students_new.php:189
 #: students_new.php:190
@@ -51,32 +51,32 @@ msgstr "URL"
 msgid "JJJJ-MM-TT"
 msgstr "YYYY-MM-DD"
 
-#: addpublications.php:62
-#: addpublications.php:98
+#: addpublications.php:63
+#: addpublications.php:99
 #@ teachpress
 msgid "Bookmarks"
 msgstr "Bookmarks"
 
-#: teachpress.php:215
+#: teachpress.php:216
 #@ teachpress
 msgid "Chapter in book"
 msgstr "Book Chapter"
 
-#: teachpress.php:217
+#: teachpress.php:218
 #@ teachpress
 msgid "Conference paper"
 msgstr "Conference paper"
 
-#: teachpress.php:219
+#: teachpress.php:220
 #@ teachpress
 msgid "Journal article"
 msgstr "Journal article"
 
-#: addpublications.php:158
+#: addpublications.php:159
 #: display.php:240
 #: display.php:282
 #: lists.php:48
-#: publications.php:99
+#: publications.php:103
 #: settings.php:81
 #: settings.php:143
 #: showlvs.php:116
@@ -109,7 +109,7 @@ msgstr "E-Mail"
 
 #: editlvs.php:219
 #: editlvs.php:327
-#: publications.php:100
+#: publications.php:104
 #: showlvs.php:117
 #: tags.php:88
 #@ teachpress
@@ -123,11 +123,6 @@ msgstr "ID"
 msgid "WordPress User-ID"
 msgstr "WordPress User-ID"
 
-#: editstudent.php:201
-#@ teachpress
-msgid "User-ID"
-msgstr "User-ID"
-
 #: settings.php:13
 #: settings.php:212
 #@ teachpress
@@ -139,8 +134,8 @@ msgstr "Permalinks"
 msgid "submit"
 msgstr "submit"
 
-#: addpublications.php:169
-#: publications.php:105
+#: addpublications.php:170
+#: publications.php:109
 #@ teachpress
 msgid "ISBN"
 msgstr "ISBN"
@@ -150,7 +145,7 @@ msgstr "ISBN"
 msgid "Format"
 msgstr "Format"
 
-#: addpublications.php:186
+#: addpublications.php:187
 #: tags.php:48
 #: teachpress.php:66
 #@ teachpress
@@ -162,53 +157,43 @@ msgstr "Tags"
 msgid "Tag-ID"
 msgstr "Tag-ID"
 
-#: teachpress.php:1713
+#: teachpress.php:2005
 #@ teachpress
 msgid "de"
 msgstr "en"
 
-#: teachpress.php:1283
+#: teachpress.php:1249
 #@ teachpress
 msgid "All years"
 msgstr "All years"
 
-#: teachpress.php:211
+#: teachpress.php:212
 #@ teachpress
 msgid "All types"
 msgstr "All types"
 
-#: teachpress.php:1307
+#: teachpress.php:1273
 #@ teachpress
 msgid "All authors"
 msgstr "All authors"
 
-#: teachpress.php:1496
+#: teachpress.php:1483
 #@ teachpress
 msgid "Sorry, no publications matched your criteria."
 msgstr "Sorry, no publications matched your criteria."
 
-#: addlvs.php:45
+#: addlvs.php:47
 #: publications.php:74
 #@ teachpress
 msgid "Shortcodes"
 msgstr "Shortcodes"
 
-#: publications.php:82
-#@ teachpress
-msgid "[tplist user=\"w\" tag=\"x\" year=\"y\" headline=\"z\"]"
-msgstr "[tplist user=\"w\" tag=\"x\" year=\"y\" headline=\"z\"]"
-
-#: publications.php:84
+#: publications.php:86
 #@ teachpress
 msgid "user - WP User-ID (0 for all)"
 msgstr "user - WP User-ID (0 for all)"
 
-#: publications.php:85
-#@ teachpress
-msgid "tag - Tag-ID"
-msgstr "tag - Tag-ID"
-
-#: publications.php:86
+#: publications.php:88
 #@ teachpress
 msgid "year"
 msgstr "year"
@@ -217,11 +202,6 @@ msgstr "year"
 #@ teachpress
 msgid "ok"
 msgstr "ok"
-
-#: publications.php:75
-#@ teachpress
-msgid "[tpcloud id=\"w\" maxsize=\"x\" minsize=\"y\" limit=\"z\"]"
-msgstr "[tpcloud id=\"w\" maxsize=\"x\" minsize=\"y\" limit=\"z\"]"
 
 #: addlvs.php:28
 #@ teachpress
@@ -235,8 +215,8 @@ msgstr "Create a new course"
 
 #: addlvs.php:34
 #: addlvs.php:36
-#: addpublications.php:59
-#: addpublications.php:61
+#: addpublications.php:60
+#: addpublications.php:62
 #: publications.php:61
 #: publications.php:73
 #: settings.php:8
@@ -246,7 +226,7 @@ msgid "Help"
 msgstr "Help"
 
 #: addlvs.php:37
-#: addlvs.php:135
+#: addlvs.php:137
 #: editlvs.php:254
 #@ teachpress
 msgid "Course name"
@@ -262,8 +242,8 @@ msgstr "For child courses: The name of the parent course will be add automatical
 msgid "Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order."
 msgstr "Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order."
 
-#: addlvs.php:47
-#: addlvs.php:123
+#: addlvs.php:49
+#: addlvs.php:125
 #: editlvs.php:205
 #: editlvs.php:333
 #: showlvs.php:125
@@ -271,36 +251,36 @@ msgstr "Here you can connect a course with a parent one. With this function you 
 msgid "Visibility"
 msgstr "Visibility"
 
-#: addlvs.php:48
+#: addlvs.php:50
 #@ teachpress
 msgid "Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select \"Yes\"."
 msgstr "Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select \"Yes\"."
 
-#: addlvs.php:46
+#: addlvs.php:48
 #@ teachpress
 msgid "For course informations"
 msgstr "For course informations"
 
-#: addlvs.php:46
+#: addlvs.php:48
 #@ teachpress
 msgid "[tpdate id=\"x\"] (x = Course-ID)"
 msgstr "[tpdate id=\"x\"] (x = Course-ID)"
 
-#: addlvs.php:49
-#: addpublications.php:66
-#: publications.php:90
+#: addlvs.php:51
+#: addpublications.php:67
+#: publications.php:94
 #: settings.php:17
 #@ teachpress
 msgid "close"
 msgstr "close"
 
-#: addlvs.php:55
+#: addlvs.php:57
 #: editlvs.php:163
 #@ teachpress
 msgid "Course type"
 msgstr "Course type"
 
-#: addlvs.php:65
+#: addlvs.php:67
 #: display.php:244
 #: display.php:286
 #: editlvs.php:181
@@ -311,20 +291,20 @@ msgstr "Course type"
 msgid "Term"
 msgstr "Term"
 
-#: addlvs.php:97
+#: addlvs.php:99
 #: editlvs.php:224
 #: editlvs.php:380
 #: showlvs.php:200
 #: showlvs.php:244
 #: showlvs.php:300
-#: teachpress.php:170
-#: teachpress.php:1696
+#: teachpress.php:171
+#: teachpress.php:1715
 #@ teachpress
 msgid "none"
 msgstr "none"
 
-#: addlvs.php:125
-#: addlvs.php:178
+#: addlvs.php:127
+#: addlvs.php:180
 #: editlvs.php:209
 #: editlvs.php:213
 #: editlvs.php:304
@@ -341,8 +321,8 @@ msgstr "none"
 msgid "yes"
 msgstr "yes"
 
-#: addlvs.php:126
-#: addlvs.php:177
+#: addlvs.php:128
+#: addlvs.php:179
 #: editlvs.php:210
 #: editlvs.php:214
 #: editlvs.php:305
@@ -359,7 +339,7 @@ msgstr "yes"
 msgid "no"
 msgstr "no"
 
-#: addlvs.php:139
+#: addlvs.php:141
 #: editlvs.php:258
 #: editlvs.php:363
 #: export.php:88
@@ -369,7 +349,7 @@ msgstr "no"
 msgid "Lecturer"
 msgstr "Lecturer"
 
-#: addlvs.php:143
+#: addlvs.php:145
 #: display.php:242
 #: display.php:284
 #: editlvs.php:262
@@ -382,7 +362,7 @@ msgstr "Lecturer"
 msgid "Date"
 msgstr "Date"
 
-#: addlvs.php:147
+#: addlvs.php:149
 #: display.php:243
 #: display.php:285
 #: editlvs.php:266
@@ -394,15 +374,13 @@ msgstr "Date"
 msgid "Room"
 msgstr "Room"
 
-#: addlvs.php:151
+#: addlvs.php:153
 #: editlvs.php:289
 #@ teachpress
 msgid "Number of places"
 msgstr "Number of places"
 
-#: addlvs.php:155
-#: addpublications.php:177
-#: editlvs.php:270
+#: addpublications.php:178
 #: editlvs.php:375
 #: export.php:104
 #@ teachpress
@@ -410,7 +388,7 @@ msgid "Comment"
 msgstr "Comment"
 
 #: addlvs.php:39
-#: addlvs.php:167
+#: addlvs.php:169
 #: editlvs.php:282
 #: editlvs.php:337
 #: showlvs.php:123
@@ -423,21 +401,21 @@ msgstr "Enrollments"
 msgid "Format for the date"
 msgstr "Format for the date"
 
-#: addlvs.php:171
+#: addlvs.php:173
 #: editlvs.php:296
 #: editlvs.php:340
 #@ teachpress
 msgid "Start"
 msgstr "Start"
 
-#: addlvs.php:173
+#: addlvs.php:175
 #: editlvs.php:298
 #: editlvs.php:344
 #@ teachpress
 msgid "End"
 msgstr "End"
 
-#: addlvs.php:175
+#: addlvs.php:177
 #: display.php:276
 #: editlvs.php:300
 #: export.php:156
@@ -446,8 +424,8 @@ msgstr "End"
 msgid "Waiting list"
 msgstr "Waiting list"
 
-#: addlvs.php:185
-#: addpublications.php:248
+#: addlvs.php:187
+#: addpublications.php:249
 #: settings.php:100
 #: settings.php:130
 #: settings.php:162
@@ -457,83 +435,83 @@ msgstr "Waiting list"
 msgid "create"
 msgstr "create"
 
-#: addlvs.php:186
-#: addpublications.php:249
+#: addlvs.php:188
+#: addpublications.php:250
 #@ teachpress
 msgid "reset"
 msgstr "reset"
 
-#: addpublications.php:59
+#: addpublications.php:60
 #@ teachpress
 msgid "Add publications"
 msgstr "Add publications"
 
-#: addpublications.php:44
+#: addpublications.php:45
 #@ teachpress
 msgid "Publication added"
 msgstr "Publication added"
 
-#: addpublications.php:102
+#: addpublications.php:103
 #@ teachpress
 msgid "click to add the publication in your own list"
 msgstr "click to add the publication in your own list"
 
-#: addpublications.php:102
+#: addpublications.php:103
 #@ teachpress
 msgid "add to your own list"
 msgstr "add to your own list"
 
-#: addpublications.php:111
+#: addpublications.php:112
 #@ teachpress
 msgid "Bookmark for"
 msgstr "Bookmark for"
 
-#: addpublications.php:154
+#: addpublications.php:155
 #: display.php:241
 #: display.php:283
 #: editlvs.php:359
 #: editstudent.php:197
-#: publications.php:101
+#: publications.php:105
 #: showlvs.php:118
 #@ teachpress
 msgid "Type"
 msgstr "Type"
 
-#: addpublications.php:160
-#: publications.php:102
+#: addpublications.php:161
+#: publications.php:106
 #@ teachpress
 msgid "Author(s)"
 msgstr "Author(s)"
 
-#: addpublications.php:162
-#: publications.php:103
+#: addpublications.php:163
+#: publications.php:107
 #@ teachpress
 msgid "Published by"
 msgstr "Published by"
 
-#: addpublications.php:164
-#: publications.php:104
+#: addpublications.php:165
+#: publications.php:108
 #@ teachpress
 msgid "Year"
 msgstr "Year"
 
-#: addpublications.php:172
+#: addpublications.php:173
 #@ teachpress
 msgid "Link"
 msgstr "Link"
 
-#: addpublications.php:174
+#: addpublications.php:175
 #@ teachpress
 msgid "Sorting date"
 msgstr "Sorting date"
 
-#: addpublications.php:237
+#: addpublications.php:238
 #@ teachpress
 msgid "add as tag"
 msgstr "add as tag"
 
 #: display.php:62
-#: teachpress.php:150
+#: teachpress.php:151
 #@ teachpress
 msgid "resume"
 msgstr "resume"
@@ -543,7 +521,7 @@ msgstr "resume"
 msgid "Enrollments for the"
 msgstr "Enrollments for the"
 
-#: teachpress.php:528
+#: teachpress.php:657
 #@ teachpress
 msgid "Registration successful"
 msgstr "Registration successful"
@@ -579,7 +557,6 @@ msgstr "Registr.-Number"
 #: editlvs.php:392
 #: editlvs.php:434
 #: editstudent.php:83
-#: editstudent.php:200
 #: export.php:119
 #: export.php:162
 #: export.php:191
@@ -594,7 +571,6 @@ msgstr "First name"
 #: editlvs.php:391
 #: editlvs.php:433
 #: editstudent.php:87
-#: editstudent.php:199
 #: export.php:118
 #: export.php:161
 #: export.php:191
@@ -707,7 +683,7 @@ msgstr "select"
 
 #: display.php:344
 #: display.php:381
-#: teachpress.php:1058
+#: teachpress.php:1020
 #@ teachpress
 msgid "Date(s)"
 msgstr "Date(s)"
@@ -761,7 +737,7 @@ msgid "Courses for the"
 msgstr "Courses for the"
 
 #: display_courses.php:51
-#: publications.php:143
+#: publications.php:147
 #: showlvs.php:149
 #: students.php:99
 #: tags.php:107
@@ -785,7 +761,7 @@ msgstr "Participant added"
 msgid "Enrollments deleted"
 msgstr "Enrollments deleted"
 
-#: addpublications.php:251
+#: addpublications.php:252
 #: editlvs.php:121
 #: editlvs.php:315
 #: editstudent.php:143
@@ -902,13 +878,13 @@ msgid "ingest"
 msgstr "ingest"
 
 #: editlvs.php:462
-#: editstudent.php:239
+#: editstudent.php:233
 #@ teachpress
 msgid "delete enrollment"
 msgstr "delete enrollment"
 
-#: addpublications.php:200
-#: editstudent.php:240
+#: addpublications.php:201
+#: editstudent.php:234
 #: publications.php:67
 #: showlvs.php:34
 #: showlvs.php:105
@@ -917,35 +893,35 @@ msgstr "delete enrollment"
 msgid "delete"
 msgstr "delete"
 
-#: addpublications.php:51
+#: addpublications.php:52
 #@ teachpress
 msgid "Publication changed"
 msgstr "Publication changed"
 
-#: addpublications.php:56
+#: addpublications.php:57
 #@ teachpress
 msgid "Show all publications"
 msgstr "Show all publications"
 
-#: addpublications.php:56
+#: addpublications.php:57
 #: publications.php:55
 #@ teachpress
 msgid "All publications"
 msgstr "All publications"
 
-#: addpublications.php:56
+#: addpublications.php:57
 #@ teachpress
 msgid "Show own publications"
 msgstr "Show own publications"
 
-#: addpublications.php:56
+#: addpublications.php:57
 #: publications.php:58
 #: teachpress.php:64
 #@ teachpress
 msgid "Your publications"
 msgstr "Your publications"
 
-#: addpublications.php:59
+#: addpublications.php:60
 #@ teachpress
 msgid "Edit publications"
 msgstr "Edit publications"
@@ -1161,7 +1137,7 @@ msgstr "All terms"
 msgid "Bulk actions"
 msgstr "Bulk actions"
 
-#: publications.php:168
+#: publications.php:172
 #: showlvs.php:183
 #: showlvs.php:221
 #: showlvs.php:276
@@ -1201,17 +1177,17 @@ msgstr "minsize - min. font size in the tag cloud (default: 11)"
 msgid "limit - maximum of visible tags (default: 30)"
 msgstr "limit - maximum of visible tags (default: 30)"
 
-#: publications.php:82
+#: publications.php:84
 #@ teachpress
 msgid "For normal publication lists:"
 msgstr "For normal publication lists:"
 
-#: publications.php:87
+#: publications.php:89
 #@ teachpress
 msgid "headline - 0(off) or 1(on)"
 msgstr "headline - 0(off) or 1(on)"
 
-#: publications.php:158
+#: publications.php:162
 #@ teachpress
 msgid "Add to your own list"
 msgstr "Add to your own list"
@@ -1342,122 +1318,122 @@ msgstr "Publications"
 msgid "New"
 msgstr "New"
 
-#: teachpress.php:422
+#: teachpress.php:473
 #@ teachpress
 msgid "Registration for"
 msgstr "Registration for"
 
-#: teachpress.php:422
+#: teachpress.php:473
 #@ teachpress
 msgid "successful"
 msgstr "successful"
 
-#: teachpress.php:425
-#: teachpress.php:443
+#: teachpress.php:476
+#: teachpress.php:494
 #@ teachpress
 msgid "You are already for"
 msgstr "You are already for"
 
-#: teachpress.php:425
-#: teachpress.php:443
+#: teachpress.php:476
+#: teachpress.php:494
 #@ teachpress
 msgid "registered"
 msgstr "registered"
 
-#: teachpress.php:439
-#: teachpress.php:448
+#: teachpress.php:490
+#: teachpress.php:499
 #@ teachpress
 msgid "For"
 msgstr "For"
 
-#: teachpress.php:439
+#: teachpress.php:490
 #@ teachpress
 msgid "there are no more free places. You are automatically signed in a waiting list."
 msgstr "there are no more free places. You are automatically signed in a waiting list."
 
-#: teachpress.php:448
+#: teachpress.php:499
 #@ teachpress
 msgid "there are no more free places."
 msgstr "there are no more free places."
 
-#: teachpress.php:542
+#: teachpress.php:680
 #@ teachpress
 msgid "Changes in your profile successful."
 msgstr "Changes in your profile successful."
 
-#: teachpress.php:600
+#: teachpress.php:595
 #@ teachpress
 msgid "You are signed out successful"
 msgstr "You are signed out successful"
 
-#: teachpress.php:974
+#: teachpress.php:1741
 #@ teachpress
 msgid "An update is not necessary."
 msgstr "An update is not necessary."
 
-#: teachpress.php:1042
+#: teachpress.php:1804
 #@ teachpress
 msgid "Update successful"
 msgstr "Update successful"
 
-#: teachpress.php:1210
+#: teachpress.php:1176
 #@ teachpress
 msgid "publication"
 msgstr "publication"
 
-#: teachpress.php:1213
+#: teachpress.php:1179
 #@ teachpress
 msgid "publications"
 msgstr "publications"
 
-#: teachpress.php:1224
-#: teachpress.php:1241
+#: teachpress.php:1190
+#: teachpress.php:1207
 #@ teachpress
 msgid "Delete tag as filter"
 msgstr "Delete tag as filter"
 
-#: teachpress.php:1325
-#: teachpress.php:1328
+#: teachpress.php:1291
+#: teachpress.php:1294
 #@ teachpress
 msgid "Show all"
 msgstr "Show all"
 
-#: teachpress.php:1434
+#: teachpress.php:1397
 #@ teachpress
 msgid "Show all publications which have a relationship to this tag"
 msgstr "Show all publications which have a relationship to this tag"
 
-#: publications.php:162
+#: publications.php:166
 #@ teachpress
 msgid "Delete from you own publication list"
 msgstr "Delete from you own publication list"
 
-#: teachpress.php:213
+#: teachpress.php:214
 #@ teachpress
 msgid "Buch"
 msgstr "Book"
 
-#: teachpress.php:225
+#: teachpress.php:226
 #@ teachpress
 msgid "Sonstiges"
 msgstr "Miscellaneous"
 
-#: teachpress.php:221
+#: teachpress.php:222
 #@ teachpress
 msgid "Vortrag"
 msgstr "Presentation"
 
-#: addpublications.php:166
+#: addpublications.php:167
 #@ teachpress
 msgid "ISBN/ISSN"
 msgstr "ISBN/ISSN"
 
-#: addpublications.php:170
+#: addpublications.php:171
 #@ teachpress
 msgid "ISSN"
 msgstr "ISSN"
 
-#: addpublications.php:132
+#: addpublications.php:133
 #@ teachpress
 msgid "Image URL"
 msgstr "Image URL"
@@ -1467,56 +1443,46 @@ msgstr "Image URL"
 msgid "If you have a course without enrollments, so add no dates in the fields start and end. teachPress will be deactivate the enrollments automatically."
 msgstr "If you have a course without enrollments, so add no dates in the fields start and end. teachPress will be deactivate the enrollments automatically."
 
-#: addlvs.php:43
-#: addlvs.php:159
+#: addlvs.php:45
+#: addlvs.php:161
 #: editlvs.php:274
 #: editlvs.php:379
 #@ teachpress
 msgid "Related Page"
 msgstr "Related Page"
 
-#: addlvs.php:44
+#: addlvs.php:46
 #@ teachpress
 msgid "If you will connect a course with a page (it is used as link in the courses overview) so you can do this here"
 msgstr "If you will connect a course with a page (it is used as link in the courses overview) so you can do this here"
 
-#: addpublications.php:63
-#@ teachpress
-msgid "Add the publication to different publication lists."
-msgstr "Add the publication to different publication lists."
-
-#: addpublications.php:64
-#: addpublications.php:125
+#: addpublications.php:65
+#: addpublications.php:126
 #@ teachpress
 msgid "Image &amp; Related page"
 msgstr "Image &amp; Related page"
 
-#: addpublications.php:65
-#@ teachpress
-msgid "Both fields are for the teachPress Books widget. With the related page you can link a publication with a normal post/page."
-msgstr "Both fields are for the teachPress Books widget. With the related page you can link a publication with a normal post/page."
-
-#: addpublications.php:134
+#: addpublications.php:135
 #@ teachpress
 msgid "Add Image"
 msgstr "Add Image"
 
-#: addpublications.php:135
+#: addpublications.php:136
 #@ teachpress
 msgid "Related page"
 msgstr "Related page"
 
-#: addpublications.php:150
+#: addpublications.php:151
 #@ teachpress
 msgid "Publication"
 msgstr "Publication"
 
-#: addpublications.php:191
+#: addpublications.php:192
 #@ teachpress
 msgid "Current"
 msgstr "Current"
 
-#: addpublications.php:203
+#: addpublications.php:204
 #@ teachpress
 msgid "New (seperate by comma)"
 msgstr "New (seperate by comma)"
@@ -1571,43 +1537,92 @@ msgstr "use &lt;Ctrl&gt; key to select multiple roles"
 msgid "teachPress Settings"
 msgstr "teachPress Settings"
 
-#: teachpress.php:223
+#: teachpress.php:224
 #@ teachpress
 msgid "Bericht"
 msgstr "Report"
 
-#: teachpress.php:1637
+#: teachpress.php:1656
 #@ teachpress
 msgid "Shows a random book in the sidebar"
 msgstr "Shows a random book in the sidebar"
 
-#: teachpress.php:1639
+#: teachpress.php:1658
 #@ teachpress
 msgid "teachPress books"
 msgstr "teachPress books"
 
-#: teachpress.php:1664
+#: teachpress.php:1683
 #@ teachpress
 msgid "All books"
 msgstr "All books"
 
-#: teachpress.php:1680
+#: teachpress.php:1699
 #@ teachpress
 msgid "Title:"
 msgstr "Title:"
 
-#: teachpress.php:1682
+#: teachpress.php:1701
 #@ teachpress
 msgid "Books:"
 msgstr "Books:"
 
-#: teachpress.php:1693
+#: teachpress.php:1712
 #@ teachpress
 msgid "use &lt;Ctrl&gt; key to select multiple books"
 msgstr "use &lt;Ctrl&gt; key to select multiple books"
 
-#: teachpress.php:1695
+#: teachpress.php:1714
 #@ teachpress
 msgid "Releated Page for &laquo;all books&raquo; link:"
 msgstr "Releated Page for &laquo;all books&raquo; link:"
+
+#: addpublications.php:64
+#@ teachpress
+msgid "Add a publication to different publication lists."
+msgstr "Add a publication to different publication lists."
+
+#: addpublications.php:66
+#@ teachpress
+msgid "With the image field you can add an image to a publication. You can display images in all publication lists. With the related page you can link a publication with a normal post/page. It is only used for the teachPress books widget."
+msgstr "With the image field you can add an image to a publication. You can display images in all publication lists. With the related page you can link a publication with a normal post/page. It is only used for the teachPress books widget."
+
+#: publications.php:75
+#@ teachpress
+msgid "[tpcloud id=\"u\" maxsize=\"v\" minsize=\"w\" limit=\"x\" image=\"y\" image_size=\"z\"]"
+msgstr "[tpcloud id=\"u\" maxsize=\"v\" minsize=\"w\" limit=\"x\" image=\"y\" image_size=\"z\"]"
+
+#: publications.php:81
+#: publications.php:90
+#@ teachpress
+msgid "image - image position: left, right, bottom (default: none)"
+msgstr "image - image position: left, right, bottom (default: none)"
+
+#: publications.php:82
+#: publications.php:91
+#@ teachpress
+msgid "image_size - maximum size in pixel (px) of an image (default: 0). "
+msgstr "image_size - maximum size in pixel (px) of an image (default: 0). "
+
+#: publications.php:84
+#@ teachpress
+msgid "[tplist user=\"u\" tag=\"v\" year=\"w\" headline=\"x\" image=\"y\" image_size=\"z\"]"
+msgstr "[tplist user=\"u\" tag=\"v\" year=\"w\" headline=\"x\" image=\"y\" image_size=\"z\"]"
+
+#: publications.php:87
+#@ teachpress
+msgid "tag - Tag-ID (You can only choice one tag!)"
+msgstr "tag - Tag-ID (You can only choice one tag!)"
+
+#: addlvs.php:43
+#: addlvs.php:157
+#: editlvs.php:270
+#@ teachpress
+msgid "Comment or Description"
+msgstr "Comment or Description"
+
+#: addlvs.php:44
+#@ teachpress
+msgid "For parent courses the comment is showing in the overview and for child courses in the enrollments system."
+msgstr "For parent courses the comment is showing in the overview and for child courses in the enrollments system."
 

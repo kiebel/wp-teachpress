@@ -36,13 +36,13 @@ $insert = $_POST[insert];
 $einschreiben = $_POST[einschreiben];
 
 if (isset($insert)) {
-	add_student_manuell($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
+	tp_add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
 	$message = __('Student added','teachpress');
 	$site = 'admin.php?page=teachpress/students_new.php';
 	tp_get_message($message, $site);
 }
 if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
-	student_manuell_eintragen ($student, $veranstaltung);
+	stp_subscribe_student_manually($student, $veranstaltung);
 	$message = __('The enrollment for the selected student was successful.','teachpress');
 	$site = 'admin.php?page=teachpress/students_new.php';
 	tp_get_message($message, $site);

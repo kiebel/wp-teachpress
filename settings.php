@@ -43,27 +43,27 @@ function teachpress_admin_settings() {
 		teachpress_install();
 	}
 	if (isset($einstellungen)) {
-		change_einstellungen($semester, $permalink, $userrole, $sign_out);
+		tp_change_settings($semester, $permalink, $userrole, $sign_out);
 		$message = __('Settings updated','teachpress');
 		tp_get_message($message, $site);
 	}
 	if (isset($addstud) && $name != __('Add course of studies','teachpress')) {
-		add_einstellung($name, 'studiengang');
+		tp_add_setting($name, 'studiengang');
 		$message = __('Course of studies added','teachpress');
 		tp_get_message($message, $site);
 	}
 	if (isset($addtyp) && $typ != __('Add type','teachpress')) {
-		add_einstellung($typ, 'veranstaltungstyp');
+		tp_add_setting($typ, 'veranstaltungstyp');
 		$message = __('Type added','teachpress');
 		tp_get_message($message, $site);
 	}
 	if (isset($addsem) && $newsem != __('Add term','teachpress')) {
-		add_einstellung($newsem, 'semester');
+		tp_add_setting($newsem, 'semester');
 		$message = __('Term added','teachpress');
 		tp_get_message($message, $site);
 	}
 	if (isset($delete)) {
-		delete_einstellung($delete);
+		tp_delete_setting($delete);
 	} 
 	?>
    
