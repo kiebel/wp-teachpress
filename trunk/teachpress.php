@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 0.85.0
+Version: 0.85.1
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8
@@ -310,7 +310,7 @@ function tp_update_userrole($roles) {
  * @param $warteliste (INT) - 0(off) or 1 (on)
  * used in addlvs.php
 */
-function tp_add_lvs($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $startein, $endein, $semester,  $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste) {
+function tp_add_lvs($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste) {
 	global $teachpress_ver;
 	$eintragen = sprintf("INSERT INTO " . $teachpress_ver . " (`name`, `vtyp`, `raum`, `dozent`, `termin`, `plaetze`, `fplaetze`, `startein`, `endein`, `semester`, `bemerkungen`, `rel_page`, `parent`, `sichtbar`, `warteliste`) VALUES('$lvname', '$veranstaltungstyp', '$raum', '$dozent', '$termin' , '$plaetze', '$plaetze', '$startein', '$endein', '$semester', '$bemerkungen', '$rel_page', '$parent', '$sichtbar', '$warteliste')", 
 	mysql_real_escape_string( "$" . $teachpress_ver . "_name"), 
@@ -320,6 +320,7 @@ function tp_add_lvs($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaet
 	mysql_real_escape_string( "$" . $teachpress_ver . "_termin") , 
 	mysql_real_escape_string( "$" . $teachpress_ver . "_semester") , 
 	mysql_real_escape_string( "$" . $teachpress_ver . "_bemerkungen") );
+	echo $eintragen;
 	tp_query($eintragen);
 	}
 	
@@ -402,7 +403,8 @@ function tp_copy_lvs($checkbox, $copysem) {
 		// Parents kopieren
 		if ( $daten[$i][13] == 0) {
 			$merke[$counter2] = $daten[$i][0];
-			add_lvs_in_database($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $daten[$i][13], $daten[$i][14], $daten[$i][15]);
+			echo $copysem;
+			tp_add_lvs($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $daten[$i][13], $daten[$i][14], $daten[$i][15]);
 			$counter2++;
 		}
 	}	
@@ -423,13 +425,13 @@ function tp_copy_lvs($checkbox, $copysem) {
 					if ( $daten[$k][0] == $test) {
 					$suche = "SELECT veranstaltungs_id FROM " . $teachpress_ver . " WHERE name = '" . $daten[$k][1] . "' AND vtyp = '" . $daten[$k][2] . "' AND raum = '" . $daten[$k][3] . "' AND dozent = '" . $daten[$k][4] . "' AND termin = '" . $daten[$k][5] . "' AND semester = '$copysem' AND parent = 0";
 					$suche = tp_var($suche);
-					add_lvs_in_database($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $suche, $daten[$i][14], $daten[$i][15]);					
+					tp_add_lvs($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $suche, $daten[$i][14], $daten[$i][15]);					
 					}
 				}
 			}
 			// Sonst erstelle direkt Kopie
 			else {
-				add_lvs_in_database($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $daten[$i][13], $daten[$i][14], $daten[$i][15]);
+				tp_add_lvs($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $daten[$i][13], $daten[$i][14], $daten[$i][15]);
 			}
 		}
 	}
@@ -1509,7 +1511,7 @@ function tplist_shortcode($atts){
 	$userid = $user;
 	$tag_id = $tag;
 	$yr = $year;
-	// Beide werden auf Integer gesetzt
+	// Define some parameters as integer
 	settype($userid, 'integer');
 	settype($tag_id, 'integer');
 	settype($yr, 'integer');
@@ -1911,7 +1913,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default-Einstellungen			
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sem', 'WS09/10', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.85.0', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.85.1', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('permalink', '1', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')");		
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('WS09/10', 'WS09/10', 'semester')");									

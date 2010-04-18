@@ -36,7 +36,7 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 		$lvs = htmlentities(utf8_decode($_GET[lvs_ID]));
 		settype($lvs, 'integer');
 		// Daten der Lehrveranstaltung laden
-		$row= "SELECT * FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$lvs'";
+		$row = "SELECT * FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$lvs'";
 		$row = $wpdb->get_results($row);
 		$counter = 0;
 		foreach($row as $row){

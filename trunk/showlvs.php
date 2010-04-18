@@ -51,10 +51,16 @@ function teachpress_showlvs_page() {
         <p class="hilfe_text">
     	<select name="copysem" id="copysem">
             <?php    
-		    $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
+		    $sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id DESC";
 			$sem = tp_results($sem);
 			foreach ($sem as $sem) { 
-				echo '<option value="' . $sem->wert . '">' . $sem->wert . '</option>';
+				if ($sem->wert == $semester2) {
+					$current = 'selected="selected"' ;
+				}
+				else {
+					$current = '' ;
+				} 
+				echo '<option value="' . $sem->wert . '" ' . $current . '>' . $sem->wert . '</option>';
 			} ?> 
         </select>
         <input name="copy_ok" type="submit" class="teachpress_button" value="<?php _e('copy','teachpress'); ?>"/>

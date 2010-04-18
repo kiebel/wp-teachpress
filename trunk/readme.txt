@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, university
 Requires at least: 2.8
 Tested up to: 2.9.2
-Stable tag: 0.85.0
+Stable tag: 0.85.1
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -50,7 +50,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-**Special thanks for the great support:**  
+**Special thanks for supporting:**  
 [Chair of Business Information Systems, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/)
 
 == Installation ==
@@ -87,12 +87,22 @@ For 0.22.0 Users: Please rename your teachPress database tables after the upgrad
 = Is it possible to connect the WordPress registration with the teachPress registration? =
 Currently not, sorry! teachPress was developed for using other login systems in WordPress like Shibboleth, where the plugin needs the extra registration.
 
-= How can I display images in publication lists =
+= How can I display images in publication lists? =
 An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
 
+= Is it possible to change the position of bottom publication images? =
+You can change the bottom position for example to center with this line in your theme CSS:
+.tp_pub_image_bottom {text-align:center;}
+
 = How I can use the shortcodes? = 
- 
-= For course informations: [tpdate id="x"] =  
+An example for a publication list with tag cloud (max. 50 tags) and images left. All what you must do is to copy the following in a page or post:  
+[tpcloud limit="50" image="left" image_size="70"]  
+  
+An example for course information:  
+[tpdate id="30"]
+
+= Reference of shortcode parameters =
+= For course information: [tpdate id="x"] =  
 * id = Course-ID
 
 = For publication lists with tag-cloud: [tpcloud (args)] =  
@@ -112,6 +122,10 @@ An example: [tplist id="0" image="left" image_size="70"]. Important: You must sp
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 0.85.1 =
+* New: RSS-Feed script for publications
+* Bugfix: Fixed bug in the "copy course" function
+* Bugfix: Fixed bug in the "add students manually" function
 = 0.85.0 =
 * New: Displaying images in publication lists is possible
 * New: Larger edit field for course comments
