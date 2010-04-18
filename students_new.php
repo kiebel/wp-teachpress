@@ -42,7 +42,7 @@ if (isset($insert)) {
 	tp_get_message($message, $site);
 }
 if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
-	stp_subscribe_student_manually($student, $veranstaltung);
+	tp_subscribe_student_manually($student, $veranstaltung);
 	$message = __('The enrollment for the selected student was successful.','teachpress');
 	$site = 'admin.php?page=teachpress/students_new.php';
 	tp_get_message($message, $site);
