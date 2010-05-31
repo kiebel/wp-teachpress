@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 0.85.1
+Version: 1.0.0
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8
@@ -67,7 +67,7 @@ function teachpress_add_menu2() {
 }
 // Settings
 function teachpress_add_menu_settings() {
-	add_options_page(__('teachPress Settings','teachpress'),'teachpress','administrator','teachpress/settings.php', 'teachpress_admin_settings');
+	add_options_page(__('teachPress Settings','teachpress'),'teachPress','administrator','teachpress/settings.php', 'teachpress_admin_settings');
 }
 
 // Course overview backend
@@ -202,11 +202,11 @@ function teachpress_wp_pages($sort_column = "menu_order", $sort_order = "ASC", $
  * Return $types (String)
 */
 function get_tp_publication_type_options ($selected, $mode = 'list', $url = '', $tgid = '', $yr = '', $autor = '') {
-	$selected = htmlentities(utf8_decode($selected));
-	$url = htmlentities(utf8_decode($url));
-	$tgid = htmlentities(utf8_decode($tgid));
-	$yr = htmlentities(utf8_decode($yr));
-	$autor = htmlentities(utf8_decode($autor));
+	$selected = tp_sec_var($selected);
+	$url = tp_sec_var($url);
+	$tgid = tp_sec_var($tgid);
+	$yr = tp_sec_var($yr);
+	$autor = tp_sec_var($autor);
 	// Define publication types
 	$pub_types[0][0] = '0';
 	$pub_types[0][1] = __('All types','teachpress');
@@ -268,6 +268,7 @@ function get_tp_version(){
 	global $tp_version;
 	return $tp_version;
 }
+
 /* Update who can use teachPress
  * @param $roles
  * used in: settings.php 
@@ -288,6 +289,45 @@ function tp_update_userrole($roles) {
         $wp_roles->remove_cap($role, 'use_teachpress');
     }
 }
+
+/* Get a teachPress option
+ * @param $var (String) --> permalink, sem, db-version, sign_out, login
+ * Return $term
+*/
+function tp_get_option($var) {
+	global $teachpress_einstellungen;
+	$term = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = '$var'";
+	$term = tp_var($term);
+	return $term;
+}
+
+/* Save variables
+ * @param $var
+ * @param $type - integer, string (default)
+*/
+function tp_sec_var($var, $type = 'string') {
+	$var = htmlspecialchars($var);
+	if ($type == 'integer') {
+		settype($var, 'integer');
+	}
+	return $var;
+}
+
+/* Change WordPress registration
+ *
+*/
+function tp_advanced_registration() {
+	$user = wp_get_current_user();
+	global $teachpress_stud;
+	$sql = "SELECT wp_id FROM " . $teachpress_stud . "WHERE wp_id = '$current_user->ID'";
+	$test = tp_query($sql);
+	if ($test == '0' && $user->ID != '0') {
+		if ($user->user_firstname == '') {
+			$user->user_firstname = $user->display_name;
+		}	
+		tp_add_student($user->ID, $user->user_firstname, $user->user_lastname, $studiengang, $user->user_login , $gebdat, $user->user_email, $fachsemester, $matrikel);
+	}
+} 
 
 /***********/
 /* Courses */
@@ -320,7 +360,6 @@ function tp_add_lvs($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaet
 	mysql_real_escape_string( "$" . $teachpress_ver . "_termin") , 
 	mysql_real_escape_string( "$" . $teachpress_ver . "_semester") , 
 	mysql_real_escape_string( "$" . $teachpress_ver . "_bemerkungen") );
-	echo $eintragen;
 	tp_query($eintragen);
 	}
 	
@@ -454,9 +493,19 @@ function tp_add_registration($checkbox, $wp_id){
 		settype($checkbox[$i], 'integer');
 		if ( $checkbox[$i] != 0 ) {	
 			// Pruefen ob noch freie Plätze vorhanden sind
-			$row1 = "SELECT fplaetze, name, startein, endein, warteliste FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$checkbox[$i]'";
+			$row1 = "SELECT fplaetze, name, startein, endein, warteliste, parent FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$checkbox[$i]'";
 			$row1 = tp_results($row1);
 			foreach ($row1 as $row1) {
+				if ($row1->parent != '0') {
+					$sql = "SELECT name FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$row1->parent'";
+					$parent = tp_var($sql);
+					if ($row1->name == $parent) {
+						$row1->name = $row1->name;
+					}
+					else {
+						$row1->name = $parent . ' ' . $row1->name; 
+					}
+				}
 				// Wenn noch freie Plätze vorhanden sind
 				if ($row1->fplaetze > 0 ) {
 					// dann pruefen ob der Nutzer schon eingeschrieben ist
@@ -472,10 +521,10 @@ function tp_add_registration($checkbox, $wp_id){
 						$neu = $fplaetze - 1;
 						$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$checkbox[$i]'";
 						tp_query( $aendern );
-						echo "<span>" . __('Registration for','teachpress') . " &quot;$row1->name&quot; " . __('successful','teachpress') . ".</span> ";
+						echo '<div class="teachpress_message">' . __('Registration for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('successful','teachpress') . '.</div>';
 					}
 					else {
-						echo "<span>" . __('You are already for','teachpress') . " &quot;$row1->name&quot; " . __('registered','teachpress') . "</span> ";
+						echo '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '.</div>';
 					}
 				}
 				// Falls die Veranstaltung schon voll ist, dann automatischer Eintrag als Warteliste wenn diese für LVS aktiviert
@@ -489,16 +538,16 @@ function tp_add_registration($checkbox, $wp_id){
 						if ($check == 0 ) {
 							$eintragen = "INSERT INTO " . $teachpress_kursbelegung . " (veranstaltungs_id, wp_id, warteliste, datum) VALUES ('$checkbox[$i]', '$wp_id', '1', NOW() )";
 							tp_query( $eintragen );
-							echo "<span>" . __('For','teachpress') . " &quot;$row1->name&quot; " . __('there are no more free places. You are automatically signed in a waiting list.','teachpress') . "</span> ";
+							echo '<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places. You are automatically signed in a waiting list.','teachpress') . '</div>';
 						}
 						// Sonst Fehlermeldung ausgeben
 						else {
-							echo "<span>" . __('You are already for','teachpress') . " &quot;$row1->name&quot; " . __('registered','teachpress') . "</span> ";
+							echo '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '</div>';
 						}
 					}
 					// Sonst Fehlermeldung ausgeben
 					else {
-						echo "<span>" . __('For','teachpress') . " &quot;$row1->name&quot; " . __('there are no more free places.','teachpress') . "</span> ";
+						echo '<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places.','teachpress') . '</div>';
 					}
 				}
 			}
@@ -549,7 +598,8 @@ function tp_delete_registration($checkbox, $user_ID) {
 		}
    	tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE belegungs_id = '$checkbox[$i]'" );
 	// Sicherheitslog seit Version 0.8
-	tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$checkbox[$i]', '$user_ID', 'Delete Einschreibung', NOW())");
+	$mess = __('Delete registration','teachpress');
+	tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$checkbox[$i]', '$user_ID', '$mess', NOW())");
     }
 }
 
@@ -594,7 +644,7 @@ function tp_delete_registration_student($checkbox2) {
 			}
    		tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE belegungs_id = '$checkbox2[$i]'" );
     }	
-	echo "<span>" . __('You are signed out successful','teachpress') . "</span> ";
+	echo '<div class="teachpress_message">' . __('You are signed out successful','teachpress') . '</div>';
 }
 
 /* Subscribe a student from a wating list manually
@@ -647,16 +697,23 @@ function tp_subscribe_student_manually($student, $veranstaltung) {
  * used in display.php, students_new.php
 */
 function tp_add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel) {
-	global $teachpress_stud; 		
-	$eintragen = sprintf("INSERT INTO " . $teachpress_stud . " (`wp_id`, `vorname`, `nachname`, `studiengang`, `urzkurz`, `gebdat`, `email`, `fachsemester`, `matrikel`) VALUES ('$wp_id', '$vorname', '$nachname', '$studiengang', '$urzkurz' , '$gebdat', '$email', '$fachsemester', '$matrikel')", 
-	mysql_real_escape_string( "$" . $teachpress_stud . "_wp_id"), 
-	mysql_real_escape_string( "$" . $teachpress_stud . "_vorname") , 
-	mysql_real_escape_string( "$" . $teachpress_stud . "_nachname") , 
-	mysql_real_escape_string( "$" . $teachpress_stud . "_studiengang") , 
-	mysql_real_escape_string( "$" . $teachpress_stud . "_urzkurz") , 
-	mysql_real_escape_string( "$" . $teachpress_stud . "_email") );
-    tp_query( $eintragen );
-	echo '<strong>' .  __('Registration successful','teachpress') . '</strong> ';
+	global $teachpress_stud;
+	$sql = "SELECT wp_id FROM " . $teachpress_stud . " WHERE wp_id = '$wp_id'";
+	$test = tp_query($sql);
+	if ($test == '0') {		
+		$eintragen = sprintf("INSERT INTO " . $teachpress_stud . " (`wp_id`, `vorname`, `nachname`, `studiengang`, `urzkurz`, `gebdat`, `email`, `fachsemester`, `matrikel`) VALUES ('$wp_id', '$vorname', '$nachname', '$studiengang', '$urzkurz' , '$gebdat', '$email', '$fachsemester', '$matrikel')", 
+		mysql_real_escape_string( "$" . $teachpress_stud . "_wp_id"), 
+		mysql_real_escape_string( "$" . $teachpress_stud . "_vorname") , 
+		mysql_real_escape_string( "$" . $teachpress_stud . "_nachname") , 
+		mysql_real_escape_string( "$" . $teachpress_stud . "_studiengang") , 
+		mysql_real_escape_string( "$" . $teachpress_stud . "_urzkurz") , 
+		mysql_real_escape_string( "$" . $teachpress_stud . "_email") );
+		tp_query( $eintragen );
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 /* Edit userdata
@@ -679,10 +736,11 @@ function tp_change_student($wp_id, $vorname, $nachname, $studiengang, $gebdat, $
 	mysql_real_escape_string( "$" . $teachpress_stud . "_email" ) );
     tp_query( $aendern );
 	if ($user_ID == 0) {
-		echo "<span>" . __('Changes in your profile successful.','teachpress') . "<span> ";
+		echo '<div class="teachpress_message">' . __('Changes in your profile successful.','teachpress') . '</div>';
 	}
 	else {
-		tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$wp_id', '$user_ID', 'Change Student', NOW())");
+		$mess = __('Change student data','teachpress');
+		tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$wp_id', '$user_ID', '$mess', NOW())");
 	}
 }
 
@@ -730,51 +788,10 @@ function tp_delete_student($checkbox, $user_ID){
 			}
    		tp_query( "DELETE FROM " . $teachpress_stud . " WHERE wp_id = $checkbox[$i]" );
 		// Sicherheitslog
-		tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$checkbox[$i]', '$user_ID', 'Delete Student', NOW())");
+		$mess = __('Delete student data','teachpress');
+		tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$checkbox[$i]', '$user_ID', '$mess', NOW())");
 		tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE wp_id = $checkbox[$i]" );
     }
-}
-
-/************/
-/* Settings */
-/************/
-
-/* Change settings
- * @param $semester (String)
- * @param $permalink (INT)
- * used in: settings.php
-*/
-function tp_change_settings($semester, $permalink, $userrole, $sign_out) {
-	global $teachpress_einstellungen; 		
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$semester' WHERE variable = 'sem'";
-	tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$permalink' WHERE variable = 'permalink'";
-    tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$sign_out' WHERE variable = 'sign_out'";
-    tp_query( $eintragen );
-	tp_update_userrole($userrole);
-}
-
-/* Delete a setting
- * @param $delete (Array)
- * used in: settings.php
-*/
-function tp_delete_setting($delete) {
-	global $teachpress_einstellungen;		
-	tp_query( "DELETE FROM " . $teachpress_einstellungen . " WHERE einstellungs_id = '$delete'" );
-}
-
-/* Add a setting
- * @param $name (String)
- * @param $typ (String)
- * used in: settings.php
-*/
-function tp_add_setting($name, $typ) { 
-	global $teachpress_einstellungen; 	
-	$add = sprintf("INSERT INTO " . $teachpress_einstellungen . " (`variable`, `wert`, `category`) VALUES ('$name', '$name', '$typ')", 
-	mysql_real_escape_string( "$" . $teachpress_einstellungen . "_variable" ),
-	mysql_real_escape_string( "$" . $teachpress_einstellungen . "_wert" ));
-	tp_query($add);
 }
 
 /****************/
@@ -881,6 +898,7 @@ function tp_delete_publications($checkbox){
 }	
 
 /* Edit a publication
+
  * Eingang: siehe Funktionskopf
  * used in: addpublications.php
 */
@@ -924,6 +942,58 @@ function tp_change_publication($name, $typ, $autor, $erschienen, $jahr, $isbn, $
 			}
 		}	
 	}
+}
+
+/************/
+/* Settings */
+/************/
+
+/* Change settings
+ * @param $semester (String)
+ * @param $permalink (INT)
+ * used in: settings.php
+*/
+function tp_change_settings($semester, $permalink, $sign_out, $userrole, $regnum, $studies, $termnumber, $birthday, $login) {
+	global $teachpress_einstellungen; 		
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$semester' WHERE variable = 'sem'";
+	tp_query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$permalink' WHERE variable = 'permalink'";
+    tp_query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$sign_out' WHERE variable = 'sign_out'";
+    tp_query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$regnum' WHERE variable = 'regnum'";
+    tp_query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$studies' WHERE variable = 'studies'";
+    tp_query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$termnumber' WHERE variable = 'termnumber'";
+    tp_query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$birthday' WHERE variable = 'birthday'";
+    tp_query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$login' WHERE variable = 'login'";
+    tp_query( $eintragen );
+	tp_update_userrole($userrole);
+}
+
+/* Delete a setting
+ * @param $delete (Array)
+ * used in: settings.php
+*/
+function tp_delete_setting($delete) {
+	global $teachpress_einstellungen;		
+	tp_query( "DELETE FROM " . $teachpress_einstellungen . " WHERE einstellungs_id = '$delete'" );
+}
+
+/* Add a setting
+ * @param $name (String)
+ * @param $typ (String)
+ * used in: settings.php
+*/
+function tp_add_setting($name, $typ) { 
+	global $teachpress_einstellungen; 	
+	$add = sprintf("INSERT INTO " . $teachpress_einstellungen . " (`variable`, `wert`, `category`) VALUES ('$name', '$name', '$typ')", 
+	mysql_real_escape_string( "$" . $teachpress_einstellungen . "_variable" ),
+	mysql_real_escape_string( "$" . $teachpress_einstellungen . "_wert" ));
+	tp_query($add);
 }
 
 /*************/
@@ -1071,7 +1141,7 @@ function tpdate_shortcode($attr) {
 }
 /* Publication list with tag cloud
  * @param $attr (Array) with 'userid' (INT), maxsize (INT), minsize (INT), limit (INT), image (STRING), size (INT)
- * $_GET: $yr (Jahr, Integer), $type (Typ, String), $autor (Autor, Integer)
+ * $_GET: $yr (Year, INT), $type (Type, STRING), $autor (Author, INT)
  * Return $asg (String)
  * used in WordPress shortcode API
 */
@@ -1093,22 +1163,22 @@ function tpcloud_shortcode($atts) {
 		'image_size' => 0,
 	), $atts));
 	// tgid - shows the current tag
-	$tgid = htmlentities($_GET[tgid]);
+	$tgid = tp_sec_var($_GET[tgid], 'integer');
 	if ($tgid == '') {
 		$tgid = 0;
 	}
 	// year
-	$yr = htmlentities($_GET[yr]);
+	$yr = tp_sec_var($_GET[yr], 'integer');
 	if ($yr == '') {
 		$yr = 0;
 	}
 	// publication type
-	$type = htmlentities(utf8_decode($_GET[type]));
+	$type = tp_sec_var($_GET[type]);
 	if ($type == '') {
 		$type = 0;
 	}
 	// author
-	$autor = htmlentities($_GET[autor]);
+	$autor = tp_sec_var($_GET[autor], 'integer');
 	if ($autor == '') {
 		$autor = 0;
 	}
@@ -1118,9 +1188,6 @@ function tpcloud_shortcode($atts) {
 	}
 	// Zahlen werden auf Integer gesetzt
 	settype($id, 'integer');
-	settype($tgid, 'integer');
-	settype($year, 'integer');
-	settype($autor, 'integer');
 	settype($image_size, 'integer');
 	// ID Namen bei abgeschalteten Permalinks ermitteln
 	if (is_page()) {
@@ -1134,7 +1201,7 @@ function tpcloud_shortcode($atts) {
 	*/
 	
 	// Abfrage ob Permalinks verwendet werden oder nicht
-	$permalink = tp_var("SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'permalink'");
+	$permalink = tp_get_option('permalink');
 	
 	// Ermittle Anzahl der Tags absteigend sortiert
 	if ($id == '0') {
@@ -1795,10 +1862,41 @@ function tp_db_update() {
 		/*
 		 * teachpress_einstellungen
 		*/
+		// Sign out
 		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sign_out'";
 		$test = tp_query($sql);
 		if ($test == '0') {
 			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')"); 
+		}
+		// Login
+		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'login'";
+		$test = tp_query($sql);
+		if ($test == '0') {
+			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('login', 'std', 'system')"); 
+		}
+		// Registration number
+		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'regnum'";
+		$test = tp_query($sql);
+		if ($test == '0') {
+			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('regnum', '1', 'system')"); 
+		}
+		// Studies
+		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'studies'";
+		$test = tp_query($sql);
+		if ($test == '0') {
+			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('studies', '1', 'system')"); 
+		}
+		// Termnumber
+		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'termnumber'";
+		$test = tp_query($sql);
+		if ($test == '0') {
+			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('termnumber', '1', 'system')");
+		}
+		// Birthday
+		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'birthday'";
+		$test = tp_query($sql);
+		if ($test == '0') {
+			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('birthday', '1', 'system')"); 
 		}
 		// Versionsinfo in Datenbank aktualisieren
 		tp_query("UPDATE " . $teachpress_einstellungen . " SET  wert = '$version' WHERE variable = 'db-version'");
@@ -1809,7 +1907,7 @@ function tp_db_update() {
 }
 
 /* 
- * Installer
+ * Installation
 */
 function teachpress_install() {
 	global $wpdb;
@@ -1913,9 +2011,14 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default-Einstellungen			
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sem', 'WS09/10', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '0.85.1', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '1.0.0', 'system')");
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('permalink', '1', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')");		
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('login', 'std', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('regnum', '1', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('studies', '1', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('termnumber', '1', 'system')");
+		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('birthday', '1', 'system')");	
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('WS09/10', 'WS09/10', 'semester')");									
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('Bachelor Wirtschaftsinformatik', 'Bachelor Wirtschaftsinformatik', 'studiengang')");	
 		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('Vorlesung', 'Vorlesung', 'veranstaltungstyp')");
@@ -1989,6 +2092,21 @@ function teachpress_install() {
 		dbDelta($sql);
 	 }
 }
+/* 
+ * Uninstalling
+*/ 
+function tp_uninstall() {
+	global $teachpress_ver;
+	global $teachpress_stud;
+	global $teachpress_einstellungen;
+	global $teachpress_kursbelegung;
+	global $teachpress_log;
+	global $teachpress_pub;
+	global $teachpress_tags;
+	global $teachpress_beziehung;
+	global $teachpress_user;
+	tp_query("DROP TABLE " . $teachpress_ver . ", " . $teachpress_stud . ", " . $teachpress_einstellungen . ", " . $teachpress_kursbelegung . ", " . $teachpress_log . ", " . $teachpress_pub . ", " . $teachpress_tags . ", " . $teachpress_user . ", " . $teachpress_beziehung . "");
+}
 
 /*********************/
 /* Loading functions */
@@ -2000,19 +2118,17 @@ function teachpress_install() {
 function teachpress_admin_head() {
 	// Lade scripts nur, wenn es eine teachpress Seite ist
 	if ( eregi('teachpress', $_GET[page]) || eregi('publications', $_GET[page]) ) {
-		wp_enqueue_script('teachpress-calendar-js', WP_PLUGIN_URL . '/teachpress/jscalendar/calendar.js');
-		wp_enqueue_script('teachpress-calendarsetup-js', WP_PLUGIN_URL . '/teachpress/jscalendar/calendar-setup.js');
-		wp_enqueue_script('teachpress-standard', WP_PLUGIN_URL . '/teachpress/js/standard.js');
 		$lang = __('de','teachpress');
-		if ($lang == 'de') {
-			wp_enqueue_script('teachpress-calendarlang-js', WP_PLUGIN_URL . '/teachpress/jscalendar/lang/calendar-de.js');
-		}
-		else {
-			wp_enqueue_script('teachpress-calendarlang-js', WP_PLUGIN_URL . '/teachpress/jscalendar/lang/calendar-en.js');
-		}
+		wp_enqueue_script('teachpress-standard', WP_PLUGIN_URL . '/teachpress/js/standard.js');
 		wp_enqueue_style('teachpress.css', WP_PLUGIN_URL . '/teachpress/teachpress.css');
-		wp_enqueue_style('teachpress-calendar-css', WP_PLUGIN_URL . '/teachpress/jscalendar/skins/aqua/theme.css');
 		add_thickbox();
+		wp_enqueue_script('teachpress-jquery', WP_PLUGIN_URL . '/teachpress/js/datepicker/jquery-1.4.2.js');
+		wp_enqueue_script('teachpress-datepicker', WP_PLUGIN_URL . '/teachpress/js/datepicker/jquery.datepick.min.js');
+		wp_enqueue_script('teachpress-datepicker2', WP_PLUGIN_URL . '/teachpress/js/datepicker/jquery.datepick.ext.js');
+		wp_enqueue_style('teachpress-datepicker.css', WP_PLUGIN_URL . '/teachpress/js/datepicker/jquery.datepick.css');
+		if ($lang == 'de') {
+			wp_enqueue_script('teachpress-datepicker-de', WP_PLUGIN_URL . '/teachpress/js/datepicker/jquery.datepick-de.js');
+		}	
 	}
 }
 /* Fuegt einen String zum WP-Admin-Header
@@ -2030,11 +2146,12 @@ function teachpress_js_wp_header() {
 	echo '<link type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/teachpress_front.css" rel="stylesheet" />';
 }
 
-//lade sprachdateien
+// load language files
 function teachpress_language_support() {
-	load_plugin_textdomain('teachpress', false, 'teachpress');
+	load_plugin_textdomain('teachpress', false, 'teachpress/languages');
 }
-// Registrieren der WordPress-Hooks
+
+// Register WordPress-Hooks
 register_activation_hook( __FILE__, 'teachpress_install');
 add_action('widgets_init', create_function('', 'return register_widget("teachpress_books_widget");'));
 add_action('init', 'teachpress_language_support');

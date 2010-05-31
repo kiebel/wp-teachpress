@@ -23,26 +23,26 @@ $checkbox = $_GET[checkbox];
 $delete = $_GET[loeschen];
 $speichern = $_GET[speichern];
 $aufnehmen = $_GET[aufnehmen];
-$name = htmlentities(utf8_decode($_GET[name]));
-$vtyp = htmlentities(utf8_decode($_GET[vtyp]));
-$raum = htmlentities(utf8_decode($_GET[raum])) ;
-$dozent = htmlentities(utf8_decode($_GET[dozent]));
-$termin = htmlentities(utf8_decode($_GET[termin]));
-$plaetze = htmlentities(utf8_decode($_GET[plaetze])); 
-$fplaetze = htmlentities(utf8_decode($_GET[fplaetze]));
-$startein = htmlentities(utf8_decode($_GET[startein])); 
-$endein = htmlentities(utf8_decode($_GET[endein])); 
-$semester = htmlentities(utf8_decode($_GET[semester]));
-$bemerkungen = htmlentities(utf8_decode($_GET[bemerkungen]));
-$rel_page = htmlentities(utf8_decode($_GET[rel_page]));
-$sichtbar = htmlentities(utf8_decode($_GET[sichtbar]));
-$parent = htmlentities(utf8_decode($_GET[par]));
-$warteliste = htmlentities(utf8_decode($_GET[warteliste]));
-$weiter = htmlentities(utf8_decode($_GET[lvs_ID]));
-$veranstaltung = htmlentities(utf8_decode($_GET[lvs_ID]));
+$name = tp_sec_var($_GET[name]);
+$vtyp = tp_sec_var($_GET[vtyp]);
+$raum = tp_sec_var($_GET[raum]);
+$dozent = tp_sec_var($_GET[dozent]);
+$termin = tp_sec_var($_GET[termin]);
+$plaetze = tp_sec_var($_GET[plaetze], 'integer'); 
+$fplaetze = tp_sec_var($_GET[fplaetze], 'integer');
+$startein = tp_sec_var($_GET[startein]); 
+$endein = tp_sec_var($_GET[endein]); 
+$semester = tp_sec_var($_GET[semester]);
+$bemerkungen = tp_sec_var($_GET[bemerkungen]);
+$rel_page = tp_sec_var($_GET[rel_page]);
+$sichtbar = tp_sec_var($_GET[sichtbar]);
+$parent = tp_sec_var($_GET[par]);
+$warteliste = tp_sec_var($_GET[warteliste]);
+$weiter = tp_sec_var($_GET[lvs_ID], 'integer');
+$veranstaltung = tp_sec_var($_GET[lvs_ID], 'integer');
 // fuer Zurueckleitung an showlvs.php
-$search = htmlentities(utf8_decode($_GET[search]));
-$sem = htmlentities(utf8_decode($_GET[sem]));
+$search = tp_sec_var($_GET[search]);
+$sem = tp_sec_var($_GET[sem]);
 // Befehle ausfürhen
 if ( isset($speichern) ) {
 	tp_change_lvs($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste, $veranstaltung);
@@ -66,25 +66,23 @@ if ( isset($delete)) {
 // LVS-Daten
 $row = "SELECT * FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$veranstaltung'";
 $row = tp_results($row);
-$counter = 0;
 foreach($row as $row){
-	$daten[$counter][0] = $row->veranstaltungs_id;
-	$daten[$counter][1] = $row->name;
-	$daten[$counter][2] = $row->vtyp;
-	$daten[$counter][3] = $row->raum;
-	$daten[$counter][4] = $row->dozent;
-	$daten[$counter][5] = $row->termin;
-	$daten[$counter][6] = $row->plaetze;
-	$daten[$counter][7] = $row->fplaetze;
-	$daten[$counter][8] = $row->startein;
-	$daten[$counter][9] = $row->endein;
-	$daten[$counter][10] = $row->semester;
-	$daten[$counter][11] = $row->bemerkungen;
-	$daten[$counter][12] = $row->rel_page;
-	$daten[$counter][13] = $row->parent;
-	$daten[$counter][14] = $row->sichtbar;
-	$daten[$counter][15] = $row->warteliste;
-	$counter++;
+	$daten[0][0] = $row->veranstaltungs_id;
+	$daten[0][1] = $row->name;
+	$daten[0][2] = $row->vtyp;
+	$daten[0][3] = $row->raum;
+	$daten[0][4] = $row->dozent;
+	$daten[0][5] = $row->termin;
+	$daten[0][6] = $row->plaetze;
+	$daten[0][7] = $row->fplaetze;
+	$daten[0][8] = $row->startein;
+	$daten[0][9] = $row->endein;
+	$daten[0][10] = $row->semester;
+	$daten[0][11] = $row->bemerkungen;
+	$daten[0][12] = $row->rel_page;
+	$daten[0][13] = $row->parent;
+	$daten[0][14] = $row->sichtbar;
+	$daten[0][15] = $row->warteliste;
 }
 // Einschreibungen
 $row = "SELECT " . $teachpress_stud . ".matrikel, " . $teachpress_stud . ".vorname, " . $teachpress_stud . ".nachname, " . $teachpress_stud . ".studiengang,  " . $teachpress_stud . ".urzkurz, " . $teachpress_stud . ".email , " . $teachpress_kursbelegung . ".datum, " . $teachpress_kursbelegung . ".belegungs_id, " . $teachpress_kursbelegung . ".warteliste
@@ -120,7 +118,7 @@ foreach($row as $row){
 
 if ($speichern != __('save','teachpress')) { ?>
     <p>
-    <a href="admin.php?page=teachpress/teachpress.php&semester2=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('back to the overview','teachpress'); ?>">&larr; <?php _e('back','teachpress'); ?></a><a href="admin.php?page=teachpress/lists.php&lvs_ID=<?php echo"$weiter" ?>&sem=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('print template for an attendance list','teachpress'); ?>"><?php _e('create attendance list','teachpress'); ?></a>
+    <a href="admin.php?page=teachpress/teachpress.php&semester2=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('back to the overview','teachpress'); ?>">&larr; <?php _e('back','teachpress'); ?></a><a href="admin.php?page=teachpress/lists.php&lvs_ID=<?php echo"$weiter" ?>&sem=<?php echo"$sem" ?>&search=<?php echo"$search" ?>" class="teachpress_back" title="<?php _e('create an attendance list','teachpress'); ?>"><?php _e('create attendance list','teachpress'); ?></a>
       <select name="export" id="export" onchange="teachpress_jumpMenu('parent',this,0)" class="teachpress_select">
         <option><?php _e('Export as','teachpress'); ?> ... </option>
         <option value="<?php echo WP_PLUGIN_URL; ?>/teachpress/export.php?lvs_ID=<?php echo"$weiter" ?>&type=csv"><?php _e('csv-file','teachpress'); ?></option>
@@ -138,6 +136,7 @@ if ($speichern != __('save','teachpress')) { ?>
     <input name="sem" type="hidden" value="<?php echo"$sem" ?>" />
     <input name="search" type="hidden" value="<?php echo"$search" ?>" />
     <?php
+	// define course name
 	if ($daten[0][13] != 0) {
 		for ($x=0; $x < $counter3; $x++) {
 			if ($par[$x][0] == $daten[0][13]) {
@@ -294,9 +293,9 @@ if ($speichern != __('save','teachpress')) { ?>
            </tr>
           <tr>
             <th><label for="startein"><?php _e('Start','teachpress'); ?></label></th>
-            <td><input name="startein" id="startein"type="text" size="10" value="<?php echo $daten[0][8]; ?>"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
+            <td><input name="startein" id="startein" type="text" size="10" value="<?php echo $daten[0][8]; ?>"/></td>
             <th><label for="endein"><?php _e('End','teachpress'); ?></label></th>
-            <td><input name="endein" id="endein" type="text" size="10"  value="<?php echo $daten[0][9]; ?>"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
+            <td><input name="endein" id="endein" type="text" size="10"  value="<?php echo $daten[0][9]; ?>"/></td>
             <th><label for="warteliste"><?php _e('Waiting list','teachpress'); ?></label></th>
             <td><select name="warteliste" id="warteliste">
             <?php
@@ -387,10 +386,20 @@ if ($speichern != __('save','teachpress')) { ?>
          <thead>
           <tr>
             <th>&nbsp;</th>
-            <th><?php _e('Registr.-Number','teachpress'); ?></th>
+            <?php
+			$field1 = tp_get_option('regnum');
+			if ($field1 == '1') {
+            	echo '<th>' .  __('Registr.-Number','teachpress') . '</th>';
+            }
+            ?>
             <th><?php _e('Last name','teachpress'); ?></th>
             <th><?php _e('First name','teachpress'); ?></th>
-            <th><?php _e('Course of studies','teachpress'); ?></th>
+            <?php
+			$field2 = tp_get_option('studies');
+			if ($field2 == '1') {
+            	echo '<th>' .  __('Course of studies','teachpress') . '</th>';
+			}	
+            ?>
             <th><?php _e('User account','teachpress'); ?></th>
             <th><?php _e('E-Mail','teachpress'); ?></th>
             <th><?php _e('Registered at','teachpress'); ?></th>
@@ -400,19 +409,23 @@ if ($speichern != __('save','teachpress')) { ?>
 		<?php
 		// Ausgabe der Tabelle zu den in die LVS eingeschriebenen Studenten
 		for($i=0; $i<$counter2; $i++) {
-			if ($daten2[$i][8]== 0 ) {?>
-			  <tr>
-				<th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo $daten2[$i][7]; ?>"/></th>
-				<td><?php echo $daten2[$i][0]; ?></td>
-				<td><?php echo $daten2[$i][2]; ?></td>
-				<td><?php echo $daten2[$i][1]; ?></td>
-				<td><?php echo $daten2[$i][3]; ?></td>
-				<td><?php echo $daten2[$i][4]; ?></td>
-				<td><a href="mailto:<?php echo $daten2[$i][5]; ?>" title="<?php _e('send E-Mail','teachpress'); ?>"><?php echo $daten2[$i][5]; ?></a></td>
-				<td><?php echo $daten2[$i][6]; ?></td>
-			  </tr>
-		<?php }
-	   } ?>
+			if ($daten2[$i][8]== 0 ) {
+				echo '<tr>';
+				echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $daten2[$i][7] . '"/></th>';
+                if ($field1 == '1') {
+            		echo '<td>' . $daten2[$i][0] . '</td>';
+            	}
+				echo '<td>' . $daten2[$i][2] . '</td>';
+				echo '<td>' . $daten2[$i][1] . '</td>';
+				if ($field1 == '1') {
+            		echo '<td>' . $daten2[$i][3] . '</td>';
+            	}
+				echo '<td>' . $daten2[$i][4] . '</td>';
+				echo '<td><a href="mailto:' . $daten2[$i][5] . '" title="' . __('send E-Mail','teachpress') . '">' . $daten2[$i][5] . '</a></td>';
+				echo '<td>' . $daten2[$i][6] . '</td>';
+			  	echo '</tr>';
+			}
+	    } ?>
         </tbody>
         </table>
 		<?php
@@ -464,21 +477,18 @@ if ($speichern != __('save','teachpress')) { ?>
 </table>
 </div>
 </form>
-<script type="text/javascript">
-  Calendar.setup(
-    {
-      inputField  : "startein",         // ID of the input field
-      ifFormat    : "%Y-%m-%d",    // the date format
-      button      : "calendar"       // ID of the button
-    }
-  );
-  Calendar.setup(
-    {
-      inputField  : "endein",         // ID of the input field
-      ifFormat    : "%Y-%m-%d",    // the date format
-      button      : "calendar2"       // ID of the button
-    }
-  );
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('#startein').datepick({showOtherMonths: true, firstDay: 1, 
+		renderer: $.extend({}, $.datepick.weekOfYearRenderer), 
+		onShow: $.datepick.showStatus, showTrigger: '#calImg',
+		dateFormat: 'yyyy-mm-dd', yearRange: '2008:c+5'}); 
+		
+		$('#endein').datepick({showOtherMonths: true, firstDay: 1, 
+		renderer: $.extend({}, $.datepick.weekOfYearRenderer), 
+		onShow: $.datepick.showStatus, showTrigger: '#calImg',
+		dateFormat: 'yyyy-mm-dd', yearRange: '2008:c+5'}); 
+		});
 </script>
 </div>
 <?php } ?>

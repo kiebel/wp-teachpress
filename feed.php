@@ -12,8 +12,8 @@ $teachpress_pub = $wpdb->prefix . 'teachpress_pub';
 $teachpress_user = $wpdb->prefix . 'teachpress_user';
 $teachpress_beziehung = $wpdb->prefix . 'teachpress_beziehung';
 $teachpress_tags = $wpdb->prefix . 'teachpress_tags';
-$id = htmlentities(utf8_decode($_GET[id]));
-$tag = htmlentities(utf8_decode($_GET[tag]));
+$id = htmlspecialchars($_GET[id]);
+$tag = htmlspecialchars($_GET[tag]);
 settype ($id, 'integer');
 settype ($tag, 'integer');
 

@@ -13,7 +13,7 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 	if (is_user_logged_in()) {
 	
 		// Typ auslesen
-		$type = htmlentities($_REQUEST[type]);
+		$type = htmlspecialchars($_REQUEST[type]);
 		$filename = 'teachpress_' . date('dmY');
 		
 		// Header veraendern
@@ -33,7 +33,7 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 		$teachpress_einstellungen = $wpdb->prefix . 'teachpress_einstellungen';
 		$teachpress_kursbelegung = $wpdb->prefix . 'teachpress_kursbelegung';
 		// ID der Lehrveranstaltung auslesen
-		$lvs = htmlentities(utf8_decode($_GET[lvs_ID]));
+		$lvs = htmlspecialchars($_GET[lvs_ID]);
 		settype($lvs, 'integer');
 		// Daten der Lehrveranstaltung laden
 		$row = "SELECT * FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$lvs'";

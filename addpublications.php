@@ -16,26 +16,26 @@ global $wpdb;
 get_currentuserinfo();
 $user = $current_user->ID;
 // form variables from editpub.php
-$typ = htmlentities(utf8_decode($_GET[typ]));
-$name = htmlentities(utf8_decode($_GET[name]));
-$autor = htmlentities(utf8_decode($_GET[autor]));
-$erschienen = htmlentities(utf8_decode($_GET[erschienen]));
-$jahr = htmlentities(utf8_decode($_GET[jahr]));
-$isbn = htmlentities(utf8_decode($_GET[isbn]));
-$links = htmlentities(utf8_decode($_GET[links]));
-$sort = htmlentities(utf8_decode($_GET[sortierung]));
-$comment = htmlentities(utf8_decode($_GET[comment]));
-$tags = htmlentities(utf8_decode($_GET[tags]));
-$image_url = htmlentities(utf8_decode($_GET[image_url]));
-$rel_page = htmlentities(utf8_decode($_GET[rel_page]));
-$is_isbn = htmlentities(utf8_decode($_GET[isisbn]));
+$typ = tp_sec_var($_GET[typ]);
+$name = tp_sec_var($_GET[name]);
+$autor = tp_sec_var($_GET[autor]);
+$erschienen = tp_sec_var($_GET[erschienen]);
+$jahr = tp_sec_var($_GET[jahr], 'integer');
+$isbn = tp_sec_var($_GET[isbn]);
+$links = tp_sec_var($_GET[links]);
+$sort = tp_sec_var($_GET[sortierung]);
+$comment = tp_sec_var($_GET[comment]);
+$tags = tp_sec_var($_GET[tags]);
+$image_url = tp_sec_var($_GET[image_url]);
+$rel_page = tp_sec_var($_GET[rel_page]);
+$is_isbn = tp_sec_var($_GET[isisbn]);
 $delbox = $_GET[delbox];
 $erstellen = $_GET[erstellen];
 $bookmark = $_GET[bookmark];
 $speichern = $_GET[speichern];
 // from publications.php or editpub.php
-$pub_ID = htmlentities(utf8_decode($_GET[pub_ID]));
-$search = htmlentities(utf8_decode($_GET[search]));
+$pub_ID = tp_sec_var($_GET[pub_ID], 'integer');
+$search = tp_sec_var($_GET[search]);
 ?>
 <div class="wrap">
 <?php
@@ -174,7 +174,6 @@ if ($pub_ID != '') {
       <input name="links" type="text" id="links" style="width:95%" value="<?php echo $daten[7]; ?>">
       <p><label for="sortierung"><strong><?php _e('Sorting date','teachpress'); ?></strong></label></p>
       <input type="text" name="sortierung" id="sortierung" value="<?php if ($pub_ID != '') { echo $daten[8]; } else {_e('JJJJ-MM-TT','teachpress'); } ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';"/>
-      <input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/>
       <p><label for="comment"><strong><?php _e('Comment','teachpress'); ?></strong></label></p>
       <textarea name="comment" wrap="virtual" id="comment" style="width:95%"><?php echo $daten[9]; ?></textarea></td>
     </tr>
@@ -220,6 +219,8 @@ if ($pub_ID != '') {
 		$insgesamt = $tagcloud_temp['gesamt'];
 		// Tags und Anzahl zusammenstellen
 		$sql = "SELECT tagPeak, name, tag_id FROM ( SELECT COUNT(b.tag_id) as tagPeak, t.name AS name,  t.tag_id as tag_id FROM " . $teachpress_beziehung . " b LEFT JOIN " . $teachpress_tags . " t ON b.tag_id = t.tag_id GROUP BY b.tag_id ORDER BY tagPeak DESC LIMIT " . $limit . " ) AS temp WHERE tagPeak>=".$min." ORDER BY name";
+		$test = tp_query($sql);
+		if ($test != '0') {
 		$temp = $wpdb->get_results($sql, ARRAY_A);
 		// Endausgabe der Cloud zusammenstellen
 		foreach ($temp as $tagcloud) {
@@ -237,7 +238,8 @@ if ($pub_ID != '') {
 			?>
 			<span style="font-size:<?php echo $size; ?>px;"><a href="javascript:teachpress_inserttag('<?php echo $tagcloud['name']; ?>')" title="&laquo;<?php echo $tagcloud['name']; ?>&raquo; <?php _e('add as tag','teachpress'); ?>"><?php echo $tagcloud['name']; ?> </a></span> 
             <?php 
-		  }
+		}
+		}  
 		  ?>
            </div>       
       </td>
@@ -254,14 +256,10 @@ if ($pub_ID != '') {
   </p>
   </div>
 </form>
-<script type="text/javascript">
-  Calendar.setup(
-    {
-      inputField  : "sortierung", // ID of the input field
-      ifFormat    : "%Y-%m-%d",   // the date format
-      button      : "calendar"    // ID of the button
-    }
-  );
-</script>
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('#sortierung').datepick({dateFormat: 'yyyy-mm-dd', yearRange: '1960:c+5', showTrigger: '#calImg'});
+	});
+	</script>
 </div>
 <?php } ?>

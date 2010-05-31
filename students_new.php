@@ -21,23 +21,28 @@
 */ 
 function teachpress_students_new_page() { 
 
-$wp_id = htmlentities(utf8_decode($_POST[wp_id]));
-$matrikel = htmlentities(utf8_decode($_POST[matrikel]));
-$vorname = htmlentities(utf8_decode($_POST[vorname]));
-$nachname = htmlentities(utf8_decode($_POST[nachname]));
-$studiengang = htmlentities(utf8_decode($_POST[studiengang]));
-$fachsemester = htmlentities(utf8_decode($_POST[fachsemester]));
-$urzkurz = htmlentities(utf8_decode($_POST[urzkurz]));
-$gebdat = htmlentities(utf8_decode($_POST[gebdat]));
-$email = htmlentities(utf8_decode($_POST[email]));
-$student = htmlentities(utf8_decode($_POST[student]));
-$veranstaltung = htmlentities(utf8_decode($_POST[veranstaltung]));
+$wp_id = tp_sec_var($_POST[wp_id], 'integer');
+$matrikel = tp_sec_var($_POST[matrikel], 'integer');
+$vorname = tp_sec_var($_POST[vorname]);
+$nachname = tp_sec_var($_POST[nachname]);
+$studiengang = tp_sec_var($_POST[studiengang]);
+$fachsemester = tp_sec_var($_POST[fachsemester], 'integer');
+$urzkurz = tp_sec_var($_POST[urzkurz]);
+$gebdat = tp_sec_var($_POST[gebdat]);
+$email = tp_sec_var($_POST[email]);
+$student = tp_sec_var($_POST[student]);
+$veranstaltung = tp_sec_var($_POST[veranstaltung]);
 $insert = $_POST[insert];
 $einschreiben = $_POST[einschreiben];
 
 if (isset($insert)) {
-	tp_add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
-	$message = __('Student added','teachpress');
+	$ret = tp_add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel);
+	if ($ret == true) {
+		$message = __('Registration successful','teachpress');
+	}
+	else {
+		$message = __('Error: User already exist','teachpress');
+	}
 	$site = 'admin.php?page=teachpress/students_new.php';
 	tp_get_message($message, $site);
 }
