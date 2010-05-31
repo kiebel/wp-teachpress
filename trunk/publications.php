@@ -16,14 +16,11 @@ get_currentuserinfo();
 // parameters from showpublications.php
 $checkbox = $_GET[checkbox];
 $action = $_GET[action];
-$page = htmlentities($_GET[page]);
-$user = htmlentities(utf8_decode($_GET[user]));
-$add_id = htmlentities(utf8_decode($_GET[add_id]));
-$del_id = htmlentities(utf8_decode($_GET[del_id]));
-$search = htmlentities(utf8_decode($_GET[search]));
-settype($user, 'integer');
-settype($add_id, 'integer');
-settype($del_id, 'integer');
+$page = tp_sec_var($_GET[page]);
+$user = tp_sec_var($_GET[user], 'integer');
+$add_id = tp_sec_var($_GET[add_id], 'integer');
+$del_id = tp_sec_var($_GET[del_id], 'integer');
+$search = tp_sec_var($_GET[search]);
 // Add a bookmark for the publication
 if ($add_id != "") {
 	tp_add_bookmark($add_id, $user);

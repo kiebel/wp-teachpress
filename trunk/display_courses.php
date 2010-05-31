@@ -6,10 +6,9 @@
 function teachpress_course_overview() {
 global $teachpress_ver; 
 global $teachpress_einstellungen; 
-$sem = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
-$sem = tp_var($sem);
+$sem = tp_get_option('sem');
 // Falls Semester vom User gewaehlt
-$semester = htmlspecialchars($_GET[semester]);	
+$semester = tp_sec_var($_GET[semester]);	
 if ($semester != "") {
 	$sem = $semester;
 }

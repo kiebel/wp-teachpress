@@ -8,20 +8,20 @@ global $teachpress_einstellungen;
 global $teachpress_ver;
 
 $erstellen = $_POST[erstellen]; 
-$veranstaltungstyp = htmlentities(utf8_decode($_POST[veranstaltungstyp])) ;
-$lvname = htmlentities(utf8_decode($_POST[lvname])) ;
-$raum = htmlentities(utf8_decode($_POST[raum])) ;
-$dozent = htmlentities(utf8_decode($_POST[dozent]));
-$termin = htmlentities(utf8_decode($_POST[termin]));
-$plaetze = htmlentities(utf8_decode($_POST[platz]));
-$startein = htmlentities(utf8_decode($_POST[startein])); 
-$endein = htmlentities(utf8_decode($_POST[endein])); 
-$semester = htmlentities(utf8_decode($_POST[semester]));
-$bemerkungen = htmlentities(utf8_decode($_POST[bemerkungen]));
-$rel_page = htmlentities(utf8_decode($_POST[rel_page]));
-$parent = htmlentities(utf8_decode($_POST[parent2]));
-$sichtbar = htmlentities(utf8_decode($_POST[sichtbar]));
-$warteliste = htmlentities(utf8_decode($_POST[warteliste]));
+$veranstaltungstyp = tp_sec_var($_POST[veranstaltungstyp]);
+$lvname = tp_sec_var($_POST[lvname]);
+$raum = tp_sec_var($_POST[raum]);
+$dozent = tp_sec_var($_POST[dozent]);
+$termin = tp_sec_var($_POST[termin]);
+$plaetze = tp_sec_var($_POST[platz]);
+$startein = tp_sec_var($_POST[startein]); 
+$endein = tp_sec_var($_POST[endein]); 
+$semester = tp_sec_var($_POST[semester]);
+$bemerkungen = tp_sec_var($_POST[bemerkungen]);
+$rel_page = tp_sec_var($_POST[rel_page]);
+$parent = tp_sec_var($_POST[parent2]);
+$sichtbar = tp_sec_var($_POST[sichtbar]);
+$warteliste = tp_sec_var($_POST[warteliste]);
 
 if (isset($erstellen)) {
 	tp_add_lvs($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $startein, $endein, $semester,  $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste);
@@ -68,8 +68,7 @@ if (isset($erstellen)) {
             <td>
               <select name="semester" id="semester">
 				<?php
-                $sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
-                $wert = tp_var($sql);   
+                $wert = tp_get_option('sem');   
 				$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE category = 'semester' ORDER BY einstellungs_id";
 				$sem = tp_results($sql);
 				$x = 0;
@@ -171,9 +170,9 @@ if (isset($erstellen)) {
          <thead>
           <tr>
             <th><label for="startein"><?php _e('Start','teachpress'); ?></label></th>
-            <td><input name="startein" type="text" id="startein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/><input type="submit" name="calendar" id="calendar" value="..." class="teachpress_button"/></td>
+            <td><input name="startein" type="text" id="startein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/></td>
             <th><label for="endein"><?php _e('End','teachpress'); ?></label></th>
-            <td><input name="endein" type="text" id="endein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/><input type="submit" name="calendar2" id="calendar2" value="..." class="teachpress_button"/></td>
+            <td><input name="endein" type="text" id="endein" value="<?php _e('JJJJ-MM-TT','teachpress'); ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" size="15"/></td>
             <th><label for="warteliste"><?php _e('Waiting list','teachpress'); ?></label></th>
             <td><select name="warteliste" id="warteliste">
               <option value="0"><?php _e('no','teachpress'); ?></option>
@@ -183,27 +182,24 @@ if (isset($erstellen)) {
           </tr>
       </thead>    
     </table>
+    <script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('#startein').datepick({showOtherMonths: true, firstDay: 1, 
+		renderer: $.extend({}, $.datepick.weekOfYearRenderer), 
+		onShow: $.datepick.showStatus, showTrigger: '#calImg',
+		dateFormat: 'yyyy-mm-dd', yearRange: '2008:c+5'}); 
+		
+		$('#endein').datepick({showOtherMonths: true, firstDay: 1, 
+		renderer: $.extend({}, $.datepick.weekOfYearRenderer), 
+		onShow: $.datepick.showStatus, showTrigger: '#calImg',
+		dateFormat: 'yyyy-mm-dd', yearRange: '2008:c+5'}); 
+		});
+	</script>
       <p>
         <input name="erstellen" type="submit" id="teachpress_erstellen" onclick="teachpress_validateForm('lvname','','R','dozent','','R','platz','','NisNum');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>" class="teachpress_button">
         <input type="reset" name="Reset" value="<?php _e('reset','teachpress'); ?>" id="teachpress_reset" class="teachpress_button">
         <input type="hidden" name="gesendet" value="1">
     </p>
     </form>
-    <script type="text/javascript">
-      Calendar.setup(
-        {
-          inputField  : "startein",         // ID of the input field
-          ifFormat    : "%Y-%m-%d",    // the date format
-          button      : "calendar"       // ID of the button
-        }
-      );
-      Calendar.setup(
-        {
-          inputField  : "endein",         // ID of the input field
-          ifFormat    : "%Y-%m-%d",    // the date format
-          button      : "calendar2"       // ID of the button
-        }
-      );
-    </script>
 </div>
 <?php } ?>

@@ -15,12 +15,12 @@ global $teachpress_user;
 global $teachpress_beziehung;
 global $teachpress_tags;
 // Daten von tags.php
-$search = htmlentities(utf8_decode($_GET[search]));
-$tag_id = htmlentities(utf8_decode($_GET[tag_ID]));
+$search = tp_sec_var($_GET[search]);
+$tag_id = tp_sec_var($_GET[tag_ID], 'integer');
 settype($tag_id, 'integer');
 $action = $_GET[action];
 $checkbox = $_GET[checkbox];
-$name = htmlentities(utf8_decode($_GET[name]));
+$name = tp_sec_var($_GET[name]);
 $speichern = $_GET[speichern];
 
 if ( $action == "delete" ) {

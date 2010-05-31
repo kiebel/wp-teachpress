@@ -4,28 +4,27 @@
  * @param $semester2 (String) 
  * @param $search (String)
 */
-function teachpress_showlvs_page() { 
+function teachpress_showlvs_page() {
+global $teachpress_einstellungen; 
+global $teachpress_ver;
+// Formular-Einträge aus dem Post Array holen
+$checkbox = $_GET[checkbox];
+$bulk = $_GET[bulk];
+$copysem = tp_sec_var($_GET[copysem]);
+$search = tp_sec_var($_GET[search]);
+// Wenn Semester vorher von User ausgewaehlt wurde
+if (isset($_GET[semester2])) {
+	$semester2 = tp_sec_var($_GET[semester2]);
+}
+else {
+	$semester2 = tp_get_option('sem');
+}
 ?> 
 
 <div class="wrap" style="padding-top:10px;">
   <form id="showlvs" name="form1" method="get" action="<?php echo $PHP_SELF ?>">
   <input name="page" type="hidden" value="teachpress/teachpress.php" />
-	<?php 
-	global $teachpress_einstellungen; 
-	global $teachpress_ver;
-    // Formular-Einträge aus dem Post Array holen
-    $checkbox = $_GET[checkbox];
-    $bulk = $_GET[bulk];
-	$copysem = htmlentities(utf8_decode($_GET[copysem]));
-	$search = htmlentities(utf8_decode($_GET[search]));
-	// Wenn Semester vorher von User ausgewaehlt wurde
-	if (isset($_GET[semester2])) {
-		$semester2 = htmlentities(utf8_decode($_GET[semester2]));
-	}
-	else {
-		$abfrage = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sem'";
-		$semester2 = tp_var($abfrage);
-	}	
+	<?php 	
     // Prüfen welche Checkbox genutzt wurde und Aufteilung an die Funktionen mit Variablenübergabe
 	// Veranstaltungen loeschen
     if ( $bulk == "delete" ) {?>

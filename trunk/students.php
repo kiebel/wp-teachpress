@@ -12,8 +12,8 @@ global $user_ID;
 get_currentuserinfo();
 $checkbox = $_GET[checkbox];
 $kontrolle = $_GET[kontrolle];
-$suche = htmlentities(utf8_decode($_GET[suche])); 
-$studenten = htmlentities(utf8_decode($_GET[studenten]));
+$suche = tp_sec_var($_GET[suche]); 
+$studenten = tp_sec_var($_GET[studenten]);
 
 if (isset($kontrolle)) {
 	tp_delete_student($checkbox, $user_ID);
@@ -68,58 +68,91 @@ if (isset($kontrolle)) {
 <table border="1" cellpadding="5" cellspacing="0" class="widefat">
 	<thead>
 	 <tr>
-	    <th>&nbsp;</th>
-        <th><?php _e('Registr.-Number','teachpress'); ?></th>
-        <th><?php _e('Last name','teachpress'); ?></th>
-        <th><?php _e('First name','teachpress'); ?></th>
-        <th><?php _e('Course of studies','teachpress'); ?></th>
-        <th><?php _e('Number of terms','teachpress'); ?></th>
-        <th><?php _e('Date of birth','teachpress'); ?></th>
-        <th><?php _e('User account','teachpress'); ?></th>
-        <th><?php _e('E-Mail','teachpress'); ?></th>
+     	<?php
+	    echo '<th>&nbsp;</th>'; 
+		$field1 = tp_get_option('regnum');
+        if ($field1 == '1') {
+            echo '<th>' .  __('Registr.-Number','teachpress') . '</th>';
+        }
+		else {
+        	echo '<th>' . __('WordPress User-ID','teachpress') . '</th>';
+        }
+        echo '<th>' . __('Last name','teachpress') . '</th>';
+        echo '<th>' . __('First name','teachpress') . '</th>'; 
+		$field2 = tp_get_option('studies');
+        if ($field2 == '1') {
+            echo '<th>' .  __('Course of studies','teachpress') . '</th>';
+        }
+		$field3 = tp_get_option('termnumber');
+        if ($field3 == '1') {
+            echo '<th>' .  __('Number of terms','teachpress') . '</th>';
+        }
+		$field4 = tp_get_option('birthday');
+        if ($field4 == '1') {
+            echo '<th>' .  __('Date of birth','teachpress') . '</th>';
+        }
+        echo '<th>' . __('User account','teachpress') . '</th>';
+        echo '<th>' . __('E-Mail','teachpress') . '</th>';
+		?>
 	 </tr>
     </thead>
     <tbody> 
 <?php
+	if ($field1 == '1') {
+		$order = 'matrikel';
+	}
+	else {
+		$order = 'wp_id';
+	}
 	if ($suche != "") {
-		$abfrage = "SELECT * FROM " . $teachpress_stud . " WHERE matrikel like '%$suche%' OR wp_id like '%$suche%' OR vorname LIKE '%$suche%' OR nachname LIKE '%$suche%' ORDER BY matrikel";
+		$abfrage = "SELECT * FROM " . $teachpress_stud . " WHERE matrikel like '%$suche%' OR wp_id like '%$suche%' OR vorname LIKE '%$suche%' OR nachname LIKE '%$suche%' ORDER BY " . $order . "";
 	}
 	else {
 		if ($studenten == '1') {
-			$abfrage = "SELECT * FROM " . $teachpress_stud . " ORDER BY matrikel";
+			$abfrage = "SELECT * FROM " . $teachpress_stud . " ORDER BY " . $order . "";
 		}
 		else {
-			$abfrage = "SELECT * FROM " . $teachpress_stud . " WHERE studiengang = '$studenten' ORDER BY matrikel";
+			$abfrage = "SELECT * FROM " . $teachpress_stud . " WHERE studiengang = '$studenten' ORDER BY " . $order . "";
 		}
 	}
 	$test = tp_query($abfrage);
 	// Test ob Eintraege vorhanden
-	if ($test == 0) { ?>
-			<tr>
-			  <td colspan="9"><strong><?php _e('Sorry, no entries matched your criteria.','teachpress'); ?></strong></td>
-			</tr>
-	<?php }
+	if ($test == 0) { 
+		echo '<tr><td colspan="9"><strong>' . __('Sorry, no entries matched your criteria.','teachpress') . '</strong></td></tr>';
+	}
 	else {
 		$row3 = tp_results($abfrage);
-		foreach($row3 as $row3) { ?>
-			  <tr>
-				<th class="check-column"><input type="checkbox" name="checkbox[]" id="checkbox" value="<?php echo "$row3->wp_id" ?>"/></th>
-				<td><a href="admin.php?page=teachpress/editstudent.php&student_ID=<?php echo "$row3->wp_id" ?>&suche=<?php echo "$suche" ?>&studenten=<?php echo "$studenten" ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo "$row3->matrikel" ?></a></td>
-				<td><?php echo "$row3->nachname" ?></td>
-				<td><?php echo "$row3->vorname" ?></td>
-				<td><?php echo "$row3->studiengang" ?></td>
-				<td><?php echo "$row3->fachsemester" ?></td>
-				<td><?php echo "$row3->gebdat" ?></td>
-				<td><?php echo "$row3->urzkurz" ?></td>
-				<td><a href="mailto:<?php echo "$row3->email" ?>" title="E-Mail senden"><?php echo "$row3->email" ?></a></td>
-			  </tr>
-		<?php } 
+		foreach($row3 as $row3) { 
+			echo '<tr>';
+			echo '<th class="check-column"><input type="checkbox" name="checkbox[]" id="checkbox" value="' . $row3->wp_id . '"/></th>';
+			echo '<td><a href="admin.php?page=teachpress/editstudent.php&student_ID=' . $row3->wp_id . '&suche=' . $suche . '&studenten=' . $studenten . '" class="teachpress_link" title="' . __('Click to edit','teachpress') . '">';
+			if ($field1 == '1') {
+				echo '' . $row3->matrikel . '</a></td>';
+			}
+			else {
+				echo '' . $row3->wp_id . '</a></td>';
+			}
+			echo '<td>' . $row3->nachname . '</td>';
+			echo '<td>' . $row3->vorname . '</td>';
+            if ($field2 == '1') {
+				echo '<td>' . $row3->studiengang . '</td>';
+			} 
+			if ($field3 == '1') {
+				echo '<td>' . $row3->fachsemester . '</td>';
+			} 
+			if ($field4 == '1') {
+				echo '<td>' . $row3->gebdat . '</td>';
+			}
+			echo '<td>' . $row3->urzkurz . '</td>';
+			echo '<td><a href="mailto:' . $row3->email . '" title="E-Mail senden">' . $row3->email . '</a></td>';
+			echo '</tr>';
+		} 
 	}
 	?> 
     </tbody>
     </table>
 <?php
-	if ($studenten !="0") { ?>
+	if ($studenten !="0" || $suche != "") { ?>
         <table border="0" cellspacing="7" cellpadding="0" id="einzel_optionen">
           <tr>
             <td><?php _e('Delete students','teachpress'); ?> </td>

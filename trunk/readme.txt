@@ -1,18 +1,18 @@
 === teachPress ===
 Contributors: Michael Winkler
-Tags: management, publications, enrollments, teachpress, university
+Tags: management, publications, enrollments, teachpress, education, course management
 Requires at least: 2.8
 Tested up to: 2.9.2
-Stable tag: 0.85.1
+Stable tag: 1.0.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
 teachPress is a powerful course and publication managment plugin, which is published under the terms of GPL. The plugin is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
 
-After the installation do the following things to configure teachPress: Firstly create a new page in WordPress und write `<!--LVS-->` in the textfield (html-mode) for creating the enrollment page or `<!--LVS2-->` for the course overview. For publication lists use the shortcodes, which are explain in the FAQ. That's it. I hope, that the normal using and configuration is self explanatory. 
+After the installation do the following things to configure teachPress: Firstly create a new page in WordPress und write `<!--LVS-->` in the textfield (html-mode) for creating the enrollment page (`<!--LVS2-->` for the course overview). For publication lists use the shortcodes, which are explained in the FAQ. That's it. I hope, that the normal using and configuration is self explanatory. 
 
-Please note, that it's currently not possible to insert images directly from the WordPress Media Library to a publication, so you must insert the url manually.
+Please note: It's currently not possible to insert images directly from the WordPress Media Library to a publication, so you must copy the url manually.
 
 For more information see [here](http://www.mtrv.kilu.de/teachpress/).
 
@@ -21,6 +21,7 @@ For more information see [here](http://www.mtrv.kilu.de/teachpress/).
 * Course management with enrollment system
 * Student management
 * xls/csv-export for course lists
+* RSS-feed for publicaitons
 * Integrated search functions
 * Shortcodes for easy using in posts an pages
 * Widget for displaying books in the sidebar
@@ -57,7 +58,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 1. Download the plugin.
 2. Extract all the files. 
-3. For the CSV/XLS-export please define your root directory path in the parameters_sample.php and rename the file to parameters.php
+3. Define your wp-root directory path in the parameters_sample.php and rename the file to parameters.php (it is only for RSS-Feeds and CSV/XLS-Export)
 4. Upload everything (keeping the directory structure) to your plugins directory.
 5. Activate the plugin through the 'plugins' menu in WordPress.
 
@@ -69,6 +70,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+Please check, if the teachPress database tables has `utf8_general_ci` as collation (or an other utf8 collation), if not, change the collation.
 
 = 0.85.0 =
 The publication lists are now tables, so it's possible, that the lists looks differently than before.
@@ -84,15 +88,11 @@ For 0.22.0 Users: Please rename your teachPress database tables after the upgrad
 
 == Frequently Asked Questions ==
 
-= Is it possible to connect the WordPress registration with the teachPress registration? =
-Currently not, sorry! teachPress was developed for using other login systems in WordPress like Shibboleth, where the plugin needs the extra registration.
+= How can I add long course desciptions  =
+You can write long course desciptions, as normal WordPress pages. The main function of teachPress is only to connect the static page with a course overview and an enrollment system. For this you can specify a related pages for your course.
 
 = How can I display images in publication lists? =
 An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
-
-= Is it possible to change the position of bottom publication images? =
-You can change the bottom position for example to center with this line in your theme CSS:
-.tp_pub_image_bottom {text-align:center;}
 
 = How I can use the shortcodes? = 
 An example for a publication list with tag cloud (max. 50 tags) and images left. All what you must do is to copy the following in a page or post:  
@@ -122,6 +122,16 @@ An example for course information:
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 1.0.0 =
+* New: It is possible to deactivate some fields for user data
+* New: New registration mode available
+* New: Function for uninstalling teachPress
+* Changed: Some small improvement for attendance lists
+* Changed: Settings
+* Changed: Design for enrollment system
+* Changed: Calendar: from jscalendar to datepicker (jquery-plugin)
+* Changed: Directory structure
+* Bugfix: Fixed bugs with utf8 chars
 = 0.85.1 =
 * New: RSS-Feed script for publications
 * Bugfix: Fixed bug in the "copy course" function
