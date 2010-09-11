@@ -3,11 +3,11 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 1.0.0
+Version: 2.0.b1
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8
-Max WP Version: 2.9.2
+Max WP Version: 3.0.1
 */
 
 /*
@@ -33,36 +33,31 @@ Max WP Version: 2.9.2
 // Define Databases
 // Define teachpress database tables, change it, if you will install teachpress in other tables. Every name must be unique.
 global $wpdb;
-$teachpress_ver = $wpdb->prefix . 'teachpress_ver'; //Events
+$teachpress_courses = $wpdb->prefix . 'teachpress_courses'; //Events
 $teachpress_stud = $wpdb->prefix . 'teachpress_stud'; //Students
-$teachpress_einstellungen = $wpdb->prefix . 'teachpress_einstellungen'; //Settings
-$teachpress_kursbelegung = $wpdb->prefix . 'teachpress_kursbelegung'; //Enrollments
+$teachpress_settings = $wpdb->prefix . 'teachpress_settings'; //Settings
+$teachpress_signup = $wpdb->prefix . 'teachpress_signup'; //Enrollments
 $teachpress_log = $wpdb->prefix . 'teachpress_log'; // Security-Log
 $teachpress_pub = $wpdb->prefix . 'teachpress_pub'; //Publications
 $teachpress_tags = $wpdb->prefix . 'teachpress_tags'; //Tags
-$teachpress_beziehung = $wpdb->prefix . 'teachpress_beziehung'; //Relationship Tags - Publications
+$teachpress_relation = $wpdb->prefix . 'teachpress_relation'; //Relationship Tags - Publications
 $teachpress_user = $wpdb->prefix . 'teachpress_user'; // Relationship Publications - User
-include_once('version.php');
+require_once('version.php');
 
 // Admin-Menu
 // Courses and students
 function teachpress_add_menu() {
-	add_menu_page(__('Course','teachpress'), __('Course','teachpress'),'use_teachpress', __FILE__, 'teachpress_showlvs_page', WP_PLUGIN_URL . '/teachpress/images/logo_small.png');
-	add_submenu_page('teachpress/teachpress.php',__('New course','teachpress'), __('New course','teachpress'),'use_teachpress','teachpress/addlvs.php','teachpress_addlvs_page');
+	add_menu_page(__('Course','teachpress'), __('Course','teachpress'),'use_teachpress', __FILE__, 'teachpress_show_courses_page', WP_PLUGIN_URL . '/teachpress/images/logo_small.png');
+	add_submenu_page('teachpress/teachpress.php',__('Add new','teachpress'), __('Add new','teachpress'),'use_teachpress','teachpress/add_course.php','tp_add_course_page');
 	add_submenu_page('teachpress/teachpress.php',__('Students','teachpress'), __('Students','teachpress'),'use_teachpress', 'teachpress/students.php', 'teachpress_students_page');
 	add_submenu_page('teachpress/teachpress.php', __('Add manually','teachpress'), __('Add manually','teachpress'),'use_teachpress','teachpress/students_new.php', 'teachpress_students_new_page');
-	// For page access since WordPress 2.8.1
-	add_submenu_page('teachpress/addlvs.php', 'Edit LVS','Edit LVS','use_teachpress','teachpress/editlvs.php','teachpress_editlvs_page');
-	add_submenu_page('teachpress/addlvs.php', 'Listen', 'Listen','use_teachpress','teachpress/lists.php','teachpress_lists_page');
-	add_submenu_page('teachpress/addlvs.php', 'Edit Stud', 'Edit Stud','use_teachpress','teachpress/editstudent.php','teachpress_editstudent_page');
-	add_submenu_page('teachpress/addlvs.php', 'Export', 'Export','use_teachpress','teachpress/export.php','teachpress_export');
-	// End
-	}
+}
 // Publications
 function teachpress_add_menu2() {
 	add_menu_page (__('Publications','teachpress'), __('Publications','teachpress'), 'use_teachpress', 'publications.php', 'teachpress_publications_page', WP_PLUGIN_URL . '/teachpress/images/logo_small.png');
 	add_submenu_page('publications.php',__('Your publications','teachpress'), __('Your publications','teachpress'),'use_teachpress','teachpress/publications.php','teachpress_publications_page');
-	add_submenu_page('publications.php',__('New','teachpress'), __('New','teachpress'),'use_teachpress','teachpress/addpublications.php','teachpress_addpublications_page');
+	add_submenu_page('publications.php',__('Add new','teachpress'), __('Add new','teachpress'),'use_teachpress','teachpress/addpublications.php','teachpress_addpublications_page');
+	add_submenu_page('publications.php',__('Import','teachpress'), __('Import','teachpress'), 'use_teachpress', 'teachpress/import.php','teachpress_import_page');
 	add_submenu_page('publications.php',__('Tags','teachpress'),__('Tags','teachpress'),'use_teachpress','teachpress/tags.php','teachpress_tags_page');
 }
 // Settings
@@ -70,72 +65,30 @@ function teachpress_add_menu_settings() {
 	add_options_page(__('teachPress Settings','teachpress'),'teachPress','administrator','teachpress/settings.php', 'teachpress_admin_settings');
 }
 
-// Course overview backend
-include_once("showlvs.php");
-// Course overview frontend
-include_once('display_courses.php');
-// Enrollment system frontent
-include_once('display.php');		
-// New courses
-include_once("addlvs.php");
-// Edit courses
-include_once("editlvs.php");
-// Attendance lists
-include_once("lists.php");
-// Students
-include_once("students.php");
-// Add students manually
-include_once("students_new.php");
-// Edit students manually
-include_once("editstudent.php");
-// teachPress settings
-include_once("settings.php");
-// Publications
-include_once("publications.php");
-// new publications /edit publications
-include_once("addpublications.php");
-// Tags
-include_once("tags.php");
-// CSV/XLS-export
+// Includes
+include_once("admin/show_courses.php");
+include_once("admin/add_course.php");
+include_once("admin/show_single_course.php");
+include_once("admin/create_lists.php");
+include_once("admin/show_students.php");
+include_once("admin/add_students.php");
+include_once("admin/edit_student.php");
+include_once("admin/settings.php");
+include_once("admin/show_publications.php");
+include_once("admin/add_publication.php");
+include_once("admin/edit_tags.php");
+include_once("admin/import_publications.php");
+
+include_once("core/bibtex.php");
+include_once("core/shortcodes.php");
+
+include_once("includes/bibtexParse/PARSEENTRIES.php");
+include_once("includes/bibtexParse/PARSECREATORS.php");
+
+// Include teh export file
 function teachpress_export () {
 	include_once("export.php");
 }
-
-/***************/
-/* SQL classes */
-/***************/ 
-
-/* Abfragen von Datenbank-Queries
- * @param $tp_query (String)
- * Return $tp_return (Obeject)
-*/
-function tp_results($tp_query) {
-	global $wpdb;
-	$wpdb->escape($tp_query);
-	$tp_return = $wpdb->get_results($tp_query);
-	return $tp_return;
-}
-
-/* Ausfuehren allgemeiner Queries
- * @param $tp_query (String)
- * Return $tp_return (Int) - Anzahl der beinflussten Zeilen
-*/
-function tp_query($tp_query) {
-	global $wpdb;
-	$wpdb->escape($tp_query);
-	$tp_return = $wpdb->query($tp_query);
-	return $tp_return;
-}
-/* Abfrage einer einzelnen Variable
- * @param $tp_query (String)
- * Return $tp_var (String)
-*/
-function tp_var($tp_query) {
-	global $wpdb;
-	$wpdb->escape($tp_query);
-	$tp_var = $wpdb->get_var($tp_query);
-	return $tp_var;
-} 
 
 /*****************/
 /* Mainfunctions */
@@ -145,10 +98,12 @@ function tp_var($tp_query) {
  * @param $message (String) - Content
  * @param $site (String) - Page
 */ 
-function tp_get_message($message, $site) {
+function tp_get_message($message, $site = '') {
 	echo '<p class="teachpress_message">';
 	echo '<strong>' . $message . '</strong>';
-	echo '<a href="' . $site . '" class="teachpress_back">' . __('resume', 'teachpress') . '</a>';
+	if ($site != '') {
+		echo '<a href="' . $site . '" class="teachpress_back">' . __('resume', 'teachpress') . '</a>';
+	}
 	echo '</p>';
 }
 /* Get WordPress pages
@@ -188,6 +143,46 @@ function teachpress_wp_pages($sort_column = "menu_order", $sort_order = "ASC", $
 	}
 }
 
+/* Gives an array with all publication types
+ * Return $pub_types
+*/ 
+function tp_get_publication_types() {
+	// Define publication types
+	$pub_types[0][0] = '0';
+	$pub_types[0][1] = __('All types','teachpress');
+	$pub_types[1][0] = 'article';
+	$pub_types[1][1] = __('article','teachpress');;
+	$pub_types[2][0] = 'book';
+	$pub_types[2][1] = __('book','teachpress');
+	$pub_types[3][0] = 'booklet';
+	$pub_types[3][1] = __('booklet','teachpress');
+	$pub_types[4][0] = 'conference';
+	$pub_types[4][1] = __('conference','teachpress');
+	$pub_types[5][0] = 'inbook';
+	$pub_types[5][1] = __('inbook','teachpress');
+	$pub_types[6][0] = 'incollection';
+	$pub_types[6][1] = __('incollection','teachpress');
+	$pub_types[7][0] = 'inproceedings';
+	$pub_types[7][1] = __('inproceedings','teachpress');
+	$pub_types[8][0] = 'manual';
+	$pub_types[8][1] = __('manual','teachpress');
+	$pub_types[9][0] = 'mastersthesis';
+	$pub_types[9][1] = __('mastersthesis','teachpress');
+	$pub_types[10][0] = 'misc';
+	$pub_types[10][1] = __('misc','teachpress');
+	$pub_types[11][0] = 'phdthesis';
+	$pub_types[11][1] = __('phdthesis','teachpress');
+	$pub_types[12][0] = 'presentation';
+	$pub_types[12][1] = __('presentation','teachpress');
+	$pub_types[13][0] = 'proceedings';
+	$pub_types[13][1] = __('proceedings','teachpress');
+	$pub_types[14][0] = 'techreport';
+	$pub_types[14][1] = __('techreport','teachpress');
+	$pub_types[15][0] = 'unpublished';
+	$pub_types[15][1] = __('unpublished','teachpress');
+	return $pub_types;
+}
+
 /* Get publication types
  * @param $selected
  * @param $mode - list (list menu) or jump (jump menu)
@@ -201,42 +196,33 @@ function teachpress_wp_pages($sort_column = "menu_order", $sort_order = "ASC", $
  *
  * Return $types (String)
 */
-function get_tp_publication_type_options ($selected, $mode = 'list', $url = '', $tgid = '', $yr = '', $autor = '') {
+function get_tp_publication_type_options ($selected, $mode = 'list', $url = '', $tgid = '', $yr = '', $autor = '', $anchor = 1) {
 	$selected = tp_sec_var($selected);
 	$url = tp_sec_var($url);
 	$tgid = tp_sec_var($tgid);
 	$yr = tp_sec_var($yr);
 	$autor = tp_sec_var($autor);
-	// Define publication types
-	$pub_types[0][0] = '0';
-	$pub_types[0][1] = __('All types','teachpress');
-	$pub_types[1][0] = 'Buch';
-	$pub_types[1][1] = __('Buch','teachpress');;
-	$pub_types[2][0] = 'Chapter in book';
-	$pub_types[2][1] = __('Chapter in book','teachpress');
-	$pub_types[3][0] = 'Conference paper';
-	$pub_types[3][1] = __('Conference paper','teachpress');
-	$pub_types[4][0] = 'Journal article';
-	$pub_types[4][1] = __('Journal article','teachpress');
-	$pub_types[5][0] = 'Vortrag';
-	$pub_types[5][1] = __('Vortrag','teachpress');
-	$pub_types[6][0] = 'Bericht';
-	$pub_types[6][1] = __('Bericht','teachpress');
-	$pub_types[7][0] = 'Sonstiges';
-	$pub_types[7][1] = __('Sonstiges','teachpress');
+	$anchor = tp_sec_var($anchor, 'intenger');
+	if ($anchor = 1) {
+		$html_anchor = '#tppubs';
+	}
+	else {
+		$html_anchor = '';
+	}
+	$pub_types = tp_get_publication_types();
 	if ($mode == 'jump') {
-		for ($i = 0; $i <= 7; $i++) {
+		for ($i = 0; $i <= 15; $i++) {
 			if ($pub_types[$i][0] == $selected && $selected != '') {
 				$current = 'selected="selected"';
 			}
 			else {
 				$current = '';
 			}
-			$types = $types . '<option value="' . $url . 'tgid=' . $tgid . '&amp;yr=' . $yr . '&amp;type=' . $pub_types[$i][0] . '&amp;autor=' . $autor . '#tppubs" ' . $current . '>' . __('' . $pub_types[$i][1] . '','teachpress') . '</option>';
+			$types = $types . '<option value="' . $url . 'tgid=' . $tgid . '&amp;yr=' . $yr . '&amp;type=' . $pub_types[$i][0] . '&amp;autor=' . $autor . $html_anchor . '" ' . $current . '>' . __('' . $pub_types[$i][1] . '','teachpress') . '</option>';
 		}
 	}
 	else {
-		for ($i = 1; $i <= 7; $i++) {
+		for ($i = 1; $i <= 15; $i++) {
 			if ($pub_types[$i][0] == $selected && $selected != '') {
 				$current = 'selected="selected"';
 			}
@@ -249,28 +235,27 @@ function get_tp_publication_type_options ($selected, $mode = 'list', $url = '', 
 	return $types;
 }
 
-/* wandelt ein MySQL-DATE (ISO-Date) in ein traditionelles deutsches Datum um. 
- * @param $datum
- * Return: datum formatiert
- * used in: display.php
+/* Changes MySQL date format to a german date format 
+ * @param $date
+ * Return: date
+ * used in: shortcodes.php
 */
-function tp_date_mysql2german($datum)  
+function tp_date_mysql2german($date)  
 { 
-  list($jahr, $monat, $tag) = explode("-", $datum); 
+  list($jahr, $monat, $tag) = explode("-", $date); 
   return sprintf("%02d.%02d.%04d", $tag, $monat, $jahr); 
 }
 
-/* the current teachPress version
+/* Get the current teachPress version
  * Return: $version (String)
- * used in: display.php, docs.php, excel.php
 */
 function get_tp_version(){
 	global $tp_version;
 	return $tp_version;
 }
 
-/* Update who can use teachPress
- * @param $roles
+/* define who can use teachPress
+ * @param $roles (ARRAY)
  * used in: settings.php 
  */
 function tp_update_userrole($roles) {
@@ -295,13 +280,15 @@ function tp_update_userrole($roles) {
  * Return $term
 */
 function tp_get_option($var) {
-	global $teachpress_einstellungen;
-	$term = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = '$var'";
-	$term = tp_var($term);
+	global $wpdb;
+	global $teachpress_settings;
+	$var = tp_sec_var($var);
+	$term = "SELECT value FROM " . $teachpress_settings . " WHERE variable = '$var'";
+	$term = $wpdb->get_var($term);
 	return $term;
 }
 
-/* Save variables
+/* Secure variables
  * @param $var
  * @param $type - integer, string (default)
 */
@@ -313,19 +300,24 @@ function tp_sec_var($var, $type = 'string') {
 	return $var;
 }
 
-/* Change WordPress registration
+/* Function for the integrated registration mode
  *
 */
 function tp_advanced_registration() {
 	$user = wp_get_current_user();
+	global $wpdb;
 	global $teachpress_stud;
 	$sql = "SELECT wp_id FROM " . $teachpress_stud . "WHERE wp_id = '$current_user->ID'";
-	$test = tp_query($sql);
+	$test = $wpdb->query($sql);
 	if ($test == '0' && $user->ID != '0') {
 		if ($user->user_firstname == '') {
 			$user->user_firstname = $user->display_name;
-		}	
-		tp_add_student($user->ID, $user->user_firstname, $user->user_lastname, $studiengang, $user->user_login , $gebdat, $user->user_email, $fachsemester, $matrikel);
+		}
+		$data['firstname'] = $user->user_firstname;
+		$data['lastname'] = $user->user_lastname;
+		$data['userlogin'] = $user->user_login;
+		$data['email'] = $user->user_email;
+		tp_add_student($user->ID, data );
 	}
 } 
 
@@ -334,143 +326,111 @@ function tp_advanced_registration() {
 /***********/
 
 /* Add a new course
- * @param $lvname (String) - Course name
- * @param $veranstaltungstyp (String) - type of course
- * @param $raum (String) - Room
- * @param $dozent (String) - Lecturer
- * @param $termin (DATE) - Date
- * @param $plaetze (INT) - Number of places
- * @param $startein (DATE) - Begin enrollment period
- * @param $endein (DATE) - End enrollment period
- * @param $semester (String) - Term
- * @param $bemerkungen (String) - comment
- * @param $rel_page (INT) - ID of related page
- * @param $parent (INT) - ID of parent course
- * @param $sichtbar (INT) - 0 (no) or 1 (yes)
- * @param $warteliste (INT) - 0(off) or 1 (on)
- * used in addlvs.php
+ * @param $data (ARRAY_A)
+ * used in add_course.php
+ * Return $insert_ID (INT) - id of the new course
 */
-function tp_add_lvs($lvname, $veranstaltungstyp, $raum, $dozent, $termin, $plaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste) {
-	global $teachpress_ver;
-	$eintragen = sprintf("INSERT INTO " . $teachpress_ver . " (`name`, `vtyp`, `raum`, `dozent`, `termin`, `plaetze`, `fplaetze`, `startein`, `endein`, `semester`, `bemerkungen`, `rel_page`, `parent`, `sichtbar`, `warteliste`) VALUES('$lvname', '$veranstaltungstyp', '$raum', '$dozent', '$termin' , '$plaetze', '$plaetze', '$startein', '$endein', '$semester', '$bemerkungen', '$rel_page', '$parent', '$sichtbar', '$warteliste')", 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_name"), 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_vtyp"), 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_raum") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_dozent") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_termin") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_semester") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_bemerkungen") );
-	tp_query($eintragen);
-	}
+function tp_add_course($data) {
+	global $wpdb;
+	global $teachpress_courses;
+	$wpdb->insert( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['places'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'] ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s' ) );
+	return $wpdb->insert_id;
+}
 	
 /* Delete courses
  * @param $checkbox (Array)
  * used in: showlvs.php
 */
-function tp_delete_lvs($checkbox){
-	global $teachpress_ver; 
-	global $teachpress_kursbelegung;
+function tp_delete_course($checkbox){
+	global $wpdb;
+	global $teachpress_courses; 
+	global $teachpress_signup;
     for( $i = 0; $i < count( $checkbox ); $i++ ) { 
 		settype($checkbox[$i], 'integer'); 
-   		tp_query( "DELETE FROM " . $teachpress_ver . " WHERE veranstaltungs_id = $checkbox[$i]" );
-		tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE veranstaltungs_id = $checkbox[$i]" );
+   		$wpdb->query( "DELETE FROM " . $teachpress_courses . " WHERE course_id = $checkbox[$i]" );
+		$wpdb->query( "DELETE FROM " . $teachpress_signup . " WHERE course_id = $checkbox[$i]" );
     }
 }
 	
 /* Change a course
- * @param $name (String) - Course name
- * @param $vtyp (String) - type of course
- * @param $raum (String) - Room
- * @param $dozent (String) - Lecturer
- * @param $termin (DATE) - Date
- * @param $plaetze (INT) - Number of places
- * @param $fplaetze (INT) - Number of free places
- * @param $startein (DATE) - Begin enrollment period
- * @param $endein (DATE) - End enrollment period
- * @param $semester (String) - Term
- * @param $bemerkungen (String) - comment
- * @param $rel_page (INT) - ID of related page
- * @param $parent (INT) - ID of parent course
- * @param $sichtbar (INT) - 0 (no) or 1 (yes)
- * @param $warteliste (INT) - 0(off) or 1 (on)
- * @param $veranstaltung (INT) - course ID
- * used in: editlvs.php
+ * @param $course_ID (INT) - course ID
+ * @param $data (ARRAY_A)
 */ 
-function tp_change_lvs($name, $vtyp, $raum, $dozent, $termin, $plaetze, $fplaetze, $startein, $endein, $semester, $bemerkungen, $rel_page, $parent, $sichtbar, $warteliste, $veranstaltung){
-	global $teachpress_ver;	
-	$aendern = sprintf("UPDATE " . $teachpress_ver . " SET name = '$name', vtyp = '$vtyp', raum = '$raum', dozent = '$dozent', termin = '$termin', plaetze = '$plaetze', fplaetze = '$fplaetze', startein = '$startein', endein = '$endein', semester = '$semester', bemerkungen = '$bemerkungen', rel_page = '$rel_page', parent = '$parent', sichtbar = '$sichtbar', warteliste = '$warteliste' WHERE veranstaltungs_id = '$veranstaltung'",
-	mysql_real_escape_string( "$" . $teachpress_ver . "_name"), 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_vtyp"), 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_raum") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_dozent") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_termin") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_semester") , 
-	mysql_real_escape_string( "$" . $teachpress_ver . "_bemerkungen") );
-	tp_query($aendern);
+function tp_change_course($course_ID, $data){
+	global $wpdb;
+	global $teachpress_courses;
+	$course_ID = tp_sec_var($course_ID, 'integer');
+	$wpdb->update( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['fplaces'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'] ), array( 'course_id' => $course_ID ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s' ), array( '%d' ) );
 }
+
 /* Copy courses
  * @param $checkbox (Array) - Veranstaltungen die kopiert werden sollen
  * @param $copysem (String) - Semester in das kopiert werden soll
  * used in showlvs.php
 */
-function tp_copy_lvs($checkbox, $copysem) {
-	global $teachpress_ver; 
+function tp_copy_course($checkbox, $copysem) {
+	global $wpdb;
+	global $teachpress_courses; 
 	$counter = 0;
 	$counter2 = 0;
     for( $i = 0; $i < count( $checkbox ); $i++ ) {
 		settype($checkbox[$i], 'integer');
-		$row = "SELECT * FROM " . $teachpress_ver . " WHERE veranstaltungs_id = $checkbox[$i]";
-		$row = tp_results($row);
+		$row = "SELECT * FROM " . $teachpress_courses . " WHERE course_id = $checkbox[$i]";
+		$row = $wpdb->get_results($row);
 		foreach ($row as $row) {
-				$daten[$counter][0] = $row->veranstaltungs_id;
-				$daten[$counter][1] = $row->name;
-				$daten[$counter][2] = $row->vtyp;
-				$daten[$counter][3] = $row->raum;
-				$daten[$counter][4] = $row->dozent;
-				$daten[$counter][5] = $row->termin;
-				$daten[$counter][6] = $row->plaetze;
-				$daten[$counter][8] = $row->startein;
-				$daten[$counter][9] = $row->endein;
-				$daten[$counter][10] = $row->semester;
-				$daten[$counter][11] = $row->bemerkungen;
-				$daten[$counter][12] = $row->rel_page;
-				$daten[$counter][13] = $row->parent;
-				$daten[$counter][14] = $row->sichtbar;
-				$daten[$counter][15] = $row->warteliste;
+				$daten[$counter]['id'] = $row->course_id;
+				$daten[$counter]['name'] = $row->name;
+				$daten[$counter]['type'] = $row->type;
+				$daten[$counter]['room'] = $row->room;
+				$daten[$counter]['lecturer'] = $row->lecturer;
+				$daten[$counter]['date'] = $row->date;
+				$daten[$counter]['places'] = $row->places;
+				$daten[$counter]['start'] = $row->start;
+				$daten[$counter]['end'] = $row->end;
+				$daten[$counter]['semester'] = $row->semester;
+				$daten[$counter]['comment'] = $row->comment;
+				$daten[$counter]['rel_page'] = $row->rel_page;
+				$daten[$counter]['parent'] = $row->parent;
+				$daten[$counter]['visible'] = $row->visible;
+				$daten[$counter]['waitinglist'] = $row->waitinglist;
+				$daten[$counter]['image_url'] = $row->image_url;
 				$counter++;
 		}
-		// Parents kopieren
-		if ( $daten[$i][13] == 0) {
-			$merke[$counter2] = $daten[$i][0];
-			echo $copysem;
-			tp_add_lvs($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $daten[$i][13], $daten[$i][14], $daten[$i][15]);
+		// copy parents
+		if ( $daten[$i]['parent'] == 0) {
+			$merke[$counter2] = $daten[$i]['id'];
+			$daten[$i]['semester'] = $copysem;
+			tp_add_course($daten[$i]);
 			$counter2++;
 		}
 	}	
-	// Childs kopieren
+	// copy childs
 	for( $i = 0; $i < $counter ; $i++ ) {
-		if ( $daten[$i][13] != 0) {
-			// Test ob in Checkbox die ID der Parent-Veranstaltung steht
+		if ( $daten[$i]['parent'] != 0) {
+			// check if where is a parent for the current course
 			$test = 0;
 			for( $j = 0; $j < $counter2 ; $j++ ) {
-				if ( $daten[$i][13] == $merke[$j]) {
+				if ( $daten[$i]['parent'] == $merke[$j]) {
 					$test = $merke[$j];
 				}
 			}
-			// Wenn ja
+			// if is true
 			if ($test != 0) {
-				// Dann suche die Daten aus dem Array und bilde eine Abfrage, nach der Kopie des Parents
+				// search the parent
 				for( $k = 0; $k < $counter ; $k++ ) {
-					if ( $daten[$k][0] == $test) {
-					$suche = "SELECT veranstaltungs_id FROM " . $teachpress_ver . " WHERE name = '" . $daten[$k][1] . "' AND vtyp = '" . $daten[$k][2] . "' AND raum = '" . $daten[$k][3] . "' AND dozent = '" . $daten[$k][4] . "' AND termin = '" . $daten[$k][5] . "' AND semester = '$copysem' AND parent = 0";
-					$suche = tp_var($suche);
-					tp_add_lvs($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $suche, $daten[$i][14], $daten[$i][15]);					
+					if ( $daten[$k]['id'] == $test) {
+						$suche = "SELECT course_id FROM " . $teachpress_courses . " WHERE name = '" . $daten[$k]['name'] . "' AND type = '" . $daten[$k]['type'] . "' AND room = '" . $daten[$k]['room'] . "' AND lecturer = '" . $daten[$k]['lecturer'] . "' AND date = '" . $daten[$k]['date'] . "' AND semester = '$copysem' AND parent = 0";
+						$suche = $wpdb->get_var($suche);
+						$daten[$i]['parent'] = $suche;
+						$daten[$i]['semester'] = $copysem;
+						tp_add_course($daten[$i]);					
 					}
 				}
 			}
-			// Sonst erstelle direkt Kopie
+			// if is false: create copy directly
 			else {
-				tp_add_lvs($daten[$i][1], $daten[$i][2], $daten[$i][3], $daten[$i][4], $daten[$i][5], $daten[$i][6], $daten[$i][8], $daten[$i][9], $copysem, $daten[$i][11], $daten[$i][12], $daten[$i][13], $daten[$i][14], $daten[$i][15]);
+				$daten[$i]['semester'] = $copysem;
+				tp_add_course($daten[$i]);
 			}
 		}
 	}
@@ -483,72 +443,71 @@ function tp_copy_lvs($checkbox, $copysem) {
 /* Add registration (= Student subscribes in a course)
  * @param $checkbox (Array) - ID der Veranstaltungen
  * @param $wp_id (INT) - User_ID
- * used in display.php
+ * Return (Message)
 */
 function tp_add_registration($checkbox, $wp_id){
-	global $teachpress_ver; 
-	global $teachpress_stud;  
-	global $teachpress_kursbelegung;
-	for( $i = 0; $i < count( $checkbox ); $i++ ) { 
-		settype($checkbox[$i], 'integer');
-		if ( $checkbox[$i] != 0 ) {	
-			// Pruefen ob noch freie Plätze vorhanden sind
-			$row1 = "SELECT fplaetze, name, startein, endein, warteliste, parent FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$checkbox[$i]'";
-			$row1 = tp_results($row1);
-			foreach ($row1 as $row1) {
-				if ($row1->parent != '0') {
-					$sql = "SELECT name FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$row1->parent'";
-					$parent = tp_var($sql);
-					if ($row1->name == $parent) {
-						$row1->name = $row1->name;
-					}
-					else {
-						$row1->name = $parent . ' ' . $row1->name; 
-					}
+	global $wpdb;
+	global $teachpress_courses;
+	global $teachpress_stud;
+	global $teachpress_signup;
+	settype($checkbox, 'integer');
+	if ( $checkbox != 0 ) {
+		// check if there are free places available
+		$row1 = "SELECT fplaces, name, start, end, waitinglist, parent FROM " . $teachpress_courses . " WHERE course_id = '$checkbox'";
+		$row1 = $wpdb->get_results($row1);
+		foreach ($row1 as $row1) {
+			if ($row1->parent != '0') {
+				$sql = "SELECT name FROM " . $teachpress_courses . " WHERE course_id = '$row1->parent'";
+				$parent = $wpdb->get_var($sql);
+				if ($row1->name == $parent) {
+					$row1->name = $row1->name;
 				}
-				// Wenn noch freie Plätze vorhanden sind
-				if ($row1->fplaetze > 0 ) {
-					// dann pruefen ob der Nutzer schon eingeschrieben ist
-					$check = "SELECT belegungs_id FROM " . $teachpress_kursbelegung . " WHERE veranstaltungs_id = '$checkbox[$i]' and wp_id = '$wp_id'";
-					$check = tp_query($check);
-					// Wenn diese gleich 0 ist, dann kann eine Eisnchreibung vorgenommen werden
-					if ($check == 0 ) {		
-						$eintragen = "INSERT INTO " . $teachpress_kursbelegung . " (veranstaltungs_id, wp_id, warteliste, datum) VALUES ('$checkbox[$i]', '$wp_id', '0', NOW() )";
-						tp_query( $eintragen );
-						// In Tabelle teachpress_ver die Anzahl der freien Plätze um eins veringern
-						$fplaetze = "SELECT fplaetze FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$checkbox[$i]'";
-						$fplaetze = tp_var($fplaetze);
-						$neu = $fplaetze - 1;
-						$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$checkbox[$i]'";
-						tp_query( $aendern );
-						echo '<div class="teachpress_message">' . __('Registration for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('successful','teachpress') . '.</div>';
-					}
-					else {
-						echo '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '.</div>';
-					}
-				}
-				// Falls die Veranstaltung schon voll ist, dann automatischer Eintrag als Warteliste wenn diese für LVS aktiviert
 				else {
-					// Falls Wartelisten aktiviert sind
-					if ($row1->warteliste == '1') {
-						// Pruefe ob Nutzer schon in Warteliste steht
-						$check = "SELECT belegungs_id FROM " . $teachpress_kursbelegung . " WHERE veranstaltungs_id = '$checkbox[$i]' AND wp_id = '$wp_id'";
-						$check = tp_query($check);
-						// Wenn diese gleich 0 ist, dann kann eine Eisnchreibung vorgenommen werden
-						if ($check == 0 ) {
-							$eintragen = "INSERT INTO " . $teachpress_kursbelegung . " (veranstaltungs_id, wp_id, warteliste, datum) VALUES ('$checkbox[$i]', '$wp_id', '1', NOW() )";
-							tp_query( $eintragen );
-							echo '<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places. You are automatically signed in a waiting list.','teachpress') . '</div>';
-						}
-						// Sonst Fehlermeldung ausgeben
-						else {
-							echo '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '</div>';
-						}
+					$row1->name = $parent . ' ' . $row1->name; 
+				}
+			}
+			// if is true
+			if ($row1->fplaces > 0 ) {
+				// Check if the user is already registered
+				$check = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$checkbox' and wp_id = '$wp_id'";
+				$check = $wpdb->query($check);
+				// If not: subscribe the user
+				if ($check == 0 ) {		
+					$eintragen = "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$checkbox', '$wp_id', '0', NOW() )";
+					$wpdb->query( $eintragen );
+					// reduce the number of free places
+					$fplaces = "SELECT fplaces FROM " . $teachpress_courses . " WHERE course_id = '$checkbox'";
+					$fplaces = $wpdb->get_var($fplaces);
+					$neu = $fplaces - 1;
+					$aendern = "UPDATE " . $teachpress_courses . " SET fplaces = '$neu' WHERE course_id = '$checkbox'";
+					$wpdb->query( $aendern );
+					return '<div class="teachpress_message">' . __('Registration for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('successful','teachpress') . '.</div>';
+				}
+				else {
+					return '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '.</div>';
+				}
+			}
+			// if not
+			else {
+				// if there is a waiting lis available
+				if ($row1->waitinglist == '1') {
+					// Check if the user is already registered in the waitinglist
+					$check = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$checkbox' AND wp_id = '$wp_id'";
+					$check = $wpdb->query($check);
+					// if not: subscribe the user
+					if ($check == 0 ) {
+						$eintragen = "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$checkbox', '$wp_id', '1', NOW() )";
+						$wpdb->query( $eintragen );
+						return'<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places. You are automatically signed in a waiting list.','teachpress') . '</div>';
 					}
-					// Sonst Fehlermeldung ausgeben
+					// if the user is already registered
 					else {
-						echo '<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places.','teachpress') . '</div>';
+						return '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '</div>';
 					}
+				}
+				// if there is no waiting liszt
+				else {
+					return '<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places.','teachpress') . '</div>';
 				}
 			}
 		}
@@ -558,125 +517,123 @@ function tp_add_registration($checkbox, $wp_id){
 /* Delete registration
  * @param $checkbox (Array) - ID der Veranstaltungen
  * @param $user_ID (INT) - User_ID
- * used in editstudent.php, editlvs.php
 */
-function tp_delete_registration($checkbox, $user_ID) {	
-	global $teachpress_ver;  
-	global $teachpress_kursbelegung;
+function tp_delete_registration($checkbox, $user_ID) {
+	global $wpdb;
+	global $teachpress_courses;  
+	global $teachpress_signup;
 	global $teachpress_log;
     for( $i = 0; $i < count( $checkbox ); $i++ ) {
 		settype($checkbox[$i], 'integer');
-		// ID der Veranstaltung holen
-		$row1 = "SELECT veranstaltungs_id FROM " . $teachpress_kursbelegung . " WHERE belegungs_id = '$checkbox[$i]'";
-		$row1 = tp_results($row1);
+		// select the course_ID
+		$row1 = "SELECT course_id FROM " . $teachpress_signup . " WHERE con_id = '$checkbox[$i]'";
+		$row1 = $wpdb->get_results($row1);
 		foreach ($row1 as $row1) {
-			// Test ob es Studenten in der Warteliste gibt
-			$abfrage = "SELECT belegungs_id FROM " . $teachpress_kursbelegung . " WHERE veranstaltungs_id = '$row1->veranstaltungs_id' AND warteliste = '1' ORDER BY belegungs_id";
-			$test= tp_query($abfrage);
-			// Wenn ja
+			// check if there are users in teh waiting list
+			$abfrage = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$row1->course_id' AND waitinglist = '1' ORDER BY con_id";
+			$test= $wpdb->query($abfrage);
+			// if is true
 			if ($test != 0) {
 				$zahl = 0;
-				tp_results($abfrage);
-				// dann setze den ersten Eintrag in die Liste
+				$wpdb->get_results($abfrage);
 				foreach ($row as $row) {
 					if ($zahl < 1) {
-						$aendern = "UPDATE " . $teachpress_kursbelegung . " SET warteliste = '0' WHERE belegungs_id = '$row->belegungs_id'";
-						tp_query( $aendern );
+						$aendern = "UPDATE " . $teachpress_signup . " SET waitinglist = '0' WHERE con_id = '$row->con_id'";
+						$wpdb->query( $aendern );
 						$zahl++;
 					}
 				}
 			}
-			// Wenn nein, dann erhöhe die Anzahl der freien Plätze
+			// if not enhance the number of free places
 			else {
-				$fplaetze= "SELECT fplaetze FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
-				$fplaetze = tp_var($fplaetze);
-				// In Tabelle teachpress_var die Anzahl der freien Plätze um eins erhöhen
-				$neu = $fplaetze + 1;
-				$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
-				tp_query( $aendern );
+				$fplaces= "SELECT fplaces FROM " . $teachpress_courses . " WHERE course_id = '$row1->course_id'";
+				$fplaces = $wpdb->get_var($fplaces);
+				$neu = $fplaces + 1;
+				$aendern = "UPDATE " . $teachpress_courses . " SET fplaces = '$neu' WHERE course_id = '$row1->course_id'";
+				$wpdb->query( $aendern );
 			}	
 		}
-   	tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE belegungs_id = '$checkbox[$i]'" );
-	// Sicherheitslog seit Version 0.8
+   	$wpdb->query( "DELETE FROM " . $teachpress_signup . " WHERE con_id = '$checkbox[$i]'" );
+	// Security log
+	// since version 0.8
 	$mess = __('Delete registration','teachpress');
-	tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$checkbox[$i]', '$user_ID', '$mess', NOW())");
+	$wpdb->query( "INSERT INTO " . $teachpress_log . " (id, user, description, date) VALUES ('$checkbox[$i]', '$user_ID', '$mess', NOW())");
     }
 }
 
 /* unsubscribe a student (frontend)
  * @param $checkbox2 (Array) - ID der Einschreibungen
- * used in: display.php
+ * Return (Message)
+ * used in: shortcodes.php
 */
 function tp_delete_registration_student($checkbox2) {
-	global $teachpress_ver; 
-	global $teachpress_kursbelegung;
+	global $wpdb;
+	global $teachpress_courses; 
+	global $teachpress_signup;
 	for( $i = 0; $i < count( $checkbox2 ); $i++ ) {
 		settype($checkbox2[$i], 'integer');
-		// ID der Veranstaltung abfragen
-		$row1 = "SELECT veranstaltungs_id FROM " . $teachpress_kursbelegung . " WHERE belegungs_id = '$checkbox2[$i]'";
-		$row1 = tp_results($row1);
+		// Select course ID
+		$row1 = "SELECT course_id FROM " . $teachpress_signup . " WHERE con_id = '$checkbox2[$i]'";
+		$row1 = $wpdb->get_results($row1);
 			foreach ($row1 as $row1) {
-				// Test ob es Studenten in der Warteliste gibt
-				$abfrage = "SELECT belegungs_id FROM " . $teachpress_kursbelegung . " WHERE veranstaltungs_id = '$row1->veranstaltungs_id' AND warteliste = '1' ORDER BY belegungs_id";
-				$test = tp_query($abfrage);
-				// Wenn ja
+				// check if there are users in teh waiting list
+				$abfrage = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$row1->course_id' AND waitinglist = '1' ORDER BY con_id";
+				$test = $wpdb->query($abfrage);
+				// if is true
 				if ($test!= 0) {
 					$zahl = 0;
-					$row = tp_results($abfrage);
-					// dann setze den ersten Eintrag in die Liste
+					$row = $wpdb->get_results($abfrage);
 					foreach ($row as $row) {
 						if ($zahl < 1) {
-							$aendern = "UPDATE " . $teachpress_kursbelegung . " SET warteliste = '0' WHERE belegungs_id = '$row->belegungs_id'";
-							tp_query( $aendern );
+							$aendern = "UPDATE " . $teachpress_signup . " SET waitinglist = '0' WHERE con_id = '$row->con_id'";
+							$wpdb->query( $aendern );
 							$zahl++;
 						}
 					}
 				}
-				// Wenn nein, dann erhoehe die Anzahl der freien Plätze
+				// if not enhance the number of free places
 				else {
-					$fplaetze = "SELECT fplaetze FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
-					$fplaetze = tp_var($fplaetze);
-					// In Tabelle teachpress_ver die Anzahl der freien Plaetze um eins erhoehen
-					$neu = $fplaetze + 1;
-					$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
-					tp_query( $aendern );
+					$fplaces = "SELECT fplaces FROM " . $teachpress_courses . " WHERE course_id = '$row1->course_id'";
+					$fplaces = $wpdb->get_var($fplaces);
+					$neu = $fplaces + 1;
+					$aendern = "UPDATE " . $teachpress_courses . " SET fplaces = '$neu' WHERE course_id = '$row1->course_id'";
+					$wpdb->query( $aendern );
 				}
 			}
-   		tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE belegungs_id = '$checkbox2[$i]'" );
+   		$wpdb->query( "DELETE FROM " . $teachpress_signup . " WHERE con_id = '$checkbox2[$i]'" );
     }	
-	echo '<div class="teachpress_message">' . __('You are signed out successful','teachpress') . '</div>';
+	return '<div class="teachpress_message">' . __('You are signed out successful','teachpress') . '</div>';
 }
 
 /* Subscribe a student from a wating list manually
  * @param $checkbox (Array) - ID der Einschreibung
- * used in editlvs.php
 */
 function tp_add_from_waitinglist($checkbox) {
 	global $wpdb;
-	global $teachpress_kursbelegung;
+	global $teachpress_signup;
 	for( $i = 0; $i < count( $checkbox ); $i++ ) {
 		settype($checkbox[$i], 'integer');
-		$wpdb->update( $teachpress_kursbelegung, array ( 'warteliste' => 0), array ( 'belegungs_id' => $checkbox[$i]), array ( '%d'), array ( '%d' ) );
+		$wpdb->update( $teachpress_signup, array ( 'waitinglist' => 0), array ( 'con_id' => $checkbox[$i]), array ( '%d'), array ( '%d' ) );
 	}
 }
 
 /* Subscribe a student manually
  * @param $student (INT)
  * @param $veranstaltung (INT)
- * used in: students_new.php
 */	
 function tp_subscribe_student_manually($student, $veranstaltung) {
-	global $teachpress_ver; 
-	global $teachpress_kursbelegung;
-	$eintragen = "INSERT INTO " . $teachpress_kursbelegung . " (veranstaltungs_id, wp_id, warteliste, datum) VALUES ('$veranstaltung', '$student', '0', NOW() )";
-	tp_query( $eintragen );
-	// Anzahl der freien Plätze verringern, wenn noch freie Plätze vorhanden sind
-	$fplaetze = "SELECT fplaetze FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$veranstaltung'";
-	$fplaetze = tp_var($fplaetze);
-	if ($fplaetze > 0 ) {
-		$neu = $fplaetze - 1;
-		$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$veranstaltung'";
-		tp_query( $aendern );
+	global $wpdb;
+	global $teachpress_courses; 
+	global $teachpress_signup;
+	$eintragen = "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$veranstaltung', '$student', '0', NOW() )";
+	$wpdb->query( $eintragen );
+	// if there are free places -->reduce this number
+	$fplaces = "SELECT fplaces FROM " . $teachpress_courses . " WHERE course_id = '$veranstaltung'";
+	$fplaces = $wpdb->get_var($fplaces);
+	if ($fplaces > 0 ) {
+		$neu = $fplaces - 1;
+		$aendern = "UPDATE " . $teachpress_courses . " SET fplaces = '$neu' WHERE course_id = '$veranstaltung'";
+		$wpdb->query( $aendern );
 	}
 }	
 
@@ -685,31 +642,18 @@ function tp_subscribe_student_manually($student, $veranstaltung) {
 /************/
 
 /* Add student
- * @paran $wp_id
- * @paran $vorname
- * @paran $nachname
- * @paran $studiengang
- * @paran $gebdat
- * @paran $email
- * @paran $fachsemester
- * @paran $matrikel
- * @paran $user_ID
- * used in display.php, students_new.php
+ * @param $data (ARRAY_A)
+ * return: user_ID or false if the user alread exist
 */
-function tp_add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $gebdat, $email, $fachsemester, $matrikel) {
+function tp_add_student($wp_id, $data) {
+	global $wpdb;
 	global $teachpress_stud;
+	$wp_id = tp_sec_var($wp_id, 'integer');
 	$sql = "SELECT wp_id FROM " . $teachpress_stud . " WHERE wp_id = '$wp_id'";
-	$test = tp_query($sql);
-	if ($test == '0') {		
-		$eintragen = sprintf("INSERT INTO " . $teachpress_stud . " (`wp_id`, `vorname`, `nachname`, `studiengang`, `urzkurz`, `gebdat`, `email`, `fachsemester`, `matrikel`) VALUES ('$wp_id', '$vorname', '$nachname', '$studiengang', '$urzkurz' , '$gebdat', '$email', '$fachsemester', '$matrikel')", 
-		mysql_real_escape_string( "$" . $teachpress_stud . "_wp_id"), 
-		mysql_real_escape_string( "$" . $teachpress_stud . "_vorname") , 
-		mysql_real_escape_string( "$" . $teachpress_stud . "_nachname") , 
-		mysql_real_escape_string( "$" . $teachpress_stud . "_studiengang") , 
-		mysql_real_escape_string( "$" . $teachpress_stud . "_urzkurz") , 
-		mysql_real_escape_string( "$" . $teachpress_stud . "_email") );
-		tp_query( $eintragen );
-		return true;
+	$test = $wpdb->query($sql);
+	if ($test == '0') {
+		$wpdb->insert( $teachpress_stud, array( 'wp_id' => $wp_id, 'firstname' => $data['firstname'], 'lastname' => $data['lastname'], 'course_of_studies' => $data['course_of_studies'], 'userlogin' => $data['userlogin'], 'birthday' => $data['birthday'], 'email' => $data['email'], 'semesternumber' => $data['semester_number'], 'matriculation_number' => $data['matriculation_number'] ), array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d' ) );
+		return $wpdb->insert_id;
 	}
 	else {
 		return false;
@@ -717,80 +661,73 @@ function tp_add_student($wp_id, $vorname, $nachname, $studiengang, $urzkurz , $g
 }
 
 /* Edit userdata
- * @paran $wp_id
- * @paran $vorname
- * @paran $nachname
- * @paran $studiengang
- * @paran $gebdat
- * @paran $email
- * @paran $fachsemester
- * @paran $matrikel
- * @paran $user_ID
- * used in display.php, editstudent.php
+ * @param $wp_id (INT) - user ID
+ * @param $data (ARRAY_A) - user data
+ * @param $user_ID (INT) - current user ID
 */
-function tp_change_student($wp_id, $vorname, $nachname, $studiengang, $gebdat, $email, $fachsemester, $matrikel, $user_ID = 0) {
-	global $teachpress_stud; 
-	$aendern = sprintf("UPDATE " . $teachpress_stud . " SET vorname = '$vorname', nachname = '$nachname', studiengang = '$studiengang', gebdat = '$gebdat', email = '$email', fachsemester = '$fachsemester' , matrikel = '$matrikel' WHERE wp_id = '$wp_id'" ,
-	mysql_real_escape_string( "$" . $teachpress_stud . "_vorname" ) ,
-	mysql_real_escape_string( "$" . $teachpress_stud . "_nachname" ) ,
-	mysql_real_escape_string( "$" . $teachpress_stud . "_email" ) );
-    tp_query( $aendern );
+function tp_change_student($wp_id, $data, $user_ID = 0) {
+	global $wpdb;
+	global $teachpress_stud;
+	$wp_id = tp_sec_var($wp_id, 'integer');
+	$user_ID = tp_sec_var($user_ID, 'integer');
+	$wpdb->update( $teachpress_stud, array( 'firstname' => $data['firstname'], 'lastname' => $data['lastname'], 'course_of_studies' => $data['course_of_studies'], 'userlogin' => $data['userlogin'], 'birthday' => $data['birthday'], 'email' => $data['email'], 'semesternumber' => $data['semester_number'], 'matriculation_number' => $data['matriculation_number'] ), array( 'wp_id' => $wp_id ), array( '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d' ), array( '%d' ) );
 	if ($user_ID == 0) {
-		echo '<div class="teachpress_message">' . __('Changes in your profile successful.','teachpress') . '</div>';
+		$return = '<div class="teachpress_message">' . __('Changes in your profile successful.','teachpress') . '</div>';
+		return $return;
 	}
 	else {
-		$mess = __('Change student data','teachpress');
-		tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$wp_id', '$user_ID', '$mess', NOW())");
+		$mess = __('Student data changed','teachpress');
+		$wpdb->query( "INSERT INTO " . $teachpress_log . " (id, user, description, date) VALUES ('$wp_id', '$user_ID', '$mess', NOW())");
 	}
 }
 
 /* Delete student
- * @param $checkbox (Array) - ID der Einschreibung
+ * @param $checkbox (Array) - ID of the enrollment
  * @param $user_ID (INT) - User_ID
- * used in: students.php
 */ 
 function tp_delete_student($checkbox, $user_ID){
-	global $teachpress_ver; 
+	global $wpdb;
+	global $teachpress_courses; 
 	global $teachpress_stud; 
-	global $teachpress_kursbelegung;
+	global $teachpress_signup;
 	global $teachpress_log;
+	$user_ID = tp_sec_var($user_ID, 'integer');
     for( $i = 0; $i < count( $checkbox ); $i++ ) {
-		// Suche nach allen Veranstaltungen in die der Student eingetragen war
-		$row1 = "SELECT veranstaltungs_id FROM " . $teachpress_kursbelegung . " WHERE wp_id = '$checkbox[$i]'";
-		$row1 = tp_results($row1);
+		settype($checkbox[$i], 'integer');
+		// search courses where the user was registered
+		$row1 = "SELECT course_id FROM " . $teachpress_signup . " WHERE wp_id = '$checkbox[$i]'";
+		$row1 = $wpdb->get_results($row1);
 			foreach ($row1 as $row1) {
-				// Test ob es Studenten in der Warteliste gibt
-				$abfrage = "SELECT belegungs_id FROM " . $teachpress_kursbelegung . " WHERE veranstaltungs_id = '$row1->veranstaltungs_id' AND warteliste = '1' ORDER BY belegungs_id";
-				$test = tp_query($abfrage);
-				// Wenn ja
+				// check if there are users in the waiting list
+				$abfrage = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$row1->course_id' AND waitinglist = '1' ORDER BY con_id";
+				$test = $wpdb->query($abfrage);
+				// if is true
 				if ($rows > 0) {
 					$zahl = 0;
-					// dann setze den ersten Eintrag in die Liste
-					$row = tp_results($abfrage);
+					$row = $wpdb->get_results($abfrage);
 					foreach($row as $row) {
 						if ($zahl < 1) {
-							$aendern = "UPDATE " . $teachpress_kursbelegung . " SET warteliste = '0' WHERE belegungs_id = '$row->belegungs_id'";
-							tp_query( $aendern );
+							$aendern = "UPDATE " . $teachpress_signup . " SET waitinglist = '0' WHERE con_id = '$row->con_id'";
+							$wpdb->query( $aendern );
 							$zahl++;
 						}
 					}
 				}
-				// Wenn nein, dann erhöhe die Anzahl der freien Plätze
+				// if not enhance the number of free places
 				else {
-					$fplaetze = "SELECT fplaetze FROM " . $teachpress_ver . " WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
-					$fplaetze = tp_var($fplaetze);
-					// In Tabelle teachpress_var die Anzahl der freien Plätze um eins erhöhen
-					$neu = $fplaetze + 1;
-					$aendern = "UPDATE " . $teachpress_ver . " SET fplaetze = '$neu' WHERE veranstaltungs_id = '$row1->veranstaltungs_id'";
-					// Schickt die Anfrage an die DB und schreibt die Daten in die Tabelle
-					tp_query( $aendern );
+					$fplaces = "SELECT fplaces FROM " . $teachpress_courses . " WHERE course_id = '$row1->course_id'";
+					$fplaces = $wpdb->get_var($fplaces);
+					$neu = $fplaces + 1;
+					$aendern = "UPDATE " . $teachpress_courses . " SET fplaces = '$neu' WHERE course_id = '$row1->course_id'";
+					$wpdb->query( $aendern );
 				}
 			}
-   		tp_query( "DELETE FROM " . $teachpress_stud . " WHERE wp_id = $checkbox[$i]" );
-		// Sicherheitslog
+   		$wpdb->query( "DELETE FROM " . $teachpress_stud . " WHERE wp_id = $checkbox[$i]" );
+		// security log
+		// Since Version 0.8
 		$mess = __('Delete student data','teachpress');
-		tp_query( "INSERT INTO " . $teachpress_log . " (id, user, beschreibung, datum) VALUES ('$checkbox[$i]', '$user_ID', '$mess', NOW())");
-		tp_query( "DELETE FROM " . $teachpress_kursbelegung . " WHERE wp_id = $checkbox[$i]" );
+		$wpdb->query( "INSERT INTO " . $teachpress_log . " (id, user, description, date) VALUES ('$checkbox[$i]', '$user_ID', '$mess', NOW())");
+		$wpdb->query( "DELETE FROM " . $teachpress_signup . " WHERE wp_id = $checkbox[$i]" );
     }
 }
 
@@ -799,145 +736,121 @@ function tp_delete_student($checkbox, $user_ID){
 /****************/
 
 /* Add a publication
- * @param $name
- * @param $typ
- * @param $autor
- * @param $erschienen
- * @param $jahr
- * @param $isbn
- * @param $links
- * @param $sort
- * @param $tags
- * @param $bookmark
- * @param $user
- * @param $comment
- * @param $image_url
- * @param $rel_page
- * @param $is_isbn
- * used in: addpublications.php
+ * @param $data (ARRAY_A)
+ * @param $tags (ARRAY)
+ * @param $bookmarks (ARRAY)
+ * return: $insert_id (INT) -> id of the new publication
 */
-function tp_add_publication($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $bookmark, $user, $comment, $image_url, $rel_page, $is_isbn) {
+function tp_add_publication($data, $tags, $bookmark) {
+	global $wpdb;
 	global $teachpress_pub;
 	global $teachpress_tags; 
-	global $teachpress_beziehung;
+	global $teachpress_relation;
 	global $teachpress_user;
-		
-	$eintragen = sprintf("INSERT INTO " . $teachpress_pub . " (`name`, `typ`, `autor`, `verlag`, `jahr`, `isbn`, `url`, `sort`, `comment`, `image_url`, `rel_page`, `is_isbn`) VALUES('$name', '$typ', '$autor', '$erschienen', '$jahr' , '$isbn', '$links', '$sort', '$comment', '$image_url', '$rel_page', '$is_isbn')", 
-	mysql_real_escape_string( "$" . $teachpress_pub . "_name"), 
-	mysql_real_escape_string( "$" . $teachpress_pub . "_typ"), 
-	mysql_real_escape_string( "$" . $teachpress_pub . "_autor") , 
-	mysql_real_escape_string( "$" . $teachpress_pub . "_verlag") , 
-	mysql_real_escape_string( "$" . $teachpress_pub . "_isbn") , 
-	mysql_real_escape_string( "$" . $teachpress_pub . "_url"),
-	mysql_real_escape_string( "$" . $teachpress_pub . "_comment"),
-	mysql_real_escape_string( "$" . $teachpress_pub . "_image_url"),
-	mysql_real_escape_string( "$" . $teachpress_pub . "_rel_page"),
-	mysql_real_escape_string( "$" . $teachpress_pub . "_is_isbn") );
-	
-    tp_query( $eintragen );
-	
+	$wpdb->insert( $teachpress_pub, array( 'name' => $data['name'], 'type' => $data['type'], 'bibtex' => $data['bibtex'], 'author' => $data['author'], 'editor' => $data['editor'], 'isbn' => $data['isbn'], 'url' => $data['url'], 'date' => $data['date'], 'booktitle' => $data['booktitle'], 'journal' => $data['journal'], 'volume' => $data['volume'], 'number' => $data['number'], 'pages' => $data['pages'] , 'publisher' => $data['publisher'], 'address' => $data['address'], 'edition' => $data['edition'], 'chapter' => $data['chapter'], 'institution' => $data['institution'], 'organization' => $data['organization'], 'school' => $data['school'], 'series' => $data['series'], 'crossref' => $data['crossref'], 'abstract' => $data['abstract'], 'howpublished' => $data['howpublished'], 'key' => $data['key'], 'techtype' => $data['techtype'], 'comment' => $data['comment'], 'note' => $data['note'], 'image_url' => $data['image_url'], 'is_isbn' => $data['is_isbn'], 'rel_page' => $data['rel_page'] ), array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '$d' ) );
+	$pub_ID = $wpdb->insert_id;
 	// Bookmarks
-	for( $i = 0; $i < count( $bookmark ); $i++ ) { 
-		$rw="SELECT pub_id FROM " . $teachpress_pub . " WHERE name ='$name' AND autor='$autor' AND verlag='$erschienen' AND sort='$sort'";
-		$rw = tp_results($rw);
-		foreach ($rw as $rw) {
-			if ($bookmark[$i] != '' || $bookmark[$i] != 0) {
-				tp_query( "INSERT INTO " . $teachpress_user . " (pub_id, user) VALUES ('$rw->pub_id', '$bookmark[$i]')");
-			}
+	for( $i = 0; $i < count( $bookmark ); $i++ ) {
+		settype($bookmark[$i], 'integer');
+		if ($bookmark[$i] != '' || $bookmark[$i] != 0) {
+			$wpdb->query( "INSERT INTO " . $teachpress_user . " (pub_id, user) VALUES ('$pub_ID', '$bookmark[$i]')" );
 		}
 	}
 	$array = explode(",",$tags);
 	foreach($array as $element) {
-		// Check ob tag schon vorhanden
 		$element = trim($element);
-		if ($element != "") {
-			$abfrage = "SELECT tag_id FROM " . $teachpress_tags . " WHERE name = '$element'";
-			$check = tp_query($abfrage);
-			// Falls tag nicht vorhanden, in Datenbank einfügen
+		if ($element != '') {
+			$element = tp_sec_var($element);
+			$row = "SELECT tag_id FROM " . $teachpress_tags . " WHERE name = '$element'";
+			$check = $wpdb->query($row);
+			// if tag not exist
 			if ($check == 0){
-				$eintrag = sprintf("INSERT INTO " . $teachpress_tags . " (`name`) VALUES('$element')", 
-				mysql_real_escape_string( "$" . $teachpress_tags . "_name") );
-				tp_query($eintrag);
-				$row = tp_results($abfrage);
+				$eintrag = "INSERT INTO " . $teachpress_tags . " (name) VALUES ('$element')";
+				$wpdb->query($eintrag);
+				$row = $wpdb->get_results($row);
 			}
 			else {
-				$row = tp_results($abfrage);
+				$row = $wpdb->get_results($row);
 			}
-			// Abfrage von pub_id und tag_id und Eintrag der Beziehung
+			// add releation between publication and tag
 			foreach($row as $row) {
-				$row2 = "SELECT pub_id FROM " . $teachpress_pub . " WHERE name ='$name' AND autor='$autor' AND verlag='$erschienen' AND sort='$sort'";
-				$row2 = tp_results($row2);
-				foreach ($row2 as $row2) {
-					// Prüfe ob Beziehung schon vorhanden
-					$test = "SELECT pub_id FROM " .$teachpress_beziehung . " WHERE pub_id = '$row2->pub_id' AND tag_id = '$row->tag_id'";
-					$test = tp_query($test);
-					// Wenn nicht, dann eintragen
-					if ($test == 0) {
-						$eintrag2 = "INSERT INTO " .$teachpress_beziehung . " (pub_id, tag_id) VALUES ('$row2->pub_id', '$row->tag_id')";
-						tp_query($eintrag2);
-					}
+				$test ="SELECT pub_id FROM " .$teachpress_relation . " WHERE pub_id = '$pub_ID' AND tag_id = '$row->tag_id'";
+				$test = $wpdb->query($test);
+				if ($test == 0) {
+					$eintrag = "INSERT INTO " .$teachpress_relation . " (pub_id, tag_id) VALUES ('$pub_ID', '$row->tag_id')";
+					$wpdb->query($eintrag);
 				}
 			}
-		}
+		}	
 	}
+	return $pub_ID;
 }
+
 /* Delete publications
  * @param $checkbox (Array) - IDs der Publikationen
- * used in: publications.php
 */
 function tp_delete_publications($checkbox){	
+	global $wpdb;
 	global $teachpress_pub; 
-	global $teachpress_beziehung;
+	global $teachpress_relation;
 	global $teachpress_user;
     for( $i = 0; $i < count( $checkbox ); $i++ ) {
 		settype($checkbox[$i], 'integer');
-   		tp_query( "DELETE FROM " . $teachpress_pub . " WHERE pub_id = $checkbox[$i]" );
-		tp_query( "DELETE FROM " . $teachpress_beziehung . " WHERE pub_id = $checkbox[$i]" );
-		tp_query( "DELETE FROM " . $teachpress_user . " WHERE pub_id = $checkbox[$i]" );
+   		$wpdb->query( "DELETE FROM " . $teachpress_pub . " WHERE pub_id = $checkbox[$i]" );
+		$wpdb->query( "DELETE FROM " . $teachpress_relation . " WHERE pub_id = $checkbox[$i]" );
+		$wpdb->query( "DELETE FROM " . $teachpress_user . " WHERE pub_id = $checkbox[$i]" );
     }
 }	
 
 /* Edit a publication
-
- * Eingang: siehe Funktionskopf
- * used in: addpublications.php
+ * @param $data (ARRAY_A)
+ * @param $pub_ID (INT)
+ * $param $tags [ARRAY]
 */
-function tp_change_publication($name, $typ, $autor, $erschienen, $jahr, $isbn, $links, $sort, $tags, $comment, $image_url, $rel_page, $is_isbn, $pub_ID, $delbox) {
+function tp_change_publication($pub_ID, $data, $bookmark, $delbox, $tags) {
+	global $wpdb;
 	global $teachpress_pub;
 	global $teachpress_tags;
-	global $teachpress_beziehung;
-	$aendern = "UPDATE " . $teachpress_pub . " SET name = '$name', typ = '$typ', autor = '$autor', verlag = '$erschienen', jahr = '$jahr', isbn = '$isbn', url = '$links', sort = '$sort', comment = '$comment', image_url = '$image_url', rel_page = '$rel_page', is_isbn = '$is_isbn' WHERE pub_id = '$pub_ID'";
-    // Schickt die Anfrage an die DB und schreibt die Daten in die Tabelle
-    tp_query( $aendern );
-	// Löschen von Tag-Beziehungen
+	global $teachpress_relation;
+	global $teachpress_user;
+	$pub_ID = tp_sec_var($pub_ID, 'integer');
+	// update row
+	$wpdb->update( $teachpress_pub, array( 'name' => $data['name'], 'type' => $data['type'], 'bibtex' => $data['bibtex'], 'author' => $data['author'], 'editor' => $data['editor'], 'isbn' => $data['isbn'], 'url' => $data['url'], 'date' => $data['date'], 'booktitle' => $data['booktitle'], 'journal' => $data['journal'], 'volume' => $data['volume'], 'number' => $data['number'], 'pages' => $data['pages'] , 'publisher' => $data['publisher'], 'address' => $data['address'], 'edition' => $data['edition'], 'chapter' => $data['chapter'], 'institution' => $data['institution'], 'organization' => $data['organization'], 'school' => $data['school'], 'series' => $data['series'], 'crossref' => $data['crossref'], 'abstract' => $data['abstract'], 'howpublished' => $data['howpublished'], 'key' => $data['key'], 'techtype' => $data['techtype'], 'comment' => $data['comment'], 'note' => $data['note'], 'image_url' => $data['image_url'], 'is_isbn' => $data['is_isbn'], 'rel_page' => $data['rel_page'] ), array( 'pub_id' => $pub_ID ), array( '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d' ), array( '%d' ) );
+	// Bookmarks
+	for( $i = 0; $i < count( $bookmark ); $i++ ) {
+		settype($bookmark[$i], 'integer');
+		if ($bookmark[$i] != '' || $bookmark[$i] != 0) {
+			$wpdb->query( "INSERT INTO " . $teachpress_user . " (pub_id, user) VALUES ('$pub_ID', '$bookmark[$i]')" );
+		}
+	}
+	// Delete tag relations
 	for( $i = 0; $i < count( $delbox ); $i++ ) {
-   		tp_query( "DELETE FROM " . $teachpress_beziehung . " WHERE belegungs_id = $delbox[$i]" );
+		$delbox[$i] = tp_sec_var($delbox[$i], 'integer');
+   		$wpdb->query( "DELETE FROM " . $teachpress_relation . " WHERE con_id = $delbox[$i]" );
     }
 	$array = explode(",",$tags);
 	foreach($array as $element) {
-		// Check ob tag schon vorhanden
 		$element = trim($element);
 		if ($element != '') {
+			$element = tp_sec_var($element);
 			$row = "SELECT tag_id FROM " . $teachpress_tags . " WHERE name = '$element'";
-			$check = tp_query($row);
-			// Falls tag nicht vorhanden, in Datenbank einfügen
+			$check = $wpdb->query($row);
+			// if tag not exist
 			if ($check == 0){
 				$eintrag = "INSERT INTO " . $teachpress_tags . " (name) VALUES ('$element')";
-				tp_query($eintrag);
-				$row = tp_results($row);
+				$wpdb->query($eintrag);
+				$row = $wpdb->get_results($row);
 			}
 			else {
-				$row = tp_results($row);
+				$row = $wpdb->get_results($row);
 			}
-			// Abfrage von pub_id und tag_id und Eintrag der Beziehung
+			// add releation between publication and tag
 			foreach($row as $row) {
-				// Prüfe ob Beziehung schon vorhanden
-				$test ="SELECT pub_id FROM " .$teachpress_beziehung . " WHERE pub_id = '$pub_ID' AND tag_id = '$row->tag_id'";
-				$test = tp_query($test);
-				// Wenn nicht, dann eintragen
+				$test ="SELECT pub_id FROM " .$teachpress_relation . " WHERE pub_id = '$pub_ID' AND tag_id = '$row->tag_id'";
+				$test = $wpdb->query($test);
 				if ($test == 0) {
-					$eintrag = "INSERT INTO " .$teachpress_beziehung . " (pub_id, tag_id) VALUES ('$pub_ID', '$row->tag_id')";
-					tp_query($eintrag);
+					$eintrag = "INSERT INTO " .$teachpress_relation . " (pub_id, tag_id) VALUES ('$pub_ID', '$row->tag_id')";
+					$wpdb->query($eintrag);
 				}
 			}
 		}	
@@ -954,23 +867,24 @@ function tp_change_publication($name, $typ, $autor, $erschienen, $jahr, $isbn, $
  * used in: settings.php
 */
 function tp_change_settings($semester, $permalink, $sign_out, $userrole, $regnum, $studies, $termnumber, $birthday, $login) {
-	global $teachpress_einstellungen; 		
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$semester' WHERE variable = 'sem'";
-	tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$permalink' WHERE variable = 'permalink'";
-    tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$sign_out' WHERE variable = 'sign_out'";
-    tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$regnum' WHERE variable = 'regnum'";
-    tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$studies' WHERE variable = 'studies'";
-    tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$termnumber' WHERE variable = 'termnumber'";
-    tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$birthday' WHERE variable = 'birthday'";
-    tp_query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_einstellungen . " SET  wert = '$login' WHERE variable = 'login'";
-    tp_query( $eintragen );
+	global $wpdb;
+	global $teachpress_settings; 		
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$semester' WHERE variable = 'sem'";
+	$wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$permalink' WHERE variable = 'permalink'";
+    $wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$sign_out' WHERE variable = 'sign_out'";
+    $wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$regnum' WHERE variable = 'regnum'";
+    $wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$studies' WHERE variable = 'studies'";
+    $wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$termnumber' WHERE variable = 'termnumber'";
+    $wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$birthday' WHERE variable = 'birthday'";
+    $wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$login' WHERE variable = 'login'";
+    $wpdb->query( $eintragen );
 	tp_update_userrole($userrole);
 }
 
@@ -979,8 +893,10 @@ function tp_change_settings($semester, $permalink, $sign_out, $userrole, $regnum
  * used in: settings.php
 */
 function tp_delete_setting($delete) {
-	global $teachpress_einstellungen;		
-	tp_query( "DELETE FROM " . $teachpress_einstellungen . " WHERE einstellungs_id = '$delete'" );
+	global $wpdb;
+	global $teachpress_settings;
+	$delete = tp_sec_var($delete, 'integer');		
+	$wpdb->query( "DELETE FROM " . $teachpress_settings . " WHERE setting_id = '$delete'" );
 }
 
 /* Add a setting
@@ -989,11 +905,9 @@ function tp_delete_setting($delete) {
  * used in: settings.php
 */
 function tp_add_setting($name, $typ) { 
-	global $teachpress_einstellungen; 	
-	$add = sprintf("INSERT INTO " . $teachpress_einstellungen . " (`variable`, `wert`, `category`) VALUES ('$name', '$name', '$typ')", 
-	mysql_real_escape_string( "$" . $teachpress_einstellungen . "_variable" ),
-	mysql_real_escape_string( "$" . $teachpress_einstellungen . "_wert" ));
-	tp_query($add);
+	global $wpdb;
+	global $teachpress_settings;
+	$wpdb->insert( $teachpress_settings, array( 'variable' => $name, 'value' => $name, 'category' => $typ ), array( '%s', '%s', '%s' ) );
 }
 
 /*************/
@@ -1001,13 +915,15 @@ function tp_add_setting($name, $typ) {
 /*************/
 
 /* Add a bookmark
- * @param $add_id (INT) - IDs der Publikationen
+ * @param $add_id (INT) - publication id
  * @param $user (INT) - User_ID
- * used in publications.php
 */
 function tp_add_bookmark($add_id, $user) {
+	global $wpdb;
 	global $teachpress_user;
-	tp_query( "INSERT INTO " . $teachpress_user . " (pub_id, user) VALUES ('$add_id', '$user')");
+	$add_id = tp_sec_var($add_id, 'integer');
+	$user = tp_sec_var($user, 'integer');
+	$wpdb->query( "INSERT INTO " . $teachpress_user . " (pub_id, user) VALUES ('$add_id', '$user')");
 }
 
 /* Delete a bookmark 
@@ -1016,8 +932,10 @@ function tp_add_bookmark($add_id, $user) {
  * used in publications.php
 */
 function tp_delete_bookmark($del_id) {
+	global $wpdb;
 	global $teachpress_user;
-	tp_query( "DELETE FROM " . $teachpress_user . " WHERE bookmark_id = '$del_id'" );
+	$del_id = tp_sec_var($del_id, 'integer');
+	$wpdb->query( "DELETE FROM " . $teachpress_user . " WHERE bookmark_id = '$del_id'" );
 }
 
 /********/
@@ -1026,699 +944,31 @@ function tp_delete_bookmark($del_id) {
 
 /* Delete tags
  * @param $checkbox (Array) - Tag IDs
- * used in tags.php
 */
 function tp_delete_tags($checkbox) {
-	global $teachpress_beziehung;
+	global $wpdb;
+	global $teachpress_relation;
 	global $teachpress_tags;
     for( $i = 0; $i < count( $checkbox ); $i++ ) {
 		settype($checkbox[$i], 'integer');
-		tp_query( "DELETE FROM " . $teachpress_beziehung . " WHERE tag_id = $checkbox[$i]" );
-		tp_query( "DELETE FROM " . $teachpress_tags . " WHERE tag_id = $checkbox[$i]" );
+		$wpdb->query( "DELETE FROM " . $teachpress_relation . " WHERE tag_id = $checkbox[$i]" );
+		$wpdb->query( "DELETE FROM " . $teachpress_tags . " WHERE tag_id = $checkbox[$i]" );
     }
 }
 
 /* Edit a tag
  * @param $tag_id (INT)
  * @param $name (String)
- * used in tags_php
 */
 function tp_edit_tag($tag_id, $name) {
-	global $teachpress_tags;
-	tp_query( "UPDATE " . $teachpress_tags . " SET name = '$name' WHERE tag_id = '$tag_id'" );
-}
-
-/******************/
-/* Frontend pages */
-/******************/
-
-/* Show the enrollment system
- * @param $content
- * Return: $content
- * used in: WordPress-Core
-*/
-function teachpress_anzeigen($content) {
-	if(!preg_match('<!--LVS-->', $content))	{
-		return $content;
-	}		
-	teachpress_enrollment_frontend();
-	return __('<!--LVS-->', $content);
-}
-
-/* Show the course overview
- * @param $content
- * Return: $content
- * used in: WordPress-Core
-*/
-function teachpress_lvs_fronted($content) {
-	if(!preg_match('<!--LVS2-->', $content)) {	
-		return $content;
-	}		
-	teachpress_course_overview();
-	return __('<!--LVS2-->', $content);
-}
-
-/**************/
-/* Shortcodes */
-/**************/
-
-/* Termin-Shortcode
- * @param $attr(Array) mit parameter 'id' (integer)
- * Return $asg (String)
- * used in WordPress-Shortcode API
-*/
-function tpdate_shortcode($attr) {
-	// Rueckgabestring wird ueber verschiedene Teile zusammengesetzt
-	$a1 = '<div class="untertitel">' . __('Date(s)','teachpress') . '</div>
-			<table border="0" cellspacing="0" cellpadding="5" width="100%" class= "tpdate">';
-	// Abfrage nach den Daten der Lehrveranstaltung deren ID im Shortcode angegeben wurde		
-	global $teachpress_ver; 
-	$row = "SELECT name, vtyp, raum, dozent, termin, bemerkungen FROM " . $teachpress_ver . " WHERE veranstaltungs_id= ". $attr["id"] . "";
-	$row = tp_results($row);
-	foreach($row as $row) {
-		$v_test = $row->name;
-		$a2 = $a2 . ' 
-			  <tr>
-				<td rowspan="2"><strong>' . $row->vtyp . '</strong></td>
-				<td>' . $row->termin . ' ' . $row->raum . '</td>
-				<td rowspan="2">' . $row->dozent . '</td>
-				<td rowspan="2">&nbsp;</td>
-			  </tr>
-			  <tr>
-				<td>' . $row->bemerkungen . '</td>
-			  </tr>
-			  <tr>
-				<td colspan="4" class="tpdatecol">&nbsp;</td>
-			  </tr>';
-	} 
-	// Abfrage nach Tochter-Lehrveranstaltungen
-	$row = "SELECT name, vtyp, raum, dozent, termin, bemerkungen FROM " . $teachpress_ver . " WHERE parent= ". $attr["id"] . " ORDER BY name";
-    $row = tp_results($row);
-	foreach($row as $row) {
-		// wenn parent und child name gleich sind, dann zeige nur an
-		if ($v_test == $row->name) {
-			$row->name = $row->vtyp;
-		}
-        $a3 = $a3 . '
-		  <tr>
-			<td rowspan="2"><strong>' . $row->name . '</strong></td>
-			<td>' . $row->termin . ' ' . $row->raum . '</td>
-			<td rowspan="2">' . $row->dozent . '</td>
-			<td rowspan="2">&nbsp;</td>
-		  </tr>
-		  <tr>
-			<td>' . $row->bemerkungen . '</td>
-		  </tr>
-          <tr>
-          	<td colspan="4" class="tpdatecol">&nbsp;</td>
-          </tr>
-		';
-	} 
-	$a4 = '</table>';
-	// Zusammensetzen des Rueckgabestring
-	$rueck = '' . $a1 . '' . $a2 . '' . $a3 . '' . $a4 . '';
-	return $rueck;
-}
-/* Publication list with tag cloud
- * @param $attr (Array) with 'userid' (INT), maxsize (INT), minsize (INT), limit (INT), image (STRING), size (INT)
- * $_GET: $yr (Year, INT), $type (Type, STRING), $autor (Author, INT)
- * Return $asg (String)
- * used in WordPress shortcode API
-*/
-function tpcloud_shortcode($atts) {
-	global $teachpress_pub;
-	global $teachpress_tags;
-	global $teachpress_beziehung;
-	global $teachpress_einstellungen;
-	global $teachpress_user;
-	global $pagenow;
 	global $wpdb;
-	// Shortcode options
-	extract(shortcode_atts(array(
-		'id' => 0,
-		'maxsize' => 35,
-		'minsize' => 11,
-		'limit' => 30,
-		'image' => 'none',
-		'image_size' => 0,
-	), $atts));
-	// tgid - shows the current tag
-	$tgid = tp_sec_var($_GET[tgid], 'integer');
-	if ($tgid == '') {
-		$tgid = 0;
-	}
-	// year
-	$yr = tp_sec_var($_GET[yr], 'integer');
-	if ($yr == '') {
-		$yr = 0;
-	}
-	// publication type
-	$type = tp_sec_var($_GET[type]);
-	if ($type == '') {
-		$type = 0;
-	}
-	// author
-	$autor = tp_sec_var($_GET[autor], 'integer');
-	if ($autor == '') {
-		$autor = 0;
-	}
-	// Falls Autor via Shortcode gesetzt
-	if ($id != 0) {
-		$autor = $id;
-	}
-	// Zahlen werden auf Integer gesetzt
-	settype($id, 'integer');
-	settype($image_size, 'integer');
-	// ID Namen bei abgeschalteten Permalinks ermitteln
-	if (is_page()) {
-		$page = "page_id";
-	}
-	else {
-		$page = "p";
-	}
-	/*
-	 * Tag cloud
-	*/
-	
-	// Abfrage ob Permalinks verwendet werden oder nicht
-	$permalink = tp_get_option('permalink');
-	
-	// Ermittle Anzahl der Tags absteigend sortiert
-	if ($id == '0') {
-		$sql = "SELECT anzahlTags FROM ( SELECT COUNT(*) AS anzahlTags FROM " . $teachpress_beziehung . " GROUP BY " . $teachpress_beziehung . ".`tag_id` ORDER BY anzahlTags DESC ) as temp1 GROUP BY anzahlTags ORDER BY anzahlTags DESC";
-	}
-	else {
-		$sql = "SELECT anzahlTags FROM ( SELECT COUNT(*) AS anzahlTags FROM " . $teachpress_beziehung . " b  LEFT JOIN " . $teachpress_tags . " t ON b.tag_id = t.tag_id INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id INNER JOIN " . $teachpress_user . " u ON u.pub_id = p.pub_id  WHERE u.user = '$id' GROUP BY b.tag_id ORDER BY anzahlTags DESC ) as temp1 GROUP BY anzahlTags ORDER BY anzahlTags DESC";
-	}
-	
-	// Ermittle einzelnes Vorkommen der Tags, sowie Min und Max
-	$sql = "SELECT MAX(anzahlTags) AS max, min(anzahlTags) AS min, COUNT(anzahlTags) as gesamt FROM (".$sql.") AS temp";
-	$tagcloud_temp = $wpdb->get_row($sql, ARRAY_A);
-	$max = $tagcloud_temp['max'];
-	$min = $tagcloud_temp['min'];
-	$insgesamt = $tagcloud_temp['gesamt'];
-	
-	// Tags und Anzahl zusammenstellen
-	// Unterscheidung welche ID angegeben wurde, danach holen der Tags aus Datenbank
-	// 0 enspricht alle Publikationen
-	if ($id == '0') {
-		$sql = "SELECT tagPeak, name, tag_id FROM ( SELECT COUNT(b.tag_id) as tagPeak, t.name AS name,  t.tag_id as tag_id FROM " . $teachpress_beziehung . " b LEFT JOIN " . $teachpress_tags . " t ON b.tag_id = t.tag_id GROUP BY b.tag_id ORDER BY tagPeak DESC LIMIT " . $limit . " ) AS temp WHERE tagPeak>=".$min." ORDER BY name";
-	}
-	else {
-		$sql = "SELECT tagPeak, name, tag_id FROM ( SELECT COUNT(b.tag_id) as tagPeak, t.name AS name, t.tag_id as tag_id FROM " . $teachpress_beziehung . " b LEFT JOIN " . $teachpress_tags . " t ON b.tag_id = t.tag_id INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id INNER JOIN " . $teachpress_user . " u ON u.pub_id = p.pub_id  WHERE u.user = '$id' GROUP BY b.tag_id ORDER BY tagPeak DESC LIMIT " . $limit . " ) AS temp WHERE tagPeak>=".$min." ORDER BY name";
-	}
-	$temp = $wpdb->get_results($sql, ARRAY_A);
-	// Endausgabe der Cloud zusammenstellen
-	foreach ($temp as $tagcloud) {
-		// Schriftgröße berechnen
-		// Minimum ausgleichen
-		if ($min == 1) {
-			$min = 0;
-		}
-		// Formel: max. Schriftgroesse*(aktuelle anzahl - kleinste Anzahl)/ (groeßte Anzahl - kleinste Anzahl)
-		$size = floor(($maxsize*($tagcloud['tagPeak']-$min)/($max-$min)));
-		// Ausgleich der Schriftgröße
-		if ($size < $minsize) {
-			$size = $minsize ;
-		}
-		if ($tagcloud['tagPeak'] == 1) {
-			$pub = __('publication', 'teachpress');
-		}
-		else {
-			$pub = __('publications', 'teachpress');
-		}
-		// Falls Permalinks genutzt werden
-		if ($permalink == 1) {
-			// Link zum aktuellen Post herausfinden
-			$link = $pagenow;
-			// das index.php aus der URL schneiden
-			$link = str_replace("index.php", "", $link);
-			// String zusammensetzen
-			// fuer aktuellen Tag
-			if ( $tgid == $tagcloud['tag_id'] ) {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
-			}
-			// Normaler Tag
-			else {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=' . $tagcloud['tag_id'] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" title="' . $tagcloud['tagPeak'] . ' ' . $pub . '">' . $tagcloud['name'] . ' </a></span> ';
-			}
-		}
-		// wenn keine Permalinks genutzt werden
-		else {
-			$postid = get_the_ID();
-			// Link zum aktuellen Post herausfinden
-			$link = $pagenow;
-			// das index.php aus der URL schneiden
-			$link = str_replace("index.php", "", $link);
-			// String zusammensetzen
-			// fuer aktuellen Tag
-			if ( $tgid == $tagcloud['tag_id'] ) {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
-			}
-			else {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=' . $tagcloud['tag_id'] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" title="' . $tagcloud['tagPeak'] . ' ' . $pub . '"> ' . $tagcloud['name'] . '</a></span> ';
-			}
-		}
-	}
-	
-	/* 
-	 * Auswahl-Filter
-	*/ 
-	
-	// for javascripts
-	$str ="'";
-	// Link structure
-	if ($permalink == 1) {
-		$tpurl = '' . $link . '?';
-	}
-	else {
-		$tpurl = '' . $link . '?' . $page . '=' . $postid . '&amp;';
-	}
-	// Filter 1
-	if ($id == 0) {
-		$row = tp_results("SELECT DISTINCT jahr from " . $teachpress_pub . " ORDER BY jahr DESC");
-	}
-	else {
-		$row = tp_results("SELECT DISTINCT " . $teachpress_pub . ".jahr from " . $teachpress_pub . " 
-							INNER JOIN " . $teachpress_user . " ON " . $teachpress_user . ".pub_id=" . $teachpress_pub . ".pub_id
-							WHERE " . $teachpress_user . ".user = '$id'
-							ORDER BY jahr DESC");
-	}
-	$options = '';
-	foreach ($row as $row) {
-		if ($row->jahr == $yr) {
-			$current = 'selected="selected"';
-		}
-		else {
-			$current = '';
-		}
-		$options = $options . '<option value = "' . $tpurl . 'tgid=' . $tgid . '&amp;yr=' . $row->jahr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" ' . $current . '>' . $row->jahr . '</option>';
-	}
-	$filter1 ='<select name="yr" id="yr" onchange="teachpress_jumpMenu(' . $str . 'parent' . $str . ',this,0)">
-               <option value="' . $tpurl . 'tgid=' . $tgid . '&amp;yr=0&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs">' . __('All years','teachpress') . '</option>
-			   ' . $options . '
-               </select>';
-	// Filter 2
-	$options = '';
-	$options = get_tp_publication_type_options($type, 'jump', $tpurl, $tgid, $yr, $autor);
-	$filter2 ='<span style="padding-left:10px; padding-right:10px;"><select name="type" id="type" onchange="teachpress_jumpMenu(' . $str . 'parent' . $str . ',this,0)">' . $options . '</select></span>';
-	// Filter 3
-	$current = '';	
-	$options = '';  
-	// Wenn alle Publikationen angefordert werden		   
-	if ($id == '0') {	
-		$row = tp_results("SELECT DISTINCT user FROM " . $teachpress_user . "");	 
-		foreach ($row as $row) {
-			if ($row->user == $autor) {
-				$current = 'selected="selected"';
-			}
-			else {
-				$current = '';
-			}
-			$user_info = get_userdata($row->user);
-			$options = $options . '<option value = "' . $tpurl . 'tgid=' . $tgid . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $row->user . '#tppubs" ' . $current . '>' . $user_info->display_name . '</option>';
-		}  
-		$filter3 ='<select name="pub-author" id="pub-author" onchange="teachpress_jumpMenu(' . $str . 'parent' . $str . ',this,0)">
-					   <option value="' . $tpurl . 'tgid=' . $tgid . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=0#tppubs">' . __('All authors','teachpress') . '</option>
-				   ' . $options . '
-				   </select>';	
-	}
-	// Bei Publikationen eines bestimmten Autors entfaellt 3. Filter	   	
-	else {
-		$filter3 = "";
-	}
-	// Endformatierung
-	if ($yr == '' && $type == '' && ($autor == '' || $autor == $id ) && $tgid == '') {
-		$showall = "";
-	}
-	else {
-		// Link zum aktuellen Post herausfinden
-		$link = $pagenow;
-		// das index.php aus der URL schneiden
-		$link = str_replace("index.php", "", $link);
-		if ($permalink == 1) {
-			$showall ='<a href="' . $link . '?tgid=0#tppubs" title="' . __('Show all','teachpress') . '">' . __('Show all','teachpress') . '</a>';
-		}
-		else {
-			$showall ='<a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0#tppubs" title="' . __('Show all','teachpress') . '">' . __('Show all','teachpress') . '</a>';
-		}
-	}
-	// fertige Tag-Cloud fuer return als String zusammensetzen
-	$asg1 = '<a name="tppubs" id="tppubs"></a><div class="teachpress_cloud">' . $asg . '</div><div class="teachpress_filter">' . $filter1 . '' . $filter2 . '' . $filter3 . '</div><p align="center">' . $showall . '</p>';
-	
-	/* 
-	 * Liste der Publikatioen
-	*/
-	// Filter beruecksichtigen
-	// nach Jahr
-	if ($yr == '' || $yr == 0) {
-		$select_year = '';
-	}
-	else {
-		$select_year = 'p.jahr = ' . $yr . '';
-	}
-	// nach Typ
-	if ($type == '0') {
-		$select_type = '';
-	}
-	else {
-		$select_type = 'p.typ = ' . $str . '' . $type . '' . $str . '';
-	}
-	if ($select_year != '') {
-		if ($select_type != '') {
-			$zusatz1 = "WHERE " . $select_year . " AND " . $select_type . " ";
-			$zusatz2 = "AND " . $select_year . " AND " . $select_type . "";
-		}
-		else {
-			$zusatz1 = "WHERE " . $select_year . " ";
-			$zusatz2 = "AND " . $select_year . "";
-		}
-	}
-	else {
-		if ($select_type != '') {
-			$zusatz1 = "WHERE " . $select_type . " ";
-			$zusatz2 = "AND " . $select_type . "";
-		}
-		else {
-			$zusatz1 = "";
-			$zusatz2 = "";
-		}
-	}
-	// id umstellen
-	if ($autor != 0) {
-		$id = $autor;
-	}
-	 $select = "SELECT DISTINCT p.pub_id, p.name, p.typ, p.autor, p.verlag, p.jahr, p.isbn , p.url, p.is_isbn, p.image_url 
-			FROM " . $teachpress_beziehung . " b ";
-	 $join1 = "INNER JOIN " . $teachpress_tags . " t ON t.tag_id = b.tag_id
-			   INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id ";		
-	// Wenn kein Tag ausgewaehlt wurde
-	if ($tgid == "" || $tgid == 0) {
-		// fuer alle Publikationen
-		if ($id == 0) {
-			$row =  "" . $select . "" . $join1 . "" . $zusatz1 . "ORDER BY p.sort DESC";
-		}
-		// fuer Publikationen eines Autors
-		else {
-		$row = "" . $select . "" . $join1 . "
-			INNER JOIN " . $teachpress_user . " u ON u.pub_id= b.pub_id
-			WHERE u.user = '$id' " . $zusatz2 . "
-			ORDER BY p.sort DESC";
-		}	
-	}
-	// Falls Tag ausgewaehlt wurde
-	else {
-		if ($id == 0) {
-		// fuer alle Publikationen
-		$row = "" . $select . "" . $join1 . "
-			WHERE t.tag_id = '$tgid' " . $zusatz2 . "
-			ORDER BY p.sort DESC";
-		}
-		// fuer Publikationen eines Autors
-		else {
-		$row = "" . $select . "" . $join1 . "
-			INNER JOIN " . $teachpress_user . " u ON u.pub_id = p.pub_id
-			WHERE u.user = '$id' AND t.tag_id = '$tgid' " . $zusatz2 . "
-			ORDER BY p.sort DESC";
-		}	
-	}
-	$row = tp_results($row);
-	$sql = "SELECT name, tag_id, pub_id FROM (SELECT t.name AS name, t.tag_id AS tag_id, b.pub_id AS pub_id FROM " . $teachpress_tags . " t LEFT JOIN " . $teachpress_beziehung . " b ON t.tag_id = b.tag_id ) as temp";
-	$temp = tp_results($sql);
-	$atag = 0;
-	foreach ($temp as $temp) {
-		$all_tags[$atag][0] = $temp->name;
-		$all_tags[$atag][1] = $temp->tag_id;
-		$all_tags[$atag][2] = $temp->pub_id;
-		$atag++;
-	}
-	$tpz = 0;
-	$jahr = 0;
-	$colspan = '';
-	if ($image == 'left' || $image == 'right') {
-		$pad_size = $image_size + 5;
-		$rowspan = ' colspan="2"';
-	}
-	foreach ($row as $row) {
-		// Tags suchen
-		for ($i = 0; $i < $atag; $i++) {
-			if ($all_tags[$i][2] == $row->pub_id) {
-				$tag_string = $tag_string . '<a href="' . $link . '?tgid=' . $all_tags[$i][1] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . '#tppubs" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . $all_tags[$i][0] . '</a>, ';
-			}
-		}
-		$tag_string = substr($tag_string, 0, -2);
-		// handle images
-		$image_marginally = '&nbsp;';
-		$image_bottom = '';
-		if ($image == 'left' || $image == 'right') {
-			if ($row->image_url != '') {
-				$image_marginally = '<img name="' . $row->name . '" src="' . $row->image_url . '" width="' . $image_size .'" alt="' . $row->name . '" />';
-			}
-		}
-		if ($image == 'left') {
-			$td_left = '<td width="' . $pad_size . '">' . $image_marginally . '</td>';
-		}
-		if ($image == 'right') {
-			$td_right = '<td width="' . $pad_size . '">' . $image_marginally . '</td>';
-		}
-		if ($image == 'bottom') {
-			if ($row->image_url != '') {
-				$image_bottom = '<div class="tp_pub_image_bottom"><img name="' . $row->name . '" src="' . $row->image_url . '" style="max-width:' . $image_size .'px;" alt="' . $row->name . '" /></div>';
-			}
-		}
-		// Falls url eingegeben wurde, wird ein Link draus
-		if ($row->url !='') {
-			$row->name = '<a href="' . $row->url . '">' . $row->name . '</a>';
-		}
-		// Falls isbn eingegeben wurde, wird formatiert
-		if ($row->isbn != '') {
-			// Test ob ISBN oder ISSN
-			if ($row->is_isbn == '0') { 
-				$row->isbn = '; ISSN: ' . $row->isbn . '';
-			}
-			else {
-				$row->isbn = '; ISBN: ' . $row->isbn . '';
-			}
-		}
-		// Ausgabe in Array umleiten
-		$row->typ = __('' . $row->typ . '','teachpress');
-		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = '<tr class="tp_publication">
-								' . $td_left . '
-								<td class ="tp_pub_info">
-								<p class="tp_pub_autor">' . $row->autor . '</p>
-								<p class="tp_pub_titel">' . $row->name . ' <span class="tp_pub_typ">(' . $row->typ . ')</span></p>
-								<p class="tp_pub_zusatz">' . $row->verlag . '' . $row->isbn . ' <span class="tp_pub_tags">Tags: ' . $tag_string . '</span></p>
-								' . $image_bottom . '
-								</td>
-								' . $td_right . '
-							</tr>';
-		$tpz++;
-		$tag_string = '';
-	}
-	if ($tpz != 0) {
-		if ($yr == 0) {
-			$jahre = "SELECT DISTINCT jahr FROM " . $teachpress_pub . " ORDER BY jahr DESC";
-			$row = tp_results($jahre);
-			foreach($row as $row) {
-				for ($i=0; $i<= $tpz; $i++) {
-					if ($tparray[$i][0] == $row->jahr) {
-						$zwischen = $zwischen . $tparray[$i][1];
-					}
-					else {
-						if ($zwischen != '') {
-							$pubs = $pubs . '<tr><td' . $colspan . '><h3 class="tp_h3">' . $row->jahr . '</h3></td></tr>' . $zwischen;
-							$zwischen = '';
-						}
-					}
-				}
-			}
-		}
-		else {
-			for ($i=0; $i<$tpz; $i++) {
-					if ($tparray[$i][0] == $yr) {
-						$pubs = $pubs . $tparray[$i][1];
-					}
-			}
-			if ($pubs != '') {
-				$pubs = '<tr><td' . $colspan . '><h3 class="tp_h3">' . $row->jahr . '</h3></td></tr>' . $pubs;
-			}
-		}
-		// Alles zusammensetzen
-		$asg2 = '<table class="teachpress_publication_list">' . $pubs . '</table>';
-		$asg = $asg1 . $asg2;
-	}
-	else {
-		$asg2 = '<div class="teachpress_list"><p class="teachpress_mistake">' . __('Sorry, no publications matched your criteria.','teachpress') . '</p></div>';
-		$asg = $asg1 . $asg2;
-	}
-	// Rueckgabe des gesamten Strings
-	return "$asg";
-}
-
-/* Publication list without tag cloud
- * @param $attr (Array) with user (INT), tag (INT), year (string), headline (INT), image (string), image_size (INT)
- * Return: $asg (String)
- * used in WordPress Shortcode-API
-*/
-function tplist_shortcode($atts){
-	global $teachpress_pub;
 	global $teachpress_tags;
-	global $teachpress_beziehung;
-	global $teachpress_user;
-	// Attribute aus array extrahieren
-	extract(shortcode_atts(array(
-		'user' => 0,
-		'tag' => 0,
-		'year' => 0,
-		'headline' => 1,
-		'image' => 'none',
-		'image_size' => 0,
-	), $atts));
-	$userid = $user;
-	$tag_id = $tag;
-	$yr = $year;
-	// Define some parameters as integer
-	settype($userid, 'integer');
-	settype($tag_id, 'integer');
-	settype($yr, 'integer');
-	settype($headline, 'integer');
-	settype($image_size, 'integer');
-	$select = "SELECT DISTINCT p.name, p.typ, p.autor, p.verlag, p.jahr, p.isbn , p.url, p.is_isbn, p.image_url 
-			FROM " . $teachpress_beziehung ." b "; 
-	// Publikationen aller Autoren
-	if ($userid == 0) {
-		// Publikationen aller Autoren zu einem bestimmten Tag
-		if ($tag_id != 0) {
-			$row = "" . $select . "
-			INNER JOIN " . $teachpress_tags . " t ON t.tag_id = b.tag_id
-			INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id
-			WHERE t.tag_id = '$tag_id'
-			ORDER BY p.sort DESC";
-		}	
-		// Alle Publikationen aller Autoren
-		else {
-			$row = "SELECT * FROM " . $teachpress_pub. " ORDER BY " . $teachpress_pub . ".sort DESC, " . $teachpress_pub . ".typ";
-		}
-	}
-	else {
-		if ($tag_id != 0) {
-			$row = "" . $select . " 
-			INNER JOIN " . $teachpress_tags . " t ON t.tag_id = b.tag_id
-			INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id
-			INNER JOIN " . $teachpress_user . " u ON u.pub_id = p.pub_id
-			WHERE u.user = '$id' AND t.tag_id = '$tag_id'
-			ORDER BY p.sort DESC";
-		}
-		else {
-			$row = "" . $select . " 
-			INNER JOIN " . $teachpress_tags . " t ON t.tag_id = b.tag_id
-			INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id
-			INNER JOIN " . $teachpress_user . " u ON u.pub_id = b.pub_id
-			WHERE u.user = '$userid'
-			ORDER BY p.sort DESC";
-		}	
-	}	
-	$tpz = 0;
-	$colspan = '';
-	if ($image == 'left' || $image == 'right') {
-		$pad_size = $image_size + 5;
-		$rowspan = ' colspan="2"';
-	}
-	$row = tp_results($row);
-	foreach ($row as $row) {
-		// handle images
-		$image_marginally = '&nbsp;';
-		$image_bottom = '';
-		if ($image == 'left' || $image == 'right') {
-			if ($row->image_url != '') {
-				$image_marginally = '<img name="' . $row->name . '" src="' . $row->image_url . '" width="' . $image_size .'" alt="' . $row->name . '" />';
-			}
-		}
-		if ($image == 'left') {
-			$td_left = '<td width="' . $pad_size . '">' . $image_marginally . '</td>';
-		}
-		if ($image == 'right') {
-			$td_right = '<td width="' . $pad_size . '">' . $image_marginally . '</td>';
-		}
-		if ($image == 'bottom') {
-			if ($row->image_url != '') {
-				$image_bottom = '<div class="tp_pub_image_bottom"><img name="' . $row->name . '" src="' . $row->image_url . '" style="max-width:' . $image_size .'px;" alt="' . $row->name . '" /></div>';
-			}
-		}
-		// Falls url eingegeben wurde, wird ein Link draus
-		if ($row->url !='') {
-			$row->name = '<a href="' . $row->url . '">' . $row->name . '</a>';
-		}
-		// Falls isbn eingegeben wurde, wird formatiert
-		if ($row->isbn != '') {
-			// Test ob ISBN oder ISSN
-			if ($row->is_isbn == '0') { 
-				$row->isbn = '; ISSN: ' . $row->isbn . '';
-			}
-			else {
-				$row->isbn = '; ISBN: ' . $row->isbn . '';
-			}
-		}
-		// Ergebnis in $tparray laden
-		$row->typ = __('' . $row->typ . '','teachpress');
-		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = '<tr class="tp_publication">
-								' . $td_left . '
-								<td class ="tp_pub_info">
-								<p class="tp_pub_autor">' . $row->autor . '</p>
-								<p class="tp_pub_titel">' . $row->name . ' <span class="tp_pub_typ">(' . $row->typ . ')</span></p>
-								<p class="tp_pub_zusatz">' . $row->verlag . '' . $row->isbn . ' <span class="tp_pub_tags">Tags: ' . $tag_string . '</span></p>
-								' . $image_bottom . '
-								</td>
-								' . $td_right . '
-							</tr>';
-		$tpz++;			
-	}
-	// Strings nach Publikationstyp zusammensetzen
-	if ($headline == 1) {
-		if ($yr == 0) {
-			$jahre = "SELECT DISTINCT jahr FROM " . $teachpress_pub . " ORDER BY jahr DESC";
-			$row = tp_results($jahre);
-			foreach($row as $row) {
-				for ($i=0; $i<= $tpz; $i++) {
-					if ($tparray[$i][0] == $row->jahr) {
-						$zwischen = $zwischen . $tparray[$i][1];
-					}
-					else {
-						if ($zwischen != '') {
-							$pubs = $pubs . '<tr><td' . $colspan . '><h3 class="tp_h3">' . $row->jahr . '</h3></td></tr>' . $zwischen;
-							$zwischen = '';
-						}
-					}
-				}
-			}
-		}
-		else {
-			for ($i=0; $i<$tpz; $i++) {
-					if ($tparray[$i][0] == $yr) {
-						$pubs = $pubs . $tparray[$i][1];
-					}
-			}
-			if ($pubs != '') {
-				$pubs = '<tr><td' . $colspan . '><h3 class="tp_h3">' . $row->jahr . '</h3></td></tr>' . $pubs;
-			}
-		}	
-	}	
-	else {
-		for($i=0; $i<$tpz; $i++) {
-			$pubs = $pubs . $tparray[$i][1];
-		}
-	}
-	// Alles zusammensetzen	
-	$asg = '<table class="teachpress_publication_list">' . $pubs . '</table>';
-	
-	return $asg;
+	$wpdb->update( $teachpress_tags, array( 'name' => $name ), array( 'tag_id' => $tag_id ), array( '%s' ), array( '%d' ) );
 }
 
-/**
- * teachPress Books widget class
- */
+/*********************************/
+/* teachPress Books widget class */
+/*********************************/
 class teachpress_books_widget extends WP_Widget {
     /** constructor */
     function teachpress_books_widget() {
@@ -1768,8 +1018,8 @@ class teachpress_books_widget extends WP_Widget {
 		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title:', 'teachpress') . ' <input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
 		
 		echo '<p><label for="' . $this->get_field_id('books') . '">' . __('Books:', 'teachpress') . ' <select class="widefat" id="' . $this->get_field_id('books') . '" name="' . $this->get_field_name('books') . '[]" style="height:auto; max-height:25em" multiple="multiple" size="10">';
-		$sql= "SELECT pub_id, name FROM " . $teachpress_pub . " WHERE typ = 'Buch' ORDER BY sort DESC";
-		$row= tp_results($sql);
+		$sql= "SELECT pub_id, name FROM " . $teachpress_pub . " WHERE type = 'Book' ORDER BY date DESC";
+		$row= $wpdb->get_results($sql);
 		foreach ($row as $row) {
 			if ( in_array($row->pub_id, $books) ) {
         		echo '<option value="' . $row->pub_id . '" selected="selected">' . $row->pub_id . ': ' . $row->name . '</option>';
@@ -1793,117 +1043,10 @@ class teachpress_books_widget extends WP_Widget {
 /* Installer and Updater */
 /*************************/
 
-/* Database update manager
- * used in settings.php
-*/
+/* Database update manager */
 function tp_db_update() {
-	global $teachpress_einstellungen;
-	global $teachpress_pub;
-	global $teachpress_ver;
-	// Test ob Datenbank noch aktuell
-	$test = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'db-version'";
-	$test = tp_var($test) ;
-	$version = get_tp_version();
-	$site = 'admin.php?page=teachpress/settings.php';
-	// bei versionen auf aktuellen Stand
-	if ($test == $version) {
-		$message = __('An update is not necessary.','teachpress');
-		tp_get_message($message, $site);
-	} 
-	else {
-		/*
-		 * Capabilities
-		*/
-		global $wp_roles;
-		$wp_roles->WP_Roles();
-		$role = $wp_roles->get_role('administrator');
-		if ( !$role->has_cap('use_teachpress') ) {
-			$wp_roles->add_cap('administrator', 'use_teachpress');
-		}
-		/* 
-		 * teachpress_ver
-		*/
-		// Spalte rel_page anlegen in teachpress_ver
-		$sql = "SHOW COLUMNS FROM " . $teachpress_ver . " LIKE 'rel_page'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("ALTER TABLE " . $teachpress_ver . " ADD `rel_page` INT NULL AFTER `bemerkungen`");
-		}
-		// Spalte url loeschen in teachpress_ver
-		$sql = "SHOW COLUMNS FROM " . $teachpress_ver . " LIKE 'url'";
-		$test = tp_query($sql);
-		if ($test == '1') {
-			tp_query("ALTER TABLE " . $teachpress_ver . " DROP `url`");
-		}
-		/*
-		 * teachpress_pub
-		*/ 
-		// Spalte Image_URL anlegen
-		// ab Version 0.40
-		$sql = "SHOW COLUMNS FROM " . $teachpress_pub . " LIKE 'image_url'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("ALTER TABLE " . $teachpress_pub . " ADD `image_url` VARCHAR(200) NULL DEFAULT NULL AFTER `comment`");
-		}
-		// Spalte rel_page anlegen
-		// ab Version 0.40
-		$sql = "SHOW COLUMNS FROM " . $teachpress_pub . " LIKE 'rel_page'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("ALTER TABLE " . $teachpress_pub . " ADD `rel_page` INT NULL AFTER `image_url`");
-		}
-		// Spalte is_ISBN anlegen
-		// ab Version 0.40
-		$sql = "SHOW COLUMNS FROM " . $teachpress_pub . " LIKE 'is_isbn'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("ALTER TABLE " . $teachpress_pub . " ADD `is_isbn` INT(1) NULL DEFAULT NULL AFTER `rel_page`");
-		}
-		/*
-		 * teachpress_einstellungen
-		*/
-		// Sign out
-		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'sign_out'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')"); 
-		}
-		// Login
-		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'login'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('login', 'std', 'system')"); 
-		}
-		// Registration number
-		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'regnum'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('regnum', '1', 'system')"); 
-		}
-		// Studies
-		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'studies'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('studies', '1', 'system')"); 
-		}
-		// Termnumber
-		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'termnumber'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('termnumber', '1', 'system')");
-		}
-		// Birthday
-		$sql = "SELECT wert FROM " . $teachpress_einstellungen . " WHERE variable = 'birthday'";
-		$test = tp_query($sql);
-		if ($test == '0') {
-			tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('birthday', '1', 'system')"); 
-		}
-		// Versionsinfo in Datenbank aktualisieren
-		tp_query("UPDATE " . $teachpress_einstellungen . " SET  wert = '$version' WHERE variable = 'db-version'");
-		// Abschluss
-		$message = __('Update successful','teachpress');
-		tp_get_message($message, $site);
-	}
+	include_once('core/update.php');
+	tp_db_update_function();
 }
 
 /* 
@@ -1911,14 +1054,14 @@ function tp_db_update() {
 */
 function teachpress_install() {
 	global $wpdb;
-	$teachpress_ver = $wpdb->prefix . 'teachpress_ver'; //Events
-	$teachpress_stud = $wpdb->prefix . 'teachpress_stud'; //Students
-	$teachpress_einstellungen = $wpdb->prefix . 'teachpress_einstellungen'; //Settings
-	$teachpress_kursbelegung = $wpdb->prefix . 'teachpress_kursbelegung'; //Enrollments
+	$teachpress_courses = $wpdb->prefix . 'teachpress_courses'; // Courses
+	$teachpress_stud = $wpdb->prefix . 'teachpress_stud'; // Students
+	$teachpress_settings = $wpdb->prefix . 'teachpress_settings'; // Settings
 	$teachpress_log = $wpdb->prefix . 'teachpress_log'; // Security-Log
-	$teachpress_pub = $wpdb->prefix . 'teachpress_pub'; //Publications
-	$teachpress_tags = $wpdb->prefix . 'teachpress_tags'; //Tags
-	$teachpress_beziehung = $wpdb->prefix . 'teachpress_beziehung'; //Relationsship Tags - Publications
+	$teachpress_pub = $wpdb->prefix . 'teachpress_pub'; // Publications
+	$teachpress_tags = $wpdb->prefix . 'teachpress_tags'; // Tags
+	$teachpress_signup = $wpdb->prefix . 'teachpress_signup'; // Relationship Courses - Students
+	$teachpress_relation = $wpdb->prefix . 'teachpress_relation'; // Relationsship Tags - Publications
 	$teachpress_user = $wpdb->prefix . 'teachpress_user'; // Relationship Publications - User
 	
 	// Add capabilities
@@ -1940,27 +1083,28 @@ function teachpress_install() {
 		}	
 	}
 	
-	// teachpress_ver
-	$table_name = $teachpress_ver;
+	// teachpress_courses
+	$table_name = $teachpress_courses;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-		$sql = "CREATE TABLE " . $teachpress_ver. " (
-						 veranstaltungs_id INT UNSIGNED AUTO_INCREMENT ,
+		$sql = "CREATE TABLE " . $teachpress_courses. " (
+						 course_id INT UNSIGNED AUTO_INCREMENT ,
 						 name VARCHAR(100) ,
-						 vtyp VARCHAR (100) ,
-						 raum VARCHAR(100) ,
-						 dozent VARCHAR (100) ,
-						 termin VARCHAR(60) ,
-						 plaetze INT(4) ,
-						 fplaetze INT(4) ,
-						 startein DATE ,
-						 endein DATE ,
-						 semester VARCHAR(10) ,
-						 bemerkungen VARCHAR(500) ,
+						 type VARCHAR (100) ,
+						 room VARCHAR(100) ,
+						 lecturer VARCHAR (100) ,
+						 date VARCHAR(60) ,
+						 places INT(4) ,
+						 fplaces INT(4) ,
+						 start DATE ,
+						 end DATE ,
+						 semester VARCHAR(100) ,
+						 comment VARCHAR(500) ,
 						 rel_page INT ,
-						 parent INT(4) ,
-						 sichtbar INT(1) ,
-						 warteliste INT(1),
-						 PRIMARY KEY (veranstaltungs_id)
+						 parent INT ,
+						 visible INT(1) ,
+						 waitinglist INT(1),
+						 image_url VARCHAR(400) ,
+						 PRIMARY KEY (course_id)
 					   ) $charset_collate;";
 		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');			
 		dbDelta($sql);
@@ -1971,57 +1115,57 @@ function teachpress_install() {
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_stud . " (
 						 wp_id INT UNSIGNED ,
-						 vorname VARCHAR(100) ,
-						 nachname VARCHAR(100) ,
-						 studiengang VARCHAR(100) ,
-						 urzkurz VARCHAR (10) ,
-						 gebdat DATE ,
+						 firstname VARCHAR(100) ,
+						 lastname VARCHAR(100) ,
+						 course_of_studies VARCHAR(100) ,
+						 userlogin VARCHAR (100) ,
+						 birthday DATE ,
 						 email VARCHAR(50) ,
-						 fachsemester INT(2) ,
-						 matrikel INT (10),
+						 semesternumber INT(2) ,
+						 matriculation_number INT,
 						 PRIMARY KEY (wp_id)
 					   ) $charset_collate;";
 		dbDelta($sql);
 	 }
-	 // teachpress_kursbelegung
-	$table_name = $teachpress_kursbelegung;
+	 // teachpress_signup
+	$table_name = $teachpress_signup;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-		$sql = "CREATE TABLE " . $teachpress_kursbelegung . " (
-						 belegungs_id INT UNSIGNED AUTO_INCREMENT ,
-						 veranstaltungs_id INT ,
+		$sql = "CREATE TABLE " . $teachpress_signup . " (
+						 con_id INT UNSIGNED AUTO_INCREMENT ,
+						 course_id INT ,
 						 wp_id INT ,
-						 warteliste INT(1) ,
-						 datum DATE ,
-						 FOREIGN KEY (veranstaltungs_id) REFERENCES " . $teachpress_ver. "(veranstaltungs_id) ,
+						 waitinglist INT(1) ,
+						 date DATE ,
+						 FOREIGN KEY (course_id) REFERENCES " . $teachpress_courses. "(course_id) ,
 						 FOREIGN KEY (wp_id) REFERENCES " . $teachpress_stud . "(wp_id) ,
-						 PRIMARY KEY (belegungs_id)
+						 PRIMARY KEY (con_id)
 					   ) $charset_collate;";
 		dbDelta($sql);
 	 }
-	 // teachpress_einstellungen
-	$table_name = $teachpress_einstellungen;
+	 // teachpress_settings
+	$table_name = $teachpress_settings;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-		$sql = "CREATE TABLE " . $teachpress_einstellungen . " (
-						einstellungs_id INT UNSIGNED AUTO_INCREMENT ,
-						variable VARCHAR (30) ,
-						wert VARCHAR (100) ,
+		$sql = "CREATE TABLE " . $teachpress_settings . " (
+						setting_id INT UNSIGNED AUTO_INCREMENT ,
+						variable VARCHAR (100) ,
+						value VARCHAR (100) ,
 						category VARCHAR (100) ,
-						PRIMARY KEY (einstellungs_id)
+						PRIMARY KEY (setting_id)
 						) $charset_collate;";
 		dbDelta($sql);
-		// Default-Einstellungen			
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sem', 'WS09/10', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('db-version', '1.0.0', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('permalink', '1', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('sign_out', '0', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('login', 'std', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('regnum', '1', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('studies', '1', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('termnumber', '1', 'system')");
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('birthday', '1', 'system')");	
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('WS09/10', 'WS09/10', 'semester')");									
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('Bachelor Wirtschaftsinformatik', 'Bachelor Wirtschaftsinformatik', 'studiengang')");	
-		tp_query("INSERT INTO " . $teachpress_einstellungen . " (variable, wert, category) VALUES ('Vorlesung', 'Vorlesung', 'veranstaltungstyp')");
+		// Default settings		
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '1.0.0', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('regnum', '1', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('studies', '1', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('termnumber', '1', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('birthday', '1', 'system')");	
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('Example term', 'Example term', 'semester')");									
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('Example', 'Example', 'course_of_studies')");	
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('Lecture', 'Lecture', 'course_type')");
 	 }
 	 // teachpress_log
 	$table_name = $teachpress_log;
@@ -2030,8 +1174,8 @@ function teachpress_install() {
 						log_id INT UNSIGNED AUTO_INCREMENT ,
 						id INT ,
 						user INT ,
-						beschreibung VARCHAR (200) ,
-						datum DATE ,
+						description VARCHAR (200) ,
+						date DATE ,
 						PRIMARY KEY (log_id)
 						) $charset_collate;";
 		dbDelta($sql);
@@ -2042,16 +1186,35 @@ function teachpress_install() {
 		$sql = "CREATE TABLE " . $teachpress_pub. " (
 						 pub_id INT UNSIGNED AUTO_INCREMENT ,
 						 name VARCHAR(500) ,
-						 typ VARCHAR (50) ,
-						 autor VARCHAR(300) ,
-						 verlag VARCHAR (500) ,
-						 jahr INT(4) ,
-						 isbn VARCHAR(40) ,
-						 url VARCHAR(200) ,
-						 sort DATE ,
+						 type VARCHAR (50) ,
+						 bibtex VARCHAR (50) ,
+						 author VARCHAR (500) ,
+						 editor VARCHAR (500) ,
+						 isbn VARCHAR (50) ,
+						 url VARCHAR (400) ,
+						 date DATE ,
+						 booktitle VARCHAR (200) ,
+						 journal VARCHAR(200) ,
+						 volume VARCHAR(20) ,
+						 number VARCHAR(20) ,
+						 pages VARCHAR(20) ,
+						 publisher VARCHAR (500) ,
+						 address VARCHAR (300) ,
+						 edition VARCHAR (100) ,
+						 chapter VARCHAR (20) ,
+						 institution VARCHAR (200) ,
+						 organization VARCHAR (200) ,
+						 school VARCHAR (200) ,
+						 series VARCHAR (200) ,
+						 crossref VARCHAR (100) ,
+						 abstract TEXT ,
+						 howpublished VARCHAR (200) ,
+						 key VARCHAR (100) ,
+						 techtype VARCHAR (200) ,
 						 comment TEXT ,
-						 image_url VARCHAR(200) ,
-						 rel_page VARCHAR(200) ,
+						 note TEXT ,
+						 image_url VARCHAR(400) ,
+						 rel_page INT ,
 						 is_isbn INT(1) ,
 						 PRIMARY KEY (pub_id)
 					   ) $charset_collate;";
@@ -2067,16 +1230,16 @@ function teachpress_install() {
 					    ) $charset_collate;";
 		dbDelta($sql);
 	 }
-	 //teachpress_beziehung
-	$table_name = $teachpress_beziehung;
+	 //teachpress_relation
+	$table_name = $teachpress_relation;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-		$sql = "CREATE TABLE " . $teachpress_beziehung . " (
-						 belegungs_id INT UNSIGNED AUTO_INCREMENT ,
+		$sql = "CREATE TABLE " . $teachpress_relation . " (
+						 con_id INT UNSIGNED AUTO_INCREMENT ,
 						 pub_id INT ,
 						 tag_id INT ,
 						 FOREIGN KEY (pub_id) REFERENCES " . $teachpress_pub. "(pub_id) ,
 						 FOREIGN KEY (tag_id) REFERENCES " . $teachpress_tags . "(tag_id) ,
-						 PRIMARY KEY (belegungs_id)
+						 PRIMARY KEY (con_id)
 					   ) $charset_collate;";
 		dbDelta($sql);
 	 }
@@ -2096,16 +1259,17 @@ function teachpress_install() {
  * Uninstalling
 */ 
 function tp_uninstall() {
-	global $teachpress_ver;
+	global $wpdb;
+	global $teachpress_courses;
 	global $teachpress_stud;
-	global $teachpress_einstellungen;
-	global $teachpress_kursbelegung;
+	global $teachpress_settings;
+	global $teachpress_signup;
 	global $teachpress_log;
 	global $teachpress_pub;
 	global $teachpress_tags;
-	global $teachpress_beziehung;
+	global $teachpress_relation;
 	global $teachpress_user;
-	tp_query("DROP TABLE " . $teachpress_ver . ", " . $teachpress_stud . ", " . $teachpress_einstellungen . ", " . $teachpress_kursbelegung . ", " . $teachpress_log . ", " . $teachpress_pub . ", " . $teachpress_tags . ", " . $teachpress_user . ", " . $teachpress_beziehung . "");
+	$wpdb->query("DROP TABLE " . $teachpress_courses . ", " . $teachpress_stud . ", " . $teachpress_settings . ", " . $teachpress_signup . ", " . $teachpress_log . ", " . $teachpress_pub . ", " . $teachpress_tags . ", " . $teachpress_user . ", " . $teachpress_relation . "");
 }
 
 /*********************/
@@ -2116,11 +1280,12 @@ function tp_uninstall() {
  * used in: Wordpress-Admin-Header
 */ 
 function teachpress_admin_head() {
-	// Lade scripts nur, wenn es eine teachpress Seite ist
+	// load scripts only, if there is a teachpress page
 	if ( eregi('teachpress', $_GET[page]) || eregi('publications', $_GET[page]) ) {
 		$lang = __('de','teachpress');
-		wp_enqueue_script('teachpress-standard', WP_PLUGIN_URL . '/teachpress/js/standard.js');
-		wp_enqueue_style('teachpress.css', WP_PLUGIN_URL . '/teachpress/teachpress.css');
+		wp_enqueue_script('teachpress-standard', WP_PLUGIN_URL . '/teachpress/js/backend.js');
+		wp_enqueue_style('teachpress.css', WP_PLUGIN_URL . '/teachpress/styles/teachpress.css');
+		wp_enqueue_script('media-upload');
 		add_thickbox();
 		wp_enqueue_script('teachpress-jquery', WP_PLUGIN_URL . '/teachpress/js/datepicker/jquery-1.4.2.js');
 		wp_enqueue_script('teachpress-datepicker', WP_PLUGIN_URL . '/teachpress/js/datepicker/jquery.datepick.min.js');
@@ -2131,19 +1296,19 @@ function teachpress_admin_head() {
 		}	
 	}
 }
-/* Fuegt einen String zum WP-Admin-Header
+/* Adds a javascript to the WordPress Backend Admin Header
  * used in: Wordpress-Admin-Header
 */
 function teachpress_js_admin_head() {
-    echo '<link media="print" type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/print.css" rel="stylesheet" />'; 
+    echo '<link media="print" type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/styles/print.css" rel="stylesheet" />';
 }
 
-/* Fügt eine CSS zum WP-Header hinzu
+/* Adds files to the WordPress Frontend Admin Header
  * used in: Wordpress-Header
 */ 
 function teachpress_js_wp_header() {
-	echo '<script type="text/javascript" src="' . WP_PLUGIN_URL . '/teachpress/js/standard.js"></script>';
-	echo '<link type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/teachpress_front.css" rel="stylesheet" />';
+	echo '<script type="text/javascript" src="' . WP_PLUGIN_URL . '/teachpress/js/frontend.js"></script>';
+	echo '<link type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/styles/teachpress_front.css" rel="stylesheet" />';
 }
 
 // load language files
@@ -2158,12 +1323,14 @@ add_action('init', 'teachpress_language_support');
 add_action('admin_menu', 'teachpress_add_menu');
 add_action('admin_menu', 'teachpress_add_menu2');
 add_action('admin_menu', 'teachpress_add_menu_settings');
-add_action('the_content', 'teachpress_anzeigen');
-add_action('the_content', 'teachpress_lvs_fronted');
 add_action('admin_head', 'teachpress_js_admin_head');
 add_action('wp_head', 'teachpress_js_wp_header');
 add_action('admin_init','teachpress_admin_head');
 add_shortcode('tpdate', 'tpdate_shortcode');
+add_shortcode('tpcourselist', 'tp_courselist_shortcode');
+add_shortcode('tpenrollments', 'tpenrollments_shortcode');
 add_shortcode('tpcloud', 'tpcloud_shortcode');
 add_shortcode('tplist', 'tplist_shortcode');
+add_shortcode('tpsingle','tpsingle_shortcode');
+add_shortcode('tppost','tppost_shortcode');
 ?>

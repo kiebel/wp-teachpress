@@ -1,29 +1,22 @@
-// teachPress standard.js
+// teachPress javascript for the frontend
 
 // for jumpmenu
 function teachpress_jumpMenu(targ,selObj,restore){
   eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
   if (restore) selObj.selectedIndex=0;
 }
-// for adding new tags
-function teachpress_inserttag(tag) {
-	if (document.getElementsByName("tags")[0].value == "") {
-		document.getElementsByName("tags")[0].value = tag;
-	}
-	else {
-		document.getElementsByName("tags")[0].value = document.getElementsByName("tags")[0].value+', '+tag;
-		document.getElementsByName("tags")[0].value = document.getElementsByName("tags")[0].value;
-	}	
-}
+
 // for show/hide buttons
 function teachpress_showhide(where) {
-     if (document.getElementById(where).style.display != "block") {
-      document.getElementById(where).style.display = "block";
+	 var mode = "block";
+     if (document.getElementById(where).style.display != mode) {
+     	document.getElementById(where).style.display = mode;
      }
      else {
-      document.getElementById(where).style.display = "none";
+     	document.getElementById(where).style.display = "none";
      }
 }
+
 // validate forms
 function teachpress_validateForm() {
   if (document.getElementById){

@@ -1,30 +1,34 @@
 === teachPress ===
 Contributors: Michael Winkler
-Tags: management, publications, enrollments, teachpress, education, course management
+Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
-Tested up to: 2.9.2
-Stable tag: 1.0.0
+Tested up to: 3.0.1
+Stable tag: 2.0.b1
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
-teachPress is a powerful course and publication managment plugin, which is published under the terms of GPL. The plugin is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
-
-After the installation do the following things to configure teachPress: Firstly create a new page in WordPress und write `<!--LVS-->` in the textfield (html-mode) for creating the enrollment page (`<!--LVS2-->` for the course overview). For publication lists use the shortcodes, which are explained in the FAQ. That's it. I hope, that the normal using and configuration is self explanatory. 
-
-Please note: It's currently not possible to insert images directly from the WordPress Media Library to a publication, so you must copy the url manually.
+The plugin unites a course management system with integrated enrollments and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
 
 For more information see [here](http://www.mtrv.kilu.de/teachpress/).
 
 = Features: =
-* Publication management
+* BibTeX compatible publication management
 * Course management with enrollment system
 * Student management
+* Import and export function for publications (BibTeX format)
 * xls/csv-export for course lists
 * RSS-feed for publicaitons
-* Integrated search functions
-* Shortcodes for easy using in posts an pages
 * Widget for displaying books in the sidebar
+
+= New features of teachPress 2.0: =
+* New publication system with BibTeX support, 31 data fields, 15 publication types
+* New shortcode "tpsingle" for displaying single publications
+* New shortcode "tpcourselist" for displaying a course overview (replaced `<!--LVS2-->`)
+* New shortcode "tpenrollments" for displaying the enrollement system (replaced `<!--LVS-->`)
+* New Shortcode "tppost" for displaying parts of a post only for registered students
+* Add images for courses
+* Redesigned user interface
 
 = Supported Languages =
 * English 
@@ -70,40 +74,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
 == Upgrade Notice ==
-
-= 1.0.0 =
-Please check, if the teachPress database tables has `utf8_general_ci` as collation (or an other utf8 collation), if not, change the collation.
-
-= 0.85.0 =
-The publication lists are now tables, so it's possible, that the lists looks differently than before.
-
-= 0.40.0 =
-Don't forget to click on the update button (teachpress settings page) after upgrading.
-
-= 0.30.0 =
-For 0.22.0 Users: Please rename your teachPress database tables after the upgrade! ( `teachpress_ver` --> `[your wp_prefix]_teachpress_ver` )  
+= 2.0.b1 =
+teachpress 2.0 uses a brand new database structure, so save your database before upgrading!
 
 == Screenshots ==
-[See here](http://www.mtrv.kilu.de/teachpress/teachpress-images/)   
+1. Screenshot Add publication menu
+2. Screenshot Add course menu
+3. Screenshot teachPress books widget
+
+[More](http://www.mtrv.kilu.de/teachpress/teachpress-images/)   
 
 == Frequently Asked Questions ==
 
-= How can I add long course desciptions  =
+= How can I add a course list in a page or post? = 
+When you writing a post or page use the following tag: [tpcourselist]
+
+= How can I add the enrollment system in my blog? =
+Create a new page or post and use the following tag: [tpenrollments]
+
+= How can I add longer course desciptions? =
 You can write long course desciptions, as normal WordPress pages. The main function of teachPress is only to connect the static page with a course overview and an enrollment system. For this you can specify a related pages for your course.
 
 = How can I display images in publication lists? =
 An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
 
-= How I can use the shortcodes? = 
-An example for a publication list with tag cloud (max. 50 tags) and images left. All what you must do is to copy the following in a page or post:  
-[tpcloud limit="50" image="left" image_size="70"]  
-  
-An example for course information:  
-[tpdate id="30"]
+= I see only error messages if I use the RSS-Feed for publications or the xls/csv-Export for enrollments. What's wrong? =
+Before you can use this features you must define the $root parameter in the parameters.php: You find in the teachPress directory the file: parameters_sample.php. Open this file and change the $root paramter (you find some examples there). After that rename the file to parameters.php and upload the file in the teachPress directory.
 
 = Reference of shortcode parameters =
 = For course information: [tpdate id="x"] =  
 * id = Course-ID
+
+= For the enrollments system [tpenrollments] =
+* no parameters
+
+= For course lists [tpcourselist image="x" image_size="y"] =
+* image = image position: left, right or bottom (default: none)
+* image_size = maximum size in of an image in px(default: 0)
+
+= For protected posts: [tpost id="x"] =
+* id = Course-ID
+
+= For single publications [tpsingle id="x"] =
+* id = Publication-ID
 
 = For publication lists with tag-cloud: [tpcloud (args)] =  
 * user = WP User-ID (0 for all)
@@ -111,18 +124,36 @@ An example for course information:
 * maxsize = max. font size in the tag-cloud
 * limit = number of tags in the tag-cloud
 * image = image position: left, right or bottom (default: none)
-* image_size = maximum size in of an image(default: 0)
+* image_size = maximum size in of an image in px (default: 0)
+* anchor = html link anchor on(1) or off (0), default: 1
 
-= For normal publication lists:  [tplist (args)] =  
+= For normal publication lists: [tplist (args)] =  
 * id - WP User-ID (0 for all)  
 * tag - Tag-ID  
 * year  
-* headline - 0(off) or 1(on)   
+* headline - 0(off) or 1(on), default: 1   
 * image = image position: left, right or bottom (default: none)
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
-= 1.0.0 =
+= 2.0.b1 - (11.09.2010) =
+* New: BibTeX support (bibtex export, more data fields, more publication types)
+* New: Shortcode "tpsingle" for displaying single publications
+* New: Shortcode "tpcourselist" for displaying a course list
+* New: Shortcode "tpenrollments" for displaying the enrollement system
+* New: Shortcode "tppost" for displaying parts of a post only for registered students
+* New: Images for courses
+* Changed: Shortcode "tpcloud": It's now possible to deactivate the html anchor
+* Changed: Redesigned user interface
+* Changed: Number of chars for a semester name (from 10 to 100)
+* Changed: Database and directory structure
+* Bugfix: Fixed bugs in the overview of students
+* Bugfix: Fixed problems with the user data field selection for registration forms
+* Bugfix: It's now possible to add images directly from the WordPress Media Library
+* Bugfix: Fixed a bug with the email column in the course lists.
+* Bugfix: Fixed a bug in xls export: The parent course name is now displaying
+* Killed: own database functions tp_var, tp_query, tp_results
+= 1.0.0 - (31.05.2010) =
 * New: It is possible to deactivate some fields for user data
 * New: New registration mode available
 * New: Function for uninstalling teachPress
@@ -148,10 +179,8 @@ An example for course information:
 * Bugfix: Fixed bug when adding a publication
 = 0.80.0 =
 * New: Capabilities for backend access control
-* New: Posible to prevent sign outs for registrations 
+* New: Possible to prevent sign outs for registrations 
 * Changed: Style of frontend course overview
-* Changed: Merge yourpub.php and showpublications.php to publications.php
-* Changed: Integration of editpub.php in addpublications.php
 * Changed: Central definition of publication types in the source code 
 * Changed: Select fields reworked
 * Changed: Translation for publication types
@@ -181,7 +210,7 @@ An example for course information:
 * Bugfix: Fix bug when student unsubscribes from a course (Thanks to Jean T. )
 * Bugfix: Fix bug in the course overview (frontend)
 = 0.30.2 =
-* Fix a little problem with the version name, sorry for this.
+* Fix a little problem with the version name
 = 0.30.0 =
 * New: Copy function for courses
 * New: Simple CSV-export for enrollments
@@ -196,31 +225,3 @@ An example for course information:
 * Bugfix: Fixed bug by using students search
 * Bugfix: Fix bug in tp_get_message()
 * Killed: XML-export for enrollments
-= 0.22.0 =
-* Changed: Logo and style
-* Changed: Script and style load
-* Bugfix: Fixed usability bugs
-= 0.20.4 =
-* Changed: Publication lists sorted by year
-* Changed: New design for publication lists
-* Bugfix: Bugfix for installer
-* Bugfix: Fixed bug when adding new publications
-* Bugfix: Fixed bug when adding new courses
-* Bugfix: Fixed unauthorized access to the teachpress directory
-= 0.20.3 =
-* Bugfix: Fixed bug in "tp_date" shortcode
-* Bugfix: Fixed bug in courses overview
-* Bugfix: Fixed bug by adding new courses
-* Bugfix: Fixed bug in parent listmenus
-* Bugfix: Fixed security-Bug in excel export
-* Added: Add XML-Export for Enrollments
-* Added: Add new E-Mail functions
-= 0.20.2 =
-* Added: More filter for publications (Frontend)
-= 0.20.1 =
-* Changed: Redesigned settings page
-= 0.20.0 =
-* Changed: Better WordPress integration
-* New: Search function for courses
-* New: Tag management
-* New: English language added
