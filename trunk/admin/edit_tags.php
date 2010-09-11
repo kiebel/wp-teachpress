@@ -6,13 +6,14 @@
 */ 
 function teachpress_tags_page(){ 
 ?> 
-<div class="wrap" style="padding-top:10px;">
+<div class="wrap" style="max-width:600px;">
   <form id="form1" name="form1" method="get" action="<?php echo $PHP_SELF ?>">
   <input name="page" type="hidden" value="teachpress/tags.php" />
 <?php
+global $wpdb;
 global $teachpress_pub; 
 global $teachpress_user;
-global $teachpress_beziehung;
+global $teachpress_relation;
 global $teachpress_tags;
 // Daten von tags.php
 $search = tp_sec_var($_GET[search]);
@@ -36,31 +37,25 @@ if ( isset($speichern)) {
 	tp_get_message($message, $site);
 }
 ?>
-<table border="0" cellspacing="0" cellpadding="5" style="float:right;">
-  <tr>
-    <td><?php if ($search != "") { ?><a href="admin.php?page=teachpress/tags.php" style="font-size:20px; font-weight:bold; text-decoration:none;" title="<?php _e('Cancel the search','teachpress'); ?>">&crarr;</a><?php } ?></td>
-    <td><input type="text" name="search" id="pub_search_field" value="<?php echo $search; ?>"/></td>
-    <td><input type="submit" name="button" id="button" value="<?php _e('search tag','teachpress'); ?>" class="teachpress_button"/></td>
-  </tr>
-</table>  
-<table border="0" cellpadding="0" cellspacing="0" id="tags_optionen">
-  <tr>
-    <td><h2><?php _e('Tags','teachpress'); ?></h2></td>
-  </tr>
-  <tr>  
-    <td><select name="action">
-    		<option value="">- <?php _e('Bulk actions','teachpress'); ?> -</option>
-            <option value="delete"><?php _e('delete','teachpress'); ?></option>
-    	</select>
-        <input name="ok" value="ok" type="submit" class="teachpress_button"/></td>    
-    </tr>
-</table>
+<h2><?php _e('Tags','teachpress'); ?></h2>
+<div id="searchbox" style="float:right; padding-bottom:10px;">
+	<?php if ($search != "") { ?><a href="admin.php?page=teachpress/tags.php" style="font-size:14px; font-weight:bold; text-decoration:none; padding-right:3px;" title="<?php _e('Cancel the search','teachpress'); ?>">X</a><?php } ?>
+    <input type="text" name="search" id="pub_search_field" value="<?php echo $search; ?>"/>
+    <input type="submit" name="button" id="button" value="<?php _e('search tag','teachpress'); ?>" class="teachpress_button"/>
+</div>
+<div id="filterbox" style="padding-bottom:10px;">  
+	<select name="action">
+        <option value="">- <?php _e('Bulk actions','teachpress'); ?> -</option>
+        <option value="delete"><?php _e('delete','teachpress'); ?></option>
+    </select>
+    <input name="ok" value="ok" type="submit" class="teachpress_button"/></td>    
+</div>
 <p style="margin:0px;">&nbsp;</p>
 <?php
 // Bearbeiten von Tags
 if ($tag_id != "") { 
 	$name = "SELECT name FROM " . $teachpress_tags . " WHERE tag_id = '$tag_id'";
-	$name = tp_var($name);
+	$name = $wpdb->get_var($name);
 	?>
     <fieldset style="width:590px; padding:5px; margin-bottom:15px; border:1px solid silver;">
     	<legend><?php _e('Edit tag','teachpress'); ?></legend>
@@ -101,15 +96,15 @@ if ($tag_id != "") {
 	else {
   		$abfrage = "SELECT * FROM " . $teachpress_tags . " ORDER BY name";
 	}				
-	$test = tp_query($abfrage);
+	$test = $wpdb->get_results($abfrage);
 	// Test ob Eintraege vorhanden
 	if ($test == 0) {
 		echo '<tr><td colspan="4"><strong>' . __('Sorry, no entries matched your criteria.','teachpress') . '</strong></td></tr>';
 	}
 	else {
 		// Abfrage wie oft die Tags verwendet werden
-		$abfrage2 = "SELECT * FROM " . $teachpress_beziehung . "";
-		$row = tp_results($abfrage2);
+		$abfrage2 = "SELECT * FROM " . $teachpress_relation . "";
+		$row = $wpdb->get_results($abfrage2);
 		$z=0;
 		foreach ($row as $row) {
 			$daten[$z][0] = $row->pub_id;
@@ -117,7 +112,7 @@ if ($tag_id != "") {
 			$z++;
 		}
 		// Ausgabe Tabelle Tags
-		$row2 = tp_results($abfrage);
+		$row2 = $wpdb->get_results($abfrage);
 		foreach ($row2 as $row2) { ?>
           <tr>
             <th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo"$row2->tag_id" ?>"></th>
