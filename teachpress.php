@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.b1
+Version: 2.0.b2
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8

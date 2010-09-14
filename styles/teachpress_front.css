@@ -46,9 +46,9 @@ h3.tp_enrollments {color:#005A46;}
 .teachpress_publication_list td, .teachpress_course_list td {padding:5px;}
 td.tp_pub_info {border-bottom:1px solid silver; vertical-align:top; padding:8px;}
 .tp_pub_autor, #content p.tp_pub_autor {font-size:small; margin-bottom:1px; margin-top:1px;}
-.tp_pub_titel, #content p.tp_pub_titel {font-weight:bold; margin-top:1px; margin-bottom:1px;}
-.tp_pub_zusatz {font-size:small; margin-top:1px; margin-bottom:1px;}
-.tp_pub_tags {margin-top:1px; margin-bottom:1px; color:#AAAAAA;}
+.tp_pub_titel, #content p.tp_pub_titel {font-size:small; font-weight:bold; margin-top:1px; margin-bottom:1px;}
+.tp_pub_zusatz, #content p.tp_pub_zusatz {font-size:small; margin-top:1px; margin-bottom:1px;}
+.tp_pub_tags, #content p.tp_pub_tags  {font-size:small; margin-top:1px; margin-bottom:1px; color:#AAAAAA;}
 .tp_pub_tags a {color:#AAAAAA; text-decoration:underline;}
 .tp_pub_tags a:hover {color:#AAAAAA; text-decoration:none;}
 .tp_pub_typ {font-weight:bold;}
