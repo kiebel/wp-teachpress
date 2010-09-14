@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.b1
+Stable tag: 2.0.b2
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -136,6 +136,11 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.b2 - (14.09.2010) =
+* Bugfix: Fixed a bug in the registration system
+* Bugfix: Fixed style of publication lists
+* Bugfix: Fixed a bug which prevent to delete terms, course types and courses of studies
+* Bugfix: Fixed a bug in the xls export
 = 2.0.b1 - (11.09.2010) =
 * New: BibTeX support (bibtex export, more data fields, more publication types)
 * New: Shortcode "tpsingle" for displaying single publications

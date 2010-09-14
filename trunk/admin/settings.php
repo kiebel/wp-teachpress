@@ -326,7 +326,7 @@ function teachpress_admin_settings() {
 			$row = $wpdb->get_results($row);
 			foreach ($row as $row) { ?>
 			  <tr>
-				<td><a title="course_of_studies &#8220;<?php echo $row->value; ?>&#8221; l&ouml;schen" href="../options-general.php?page=teachpress/settings.php&amp;delete=<?php echo $row->setting_id; ?>&amp;tab=courses" class="teachpress_delete">X</a></td>
+				<td><a title="course_of_studies &#8220;<?php echo $row->value; ?>&#8221; l&ouml;schen" href="options-general.php?page=teachpress/settings.php&amp;delete=<?php echo $row->setting_id; ?>&amp;tab=courses" class="teachpress_delete">X</a></td>
 				<td><?php echo $row->value; ?></td>
 				<td><?php echo $row->number; ?></td>
 			  </tr>
@@ -355,7 +355,7 @@ function teachpress_admin_settings() {
 				$row = $wpdb->get_results($row);
 				foreach ($row as $row) { ?> 
 			  <tr>
-				<td><a title="course_of_studies &#8220;<?php echo $row->value; ?>&#8221; l&ouml;schen" href="../options-general.php?page=teachpress/settings.php&amp;delete=<?php echo $row->setting_id; ?>&amp;tab=courses" class="teachpress_delete">X</a></td>
+				<td><a title="course_of_studies &#8220;<?php echo $row->value; ?>&#8221; l&ouml;schen" href="options-general.php?page=teachpress/settings.php&amp;delete=<?php echo $row->setting_id; ?>&amp;tab=courses" class="teachpress_delete">X</a></td>
 				<td><?php echo $row->value; ?></td>
 				<td><?php echo $row->number; ?></td>
 			  </tr>
@@ -384,7 +384,7 @@ function teachpress_admin_settings() {
 				$row = $wpdb->get_results($row);
 				foreach ($row as $row) { ?>  
 			  <tr>
-				<td><a title="Kategorie &#8220;<?php echo $row->value; ?>&#8221; l&ouml;schen" href="../options-general.php?page=teachpress/settings.php&amp;delete=<?php echo $row->setting_id; ?>&amp;tab=courses" class="teachpress_delete">X</a></td>
+				<td><a title="Kategorie &#8220;<?php echo $row->value; ?>&#8221; l&ouml;schen" href="options-general.php?page=teachpress/settings.php&amp;delete=<?php echo $row->setting_id; ?>&amp;tab=courses" class="teachpress_delete">X</a></td>
 				<td><?php echo $row->value; ?></td>
 				<td><?php echo $row->number; ?></td>
 			  </tr>

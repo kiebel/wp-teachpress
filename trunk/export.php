@@ -123,7 +123,7 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
                           <tr>
                             <td><?php echo $enrolls[$i]['matrikulation_number']; ?></td>
                             <td><?php echo $enrolls[$i]['lastname']; ?></td>
-                            <td><?php echo $enrolls[$i]['lfirstname']; ?></td>
+                            <td><?php echo $enrolls[$i]['firstname']; ?></td>
                             <td><?php echo $enrolls[$i]['course_of_studies']; ?></td>
                             <td><?php echo $enrolls[$i]['userlogin']; ?></td>
                             <td><?php echo $enrolls[$i]['email']; ?></td>
