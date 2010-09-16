@@ -40,7 +40,7 @@ h3.tp_enrollments {color:#005A46;}
 .teachpress_cloud a:hover {color:#AAAAAA; text-decoration:underline;}
 
 /*
- * publication lists, shortcodes: [tpcloud] [tplist] [tpsingle]
+ * publication lists, shortcodes: [tpcloud] [tplist]
  */
 .teachpress_publication_list, .teachpress_course_list {width:100%;}
 .teachpress_publication_list td, .teachpress_course_list td {padding:5px;}
@@ -60,6 +60,13 @@ h3.tp_h3 {color:#177665;}
 /*
 .tp_publication {}
 */
+
+/*
+ * single publication, shortcode: [tpsingle]
+*/
+span.tp_single_title {font-size:small;}
+span.tp_single_author {font-size:small;}
+span.tp_single_additional {font-size:small; font-style:italic;}
 
 /* 
  * course overview, shortcode: [tpcourselist]

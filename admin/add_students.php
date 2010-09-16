@@ -1,7 +1,6 @@
 <?php 
 /* 
- * Formular für alle manuellen Eingriffe ins Einschreibesystem
- * from students_new.php (POST):
+ * form for manual edits in the enrollment system
  * 1. Adding new students manually:
  * @param wp_id - WordPress user-ID
  * @param matriculation_number - Registration number
@@ -40,7 +39,7 @@ $veranstaltung = tp_sec_var($_POST[veranstaltung]);
 $insert = $_POST[insert];
 $einschreiben = $_POST[einschreiben];
 
-if (isset($insert)) {
+if (isset($insert) && $wp_id != __('WordPress User-ID','teachpress') && $wp_id != '') {
 	$ret = tp_add_student($wp_id, $data);
 	if ($ret != false) {
 		$message = __('Registration successful','teachpress');
@@ -237,7 +236,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
          </thead> 
         </table>
     <p>
-      <input name="insert" type="submit" id="std_einschreiben" onclick="teachpress_validateForm('wp_id','','RisNum','firstname','','R','lastname','','R','birthday','','R','email','','RisEmail');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>" class="teachpress_button"/>
+      <input name="insert" type="submit" id="std_einschreiben" onclick="teachpress_validateForm('firstname','','R','lastname','','R','birthday','','R','email','','RisEmail');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>" class="teachpress_button"/>
       <input name="reset" type="reset" id="reset" value="Reset" class="teachpress_button"/>
     </p>
 </fieldset>

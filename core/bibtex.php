@@ -98,7 +98,12 @@ function tp_get_bibtex($row) {
 	}
 	// ISBN
 	if ($row->isbn != '') {
-		$string = $string . 'isbn = {' . $row->isbn . '},' . chr(13) . chr(10);
+		if ($row->is_isbn == 1) {
+			$string = $string . 'isbn = {' . $row->isbn . '},' . chr(13) . chr(10);
+		}
+		else {
+			$string = $string . 'issn = {' . $row->isbn . '},' . chr(13) . chr(10);
+		}	
 	}
 	// Year
 	$preg = '/[\d]{2,4}/'; 
