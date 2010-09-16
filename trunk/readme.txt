@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.b2
+Stable tag: 2.0.b3
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -136,6 +136,12 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.b3 - (16.09.2010) =
+* Changed: Style of single publications generated with [tpsingle]
+* Changed: Bibtex export now discerns isbn from issn
+* Bugfix: Fixed a bug in the copy function for courses
+* Bugfix: Fixed a bug in tpdate shortcode - missing number of columns
+* Bugfix: Fixed a bug when adding students manually
 = 2.0.b2 - (14.09.2010) =
 * Bugfix: Fixed a bug in the registration system
 * Bugfix: Fixed style of publication lists

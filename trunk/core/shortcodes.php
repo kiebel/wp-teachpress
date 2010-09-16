@@ -658,7 +658,7 @@ function tpdate_shortcode($attr) {
 				<td rowspan="2">&nbsp;</td>
 			  </tr>
 			  <tr>
-				<td>' . $row->comment . '</td>
+				<td colspan="4">' . $row->comment . '</td>
 			  </tr>
 			  <tr>
 				<td colspan="4" class="tpdatecol">&nbsp;</td>
@@ -713,7 +713,7 @@ function tpsingle_shortcode ($atts) {
 	$row = "SELECT * FROM " . $teachpress_pub . " WHERE pub_id = '$id'";
   	$daten = $wpdb->get_row($row, OBJECT);
 	// Return
-	$asg = '<div class="tp_single_publication"><span class="tp_single_name">' . $daten->name . '</span> <span class="tp_single_author">' . $daten->author . '</span> ' . tp_publication_advanced_information($daten) . '</div>';
+	$asg = '<div class="tp_single_publication"><span class="tp_single_author">' . $daten->author . '</span>, "<span class="tp_single_title">' . $daten->name . '</span>", <span class="tp_single_additional">' . tp_publication_advanced_information($daten) . '</span></div>';
 	return $asg;
 }
 

@@ -87,16 +87,16 @@ function teachpress_show_courses_page() {
 			<p class="hilfe_text">
 			<select name="copysem" id="copysem">
 				<?php    
-				$sem = "SELECT value FROM " . $teachpress_settings . " WHERE category = 'semester' ORDER BY setting_id DESC";
-				$sem = $wpdb->get_results($sem);
-				foreach ($sem as $sem) { 
-					if ($sem->value == $sem) {
+				$term = "SELECT value FROM " . $teachpress_settings . " WHERE category = 'semester' ORDER BY setting_id DESC";
+				$term = $wpdb->get_results($term);
+				foreach ($term as $term) { 
+					if ($term->value == $sem) {
 						$current = 'selected="selected"' ;
 					}
 					else {
 						$current = '' ;
 					} 
-					echo '<option value="' . $sem->value . '" ' . $current . '>' . $sem->value . '</option>';
+					echo '<option value="' . $term->value . '" ' . $current . '>' . $term->value . '</option>';
 				} ?> 
 			</select>
 			<input name="copy_ok" type="submit" class="teachpress_button" value="<?php _e('copy','teachpress'); ?>"/>
