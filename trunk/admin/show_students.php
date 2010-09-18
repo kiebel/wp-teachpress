@@ -61,21 +61,21 @@ function teachpress_students_page() {
 		<h2><?php _e('Students','teachpress'); ?></h2>
 		<form name="suche" method="get" action="<?php echo $PHP_SELF ?>">
 		<input name="page" type="hidden" value="teachpress/students.php" />
+        <input type="hidden" name="limit" id="limit" value="<?php echo $entry_limit; ?>"/>
 		<?php
 		// Delete students part 1
 		if ( $bulk == "delete" ) {
 			echo '<div class="teachpress_message">
 			<p class="hilfe_headline">' . __('Are you sure to delete the selected students?','teachpress') . '</p>
 			<p><input name="delete_ok" type="submit" class="teachpress_button" value="' . __('delete','teachpress') . '"/>
-			<a href="admin.php?page=teachpress/teachpress.php&semester2=' . $semester2 . '&search=' . $search . '"> ' . __('cancel','teachpress') . '</a></p>
+			<a href="admin.php?page=teachpress/teachpress.php&amp;semester2=' . $semester2 . '&amp;search=' . $search . '&amp;limit=' . $entry_limit . '"> ' . __('cancel','teachpress') . '</a></p>
 			</div>';
 		}
 		// Delete students part 2
 		if ( isset($_GET[delete_ok]) ) {
 			tp_delete_student($checkbox, $user_ID);
 			$message = __('Students deleted','teachpress');
-			$site = 'admin.php?page=teachpress/students.php&suche=' . $suche . '&studenten=' . $studenten . '';
-			tp_get_message($message, $site);
+			tp_get_message($message);
 		}
 		?>
 		<div id="searchbox" style="float:right; padding-bottom:5px;">  
@@ -146,8 +146,15 @@ function teachpress_students_page() {
 			if ( ( $entry_limit + $number_messages ) <= ($test)) { 
 				$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ($entry_limit + $number_messages) . '&amp;search=' . $search . '" title="' . __('next page','teachpress') . '" class="page-numbers">&rarr;</a> ';
 			}
+			// handle displaying entry number
+			if ($akt_seite - 1 > $test) {
+				$anz2 = $test;
+			}
+			else {
+				$anz2 = $akt_seite - 1;
+			}
 			// print menu
-			echo '<div class="tablenav-pages" style="float:right;">' . __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . ($akt_seite - 1) . ' of ' . $test . ' ' . $all_pages . '</div>';
+			echo '<div class="tablenav-pages" style="float:right;">' . __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' of ' . $test . ' ' . $all_pages . '</div>';
 		}?>
 	  </div>
 	  <table border="1" cellpadding="5" cellspacing="0" class="widefat">
@@ -223,7 +230,7 @@ function teachpress_students_page() {
 		?> 
 		</tbody>
 		</table>
-        <div class="tablenav"><div class="tablenav-pages" style="float:right;"><?php echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . ($akt_seite - 1) . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '</div></div>'; ?>
+        <div class="tablenav"><div class="tablenav-pages" style="float:right;"><?php echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '</div></div>'; ?>
 		</form>
 		</div>
 		<?php

@@ -230,7 +230,7 @@ function tp_publication_advanced_information($row) {
 			}
 			$one_editor = "";
 		}
-		$editor = '' . $editor . ' (' . __('Publ.','teachpress') . ') ';
+		$editor = '' . $editor . ' (' . __('Publ.','teachpress') . '): ';
 	}
 	// booktitle
 	if ($row->booktitle != '') {
@@ -425,7 +425,7 @@ function tp_get_publication_html($row, $pad_size, $image, $all_tags, $atag, $wit
 		$a2 = '<p class="tp_pub_tags">(<a onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')" style="cursor:pointer;" title="' . __('Show BibTeX entry','teachpress') . '">' . __('BibTeX','teachpress') . '</a> | ' . __('Tags','teachpress') . ': ' . $tag_string . ')</p>';
 	}
 	$a3 = '<div class="tp_bibtex" id="tp_bibtex_' . $row->pub_id . '" style="display:none;">
-			<textarea name="tp_bibtex_area" rows="8" style="width:90%; margin:10px;">' . tp_get_bibtex($row) . '</textarea>
+			<textarea name="tp_bibtex_area" rows="10" style="width:90%; margin:10px;">' . tp_get_bibtex($row) . '</textarea>
 			<p class="tp_bibtex_menu"><a class="tp_bibtex_close" onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')">' . __('close','teachpress') . '</a></p>
 		   </div>';
 	$a4 = '

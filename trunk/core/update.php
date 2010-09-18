@@ -19,11 +19,10 @@ function tp_db_update_function() {
 	// test if teachpress database is up to date
 	$test = tp_get_option('db-version');
 	$version = get_tp_version();
-	$site = 'admin.php?page=teachpress/settings.php';
 	// if is the actual one
 	if ($test == $version) {
 		$message = __('An update is not necessary.','teachpress');
-		tp_get_message($message, $site);
+		tp_get_message($message);
 	} 
 	else {
 		// charset & collate like WordPress
@@ -535,7 +534,7 @@ function tp_db_update_function() {
 		$wpdb->query("UPDATE " . $teachpress_settings . " SET  value = '$version' WHERE variable = 'db-version'");
 		// Finalize
 		$message = __('Update successful','teachpress');
-		tp_get_message($message, $site);
+		tp_get_message($message);
 	}
 }
 ?>    

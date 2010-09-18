@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.b3
+Stable tag: 2.0.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -74,7 +74,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
 == Upgrade Notice ==
-= 2.0.b1 =
+= 2.0.0 =
 teachpress 2.0 uses a brand new database structure, so save your database before upgrading!
 
 == Screenshots ==
@@ -136,6 +136,10 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.0 - (18.09.2010) =
+* Changed: Some small improvements for publication lists
+* Bugfix: Fixed some bugs with the pagination in the students and the publication overview
+* Bugfix: Delete the bugfix in tpdate shortcode from version 2.0.b3, because the bug was the bugfix
 = 2.0.b3 - (16.09.2010) =
 * Changed: Style of single publications generated with [tpsingle]
 * Changed: Bibtex export now discerns isbn from issn
