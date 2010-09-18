@@ -96,10 +96,11 @@ function teachpress_addpublications_page() {
 	  $row = "SELECT * FROM " . $teachpress_pub . " WHERE pub_id = '$pub_ID'";
 	  $daten = $wpdb->get_row($row, ARRAY_A)
 	  ?>
-	  <input name="pub_ID" type="hidden" value="<?php echo $pub_ID; ?>">
-	  <input name="search" type="hidden" value="<?php echo $search; ?>">
+	  <input type="hidden" name="pub_ID" value="<?php echo $pub_ID; ?>">
+	  <input type="hidden" name="search" value="<?php echo $search; ?>">
       <input type="hidden" name="limit" id="limit" value="<?php echo $entry_limit; ?>"/>
       <input type="hidden" name="site" id="site" value="<?php echo $site; ?>"/>
+      <input type="hidden" name="filter" id="filter" value="<?php echo $filter; ?>"/>
 	  <?php } ?>
 	  <div style="min-width:780px; width:100%; max-width:1100px;">
 	  <div style="width:30%; float:right; padding-right:2%; padding-left:1%;">
@@ -299,9 +300,9 @@ function teachpress_addpublications_page() {
 			 </td>
 			</tr>
 		   </table>
-		  <p><label for="author" title="<?php _e('The names of the authors, seperate by "and". Example: Mark Twain and Albert Einstein','teachpress'); ?>"><strong><?php _e('Author(s)','teachpress'); ?></strong></label></p>
+		  <p><label for="author" title="<?php _e('The names of the authors, seperate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>"><strong><?php _e('Author(s)','teachpress'); ?></strong></label></p>
 		  <textarea name="author" wrap="virtual" id="author" style="width:95%" tabindex="4"><?php echo $daten["author"]; ?></textarea>
-		  <p><label for="editor" title="<?php _e('The names of the editors, seperate by "and". Example: Mark Twain and Albert Einstein','teachpress'); ?>"><strong><?php _e('Editor(s)','teachpress'); ?></strong></label></p>
+		  <p><label for="editor" title="<?php _e('The names of the editors, seperate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>"><strong><?php _e('Editor(s)','teachpress'); ?></strong></label></p>
 		  <textarea name="editor" id="editor" type="text" style="width:95%" tabindex="5"><?php echo $daten["editor"]; ?></textarea>
 		  <p><label for="date" title="<?php _e('The date of publishing','teachpress'); ?>"><strong><?php _e('Date','teachpress'); ?></strong></label></p>
 		  <input type="text" name="date" id="date" value="<?php if ($pub_ID != '') { echo $daten["date"]; } else {_e('JJJJ-MM-TT','teachpress'); } ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" tabindex="6"/>
@@ -385,7 +386,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_address" <?php echo $display; ?>>
 		  <p><label for="address" title="<?php _e('The address of the publisher or the place of confernece','teachpress'); ?>"><strong><?php _e('address','teachpress'); ?></strong></label></p>
-		  <input name="address" id="address" type="text" style="width:95%" value="<?php echo $daten["address"]; ?>" tabindex="13" />
+		  <textarea name="address" id="address" style="width:95%" tabindex="13"><?php echo $daten["address"]; ?></textarea>
 		  </div>
 		  <?php
 		  $display = "";

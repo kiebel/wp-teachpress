@@ -658,7 +658,7 @@ function tpdate_shortcode($attr) {
 				<td rowspan="2">&nbsp;</td>
 			  </tr>
 			  <tr>
-				<td colspan="4">' . $row->comment . '</td>
+				<td>' . $row->comment . '</td>
 			  </tr>
 			  <tr>
 				<td colspan="4" class="tpdatecol">&nbsp;</td>

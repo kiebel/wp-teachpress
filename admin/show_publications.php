@@ -36,6 +36,14 @@ function teachpress_publications_page() {
 	else {
 		$entry_limit = 0;
 	}
+	// test if teachpress database is up to date
+	$test = tp_get_option('db-version');
+	$version = get_tp_version();
+	// if is the actual one
+	if ($test != $version) {
+		$message = __('An database update is necessary.','teachpress') . ' <a href="admin.php?page=teachpress/settings.php&amp;up=1">' . __('Update','teachpress') . '</a>';
+		tp_get_message($message, '');
+	}
 	// Add a bookmark for the publication
 	if ($add_id != "") {
 		tp_add_bookmark($add_id, $user);
@@ -240,8 +248,15 @@ function teachpress_publications_page() {
 			if ( ( $entry_limit + $number_messages ) <= ($test)) { 
 				$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ($entry_limit + $number_messages) . '&amp;author=' . $author . '&amp;search=' . $search . '&amp;tag=' . $tag . '" title="' . __('next page','teachpress') . '" class="page-numbers">&rarr;</a> ';
 			}
+			// handle displaying entry number
+			if ($akt_seite - 1 > $test) {
+				$anz2 = $test;
+			}
+			else {
+				$anz2 = $akt_seite - 1;
+			}
 			// print menu
-			echo '<div class="tablenav-pages" style="float:right;">' . __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . ($akt_seite - 1) . ' of ' . $test . ' ' . $all_pages . '</div>';
+			echo '<div class="tablenav-pages" style="float:right;">' . __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' of ' . $test . ' ' . $all_pages . '</div>';
 		}?>
 		</div>
 		<table class="widefat">
@@ -328,7 +343,7 @@ function teachpress_publications_page() {
         <div class="tablenav"><div class="tablenav-pages" style="float:right;">
 		<?php 
 		if ($test > $number_messages) {
-			echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . ($akt_seite - 1) . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '';
+			echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '';
 		} 
 		else {
 			echo __('Displaying','teachpress') . ' ' . $test . ' ' . __('entries','teachpress') . ' '. $all_pages . '';
