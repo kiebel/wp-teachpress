@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://www.mtrv.kilu.de/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.0
+Version: 2.0.1
 Author: Michael Winkler
 Author URI: http://www.mtrv.kilu.de/
 Min WP Version: 2.8
@@ -866,12 +866,14 @@ function tp_change_publication($pub_ID, $data, $bookmark, $delbox, $tags) {
  * @param $permalink (INT)
  * used in: settings.php
 */
-function tp_change_settings($semester, $permalink, $sign_out, $userrole, $regnum, $studies, $termnumber, $birthday, $login) {
+function tp_change_settings($semester, $permalink, $stylesheet, $sign_out, $userrole, $regnum, $studies, $termnumber, $birthday, $login) {
 	global $wpdb;
 	global $teachpress_settings; 		
 	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$semester' WHERE variable = 'sem'";
 	$wpdb->query( $eintragen );
 	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$permalink' WHERE variable = 'permalink'";
+    $wpdb->query( $eintragen );
+	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$stylesheet' WHERE variable = 'stylesheet'";
     $wpdb->query( $eintragen );
 	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$sign_out' WHERE variable = 'sign_out'";
     $wpdb->query( $eintragen );
@@ -1155,7 +1157,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.0', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");
@@ -1308,7 +1310,10 @@ function teachpress_js_admin_head() {
 */ 
 function teachpress_js_wp_header() {
 	echo '<script type="text/javascript" src="' . WP_PLUGIN_URL . '/teachpress/js/frontend.js"></script>';
+	$value = tp_get_option('stylesheet');
+	if ($value == '1') {
 	echo '<link type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/styles/teachpress_front.css" rel="stylesheet" />';
+	}
 }
 
 // load language files

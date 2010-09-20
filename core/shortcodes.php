@@ -996,7 +996,7 @@ function tpcloud_shortcode($atts) {
 	if ($autor != 0) {
 		$id = $autor;
 	}
-	 $select = "SELECT DISTINCT p.pub_id, p.name, p.type, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url 
+	 $select = "SELECT DISTINCT p.pub_id, p.name, p.type, p.bibtex, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url 
 			FROM " . $teachpress_relation . " b ";
 	 $join1 = "INNER JOIN " . $teachpress_tags . " t ON t.tag_id = b.tag_id
 			   INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id ";		
@@ -1121,7 +1121,7 @@ function tplist_shortcode($atts){
 	settype($yr, 'integer');
 	settype($headline, 'integer');
 	settype($image_size, 'integer');
-	$select = "SELECT DISTINCT p.pub_id, p.name, p.type, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url 
+	$select = "SELECT DISTINCT p.pub_id, p.name, p.type, p.bibtex, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url 
 			FROM " . $teachpress_relation ." b "; 
 	// Publikationen aller Autoren
 	if ($userid == 0) {
@@ -1135,7 +1135,7 @@ function tplist_shortcode($atts){
 		}	
 		// Alle Publikationen aller Autoren
 		else {
-			$row = "SELECT p.pub_id, p.name, p.type, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url FROM " . $teachpress_pub. " p ORDER BY p.date DESC, p.type";
+			$row = "SELECT p.pub_id, p.name, p.type, p.bibtex, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url FROM " . $teachpress_pub. " p ORDER BY p.date DESC, p.type";
 		}
 	}
 	else {

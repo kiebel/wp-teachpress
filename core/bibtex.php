@@ -230,7 +230,7 @@ function tp_publication_advanced_information($row) {
 			}
 			$one_editor = "";
 		}
-		$editor = '' . $editor . ' (' . __('Publ.','teachpress') . '): ';
+		$editor = '' . $editor . ' (' . __('Ed.','teachpress') . '): ';
 	}
 	// booktitle
 	if ($row->booktitle != '') {
@@ -246,11 +246,11 @@ function tp_publication_advanced_information($row) {
 	}
 	// number
 	if ($row->number != '') {
-		$number = '' . $row->number . ' ';
+		$number = '' . $row->number . ', ';
 	}
 	// pages
 	if ($row->pages != '') {
-		$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . ' ';
+		$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . ', ';
 	}
 	// publisher
 	if ($row->publisher != '') {
@@ -258,7 +258,7 @@ function tp_publication_advanced_information($row) {
 	}
 	// address
 	if ($row->address != '') {
-		$address = '' . $row->address . ' ';
+		$address = '' . $row->address . ', ';
 	}
 	// edition
 	if ($row->edition != '') {
@@ -278,7 +278,7 @@ function tp_publication_advanced_information($row) {
 	}
 	// school
 	if ($row->school != '') {
-		$school = '' . $row->school . ' ';
+		$school = '' . $row->school . ', ';
 	}
 	// series
 	if ($row->series != '') {
@@ -312,7 +312,7 @@ function tp_publication_advanced_information($row) {
 		$end = $editor . $booktitle . $publisher . $isbn . '.';
 	}
 	elseif ($row->type == 'inproceedings') {
-		$end = $booktitle . $pages . $address . $publisher . $year . $isbn . '.';
+		$end = $editor . $booktitle . $pages . $address . $publisher . $year . $isbn . '.';
 	}
 	elseif ($row->type == 'manual') {
 		$end = $editor . $address. $edition . $year . $isbn . '.';
@@ -327,13 +327,13 @@ function tp_publication_advanced_information($row) {
 		$end = $school . $year . $isbn . '.';
 	}
 	elseif ($row->type == 'presentation') {
-		$end = $howpublished . $address . $year . $isbn . '.';
+		$end = $howpublished . $row->address . '.';
 	}
 	elseif ($row->type == 'proceedings') {
 		$end = $howpublished . $address . $edition . $year . $isbn . '.';
 	}
 	elseif ($row->type == 'techreport') {
-		$end = $institution . $address . $year . $isbn . '.';
+		$end = $school . $institution . $address . $number . $year . $isbn . '.';
 	}
 	elseif ($row->type == 'unpublished') {
 		$end = $year . $isbn . '.';

@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -20,15 +20,10 @@ For more information see [here](http://www.mtrv.kilu.de/teachpress/).
 * xls/csv-export for course lists
 * RSS-feed for publicaitons
 * Widget for displaying books in the sidebar
-
-= New features of teachPress 2.0: =
-* New publication system with BibTeX support, 31 data fields, 15 publication types
 * New shortcode "tpsingle" for displaying single publications
 * New shortcode "tpcourselist" for displaying a course overview (replaced `<!--LVS2-->`)
 * New shortcode "tpenrollments" for displaying the enrollement system (replaced `<!--LVS-->`)
 * New Shortcode "tppost" for displaying parts of a post only for registered students
-* Add images for courses
-* Redesigned user interface
 
 = Supported Languages =
 * English 
@@ -74,7 +69,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
 == Upgrade Notice ==
-= 2.0.0 =
+= 2.0.1 =
 teachpress 2.0 uses a brand new database structure, so save your database before upgrading!
 
 == Screenshots ==
@@ -136,6 +131,11 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.1 - (20.09.2010) =
+* New: Introduce an option for deselecting the default teachPress frontend style
+* Changed: Some small improvements for publication lists
+* Bugfix: Fixed german translation for proceedings and inproceedings
+* Bugfix: BibTeX-Key was not displaying in the frontend
 = 2.0.0 - (18.09.2010) =
 * Changed: Some small improvements for publication lists
 * Bugfix: Fixed some bugs with the pagination in the students and the publication overview
