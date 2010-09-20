@@ -10,8 +10,9 @@ function teachpress_admin_settings() {
 	global $teachpress_courses;
 	
 	$semester = tp_sec_var($_GET[semester]);
-	$permalink = tp_sec_var($_GET[permalink]);
-	$sign_out = tp_sec_var($_GET[sign_out]);
+	$permalink = tp_sec_var($_GET[permalink], 'integer');
+	$stylesheet = tp_sec_var($_GET[stylesheet], 'integer');
+	$sign_out = tp_sec_var($_GET[sign_out], 'integer');
 	$matriculation_number_field = tp_sec_var($_GET[matriculation_number_field]);
 	$course_of_studies_field = tp_sec_var($_GET[course_of_studies_field]);
 	$semesternumber_field = tp_sec_var($_GET[semesternumber_field]);
@@ -56,7 +57,7 @@ function teachpress_admin_settings() {
 			tp_uninstall();
 		}
 		else {
-			tp_change_settings($semester, $permalink, $sign_out, $userrole, $matriculation_number_field, $course_of_studies_field, $semesternumber_field, $birthday_field, $login);
+			tp_change_settings($semester, $permalink, $stylesheet, $sign_out, $userrole, $matriculation_number_field, $course_of_studies_field, $semesternumber_field, $birthday_field, $login);
 		}
 		$message = __('Settings updated','teachpress');
 		tp_get_message($message);
@@ -175,6 +176,23 @@ function teachpress_admin_settings() {
 					</select></td>
                  <td><em><?php _e('Here you can specify, if your WordPress installation using permalinks or not.','teachpress'); ?></em></td>   
 			  </tr>
+              <tr>
+              	<th><label for="stylesheet" title="<?php _e('Frontend styles','teachpress'); ?>"><?php _e('Frontend styles','teachpress'); ?></label></th>
+                <td style="vertical-align:middle;"><select name="stylesheet" id="stylesheet">
+                	  <?php
+					  $value = tp_get_option('stylesheet');
+					  if ($value == '1') {
+					  	echo '<option value="1" selected="selected">' . __('teachpress_front.css','teachpress') . '</option>';
+					  	echo '<option value="0">' . __('your theme.css','teachpress') . '</option>';
+					  }
+					  else {
+                      	echo '<option value="1">' . __('teachpress_front.css','teachpress') . '</option>';
+					  	echo '<option value="0" selected="selected">' . __('your theme.css','teachpress') . '</option>';
+					  } 
+					  ?>
+                	</select></td>
+                <td><em><?php _e('Select which style sheet you will use. teachpress_front.css is the teachPress default style. If you have created your own style in the default style sheet of your theme, you can activate this here.','teachpress'); ?></em></td>
+              </tr>
               <tr>
               	<th><label for="userrole" title="<?php _e('Backend access for','teachpress'); ?>"><?php _e('Backend access for','teachpress'); ?></label></th>
                 <td style="vertical-align:middle;">

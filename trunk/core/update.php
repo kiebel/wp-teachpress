@@ -493,6 +493,12 @@ function tp_db_update_function() {
 		/*
 		 * teachpress_settings
 		*/
+		// Stylesheet
+		$sql = "SELECT value FROM " . $teachpress_settings . " WHERE variable = 'stylesheet'";
+		$test = $wpdb->query($sql);
+		if ($test == '0') {
+			$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('stylesheet', '1', 'system')"); 
+		}
 		// Sign out
 		$sql = "SELECT value FROM " . $teachpress_settings . " WHERE variable = 'sign_out'";
 		$test = $wpdb->query($sql);
