@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -130,6 +130,8 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.3 - (27.09.2010) = 
+* Bugfix: Fixed a bug with one login mode (integrated)
 = 2.0.2 - (27.09.2010) =
 * Changed: New author and plugin website
 * Bugfix: The year was not displaying for articles

@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.2
+Version: 2.0.3
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
@@ -317,7 +317,7 @@ function tp_advanced_registration() {
 		$data['lastname'] = $user->user_lastname;
 		$data['userlogin'] = $user->user_login;
 		$data['email'] = $user->user_email;
-		tp_add_student($user->ID, data );
+		tp_add_student($user->ID, $data );
 	}
 } 
 
@@ -1168,7 +1168,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.2', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.3', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");
