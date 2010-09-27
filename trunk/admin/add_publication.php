@@ -117,7 +117,7 @@ function teachpress_addpublications_page() {
 		  if ($pub_ID != '') {
 		  	$sql = "SELECT pub_id FROM " . $teachpress_user . " WHERE pub_id='$pub_ID' AND user = '$user'";
 			$test = $wpdb->query($sql);
-			if ($test == 1) {
+			if ($test != '0') {
 				echo '<p><input type="checkbox" name="bookmark[]" id="bookmark" disabled="disabled"/> <label for="bookmark">' . __('add to your own list','teachpress') . '</label></p>';
 			}
 			else {
@@ -136,8 +136,8 @@ function teachpress_addpublications_page() {
 				  if ($pub_ID != '') {
 					  $sql = "SELECT pub_id FROM " . $teachpress_user . " WHERE pub_id='$pub_ID' AND user = '$user_info->ID'";
 					  $test = $wpdb->query($sql);
-					  if ($test == 1) {
-						 echo '<p><input type="checkbox" name="bookmark[]" id="bookmark_' . $user_info->ID . '"/> <label for="bookmark_' . $user_info->ID . '">' . $user_info->display_name . '</label></p>';
+					  if ($test != '0') {
+						 echo '<p><input type="checkbox" name="bookmark[]" id="bookmark_' . $user_info->ID . '" disabled="disabled"/> <label for="bookmark_' . $user_info->ID . '">' . $user_info->display_name . '</label></p>';
 					  }
 					  else {
 					  	echo '<p><input type="checkbox" name="bookmark[]" id="bookmark_' . $user_info->ID . '" value="' . $user_info->ID . '" title="' . __('Bookmark for','teachpress') . ' ' . $user_info->display_name . '"/> <label for="bookmark_' . $user_info->ID . '" title="' . __('Bookmark for','teachpress') . ' ' . $user_info->display_name . '">' . $user_info->display_name . '</label></p>';

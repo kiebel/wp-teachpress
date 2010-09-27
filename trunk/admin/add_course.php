@@ -199,7 +199,7 @@ function tp_add_course_page() {
 					else {
 						$check = '';
 					}	
-					echo '<option value="' . $row->value . '"' . $ckeck . '>' . $row->value . '</option>';
+					echo '<option value="' . $row->value . '"' . $check . '>' . $row->value . '</option>';
 				} ?>
 			</select>
             <p><label for="semester" title="<?php _e('The term where the course will be happening','teachpress'); ?>"><strong><?php _e('Term','teachpress'); ?></strong></label></p>

@@ -267,7 +267,7 @@ function teachpress_admin_settings() {
 				?>
                 <input name="matriculation_number_field" id="matriculation_number_field" type="checkbox"<?php echo $check; ?> value="1" /> <label for="matriculation_number_field"><?php _e('Matr. number','teachpress'); ?></label><br />
                 <input name="firstname_field" type="checkbox" checked="checked" disabled="disabled" /> <?php _e('First name','teachpress'); ?><br />
-                <input name="lastname_field" type="checkbox"checked="checked" disabled="disabled" /> <?php _e('Last name','teachpress'); ?><br />
+                <input name="lastname_field" type="checkbox" checked="checked" disabled="disabled" /> <?php _e('Last name','teachpress'); ?><br />
                 <?php
 				$val = tp_get_option('studies');
 				if ($val == '1') {
