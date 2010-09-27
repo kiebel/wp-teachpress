@@ -238,11 +238,11 @@ function tp_publication_advanced_information($row) {
 	}
 	// journal
 	if ($row->journal != '') {
-		$journal = '' . $row->journal . ' ';
+		$journal = '' . $row->journal . ', ';
 	}
 	// volume
 	if ($row->volume != '') {
-		$volume = '' . $row->volume . ' ';
+		$volume = '' . $row->volume . ', ';
 	}
 	// number
 	if ($row->number != '') {
@@ -250,7 +250,12 @@ function tp_publication_advanced_information($row) {
 	}
 	// pages
 	if ($row->pages != '') {
-		$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . ', ';
+		if ($row->type == 'article') {
+			$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . '';
+		}
+		else {
+			$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . ', ';
+		}
 	}
 	// publisher
 	if ($row->publisher != '') {
@@ -294,7 +299,7 @@ function tp_publication_advanced_information($row) {
 	}
 	// end format after type
 	if ($row->type == 'article') {
-		$end = $journal . $volume . $number . $pages . $isbn . '.';
+		$end = $journal . $volume . $number . $pages . $year . $isbn . '.';
 	}
 	elseif ($row->type == 'book') {
 		$end = $edition . $publisher . $address . $year . $isbn . '.';
@@ -321,7 +326,7 @@ function tp_publication_advanced_information($row) {
 		$end = $school . $year . $isbn . '.';
 	}
 	elseif ($row->type == 'misc') {
-		$end = $howpublished . $year . $isbn . '.';
+		$end = $journal . $volume . $howpublished . $year . $isbn . '.';
 	}
 	elseif ($row->type == 'phdthesis') {
 		$end = $school . $year . $isbn . '.';
@@ -371,7 +376,7 @@ function tp_get_publication_html($row, $pad_size, $image, $all_tags, $atag, $wit
 	$image_bottom = '';
 	if ($image == 'left' || $image == 'right') {
 		if ($row->image_url != '') {
-			$image_marginally = '<img name="' . $row->name . '" src="' . $row->image_url . '" width="' . $image_size .'" alt="' . $row->name . '" />';
+			$image_marginally = '<img name="' . $row->name . '" src="' . $row->image_url . '" width="' . ($pad_size - 5) .'" alt="' . $row->name . '" />';
 		}
 	}
 	if ($image == 'left') {
@@ -382,7 +387,7 @@ function tp_get_publication_html($row, $pad_size, $image, $all_tags, $atag, $wit
 	}
 	if ($image == 'bottom') {
 		if ($row->image_url != '') {
-			$image_bottom = '<div class="tp_pub_image_bottom"><img name="' . $row->name . '" src="' . $row->image_url . '" style="max-width:' . $image_size .'px;" alt="' . $row->name . '" /></div>';
+			$image_bottom = '<div class="tp_pub_image_bottom"><img name="' . $row->name . '" src="' . $row->image_url . '" style="max-width:' . ($pad_size - 5) .'px;" alt="' . $row->name . '" /></div>';
 		}
 	}
 	// Falls url eingegeben wurde, wird ein Link draus
@@ -425,7 +430,7 @@ function tp_get_publication_html($row, $pad_size, $image, $all_tags, $atag, $wit
 		$a2 = '<p class="tp_pub_tags">(<a onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')" style="cursor:pointer;" title="' . __('Show BibTeX entry','teachpress') . '">' . __('BibTeX','teachpress') . '</a> | ' . __('Tags','teachpress') . ': ' . $tag_string . ')</p>';
 	}
 	$a3 = '<div class="tp_bibtex" id="tp_bibtex_' . $row->pub_id . '" style="display:none;">
-			<textarea name="tp_bibtex_area" rows="10" style="width:90%; margin:10px;">' . tp_get_bibtex($row) . '</textarea>
+			<textarea name="tp_bibtex_area" rows="10" cols="30" style="width:90%; margin:10px;">' . tp_get_bibtex($row) . '</textarea>
 			<p class="tp_bibtex_menu"><a class="tp_bibtex_close" onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')">' . __('close','teachpress') . '</a></p>
 		   </div>';
 	$a4 = '

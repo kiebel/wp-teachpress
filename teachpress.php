@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: teachPress
-Plugin URI: http://www.mtrv.kilu.de/teachpress/
+Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
 Version: 2.0.1
 Author: Michael Winkler
-Author URI: http://www.mtrv.kilu.de/
+Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
 Max WP Version: 3.0.1
 */
@@ -202,7 +202,7 @@ function get_tp_publication_type_options ($selected, $mode = 'list', $url = '', 
 	$tgid = tp_sec_var($tgid);
 	$yr = tp_sec_var($yr);
 	$autor = tp_sec_var($autor);
-	$anchor = tp_sec_var($anchor, 'intenger');
+	$anchor = tp_sec_var($anchor, 'integer');
 	if ($anchor = 1) {
 		$html_anchor = '#tppubs';
 	}
@@ -343,12 +343,23 @@ function tp_add_course($data) {
 */
 function tp_delete_course($checkbox){
 	global $wpdb;
-	global $teachpress_courses; 
+	global $teachpress_courses;
 	global $teachpress_signup;
     for( $i = 0; $i < count( $checkbox ); $i++ ) { 
 		settype($checkbox[$i], 'integer'); 
    		$wpdb->query( "DELETE FROM " . $teachpress_courses . " WHERE course_id = $checkbox[$i]" );
 		$wpdb->query( "DELETE FROM " . $teachpress_signup . " WHERE course_id = $checkbox[$i]" );
+		// Check if there are parent courses, which are not selected for erasing, and set there parent to default
+		$sql = "SELECT course_id FROM " . $teachpress_courses . " WHERE parent = $checkbox[$i]";
+		$test = $wpdb->query($sql);
+		if ($test != '0') {
+			$row = $wpdb->get_results($sql);
+			foreach ($row as $row) {
+				if ( !in_array($row->course_id, $checkbox) ) {
+					$wpdb->update( $teachpress_courses, array( 'parent' => 0 ), array( 'course_id' => $row->course_id ), array('%d' ), array( '%d' ) );
+				}
+			}
+		}
     }
 }
 	
@@ -1197,13 +1208,13 @@ function teachpress_install() {
 						 date DATE ,
 						 booktitle VARCHAR (200) ,
 						 journal VARCHAR(200) ,
-						 volume VARCHAR(20) ,
-						 number VARCHAR(20) ,
-						 pages VARCHAR(20) ,
+						 volume VARCHAR(40) ,
+						 number VARCHAR(40) ,
+						 pages VARCHAR(40) ,
 						 publisher VARCHAR (500) ,
 						 address VARCHAR (300) ,
 						 edition VARCHAR (100) ,
-						 chapter VARCHAR (20) ,
+						 chapter VARCHAR (40) ,
 						 institution VARCHAR (200) ,
 						 organization VARCHAR (200) ,
 						 school VARCHAR (200) ,

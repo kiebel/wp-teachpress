@@ -187,98 +187,98 @@ function teachpress_show_courses_page() {
 			$z = 0;
 			$ergebnis = $wpdb->get_results($abfrage);
 			foreach ($ergebnis as $row){
-				$courses[$z][0] = $row->course_id;
-				$courses[$z][1] = $row->name;
-				$courses[$z][2] = $row->type;
-				$courses[$z][3] = $row->room;
-				$courses[$z][4] = $row->lecturer;
-				$courses[$z][5] = $row->date;
-				$courses[$z][6] = $row->places;
-				$courses[$z][7] = $row->fplaces;
-				$courses[$z][8] = $row->start;
-				$courses[$z][9] = $row->end;
-				$courses[$z][10] = $row->semester;
-				$courses[$z][11] = $row->parent;
-				$courses[$z][12] = $row->visible;
+				$courses[$z]['course_id'] = $row->course_id;
+				$courses[$z]['name'] = $row->name;
+				$courses[$z]['type'] = $row->type;
+				$courses[$z]['room'] = $row->room;
+				$courses[$z]['lecturer'] = $row->lecturer;
+				$courses[$z]['date'] = $row->date;
+				$courses[$z]['places'] = $row->places;
+				$courses[$z]['fplaces'] = $row->fplaces;
+				$courses[$z]['start'] = $row->start;
+				$courses[$z]['end'] = $row->end;
+				$courses[$z]['semester'] = $row->semester;
+				$courses[$z]['parent'] = $row->parent;
+				$courses[$z]['visible'] = $row->visible;
 				$z++;
 			}
 			// Ausgabe Kurse
 			for ($i=0; $i<$z; $i++) {
 				if ($search == "") {
-					if ($courses[$i][11] == 0) {
+					if ($courses[$i]['parent'] == 0) {
 						echo '<tr>';
-						echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$i][0] . '"';
+						echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$i]['course_id'] . '"';
 						if ( $bulk == "copy" || $bulk == "delete") { 
 							for( $k = 0; $k < count( $checkbox ); $k++ ) { 
-								if ( $courses[$i][0] == $checkbox[$k] ) { echo 'checked="checked"';} 
+								if ( $courses[$i]['course_id'] == $checkbox[$k] ) { echo 'checked="checked"';} 
 							} 
 						}
 						echo '/></th>';
-						echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$i][0] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">' . $courses[$i][1] . '</a></td>';
-						echo '<td>' . $courses[$i][0] . '</td>';
-						echo '<td>' . $courses[$i][2] . '</td>';
-						echo '<td>' . $courses[$i][3] . '</td>';
-						echo '<td>' . $courses[$i][4] . '</td>';
-						echo '<td>' . $courses[$i][5] . '</td>';
-						echo '<td>' . $courses[$i][6] . '</td>';
+						echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$i]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">' . $courses[$i]['name'] . '</a></td>';
+						echo '<td>' . $courses[$i]['course_id'] . '</td>';
+						echo '<td>' . $courses[$i]['type'] . '</td>';
+						echo '<td>' . $courses[$i]['room'] . '</td>';
+						echo '<td>' . $courses[$i]['lecturer'] . '</td>';
+						echo '<td>' . $courses[$i]['date'] . '</td>';
+						echo '<td>' . $courses[$i]['places'] . '</td>';
 						echo '<td';
-						if ($courses[$i][6] > 0 && $courses[$i][7] == 0) {
+						if ($courses[$i]['places'] > 0 && $courses[$i]['fplaces'] == 0) {
 							echo ' style="color:#ff6600; font-weight:bold;"'; 
 						}
-						echo '>' . $courses[$i][7] . '</td>';
-						if ($courses[$i][8] != '0000-00-00' && $courses[$i][9] != '0000-00-00') {
-							echo '<td>' . $courses[$i][8] . '</td>';
-							echo '<td>' . $courses[$i][9] . '</td>';
+						echo '>' . $courses[$i]['fplaces'] . '</td>';
+						if ($courses[$i]['start'] != '0000-00-00' && $courses[$i]['end'] != '0000-00-00') {
+							echo '<td>' . $courses[$i]['start'] . '</td>';
+							echo '<td>' . $courses[$i]['end'] . '</td>';
 						} 
 						else {
 							echo '<td colspan="2" style="text-align:center;">' . __('none','teachpress') . '</td>';
 						}
-						echo '<td>' . $courses[$i][10] . '</td>';
-						if ($courses[$i][12] == 1) {
-							echo '<td>' . __('yes','teachpress') . '</tr>';
+						echo '<td>' . $courses[$i]['semester'] . '</td>';
+						if ($courses[$i]['visible'] == 1) {
+							echo '<td>' . __('yes','teachpress') . '</td>';
 						} 
 						else {
-							echo '<td>' . __('no','teachpress') . '</tr>';
+							echo '<td>' . __('no','teachpress') . '</td>';
 						}
 						echo '</tr>';
 						// Childs suchen
 						for ($j=0; $j<$z; $j++) {
-							if ($courses[$i][0] == $courses[$j][11]) {
+							if ($courses[$i]['course_id'] == $courses[$j]['parent']) {
 								echo '<tr id="teachpress_table">';
-								echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$j][0] . '"';
+								echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$j]['course_id'] . '"';
 								if ( $bulk == "copy" || $bulk == "delete") { 
 									for( $k = 0; $k < count( $checkbox ); $k++ ) { 
-										if ( $courses[$j][0] == $checkbox[$k] ) { echo 'checked="checked"';} 
+										if ( $courses[$j]['course_id'] == $checkbox[$k] ) { echo 'checked="checked"';} 
 									} 
 								}
 								echo '/></th>';
-								echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$j][0] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">';
-								if ($courses[$i][1] == $courses[$j][1]) {
-									echo $courses[$i][1]; 
+								echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$j]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">';
+								if ($courses[$i]['name'] == $courses[$j]['name']) {
+									echo $courses[$i]['name']; 
 								} else {
-									echo $courses[$i][1] . ' ' . $courses[$j][1];
+									echo $courses[$i]['name'] . ' ' . $courses[$j]['name'];
 								}
 								echo '</a></td>';
-								echo '<td>' . $courses[$j][0] . '</td>';
-								echo '<td>' . $courses[$j][2] . '</td>';
-								echo '<td>' . $courses[$j][3] . '</td>';
-								echo '<td>' . $courses[$j][4] . '</td>';
-								echo '<td>' . $courses[$j][5] . '</td>';
-								echo '<td>' . $courses[$j][6] . '</td>';
+								echo '<td>' . $courses[$j]['course_id'] . '</td>';
+								echo '<td>' . $courses[$j]['type'] . '</td>';
+								echo '<td>' . $courses[$j]['room'] . '</td>';
+								echo '<td>' . $courses[$j]['lecturer'] . '</td>';
+								echo '<td>' . $courses[$j]['date'] . '</td>';
+								echo '<td>' . $courses[$j]['places'] . '</td>';
 								echo '<td';
-								if ($courses[$j][6] > 0 && $courses[$j][7] == 0) {
+								if ($courses[$j]['places'] > 0 && $courses[$j]['fplaces'] == 0) {
 									echo ' style="color:#ff6600; font-weight:bold;"'; 
 								}
-								echo '>' . $courses[$j][7] . '</td>';
-								if ($courses[$j][8] != '0000-00-00' && $courses[$j][9] != '0000-00-00') {
-									echo '<td>' . $courses[$j][8] . '</td>';
-									echo '<td>' . $courses[$j][9] . '</td>';
+								echo '>' . $courses[$j]['fplaces'] . '</td>';
+								if ($courses[$j]['start'] != '0000-00-00' && $courses[$j]['end'] != '0000-00-00') {
+									echo '<td>' . $courses[$j]['start'] . '</td>';
+									echo '<td>' . $courses[$j]['end'] . '</td>';
 								} 
 								else {
 									echo '<td colspan="2" style="text-align:center;">' . __('none','teachpress') . '</td>';
 								}
-								echo '<td>' . $courses[$j][10] . '</td>';
-								if ($courses[$j][12] == 1) {
+								echo '<td>' . $courses[$j]['semester'] . '</td>';
+								if ($courses[$j]['visible'] == 1) {
 									echo '<td>' . __('yes','teachpress') . '</tr>';
 								} 
 								else {
@@ -292,49 +292,49 @@ function teachpress_show_courses_page() {
 				}
 				// Wenn Suche genutzt wird
 				else {
-					if ($courses[$i][11] != 0) {
-						$parent_name = $wpdb->get_var("SELECT name FROM " . $teachpress_courses . " WHERE course_id = '" . $courses[$i][11] . "'");
+					if ($courses[$i]['parent'] != 0) {
+						$parent_name = $wpdb->get_var("SELECT name FROM " . $teachpress_courses . " WHERE course_id = '" . $courses[$i]['parent'] . "'");
 						$parent_name = $parent_name . " ";
 					}
 					else {
 						$parent_name = "";
 					} 
 					echo '<tr id="teachpress_table">';
-					echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$i][0] . '"';
+					echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$i]['course_id'] . '"';
 					if ( $bulk == "copy" || $bulk == "delete") { 
 						for( $k = 0; $k < count( $checkbox ); $k++ ) { 
-							if ( $courses[$i][0] == $checkbox[$k] ) { echo 'checked="checked"';} 
+							if ( $courses[$i]['course_id'] == $checkbox[$k] ) { echo 'checked="checked"';} 
 						} 
 					}
 					echo '/></th>';
-					echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$i][0] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to edit','teachpress') . '">';
-					if ($courses[$i][1] == $parent_name) {
+					echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$i]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to edit','teachpress') . '">';
+					if ($courses[$i]['name'] == $parent_name) {
 						echo $parent_name; 
 					} 
 					else {
-						echo $parent_name . ' ' . $courses[$i][1] . '';
+						echo $parent_name . ' ' . $courses[$i]['name'] . '';
 					} 
 					echo '</a></td>';
-					echo '<td>' . $courses[$i][0] . '</td>';
-					echo '<td>' . $courses[$i][2] . '</td>';
-					echo '<td>' . $courses[$i][3] . '</td>';
-					echo '<td>' . $courses[$i][4] . '</td>';
-					echo '<td>' . $courses[$i][5] . '</td>';
-					echo '<td>' . $courses[$i][6] . '</td>';
+					echo '<td>' . $courses[$i]['course_id'] . '</td>';
+					echo '<td>' . $courses[$i]['type'] . '</td>';
+					echo '<td>' . $courses[$i]['room'] . '</td>';
+					echo '<td>' . $courses[$i]['lecturer'] . '</td>';
+					echo '<td>' . $courses[$i]['date'] . '</td>';
+					echo '<td>' . $courses[$i]['places'] . '</td>';
 					echo '<td';
-					if ($courses[$i][6] > 0 && $courses[$i][7] == 0) {
+					if ($courses[$i]['places'] > 0 && $courses[$i]['fplaces'] == 0) {
 						echo ' style="color:#ff6600; font-weight:bold;"'; 
 					}
-					echo '>' . $courses[$i][7] . '</td>';
-					if ($courses[$i][8] != '0000-00-00' && $courses[$i][9] != '0000-00-00') {
-						echo '<td>' . $courses[$i][8] . '</td>';
-						echo '<td>' . $courses[$i][9] . '</td>';
+					echo '>' . $courses[$i]['fplaces'] . '</td>';
+					if ($courses[$i]['start'] != '0000-00-00' && $courses[$i]['end'] != '0000-00-00') {
+						echo '<td>' . $courses[$i]['start'] . '</td>';
+						echo '<td>' . $courses[$i]['end'] . '</td>';
 					} 
 					else {
 						echo '<td colspan="2" style="text-align:center;">' . __('none','teachpress') . '</td>';
 					}
-					echo '<td>' . $courses[$i][10] . '</td>';
-					if ($courses[$i][12] == 1) {
+					echo '<td>' . $courses[$i]['semester'] . '</td>';
+					if ($courses[$i]['visible'] == 1) {
 						echo '<td>' . __('yes','teachpress') . '</tr>';
 					} 
 					else {

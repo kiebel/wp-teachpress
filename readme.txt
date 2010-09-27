@@ -10,7 +10,7 @@ With this plugin you can easy manage courses, enrollments and publications.
 == Description ==
 The plugin unites a course management system with integrated enrollments and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
 
-For more information see [here](http://www.mtrv.kilu.de/teachpress/).
+For more information see [here](http://www.mtrv.wordpress.com/teachpress/).
 
 = Features: =
 * BibTeX compatible publication management
@@ -73,11 +73,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 teachpress 2.0 uses a brand new database structure, so save your database before upgrading!
 
 == Screenshots ==
-1. Screenshot Add publication menu
-2. Screenshot Add course menu
-3. Screenshot teachPress books widget
-
-[More](http://www.mtrv.kilu.de/teachpress/teachpress-images/)   
+1. Add publication menu
+2. Add course menu
+3. teachPress books widget
+ 
 
 == Frequently Asked Questions ==
 
@@ -131,6 +130,14 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.2 - (27.09.2010) =
+* Changed: New author and plugin website
+* Bugfix: The year was not displaying for articles
+* Bugfix: Images in the publication lists were not scaled
+* Bugfix: Child courses are now visible, if their parent was deleted
+* Bugfix: Fixed bugs in the admin course overview
+* Bugfix: Course type was not selected when an user edit a course
+* Bugfix: Fixed a variable declaration in get_tp_publication_type_options()
 = 2.0.1 - (20.09.2010) =
 * New: Introduce an option for deselecting the default teachPress frontend style
 * Changed: Some small improvements for publication lists
