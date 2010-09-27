@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 With this plugin you can easy manage courses, enrollments and publications.
 
