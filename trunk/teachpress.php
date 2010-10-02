@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.3
+Version: 2.0.4
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
@@ -1100,23 +1100,23 @@ function teachpress_install() {
 	$table_name = $teachpress_courses;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_courses. " (
-						 course_id INT UNSIGNED AUTO_INCREMENT ,
-						 name VARCHAR(100) ,
-						 type VARCHAR (100) ,
-						 room VARCHAR(100) ,
-						 lecturer VARCHAR (100) ,
-						 date VARCHAR(60) ,
-						 places INT(4) ,
-						 fplaces INT(4) ,
-						 start DATE ,
-						 end DATE ,
-						 semester VARCHAR(100) ,
-						 comment VARCHAR(500) ,
-						 rel_page INT ,
-						 parent INT ,
-						 visible INT(1) ,
-						 waitinglist INT(1),
-						 image_url VARCHAR(400) ,
+						 `course_id` INT UNSIGNED AUTO_INCREMENT ,
+						 `name` VARCHAR(100) ,
+						 `type` VARCHAR (100) ,
+						 `room` VARCHAR(100) ,
+						 `lecturer` VARCHAR (100) ,
+						 `date` VARCHAR(60) ,
+						 `places` INT(4) ,
+						 `fplaces` INT(4) ,
+						 `start` DATE ,
+						 `end` DATE ,
+						 `semester` VARCHAR(100) ,
+						 `comment` VARCHAR(500) ,
+						 `rel_page` INT ,
+						 `parent` INT ,
+						 `visible` INT(1) ,
+						 `waitinglist` INT(1),
+						 `image_url` VARCHAR(400) ,
 						 PRIMARY KEY (course_id)
 					   ) $charset_collate;";
 		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');			
@@ -1127,15 +1127,15 @@ function teachpress_install() {
 	$table_name = $teachpress_stud;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_stud . " (
-						 wp_id INT UNSIGNED ,
-						 firstname VARCHAR(100) ,
-						 lastname VARCHAR(100) ,
-						 course_of_studies VARCHAR(100) ,
-						 userlogin VARCHAR (100) ,
-						 birthday DATE ,
-						 email VARCHAR(50) ,
-						 semesternumber INT(2) ,
-						 matriculation_number INT,
+						 `wp_id` INT UNSIGNED ,
+						 `firstname` VARCHAR(100) ,
+						 `lastname` VARCHAR(100) ,
+						 `course_of_studies` VARCHAR(100) ,
+						 `userlogin` VARCHAR (100) ,
+						 `birthday` DATE ,
+						 `email` VARCHAR(50) ,
+						 `semesternumber` INT(2) ,
+						 `matriculation_number` INT,
 						 PRIMARY KEY (wp_id)
 					   ) $charset_collate;";
 		dbDelta($sql);
@@ -1144,11 +1144,11 @@ function teachpress_install() {
 	$table_name = $teachpress_signup;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_signup . " (
-						 con_id INT UNSIGNED AUTO_INCREMENT ,
-						 course_id INT ,
-						 wp_id INT ,
-						 waitinglist INT(1) ,
-						 date DATE ,
+						 `con_id` INT UNSIGNED AUTO_INCREMENT ,
+						 `course_id` INT ,
+						 `wp_id` INT ,
+						 `waitinglist` INT(1) ,
+						 `date` DATE ,
 						 FOREIGN KEY (course_id) REFERENCES " . $teachpress_courses. "(course_id) ,
 						 FOREIGN KEY (wp_id) REFERENCES " . $teachpress_stud . "(wp_id) ,
 						 PRIMARY KEY (con_id)
@@ -1159,19 +1159,20 @@ function teachpress_install() {
 	$table_name = $teachpress_settings;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_settings . " (
-						setting_id INT UNSIGNED AUTO_INCREMENT ,
-						variable VARCHAR (100) ,
-						value VARCHAR (100) ,
-						category VARCHAR (100) ,
+						`setting_id` INT UNSIGNED AUTO_INCREMENT ,
+						`variable` VARCHAR (100) ,
+						`value` VARCHAR (100) ,
+						`category` VARCHAR (100) ,
 						PRIMARY KEY (setting_id)
 						) $charset_collate;";
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.3', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.4', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('stylesheet', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('regnum', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('studies', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('termnumber', '1', 'system')");
@@ -1184,11 +1185,11 @@ function teachpress_install() {
 	$table_name = $teachpress_log;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_log . " (
-						log_id INT UNSIGNED AUTO_INCREMENT ,
-						id INT ,
-						user INT ,
-						description VARCHAR (200) ,
-						date DATE ,
+						`log_id` INT UNSIGNED AUTO_INCREMENT ,
+						`id` INT ,
+						`user` INT ,
+						`description` VARCHAR (200) ,
+						`date` DATE ,
 						PRIMARY KEY (log_id)
 						) $charset_collate;";
 		dbDelta($sql);
@@ -1197,48 +1198,48 @@ function teachpress_install() {
 	$table_name = $teachpress_pub;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_pub. " (
-						 pub_id INT UNSIGNED AUTO_INCREMENT ,
-						 name VARCHAR(500) ,
-						 type VARCHAR (50) ,
-						 bibtex VARCHAR (50) ,
-						 author VARCHAR (500) ,
-						 editor VARCHAR (500) ,
-						 isbn VARCHAR (50) ,
-						 url VARCHAR (400) ,
-						 date DATE ,
-						 booktitle VARCHAR (200) ,
-						 journal VARCHAR(200) ,
-						 volume VARCHAR(40) ,
-						 number VARCHAR(40) ,
-						 pages VARCHAR(40) ,
-						 publisher VARCHAR (500) ,
-						 address VARCHAR (300) ,
-						 edition VARCHAR (100) ,
-						 chapter VARCHAR (40) ,
-						 institution VARCHAR (200) ,
-						 organization VARCHAR (200) ,
-						 school VARCHAR (200) ,
-						 series VARCHAR (200) ,
-						 crossref VARCHAR (100) ,
-						 abstract TEXT ,
-						 howpublished VARCHAR (200) ,
-						 key VARCHAR (100) ,
-						 techtype VARCHAR (200) ,
-						 comment TEXT ,
-						 note TEXT ,
-						 image_url VARCHAR(400) ,
-						 rel_page INT ,
-						 is_isbn INT(1) ,
+						 `pub_id` INT UNSIGNED AUTO_INCREMENT ,
+						 `name` VARCHAR(500) ,
+						 `type` VARCHAR (50) ,
+						 `bibtex` VARCHAR (50) ,
+						 `author` VARCHAR (500) ,
+						 `editor` VARCHAR (500) ,
+						 `isbn` VARCHAR (50) ,
+						 `url` VARCHAR (400) ,
+						 `date` DATE ,
+						 `booktitle` VARCHAR (200) ,
+						 `journal` VARCHAR(200) ,
+						 `volume` VARCHAR(40) ,
+						 `number` VARCHAR(40) ,
+						 `pages` VARCHAR(40) ,
+						 `publisher` VARCHAR (500) ,
+						 `address` VARCHAR (300) ,
+						 `edition` VARCHAR (100) ,
+						 `chapter` VARCHAR (40) ,
+						 `institution` VARCHAR (200) ,
+						 `organization` VARCHAR (200) ,
+						 `school` VARCHAR (200) ,
+						 `series` VARCHAR (200) ,
+						 `crossref` VARCHAR (100) ,
+						 `abstract` TEXT ,
+						 `howpublished` VARCHAR (200) ,
+						 `key` VARCHAR (100) ,
+						 `techtype` VARCHAR (200) ,
+						 `comment` TEXT ,
+						 `note` TEXT ,
+						 `image_url` VARCHAR(400) ,
+						 `rel_page` INT ,
+						 `is_isbn` INT(1) ,
 						 PRIMARY KEY (pub_id)
-					   ) $charset_collate;";
+					   ) $charset_collate;";			   
 		dbDelta($sql);
 	 }
 	 //teachpress_tags
 	$table_name = $teachpress_tags;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_tags . " (
-						 tag_id INT UNSIGNED AUTO_INCREMENT ,
-						 name VARCHAR(300) ,
+						 `tag_id` INT UNSIGNED AUTO_INCREMENT ,
+						 `name` VARCHAR(300) ,
 						 PRIMARY KEY (tag_id)
 					    ) $charset_collate;";
 		dbDelta($sql);
@@ -1247,9 +1248,9 @@ function teachpress_install() {
 	$table_name = $teachpress_relation;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_relation . " (
-						 con_id INT UNSIGNED AUTO_INCREMENT ,
-						 pub_id INT ,
-						 tag_id INT ,
+						 `con_id` INT UNSIGNED AUTO_INCREMENT ,
+						 `pub_id` INT ,
+						 `tag_id` INT ,
 						 FOREIGN KEY (pub_id) REFERENCES " . $teachpress_pub. "(pub_id) ,
 						 FOREIGN KEY (tag_id) REFERENCES " . $teachpress_tags . "(tag_id) ,
 						 PRIMARY KEY (con_id)
@@ -1260,9 +1261,9 @@ function teachpress_install() {
 	$table_name = $teachpress_user;
 	if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 		$sql = "CREATE TABLE " . $teachpress_user . " (
-						 bookmark_id INT UNSIGNED AUTO_INCREMENT ,
-						 pub_id INT ,
-						 user INT ,
+						 `bookmark_id` INT UNSIGNED AUTO_INCREMENT ,
+						 `pub_id` INT ,
+						 `user` INT ,
 						 PRIMARY KEY (bookmark_id)
 					   ) $charset_collate;";
 		dbDelta($sql);

@@ -66,23 +66,23 @@ function tp_db_update_function() {
 			// create new table teachpress_courses
 			if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 				$sql = "CREATE TABLE " . $teachpress_courses. " (
-								 course_id INT UNSIGNED AUTO_INCREMENT ,
-								 name VARCHAR(100) ,
-								 type VARCHAR (100) ,
-								 room VARCHAR(100) ,
-								 lecturer VARCHAR (100) ,
-								 date VARCHAR(60) ,
-								 places INT(4) ,
-								 fplaces INT(4) ,
-								 start DATE ,
-								 end DATE ,
-								 semester VARCHAR(100) ,
-								 comment VARCHAR(500) ,
-								 rel_page INT ,
-								 parent INT(4) ,
-								 visible INT(1) ,
-								 waitinglist INT(1),
-								 image_url VARCHAR(400) ,
+								 `course_id` INT UNSIGNED AUTO_INCREMENT ,
+								 `name` VARCHAR(100) ,
+								 `type` VARCHAR (100) ,
+								 `room` VARCHAR(100) ,
+								 `lecturer` VARCHAR (100) ,
+								 `date` VARCHAR(60) ,
+								 `places` INT(4) ,
+								 `fplaces` INT(4) ,
+								 `start` DATE ,
+								 `end` DATE ,
+								 `semester` VARCHAR(100) ,
+								 `comment` VARCHAR(500) ,
+								 `rel_page` INT ,
+								 `parent` INT(4) ,
+								 `visible` INT(1) ,
+								 `waitinglist` INT(1),
+								 `image_url` VARCHAR(400) ,
 								 PRIMARY KEY (course_id)
 							   ) $charset_collate;";			
 				$wpdb->query($sql);
@@ -110,9 +110,9 @@ function tp_db_update_function() {
 			$table_name = $teachpress_relation;
 			if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 				$sql = "CREATE TABLE " . $teachpress_relation . " (
-								 con_id INT UNSIGNED AUTO_INCREMENT ,
-								 pub_id INT ,
-								 tag_id INT ,
+								 `con_id` INT UNSIGNED AUTO_INCREMENT ,
+								 `pub_id` INT ,
+								 `tag_id` INT ,
 								 FOREIGN KEY (pub_id) REFERENCES " . $teachpress_pub. "(pub_id) ,
 								 FOREIGN KEY (tag_id) REFERENCES " . $teachpress_tags . "(tag_id) ,
 								 PRIMARY KEY (con_id)
@@ -142,11 +142,11 @@ function tp_db_update_function() {
 			$table_name = $teachpress_signup;
 			if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 				$sql = "CREATE TABLE " . $teachpress_signup . " (
-								 con_id INT UNSIGNED AUTO_INCREMENT ,
-								 course_id INT ,
-								 wp_id INT ,
-								 waitinglist INT(1) ,
-								 date DATE ,
+								 `con_id` INT UNSIGNED AUTO_INCREMENT ,
+								 `course_id` INT ,
+								 `wp_id` INT ,
+								 `waitinglist` INT(1) ,
+								 `date` DATE ,
 								 FOREIGN KEY (course_id) REFERENCES " . $teachpress_courses. "(course_id) ,
 								 FOREIGN KEY (wp_id) REFERENCES " . $teachpress_stud . "(wp_id) ,
 								 PRIMARY KEY (con_id)
@@ -176,10 +176,10 @@ function tp_db_update_function() {
 			$table_name = $teachpress_settings;
 			if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 				$sql = "CREATE TABLE " . $teachpress_settings . " (
-								setting_id INT UNSIGNED AUTO_INCREMENT ,
-								variable VARCHAR (100) ,
-								value VARCHAR (100) ,
-								category VARCHAR (100) ,
+								`setting_id` INT UNSIGNED AUTO_INCREMENT ,
+								`variable` VARCHAR (100) ,
+								`value` VARCHAR (100) ,
+								`category` VARCHAR (100) ,
 								PRIMARY KEY (setting_id)
 								) $charset_collate;";				
 				$wpdb->query($sql);
