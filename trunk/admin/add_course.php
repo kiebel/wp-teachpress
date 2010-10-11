@@ -20,7 +20,11 @@ function tp_add_course_page() {
 	$data['places'] = tp_sec_var($_GET[places], 'integer');
 	$data['fplaces'] = tp_sec_var($_GET[fplaces], 'integer');
 	$data['start'] = tp_sec_var($_GET[start]); 
+	$data['start_hour'] = tp_sec_var($_GET[start_hour]);
+	$data['start_minute'] = tp_sec_var($_GET[start_minute]);
 	$data['end'] = tp_sec_var($_GET[end]); 
+	$data['end_hour'] = tp_sec_var($_GET[end_hour]);
+	$data['end_minute'] = tp_sec_var($_GET[end_minute]);
 	$data['semester'] = tp_sec_var($_GET[semester]);
 	$data['comment'] = tp_sec_var($_GET[comment]);
 	$data['rel_page'] = tp_sec_var($_GET[rel_page], 'integer');
@@ -73,9 +77,10 @@ function tp_add_course_page() {
 			<p class="hilfe_text"><?php _e('For child courses: The name of the parent course will be add automatically.','teachpress'); ?></p>
 			<p class="hilfe_headline"><?php _e('Enrollments','teachpress'); ?></p>
 			<p class="hilfe_text"><?php _e('If you have a course without enrollments, so add no dates in the fields start and end. teachPress will be deactivate the enrollments automatically.','teachpress'); ?></p>
+            <p class="hilfe_text"><?php _e('Please note, that your local time is not the same as the server time. The current server time is:','teachpress'); ?> <strong><?php echo date('Y-m-d H:i:s'); ?></strong></p>
 			<p class="hilfe_headline"><?php _e('Terms and course types','teachpress'); ?></p>
 			<p class="hilfe_text"><?php _e('You can add new course types and terms','teachpress'); ?> <a href="options-general.php?page=teachpress/settings.php&amp;tab=courses"><?php _e('here','teachpress'); ?></a>.</p>
-			
+            <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 		</div>
 	  <form id="add_course" name="form1" method="get" action="<?php echo $PHP_SELF ?>">
       <input name="page" type="hidden" value="<?php if ($course_ID != 0) {?>teachpress/teachpress.php<?php } else {?>teachpress/add_course.php<?php } ?>" />
@@ -96,10 +101,10 @@ function tp_add_course_page() {
 				echo '<p><img name="tp_pub_image" src="' . $daten["image_url"] . '" alt="' . $daten["name"] . '" title="' . $daten["name"] . '" style="max-width:100%;"/></p>';
 			} ?>
             <p><label for="image_url" title="<?php _e('With the image field you can add an image to a course.','teachpress'); ?>"><strong><?php _e('Image URL','teachpress'); ?></strong></label></p>
-        	<input name="image_url" id="image_url" type="text" style="width:90%;" tabindex="12" value="<?php echo $daten["image_url"]; ?>"/>
+        	<input name="image_url" id="image_url" type="text" title="<?php _e('Image URL','teachpress'); ?>" style="width:90%;" tabindex="12" value="<?php echo $daten["image_url"]; ?>"/>
          	<a id="upload_image_button" class="thickbox" title="<?php _e('Add Image','teachpress'); ?>" style="cursor:pointer;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
 			<p><label for="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?>"><strong><?php _e('Visibility','teachpress'); ?></strong></label></p>
-			<select name="visible" id="visible" tabindex="13">
+			<select name="visible" id="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?>" tabindex="13">
               <?php
                 if ($daten["visible"] == 1) {
                     echo '<option value="1" selected="selected">' . __('yes','teachpress') . '</option>';
@@ -136,24 +141,32 @@ function tp_add_course_page() {
 		if ($course_ID == 0) {
 			$str = "'";
 			$meta = 'value="' . __('JJJJ-MM-TT','teachpress') . '" onblur="if(this.value==' . $str . $str . ') this.value=' . $str . __('JJJJ-MM-TT','teachpress') . $str . ';" onfocus="if(this.value==' . $str . __('JJJJ-MM-TT','teachpress') . $str . ') this.value=' . $str . $str . ';"';
+			$hour = '00';
+			$minute = '00';
 		}	
 		else {
-			$meta = 'value="' . $daten["start"] . '"';
+			$date1 = tp_datumsplit($daten["start"]);
+			$meta = 'value="' . $date1[0][0] . '-' . $date1[0][1] . '-' . $date1[0][2] . '"';
+			$hour = $date1[0][3];
+			$minute = $date1[0][4]; 
 		}	
 		?>
-		<input name="start" type="text" id="start" tabindex="14" size="15" <?php echo $meta; ?>/>
+		<input name="start" type="text" id="start" title="<?php _e('Date','teachpress'); ?>" tabindex="14" size="15" <?php echo $meta; ?>/> <input name="start_hour" type="text" title="<?php _e('Hours','teachpress'); ?>" value="<?php echo $hour; ?>" size="2" tabindex="15" /> : <input name="start_minute" type="text" title="<?php _e('Minutes','teachpress'); ?>" value="<?php echo $minute; ?>" size="2" tabindex="16" />
 		<p><label for="end" title="<?php _e('The end date for the enrollment','teachpress'); ?>"><strong><?php _e('End','teachpress'); ?></strong></label></p>
         <?php 
 		if ($course_ID == 0) {
 			// same as for start
 		}
 		else {
-			$meta = 'value="' . $daten["end"] . '"';
+			$date1 = tp_datumsplit($daten["end"]);
+			$meta = 'value="' . $date1[0][0] . '-' . $date1[0][1] . '-' . $date1[0][2] . '"';
+			$hour = $date1[0][3];
+			$minute = $date1[0][4];
 		}
 		?>
-		<input name="end" type="text" id="end" tabindex="15" size="15" <?php echo $meta; ?>/>
-		<p><label for="waitinglist" title="<?php _e('Waiting list: yes or no','teachpress'); ?>"><strong><?php _e('Waiting list','teachpress'); ?></strong></label></p>
-		<select name="waitinglist" id="waitinglist" tabindex="16">
+		<input name="end" type="text" id="end" title="<?php _e('Date','teachpress'); ?>" tabindex="17" size="15" <?php echo $meta; ?>/> <input name="end_hour" type="text" title="<?php _e('Hours','teachpress'); ?>" value="<?php echo $hour; ?>" size="2" tabindex="18" /> : <input name="end_minute" type="text" title="<?php _e('Minutes','teachpress'); ?>" value="<?php echo $minute; ?>" size="2" tabindex="19" />
+		<p><label for="waitinglist" title="<?php _e('Waiting list: yes or no?','teachpress'); ?>"><strong><?php _e('Waiting list','teachpress'); ?></strong></label></p>
+		<select name="waitinglist" id="waitinglist" title="<?php _e('Waiting list: yes or no?','teachpress'); ?>" tabindex="20">
         	<?php
 			if ($daten["waitinglist"] == 1) {
 				echo '<option value="0">' . __('no','teachpress') . '</option>';
@@ -175,7 +188,7 @@ function tp_add_course_page() {
 	  <div id="titlediv">
 	  <div id="titlewrap">
 		<label class="hide-if-no-js" style="display:none;" id="title-prompt-text" for="title"><?php _e('Course name','teachpress'); ?></label>
-		<input type="text" name="post_title" size="30" tabindex="1" value="<?php echo $daten["name"]; ?>" id="title" autocomplete="off" />
+		<input type="text" name="post_title" title="<?php _e('Course name','teachpress'); ?>" size="30" tabindex="1" value="<?php echo $daten["name"]; ?>" id="title" autocomplete="off" />
 	  </div>
 	  </div>
 	  </div>
@@ -188,7 +201,7 @@ function tp_add_course_page() {
 		<tr>
 			<td>
             <p><label for="course_type" title="<?php _e('The course type','teachpress'); ?>"><strong><?php _e('Course type','teachpress'); ?></strong></label></p>
-			<select name="course_type" id="course_type" tabindex="2">
+			<select name="course_type" id="course_type" title="<?php _e('The course type','teachpress'); ?>" tabindex="2">
 			<?php 
 				$row = "SELECT value FROM " . $teachpress_settings . " WHERE category = 'course_type' ORDER BY value";
 				$row = $wpdb->get_results($row);
@@ -203,7 +216,7 @@ function tp_add_course_page() {
 				} ?>
 			</select>
             <p><label for="semester" title="<?php _e('The term where the course will be happening','teachpress'); ?>"><strong><?php _e('Term','teachpress'); ?></strong></label></p>
-			  <select name="semester" id="semester" tabindex="3">
+			  <select name="semester" id="semester" title="<?php _e('The term where the course will be happening','teachpress'); ?>" tabindex="3">
 				<?php
 				if ($course_ID == 0) {
 					$value = tp_get_option('sem');
@@ -232,21 +245,21 @@ function tp_add_course_page() {
 					$zahl--;
 				}?> 
 			</select>
-			<p><label for="lecturer" title="<?php _e('The Lecturer of the course','teachpress'); ?>"><strong><?php _e('Lecturer','teachpress'); ?></strong></label></p>
-			<input name="lecturer" type="text" id="lecturer" style="width:95%;" tabindex="4" value="<?php echo $daten["lecturer"]; ?>" />
-			<p><label for="date" title="<?php _e('The dates for the course','teachpress'); ?>"><strong><?php _e('Date','teachpress'); ?></strong></label></p>
-			<input name="date" type="text" id="date" style="width:95%;" tabindex="5" value="<?php echo $daten["date"]; ?>" />
+			<p><label for="lecturer" title="<?php _e('The lecturer(s) of the course','teachpress'); ?>"><strong><?php _e('Lecturer','teachpress'); ?></strong></label></p>
+			<input name="lecturer" type="text" id="lecturer" title="<?php _e('The lecturer(s) of the course','teachpress'); ?>" style="width:95%;" tabindex="4" value="<?php echo $daten["lecturer"]; ?>" />
+			<p><label for="date" title="<?php _e('The date(s) for the course','teachpress'); ?>"><strong><?php _e('Date','teachpress'); ?></strong></label></p>
+			<input name="date" type="text" id="date" title="<?php _e('The date(s) for the course','teachpress'); ?>" style="width:95%;" tabindex="5" value="<?php echo $daten["date"]; ?>" />
 			<p><label for="room" title="<?php _e('The room or place for the course','teachpress'); ?>"><strong><?php _e('Room','teachpress'); ?></strong></label></p>
-			<input name="room" type="text" id="room" style="width:95%;" tabindex="6" value="<?php echo $daten["room"]; ?>" />
-			<p><label for="platz" title="<?php _e('The number of available places. Important for enrollements','teachpress'); ?>"><strong><?php _e('Number of places','teachpress'); ?></strong></label></p>
-			<input name="places" type="text" id="places" style="width:30%;" tabindex="7" value="<?php echo $daten["places"]; ?>" />
+			<input name="room" type="text" id="room" title="<?php _e('The room or place for the course','teachpress'); ?>" style="width:95%;" tabindex="6" value="<?php echo $daten["room"]; ?>" />
+			<p><label for="platz" title="<?php _e('The number of available places.','teachpress'); ?>"><strong><?php _e('Number of places','teachpress'); ?></strong></label></p>
+			<input name="places" type="text" id="places" title="<?php _e('The number of available places.','teachpress'); ?>" style="width:30%;" tabindex="7" value="<?php echo $daten["places"]; ?>" />
             <?php 
 			if ($course_ID != 0) {?>
             	<p><label for="fplaces" title="<?php _e('The number of free places','teachpress'); ?>"><strong><?php _e('free places','teachpress'); ?></strong></label></p>
-				<input name="fplaces" id="fplaces" type="text" style="width:30%;" tabindex="8" value="<?php echo $daten["fplaces"]; ?>"/>
+				<input name="fplaces" id="fplaces" type="text" title="<?php _e('The number of free places','teachpress'); ?>" style="width:30%;" tabindex="8" value="<?php echo $daten["fplaces"]; ?>"/>
 			<?php } ?>
 			<p><label for="parent2" title="<?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?>"><strong><?php _e('Parent','teachpress'); ?></strong></label></p>
-			<select name="parent2" id="parent2" tabindex="9">
+			<select name="parent2" id="parent2" title="<?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?>" tabindex="9">
 			  <option value="0"><?php _e('none','teachpress'); ?></option>
 			  <option>------</option>
 			  <?php 	
@@ -270,9 +283,9 @@ function tp_add_course_page() {
                 }?>
 			</select>
 			<p><label for="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>"><strong><?php _e('Comment or Description','teachpress'); ?></strong></label></p>
-			<textarea name="comment" cols="75" rows="2" id="comment" tabindex="10"><?php echo $daten["comment"]; ?></textarea>
+			<textarea name="comment" cols="75" rows="2" id="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>" tabindex="10" style="width:100%;"><?php echo $daten["comment"]; ?></textarea>
 			<p><label for="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>"><strong><?php _e('Related Page','teachpress'); ?></strong></label></p>
-			<select name="rel_page" id="rel_page" tabindex="11">
+			<select name="rel_page" id="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>" tabindex="11">
 				<?php teachpress_wp_pages("menu_order","ASC",$daten["rel_page"],0,0); ?>
 			</select>
 		  </tr>

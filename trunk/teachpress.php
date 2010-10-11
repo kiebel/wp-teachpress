@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.4
+Version: 2.0.5
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
@@ -106,6 +106,25 @@ function tp_get_message($message, $site = '') {
 	}
 	echo '</p>';
 }
+
+/* Split the timestamp
+ * @param $datum - timestamp
+ * return $split
+ *
+ * $split[0][0] => Year
+ * $split[0][1] => Month 
+ * $split[0][2] => Day
+ * $split[0][3] => Hour 
+ * $split[0][4] => Minute 
+ * $split[0][5] => Second
+*/ 
+function tp_datumsplit($datum) {
+    $preg = '/[\d]{2,4}/'; 
+    $split = array(); 
+    preg_match_all($preg, $datum, $split); 
+	return $split; 
+}
+
 /* Get WordPress pages
  * adapted from Flexi Pages Widget Plugin
  * @param $sort_column
@@ -235,17 +254,6 @@ function get_tp_publication_type_options ($selected, $mode = 'list', $url = '', 
 	return $types;
 }
 
-/* Changes MySQL date format to a german date format 
- * @param $date
- * Return: date
- * used in: shortcodes.php
-*/
-function tp_date_mysql2german($date)  
-{ 
-  list($jahr, $monat, $tag) = explode("-", $date); 
-  return sprintf("%02d.%02d.%04d", $tag, $monat, $jahr); 
-}
-
 /* Get the current teachPress version
  * Return: $version (String)
 */
@@ -294,6 +302,7 @@ function tp_get_option($var) {
 */
 function tp_sec_var($var, $type = 'string') {
 	$var = htmlspecialchars($var);
+	$var = stripslashes($var);
 	if ($type == 'integer') {
 		settype($var, 'integer');
 	}
@@ -333,6 +342,8 @@ function tp_advanced_registration() {
 function tp_add_course($data) {
 	global $wpdb;
 	global $teachpress_courses;
+	$data['start'] = $data['start'] . ' ' . $data['start_hour'] . ':' . $data['start_minute'] . ':00';
+	$data['end'] = $data['end'] . ' ' . $data['end_hour'] . ':' . $data['end_minute'] . ':00';
 	$wpdb->insert( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['places'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'] ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s' ) );
 	return $wpdb->insert_id;
 }
@@ -371,6 +382,8 @@ function tp_change_course($course_ID, $data){
 	global $wpdb;
 	global $teachpress_courses;
 	$course_ID = tp_sec_var($course_ID, 'integer');
+	$data['start'] = $data['start'] . ' ' . $data['start_hour'] . ':' . $data['start_minute'] . ':00';
+	$data['end'] = $data['end'] . ' ' . $data['end_hour'] . ':' . $data['end_minute'] . ':00';
 	$wpdb->update( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['fplaces'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'] ), array( 'course_id' => $course_ID ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s' ), array( '%d' ) );
 }
 
@@ -663,8 +676,10 @@ function tp_add_student($wp_id, $data) {
 	$sql = "SELECT wp_id FROM " . $teachpress_stud . " WHERE wp_id = '$wp_id'";
 	$test = $wpdb->query($sql);
 	if ($test == '0') {
+		$data['birthday'] = $data['birth_year'] . '-' . $data['birth_month'] . '-' . $data['birth_day'];
 		$wpdb->insert( $teachpress_stud, array( 'wp_id' => $wp_id, 'firstname' => $data['firstname'], 'lastname' => $data['lastname'], 'course_of_studies' => $data['course_of_studies'], 'userlogin' => $data['userlogin'], 'birthday' => $data['birthday'], 'email' => $data['email'], 'semesternumber' => $data['semester_number'], 'matriculation_number' => $data['matriculation_number'] ), array( '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%d', '%d' ) );
-		return $wpdb->insert_id;
+		//return $wpdb->insert_id;
+		return true;
 	}
 	else {
 		return false;
@@ -1108,8 +1123,8 @@ function teachpress_install() {
 						 `date` VARCHAR(60) ,
 						 `places` INT(4) ,
 						 `fplaces` INT(4) ,
-						 `start` DATE ,
-						 `end` DATE ,
+						 `start` DATETIME ,
+						 `end` DATETIME ,
 						 `semester` VARCHAR(100) ,
 						 `comment` VARCHAR(500) ,
 						 `rel_page` INT ,
@@ -1168,7 +1183,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.4', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.5', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");

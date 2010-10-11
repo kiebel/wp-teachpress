@@ -47,7 +47,9 @@ function tpenrollments_shortcode($atts) {
 	$data['course_of_studies'] = tp_sec_var($_POST[course_of_studies]);
 	$data['semesternumber'] = tp_sec_var($_POST[semesternumber], 'integer');
 	$data['userlogin'] = $user_login;
-	$data['birthday'] = tp_sec_var($_POST[birthday]);
+	$data['birth_day'] = tp_sec_var($_POST[birth_day]);
+	$data['birth_month'] = tp_sec_var($_POST[birth_month]);
+	$data['birth_year'] = tp_sec_var($_POST[birth_year], 'integer');
 	$data['email'] = $user_email;
 	$data['matriculation_number'] = tp_sec_var($_POST[matriculation_number], 'integer');
 
@@ -82,7 +84,7 @@ function tpenrollments_shortcode($atts) {
         }	
         if ( isset($eintragen)) {
             $ret = tp_add_student($wp_id, $data);
-            if ($ret == true) {
+            if ($ret != false) {
                 $a2 = '<div class="teachpress_message"><strong>' . __('Registration successful','teachpress') . '</strong></div>';
             }
             else {
@@ -158,9 +160,24 @@ function tpenrollments_shortcode($atts) {
 			$field2 = tp_get_option('birthday');
         	if ($field2 == '1') {
 				$a3 = $a3 . '<tr>
-							 <td><label for="birthday">' . __('Date of birth','teachpress') . '</label></td>
-							 <td><input name="birthday" type="text" size="15"/>
-				  			 <em>' . __('Format: JJJJ-MM-TT','teachpress') . '</em></td>
+							 <td><label for="birth_day">' . __('Date of birth','teachpress') . '</label></td>
+							 <td><input name="birth_day" id="birth_day" type="text" title="Day" size="2" value="01"/>
+							 	<select name="birth_month" title="Month">
+									<option value="01">' . __('Jan','teachpress') . '</option>
+									<option value="02">' . __('Feb','teachpress') . '</option>
+									<option value="03">' . __('Mar','teachpress') . '</option>
+									<option value="04">' . __('Apr','teachpress') . '</option>
+									<option value="05">' . __('May','teachpress') . '</option>
+									<option value="06">' . __('Jun','teachpress') . '</option>
+									<option value="07">' . __('Jul','teachpress') . '</option>
+									<option value="08">' . __('Aug','teachpress') . '</option>
+									<option value="09">' . __('Sep','teachpress') . '</option>
+									<option value="10">' . __('Oct','teachpress') . '</option>
+									<option value="11">' . __('Nov','teachpress') . '</option>
+									<option value="12">' . __('Dec','teachpress') . '</option>
+								</select>
+								<input name="birth_year" type="text" title="Year" size="4" value="19xx"/>
+							 </td>
 			  				 </tr>';
             }
 			$a3 = $a3 . '<tr>
@@ -399,18 +416,13 @@ function tpenrollments_shortcode($atts) {
 		foreach($row as $row) {
 			$date1 = $row->start;
 			$date2 = $row->end;
-			// for german localisation: new date format
-			if ( __('Language','teachpress') == 'Sprache') {
-				$row->start = tp_date_mysql2german($row->start);
-				$row->end = tp_date_mysql2german($row->end);
-			}
 			$a6 = $a6 . '<div style="margin:10px; padding:5px;">
 				   		 <div class="the_course" style="font-size:15px;"><a href="' . get_permalink($row->rel_page) . '">' . $row->name . '</a></div>
 				   		 <table width="100%" border="0" cellpadding="1" cellspacing="0">
 				   		 <tr>
 						 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
 			if (is_user_logged_in() && $auswahl != '') {
-				if ($date1 != '0000-00-00' && date("Y-m-d") >= $date1 && date("Y-m-d") <= $date2) {
+				if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
 					$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row->course_id . '" title="' . $row->name . ' ' . __('select','teachpress') . '" id="checkbox_' . $row->course_id . '"/>';
 				} 
 			}
@@ -419,28 +431,28 @@ function tpenrollments_shortcode($atts) {
 			}	
 			$a6 = $a6 . '</td>
 						 <td colspan="2">&nbsp;</td>
-						 <td align="center" width="270"><strong>' . __('Date(s)','teachpress') . '</strong></td>
+						 <td align="center"><strong>' . __('Date(s)','teachpress') . '</strong></td>
 						 <td align="center">';
-			if ($date1 != '0000-00-00') {
+			if ($date1 != '0000-00-00 00:00:00') {
 				$a6 = $a6 . '<strong>' . __('free places','teachpress') . '</strong>';
 			}
 			$a6 = $a6 . '</td>
 						</tr>
 						<tr>
 						 <td width="20%" style="font-weight:bold;">';
-			if ($date1 != '0000-00-00' && date("Y-m-d") >= $date1 && date("Y-m-d") <= $date2) {
+			if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
 				$a6 = $a6 . '<label for="checkbox_' . $row->course_id . '" style="line-height:normal;">';
 			}
 			$a6 = $a6 . $row->type;
-			if ($date1 != '0000-00-00' && date("Y-m-d") >= $date1 && date("Y-m-d") <= $date2) {
+			if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
 				$a6 = $a6 . '</label>';
 			}
 			$a6 = $a6 . '</td>
 						 <td width="20%">' . $row->lecturer . '</td>
 						 <td align="center">' . $row->date . ' ' . $row->room . '</td>
 						 <td align="center">';
-			if ($date1 != '0000-00-00') { 
-				$a6 = $a6 . $row->fplaces . ' von ' .  $row->places;
+			if ($date1 != '0000-00-00 00:00:00') { 
+				$a6 = $a6 . $row->fplaces . ' ' . __('of','teachpress') . ' ' .  $row->places;
 			}
 			$a6 = $a6 . '</td>
 						</tr>
@@ -454,8 +466,8 @@ function tpenrollments_shortcode($atts) {
 			}
 			$a6 = $a6 . '</td>
 						 <td style="border-bottom:1px solid silver; border-collapse: collapse;" align="center" class="einschreibefrist">';
-			if ($date1 != '0000-00-00') {
-				$a6 = $a6 . __('Registration period','teachpress') . ': ' . $row->start . ' - ' . $row->end;
+			if ($date1 != '0000-00-00 00:00:00') {
+				$a6 = $a6 . __('Registration period','teachpress') . ': ' . substr($row->start,0,strlen($row->start)-3) . ' ' . __('to','teachpress') . ' ' . substr($row->end,0,strlen($row->end)-3);
 			}
 			$a6 = $a6 . '</td>
 						</tr>';
@@ -465,39 +477,34 @@ function tpenrollments_shortcode($atts) {
 			foreach ($row2 as $row2) {
 				$date3 = $row2->start;
 				$date4 = $row2->end;
-				// for german localisation: new date format
-				if ( __('Language','teachpress') == 'Sprache') {
-					$row2->start = tp_date_mysql2german($row2->start);
-					$row2->end = tp_date_mysql2german($row2->end);
-				}
 				if ($row->name == $row2->name) {
 					$row2->name = $row->type;
 				}
 				$a6 = $a6 . '<tr>
 							 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
 				if (is_user_logged_in() && $auswahl != '') {
-					if ($date3 != '0000-00-00' && date("Y-m-d") >= $date3 && date("Y-m-d") <= $date4) {
+					if ($date3 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date3 && date("Y-m-d H:i:s") <= $date4) {
 						$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row2->course_id . '" title="' . $row2->name . ' ausw&auml;hlen" id="checkbox_' . $row2->course_id . '"/>';
 					}
 				}
 				$a6 = $a6 . '</td>
 						 	 <td colspan="2">&nbsp;</td>
-						 	 <td align="center" width="270"><strong>' . __('Date(s)','teachpress') . '</strong></td>
+						 	 <td align="center"><strong>' . __('Date(s)','teachpress') . '</strong></td>
 							 <td align="center"><strong>' . __('free places','teachpress') . '</strong></td>
 							</tr>
 							<tr>
 							 <td width="20%" style="font-weight:bold;">';
-				if ($date1 != '0000-00-00' && date("Y-m-d") >= $date1 && date("Y-m-d") <= $date2) {
+				if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
 					$a6 = $a6 . '<label for="checkbox_' . $row2->course_id . '" style="line-height:normal;">';
 				}
 				$a6 = $a6 . $row2->name;
-				if ($date1 != '0000-00-00' && date("Y-m-d") >= $date1 && date("Y-m-d") <= $date2) {
+				if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
 					$a6 = $a6 . '</label>';
 				}
 				$a6 = $a6 . '</td>
 							 <td width="20%">' . $row2->lecturer . '</td>
 							 <td align="center">' . $row2->date . ' ' . $row2->room . '</td>
-							 <td align="center">' . $row2->fplaces . ' von ' . $row2->places . '</td>
+							 <td align="center">' . $row2->fplaces . ' ' . __('of','teachpress') . ' ' . $row2->places . '</td>
 							</tr>
 							<tr>
 							 <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="waitinglist">';
@@ -510,8 +517,8 @@ function tpenrollments_shortcode($atts) {
 				}
 				$a6 = $a6 . '</td>
 							 <td align="center" class="einschreibefrist" style="border-bottom:1px solid silver; border-collapse: collapse;">';
-				if ($date3 != '0000-00-00') {
-					$a6 = $a6 . __('Registration period','teachpress') . ': ' . $row2->start . ' - ' . $row2->end;
+				if ($date3 != '0000-00-00 00:00:00') {
+					$a6 = $a6 . __('Registration period','teachpress') . ': ' . substr($row2->start,0,strlen($row2->start)-3) . ' ' . __('to','teachpress') . ' ' . substr($row2->end,0,strlen($row2->end)-3);
 				}
 				$a6 = $a6 . '</td>
 							</tr>'; 

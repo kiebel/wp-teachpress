@@ -491,6 +491,24 @@ function tp_db_update_function() {
 		/******************************/
 		
 		/*
+		 * teachpress_courses
+		*/
+		// change type in column start
+		$sql = "SELECT start FROM " . $teachpress_courses . "";
+		$wpdb->get_results($sql);
+		$test = $wpdb->get_col_info('type', 0);
+		if ($test == 'date') {
+			$wpdb->query("ALTER TABLE `" . $teachpress_courses . "` CHANGE  `start`  `start` DATETIME NULL DEFAULT NULL");
+		}
+		// change type in column end
+		$sql = "SELECT end FROM " . $teachpress_courses . "";
+		$wpdb->get_results($sql);
+		$test = $wpdb->get_col_info('type', 0);
+		if ($test == 'date') {
+			$wpdb->query("ALTER TABLE `" . $teachpress_courses . "` CHANGE  `end`  `end` DATETIME NULL DEFAULT NULL");
+		}
+		
+		/*
 		 * teachpress_settings
 		*/
 		// Stylesheet

@@ -234,7 +234,7 @@ function teachpress_admin_settings() {
                   ?>
                 </select>
                 </td>
-                <td><em><?php _e('Standard - teachPress has a seperate registration. This is usefull if you have an auto login for WordPress or most of your users are registered in your blog, for example in a network.','teachpress'); ?><br /><?php _e('Integrated - teachPress deactivates the own registration and uses all available data from WordPress. This is usefull, if most of your users has not an acount in your blog.','teachpress'); ?></em></td>
+                <td><em><?php _e('Standard - teachPress has a separate registration. This is usefull if you have an auto login for WordPress or most of your users are registered in your blog, for example in a network.','teachpress'); ?><br /><?php _e('Integrated - teachPress deactivates the own registration and uses all available data from WordPress. This is usefull, if most of your users has not an acount in your blog.','teachpress'); ?></em></td>
               </tr>
               <tr>
               <th><label for="sign_out" title="<?php _e('Prevent sign out','teachpress'); ?>"><?php _e('Prevent sign out','teachpress'); ?></label></th>
