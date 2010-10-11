@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -69,8 +69,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
 == Upgrade Notice ==
-= 2.0.1 =
-teachpress 2.0 uses a brand new database structure, so save your database before upgrading!
+= 2.0.5 =
+If you have installed teachpress with version 2.0.0 or higher, check if is the table teachpress_pub in your database!
 
 == Screenshots ==
 1. Add publication menu
@@ -130,8 +130,14 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.5 - (11.10.2010) =
+* New: Now you can set the time (hour, minute) for the start/end of a enrollment period
+* Bugfix: Fixed a bug which displayed a wrong message after adding a student
+* Bugfix: Fixed a bug which prevented the manual adding of students
+* Bugfix: Some small user interface improvements
+* Bugfix: Fixed some bugs in the english translation
 = 2.0.4 - (02.10.2010) =
-* Fixed a bug which prevented the installation of the teachpress_pub table
+* Bugfix: Fixed a bug which prevented the installation of the teachpress_pub table
 = 2.0.3 - (27.09.2010) = 
 * Bugfix: Fixed a bug with one login mode (integrated)
 = 2.0.2 - (27.09.2010) =

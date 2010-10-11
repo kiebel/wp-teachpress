@@ -41,7 +41,7 @@ function teachpress_publications_page() {
 	$version = get_tp_version();
 	// if is the actual one
 	if ($test != $version) {
-		$message = __('An database update is necessary.','teachpress') . ' <a href="admin.php?page=teachpress/settings.php&amp;up=1">' . __('Update','teachpress') . '</a>';
+		$message = __('An database update is necessary.','teachpress') . ' <a href="options-general.php?page=teachpress/settings.php&amp;up=1">' . __('Update','teachpress') . '</a>';
 		tp_get_message($message, '');
 	}
 	// Add a bookmark for the publication

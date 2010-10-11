@@ -26,14 +26,14 @@ global $teachpress_stud;
 global $teachpress_settings;
 
 $wp_id = tp_sec_var($_POST[wp_id], 'integer');
-$data['$matriculation_number'] = tp_sec_var($_POST[matriculation_number], 'integer');
-$data['$firstname'] = tp_sec_var($_POST[firstname]);
-$data['$lastname'] = tp_sec_var($_POST[lastname]);
-$data['$course_of_studies'] = tp_sec_var($_POST[course_of_studies]);
-$data['$semesternumber'] = tp_sec_var($_POST[semesternumber], 'integer');
-$data['$userlogin'] = tp_sec_var($_POST[userlogin]);
-$data['$birthday'] = tp_sec_var($_POST[birthday]);
-$data['$email'] = tp_sec_var($_POST[email]);
+$data['matriculation_number'] = tp_sec_var($_POST[matriculation_number], 'integer');
+$data['firstname'] = tp_sec_var($_POST[firstname]);
+$data['lastname'] = tp_sec_var($_POST[lastname]);
+$data['course_of_studies'] = tp_sec_var($_POST[course_of_studies]);
+$data['semesternumber'] = tp_sec_var($_POST[semesternumber], 'integer');
+$data['userlogin'] = tp_sec_var($_POST[userlogin]);
+$data['birthday'] = tp_sec_var($_POST[birthday]);
+$data['email'] = tp_sec_var($_POST[email]);
 $student = tp_sec_var($_POST[student]);
 $veranstaltung = tp_sec_var($_POST[veranstaltung]);
 $insert = $_POST[insert];
@@ -47,14 +47,12 @@ if (isset($insert) && $wp_id != __('WordPress User-ID','teachpress') && $wp_id !
 	else {
 		$message = __('Error: User already exist','teachpress');
 	}
-	$site = 'admin.php?page=teachpress/students_new.php';
-	tp_get_message($message, $site);
+	tp_get_message($message);
 }
 if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
 	tp_subscribe_student_manually($student, $veranstaltung);
 	$message = __('The enrollment for the selected student was successful.','teachpress');
-	$site = 'admin.php?page=teachpress/students_new.php';
-	tp_get_message($message, $site);
+	tp_get_message($message);
 }
 ?>
 <div class="wrap" >
@@ -236,7 +234,7 @@ if (isset($einschreiben) && $student != 0 && $veranstaltung != 0) {
          </thead> 
         </table>
     <p>
-      <input name="insert" type="submit" id="std_einschreiben" onclick="teachpress_validateForm('firstname','','R','lastname','','R','birthday','','R','email','','RisEmail');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>" class="teachpress_button"/>
+      <input name="insert" type="submit" id="std_einschreiben" onclick="teachpress_validateForm('firstname','','R','lastname','','R','userlogin','','R','email','','RisEmail');return document.teachpress_returnValue" value="<?php _e('create','teachpress'); ?>" class="teachpress_button"/>
       <input name="reset" type="reset" id="reset" value="Reset" class="teachpress_button"/>
     </p>
 </fieldset>

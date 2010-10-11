@@ -230,7 +230,15 @@ function teachpress_students_page() {
 		?> 
 		</tbody>
 		</table>
-        <div class="tablenav"><div class="tablenav-pages" style="float:right;"><?php echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '</div></div>'; ?>
+        <div class="tablenav"><div class="tablenav-pages" style="float:right;">
+		<?php 
+		if ($test > $number_messages) {
+			echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '';
+		} 
+		else {
+			echo __('Displaying','teachpress') . ' ' . $test . ' ' . __('entries','teachpress') . ' '. $all_pages . '';
+		}?>
+		</div></div>
 		</form>
 		</div>
 		<?php

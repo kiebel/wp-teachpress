@@ -19,7 +19,7 @@ function teachpress_show_courses_page() {
 	$version = get_tp_version();
 	// if is the actual one
 	if ($test != $version) {
-		$message = __('An database update is necessary.','teachpress') . ' <a href="admin.php?page=teachpress/settings.php&amp;up=1">' . __('Update','teachpress') . '</a>';
+		$message = __('An database update is necessary.','teachpress') . ' <a href="options-general.php?page=teachpress/settings.php&amp;up=1">' . __('Update','teachpress') . '</a>';
 		tp_get_message($message, '');
 	} 
 
@@ -76,8 +76,7 @@ function teachpress_show_courses_page() {
 		if ( isset($_GET[delete_ok]) ) {
 			tp_delete_course($checkbox);
 			$message = __('Course(s) deleted','teachpress');
-			$site = 'admin.php?page=teachpress/teachpress.php&sem=' . $sem . '&search=' . $search . '';
-			tp_get_message($message, $site);
+			tp_get_message($message);
 		}
 		// Veranstaltungen kopieren
 		if ( $bulk == "copy" ) { ?>
@@ -187,6 +186,8 @@ function teachpress_show_courses_page() {
 			$z = 0;
 			$ergebnis = $wpdb->get_results($abfrage);
 			foreach ($ergebnis as $row){
+				$date1 = tp_datumsplit($row->start);
+				$date2 = tp_datumsplit($row->end);
 				$courses[$z]['course_id'] = $row->course_id;
 				$courses[$z]['name'] = $row->name;
 				$courses[$z]['type'] = $row->type;
@@ -195,8 +196,8 @@ function teachpress_show_courses_page() {
 				$courses[$z]['date'] = $row->date;
 				$courses[$z]['places'] = $row->places;
 				$courses[$z]['fplaces'] = $row->fplaces;
-				$courses[$z]['start'] = $row->start;
-				$courses[$z]['end'] = $row->end;
+				$courses[$z]['start'] = '' . $date1[0][0] . '-' . $date1[0][1] . '-' . $date1[0][2] . '';
+				$courses[$z]['end'] = '' . $date2[0][0] . '-' . $date2[0][1] . '-' . $date2[0][2] . '';
 				$courses[$z]['semester'] = $row->semester;
 				$courses[$z]['parent'] = $row->parent;
 				$courses[$z]['visible'] = $row->visible;
