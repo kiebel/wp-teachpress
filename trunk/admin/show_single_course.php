@@ -58,8 +58,8 @@ function tp_show_single_course_page() {
 	$counter2 = 0;
 	foreach($row as $row){
 		$daten2[$counter2]["matriculation_number"] = $row->matriculation_number;
-		$daten2[$counter2]["firstname"] = $row->firstname;
-		$daten2[$counter2]["lastname"] = $row->lastname;
+		$daten2[$counter2]["firstname"] = stripslashes($row->firstname);
+		$daten2[$counter2]["lastname"] = stripslashes($row->lastname);
 		$daten2[$counter2]["course_of_studies"] = $row->course_of_studies;
 		$daten2[$counter2]["userlogin"] = $row->userlogin;
 		$daten2[$counter2]["email"] = $row->email;
@@ -111,7 +111,7 @@ function tp_show_single_course_page() {
 			$parent_name = "";
 		}
 		?>
-		<h2 style="padding-top:5px;"><?php echo $parent_name; ?> <?php echo $daten["name"]; ?> <?php echo $daten["semester"]; ?> <span class="tp_break">|</span> <small><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=<?php echo $course_ID; ?>&amp;sem=<?php echo $sem; ?>&amp;search=<?php echo $search; ?>&amp;action=edit" class="teachpress_link" style="cursor:pointer;"><?php _e('edit','teachpress'); ?></a></small></h2>
+		<h2 style="padding-top:5px;"><?php echo stripslashes($parent_name); ?> <?php echo stripslashes($daten["name"]); ?> <?php echo $daten["semester"]; ?> <span class="tp_break">|</span> <small><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=<?php echo $course_ID; ?>&amp;sem=<?php echo $sem; ?>&amp;search=<?php echo $search; ?>&amp;action=edit" class="teachpress_link" style="cursor:pointer;"><?php _e('edit','teachpress'); ?></a></small></h2>
 		<div id="einschreibungen" style="padding:5px;">
 		<div style="min-width:780px; width:100%; max-width:1100px;">
 		<div style="width:24%; float:right; padding-left:1%; padding-bottom:1%;">
@@ -161,23 +161,23 @@ function tp_show_single_course_page() {
 			<thead>
 				<tr>
 					<th width="150px"><?php _e('Type','teachpress'); ?></th>
-					<td><?php echo $daten["type"]; ?></td>
+					<td><?php echo stripslashes($daten["type"]); ?></td>
 				</tr>
 				<tr>
 					<th><?php _e('Lecturer','teachpress'); ?></th>
-					<td colspan="3"><?php echo $daten["lecturer"]; ?></td>
+					<td colspan="3"><?php echo stripslashes($daten["lecturer"]); ?></td>
 				</tr>  
 				<tr>
 					<th><?php _e('Date','teachpress'); ?></th>
-					<td colspan="3"><?php echo $daten["date"]; ?></td>
+					<td colspan="3"><?php echo stripslashes($daten["date"]); ?></td>
 				</tr>
 				<tr>
 					<th><?php _e('Room','teachpress'); ?></th>
-					<td colspan="3"><?php echo $daten["room"]; ?></td>
+					<td colspan="3"><?php echo stripslashes($daten["room"]); ?></td>
 				</tr>
 				  <tr>
 					<th><?php _e('Comment','teachpress'); ?></th>
-					<td colspan="3"><?php echo $daten["comment"]; ?></td>
+					<td colspan="3"><?php echo stripslashes($daten["comment"]); ?></td>
 				  </tr>
 				  <tr>
 					<th><?php _e('Related Page','teachpress'); ?></th>

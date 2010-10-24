@@ -82,7 +82,7 @@ function teachpress_students_page() {
 		<?php if ($suche != "") { ?>
 		<a href="admin.php?page=teachpress/students.php" style="font-size:14px; font-weight:bold; text-decoration:none; padding-right:3px;" title="<?php _e('Cancel the search','teachpress'); ?>">X</a>
 		<?php } ?>
-		<input name="suche" type="text" value="<?php echo "$suche" ?>"/></td>
+		<input name="suche" type="text" value="<?php echo stripslashes($suche); ?>"/></td>
 		<input name="go" type="submit" value="<?php _e('search','teachpress'); ?>" id="teachpress_suche_senden" class="teachpress_button"/>
 	  </div>
 	  <div class="tablenav" style="padding-bottom:5px;">
@@ -211,10 +211,10 @@ function teachpress_students_page() {
 				else {
 					echo '' . $row3->wp_id . '</a></td>';
 				}
-				echo '<td>' . $row3->lastname . '</td>';
-				echo '<td>' . $row3->firstname . '</td>';
+				echo '<td>' . stripslashes($row3->lastname) . '</td>';
+				echo '<td>' . stripslashes($row3->firstname) . '</td>';
 				if ($field2 == '1') {
-					echo '<td>' . $row3->course_of_studies . '</td>';
+					echo '<td>' . stripslashes($row3->course_of_studies) . '</td>';
 				} 
 				if ($field3 == '1') {
 					echo '<td>' . $row3->semesternumber . '</td>';

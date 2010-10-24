@@ -199,7 +199,7 @@ function tpenrollments_shortcode($atts) {
 				 * Menu
 				*/
 				$a5 = '<div class="tp_user_menu" style="padding:5px;">
-					   <h4>' . __('Hello','teachpress') . ', ' . $row->firstname . ' ' . $row->lastname . '</h4>';
+					   <h4>' . __('Hello','teachpress') . ', ' . stripslashes($row->firstname) . ' ' . stripslashes($row->lastname) . '</h4>';
 				// ID Namen bei abgeschalteten Permalinks ermitteln
 				if (is_page()) {
 					$page = "page_id";
@@ -263,6 +263,8 @@ function tpenrollments_shortcode($atts) {
 				ORDER BY b_id DESC";
 				$row1 = $wpdb->get_results($row1);
 				foreach($row1 as $row1) {
+					$row1->parent_name = stripslashes($row1->parent_name);
+					$row1->name = stripslashes($row1->name);
 					if ($row1->parent_name != "") {
 						$row1->parent_name = '' . $row1->parent_name . ' -';
 					}
@@ -271,10 +273,10 @@ function tpenrollments_shortcode($atts) {
 						$a5 = $a5 . '<td><input name="checkbox2[]" type="checkbox" value="' . $row1->b_id . '" title="' . $row1->name . '" id="ver_' . $row1->b_id . '"/></td>';
 					}		
 					$a5 = $a5 . '<td><label for="ver_' . $row1->b_id . '" style="line-height:normal;" title="' . $row1->parent_name . ' ' .  $row1->name . '">' . $row1->parent_name . ' ' .  $row1->name . '</label></td>
-								 <td>' . $row1->type . '</td>
-								 <td>' . $row1->date . '</td>
-								 <td>' . $row1->room . '</td> 
-								 <td>' . $row1->semester . '</td>
+								 <td>' . stripslashes($row1->type) . '</td>
+								 <td>' . stripslashes($row1->date) . '</td>
+								 <td>' . stripslashes($row1->room) . '</td> 
+								 <td>' . stripslashes($row1->semester) . '</td>
 								</tr>';
 				}
 				$a5 = $a5 . '</table>';
@@ -301,15 +303,17 @@ function tpenrollments_shortcode($atts) {
 						if ($row1->parent_name != "") {
 							$row1->parent_name = '' . $row1->parent_name . ' -';
 						}
+						$row1->parent_name = stripslashes($row1->parent_name);
+						$row1->name = stripslashes($row1->name);
 						$a5 = $a5 . '<tr>';
 						if ($is_sign_out == '0') {
 							$a5 = $a5 . '<td><input name="checkbox2[]" type="checkbox" value="' . $row1->b_id . '" title="' . $row1->name . '" id="ver_' . $row1->b_id . '"/></td>';
 						}		
 						$a5 = $a5 . '<td><label for="ver_' . $row1->b_id . '" style="line-height:normal;" title="' . $row1->parent_name . ' ' .  $row1->name . '">' . $row1->parent_name . ' ' .  $row1->name . '</label></td>
-									 <td>' . $row1->type . '</td>
-									 <td>' . $row1->date . '</td>
-									 <td>' . $row1->room . '</td> 
-									 <td>' . $row1->semester . '</td>
+									 <td>' . stripslashes($row1->type) . '</td>
+									 <td>' . stripslashes($row1->date) . '</td>
+									 <td>' . stripslashes($row1->room) . '</td> 
+									 <td>' . stripslashes($row1->semester) . '</td>
 									</tr>';
 						}
 					$a5 = $a5 . '</table>';
@@ -332,11 +336,11 @@ function tpenrollments_shortcode($atts) {
 					}  
                 	$a5 = $a5 . '<tr>
                     			 <td><label for="firstname2">' . __('First name','teachpress') . '</label></td>
-                    			 <td><input name="firstname2" type="text" id="firstname2" value="' . $row->firstname . '" size="30"/></td>
+                    			 <td><input name="firstname2" type="text" id="firstname2" value="' . stripslashes($row->firstname) . '" size="30"/></td>
                   	 			 </tr>';
                 	$a5 = $a5 . '<tr>
                     			 <td><label for="lastname2">' . __('Last name','teachpress') . '</label></td>
-                    			 <td><input name="lastname2" type="text" id="lastname2" value="' . $row->lastname . '" size="30"/></td>
+                    			 <td><input name="lastname2" type="text" id="lastname2" value="' . stripslashes($row->lastname) . '" size="30"/></td>
                   	  			 </tr>';
 					$field2 = tp_get_option('studies');
 					if ($field2 == '1') { 
@@ -352,7 +356,7 @@ function tpenrollments_shortcode($atts) {
 							else {
 								$current = '' ;
 							}
-							$a5 = $a5 . '<option value="' . $stud->value . '" ' . $current . '>' . $stud->value . '</option>';
+							$a5 = $a5 . '<option value="' . stripslashes($stud->value) . '" ' . $current . '>' . stripslashes($stud->value) . '</option>';
 						} 
 						$a5 = $a5 . '</select>
 									 </td>
@@ -417,13 +421,13 @@ function tpenrollments_shortcode($atts) {
 			$date1 = $row->start;
 			$date2 = $row->end;
 			$a6 = $a6 . '<div style="margin:10px; padding:5px;">
-				   		 <div class="the_course" style="font-size:15px;"><a href="' . get_permalink($row->rel_page) . '">' . $row->name . '</a></div>
+				   		 <div class="the_course" style="font-size:15px;"><a href="' . get_permalink($row->rel_page) . '">' . stripslashes($row->name) . '</a></div>
 				   		 <table width="100%" border="0" cellpadding="1" cellspacing="0">
 				   		 <tr>
 						 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
 			if (is_user_logged_in() && $auswahl != '') {
-				if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
-					$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row->course_id . '" title="' . $row->name . ' ' . __('select','teachpress') . '" id="checkbox_' . $row->course_id . '"/>';
+				if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
+					$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row->course_id . '" title="' . stripslashes($row->name) . ' ' . __('select','teachpress') . '" id="checkbox_' . $row->course_id . '"/>';
 				} 
 			}
 			else {
@@ -440,16 +444,16 @@ function tpenrollments_shortcode($atts) {
 						</tr>
 						<tr>
 						 <td width="20%" style="font-weight:bold;">';
-			if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
+			if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
 				$a6 = $a6 . '<label for="checkbox_' . $row->course_id . '" style="line-height:normal;">';
 			}
-			$a6 = $a6 . $row->type;
-			if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
+			$a6 = $a6 . stripslashes($row->type);
+			if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
 				$a6 = $a6 . '</label>';
 			}
 			$a6 = $a6 . '</td>
-						 <td width="20%">' . $row->lecturer . '</td>
-						 <td align="center">' . $row->date . ' ' . $row->room . '</td>
+						 <td width="20%">' . stripslashes($row->lecturer) . '</td>
+						 <td align="center">' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</td>
 						 <td align="center">';
 			if ($date1 != '0000-00-00 00:00:00') { 
 				$a6 = $a6 . $row->fplaces . ' ' . __('of','teachpress') . ' ' .  $row->places;
@@ -483,8 +487,8 @@ function tpenrollments_shortcode($atts) {
 				$a6 = $a6 . '<tr>
 							 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
 				if (is_user_logged_in() && $auswahl != '') {
-					if ($date3 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date3 && date("Y-m-d H:i:s") <= $date4) {
-						$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row2->course_id . '" title="' . $row2->name . ' ausw&auml;hlen" id="checkbox_' . $row2->course_id . '"/>';
+					if ($date3 != '0000-00-00 00:00:00' && current_time('mysql') >= $date3 && current_time('mysql') <= $date4) {
+						$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row2->course_id . '" title="' . stripslashes($row2->name) . ' ausw&auml;hlen" id="checkbox_' . $row2->course_id . '"/>';
 					}
 				}
 				$a6 = $a6 . '</td>
@@ -494,21 +498,21 @@ function tpenrollments_shortcode($atts) {
 							</tr>
 							<tr>
 							 <td width="20%" style="font-weight:bold;">';
-				if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
+				if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
 					$a6 = $a6 . '<label for="checkbox_' . $row2->course_id . '" style="line-height:normal;">';
 				}
 				$a6 = $a6 . $row2->name;
-				if ($date1 != '0000-00-00 00:00:00' && date("Y-m-d H:i:s") >= $date1 && date("Y-m-d H:i:s") <= $date2) {
+				if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
 					$a6 = $a6 . '</label>';
 				}
 				$a6 = $a6 . '</td>
-							 <td width="20%">' . $row2->lecturer . '</td>
-							 <td align="center">' . $row2->date . ' ' . $row2->room . '</td>
+							 <td width="20%">' . stripslashes($row2->lecturer) . '</td>
+							 <td align="center">' . stripslashes($row2->date) . ' ' . stripslashes($row2->room) . '</td>
 							 <td align="center">' . $row2->fplaces . ' ' . __('of','teachpress') . ' ' . $row2->places . '</td>
 							</tr>
 							<tr>
 							 <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="waitinglist">';
-				$a6 = $a6 . $row2->comment . ' ';
+				$a6 = $a6 . stripslashes($row2->comment) . ' ';
 				if ($row2->waitinglist == 1 && $row2->fplaces == 0) {
 					$a6 = $a6 . __('Possible to subscribe in the waiting list','teachpress');
 				} 
@@ -572,7 +576,7 @@ function tp_courselist_shortcode($atts) {
 	}
 
 	$a1 = '<div id="anzeigelvs">
-			<h2>' . __('Courses for the','teachpress') . ' ' . $sem . '</h2>
+			<h2>' . __('Courses for the','teachpress') . ' ' . stripslashes($sem) . '</h2>
 			<form name="lvs" method="get">
 			<input type="hidden" name="' . $page . '" id="' . $page . '" value="' . $postid . '"/>
 			<div class="tp_auswahl">' . __('Select the term','teachpress') . ' <select name="semester">';
@@ -596,6 +600,8 @@ function tp_courselist_shortcode($atts) {
 	if ($test != 0){
 		$row = $wpdb->get_results($row);
 		foreach($row as $row) {
+			$row->name = stripslashes($row->name);
+			$row->comment = stripslashes($row->comment);
 			// handle images	
 			$colspan = '';
 			if ($image == 'left' || $image == 'right') {
@@ -647,10 +653,8 @@ function tp_courselist_shortcode($atts) {
  * used in WordPress-Shortcode API
 */
 function tpdate_shortcode($attr) {
-	// Rueckgabestring wird ueber verschiedene Teile zusammengesetzt
 	$a1 = '<div class="untertitel">' . __('Date(s)','teachpress') . '</div>
 			<table border="0" cellspacing="0" cellpadding="5" width="100%" class= "tpdate">';
-	// Abfrage nach den Daten der Lehrveranstaltung deren ID im Shortcode angegeben wurde	
 	global $wpdb;	
 	global $teachpress_courses; 
 	$row = "SELECT name, type, room, lecturer, date, comment FROM " . $teachpress_courses . " WHERE course_id= ". $attr["id"] . "";
@@ -659,35 +663,35 @@ function tpdate_shortcode($attr) {
 		$v_test = $row->name;
 		$a2 = $a2 . ' 
 			  <tr>
-				<td rowspan="2"><strong>' . $row->type . '</strong></td>
-				<td>' . $row->date . ' ' . $row->room . '</td>
-				<td rowspan="2">' . $row->lecturer . '</td>
+				<td rowspan="2"><strong>' . stripslashes($row->type) . '</strong></td>
+				<td>' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</td>
+				<td rowspan="2">' . stripslashes($row->lecturer) . '</td>
 				<td rowspan="2">&nbsp;</td>
 			  </tr>
 			  <tr>
-				<td>' . $row->comment . '</td>
+				<td>' . stripslashes($row->comment) . '</td>
 			  </tr>
 			  <tr>
 				<td colspan="4" class="tpdatecol">&nbsp;</td>
 			  </tr>';
 	} 
-	// Abfrage nach Tochter-Lehrveranstaltungen
+	// Search the child courses
 	$row = "SELECT name, type, room, lecturer, date, comment FROM " . $teachpress_courses . " WHERE parent= ". $attr["id"] . " ORDER BY name";
     $row = $wpdb->get_results($row);
 	foreach($row as $row) {
-		// wenn parent und child name gleich sind, dann zeige nur an
+		// if parent name = child name
 		if ($v_test == $row->name) {
 			$row->name = $row->type;
 		}
         $a3 = $a3 . '
 		  <tr>
-			<td rowspan="2"><strong>' . $row->name . '</strong></td>
-			<td>' . $row->date . ' ' . $row->room . '</td>
-			<td rowspan="2">' . $row->lecturer . '</td>
+			<td rowspan="2"><strong>' . stripslashes($row->name) . '</strong></td>
+			<td>' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</td>
+			<td rowspan="2">' . stripslashes($row->lecturer) . '</td>
 			<td rowspan="2">&nbsp;</td>
 		  </tr>
 		  <tr>
-			<td>' . $row->comment . '</td>
+			<td>' . stripslashes($row->comment) . '</td>
 		  </tr>
           <tr>
           	<td colspan="4" class="tpdatecol">&nbsp;</td>
@@ -695,9 +699,8 @@ function tpdate_shortcode($attr) {
 		';
 	} 
 	$a4 = '</table>';
-	// Zusammensetzen des Rueckgabestring
-	$rueck = '' . $a1 . '' . $a2 . '' . $a3 . '' . $a4 . '';
-	return $rueck;
+	$asg = '' . $a1 . '' . $a2 . '' . $a3 . '' . $a4 . '';
+	return $asg;
 }
 
 /* Shorcode for a single publication

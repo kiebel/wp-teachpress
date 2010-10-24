@@ -95,7 +95,7 @@ function teachpress_show_courses_page() {
 					else {
 						$current = '' ;
 					} 
-					echo '<option value="' . $term->value . '" ' . $current . '>' . $term->value . '</option>';
+					echo '<option value="' . $term->value . '" ' . $current . '>' . stripslashes($term->value) . '</option>';
 				} ?> 
 			</select>
 			<input name="copy_ok" type="submit" class="teachpress_button" value="<?php _e('copy','teachpress'); ?>"/>
@@ -115,7 +115,7 @@ function teachpress_show_courses_page() {
 			<?php if ($search != "") { ?>
 			<a href="admin.php?page=teachpress/teachpress.php" style="font-size:14px; font-weight:bold; text-decoration:none; padding-right:3px;" title="<?php _e('Cancel the search','teachpress'); ?>">X</a>
 			<?php } ?>
-			<input type="text" name="search" id="pub_search_field" value="<?php echo $search; ?>"/></td>
+			<input type="text" name="search" id="pub_search_field" value="<?php echo stripslashes($search); ?>"/></td>
 			<input type="submit" name="pub_search_button" id="pub_search_button" value="<?php _e('search','teachpress'); ?>" class="teachpress_button"/>
 		</div>
 		<div id="filterbox" style="padding-bottom:10px;">
@@ -131,7 +131,7 @@ function teachpress_show_courses_page() {
 					else {
 						$current = '' ;
 					} 
-					echo '<option value="' . $row->value . '" ' . $current . '>' . $row->value . '</option>';
+					echo '<option value="' . $row->value . '" ' . $current . '>' . stripslashes($row->value) . '</option>';
 				} ?> 
 			</select>
 			<input type="submit" name="start" value="<?php _e('show','teachpress'); ?>" id="teachpress_submit" class="teachpress_button"/>
@@ -189,16 +189,16 @@ function teachpress_show_courses_page() {
 				$date1 = tp_datumsplit($row->start);
 				$date2 = tp_datumsplit($row->end);
 				$courses[$z]['course_id'] = $row->course_id;
-				$courses[$z]['name'] = $row->name;
-				$courses[$z]['type'] = $row->type;
-				$courses[$z]['room'] = $row->room;
-				$courses[$z]['lecturer'] = $row->lecturer;
-				$courses[$z]['date'] = $row->date;
+				$courses[$z]['name'] = stripslashes($row->name);
+				$courses[$z]['type'] = stripslashes($row->type);
+				$courses[$z]['room'] = stripslashes($row->room);
+				$courses[$z]['lecturer'] = stripslashes($row->lecturer);
+				$courses[$z]['date'] = stripslashes($row->date);
 				$courses[$z]['places'] = $row->places;
 				$courses[$z]['fplaces'] = $row->fplaces;
 				$courses[$z]['start'] = '' . $date1[0][0] . '-' . $date1[0][1] . '-' . $date1[0][2] . '';
 				$courses[$z]['end'] = '' . $date2[0][0] . '-' . $date2[0][1] . '-' . $date2[0][2] . '';
-				$courses[$z]['semester'] = $row->semester;
+				$courses[$z]['semester'] = stripslashes($row->semester);
 				$courses[$z]['parent'] = $row->parent;
 				$courses[$z]['visible'] = $row->visible;
 				$z++;
