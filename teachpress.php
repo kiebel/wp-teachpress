@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.5
+Version: 2.0.6
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
@@ -302,7 +302,6 @@ function tp_get_option($var) {
 */
 function tp_sec_var($var, $type = 'string') {
 	$var = htmlspecialchars($var);
-	$var = stripslashes($var);
 	if ($type == 'integer') {
 		settype($var, 'integer');
 	}
@@ -895,23 +894,23 @@ function tp_change_publication($pub_ID, $data, $bookmark, $delbox, $tags) {
 function tp_change_settings($semester, $permalink, $stylesheet, $sign_out, $userrole, $regnum, $studies, $termnumber, $birthday, $login) {
 	global $wpdb;
 	global $teachpress_settings; 		
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$semester' WHERE variable = 'sem'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$semester' WHERE `variable` = 'sem'";
 	$wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$permalink' WHERE variable = 'permalink'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$permalink' WHERE `variable` = 'permalink'";
     $wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$stylesheet' WHERE variable = 'stylesheet'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$stylesheet' WHERE `variable` = 'stylesheet'";
     $wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$sign_out' WHERE variable = 'sign_out'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$sign_out' WHERE `variable` = 'sign_out'";
     $wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$regnum' WHERE variable = 'regnum'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$regnum' WHERE `variable` = 'regnum'";
     $wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$studies' WHERE variable = 'studies'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$studies' WHERE `variable` = 'studies'";
     $wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$termnumber' WHERE variable = 'termnumber'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$termnumber' WHERE `variable` = 'termnumber'";
     $wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$birthday' WHERE variable = 'birthday'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$birthday' WHERE `variable` = 'birthday'";
     $wpdb->query( $eintragen );
-	$eintragen = "UPDATE " . $teachpress_settings . " SET  value = '$login' WHERE variable = 'login'";
+	$eintragen = "UPDATE " . $teachpress_settings . " SET `value` = '$login' WHERE `variable` = 'login'";
     $wpdb->query( $eintragen );
 	tp_update_userrole($userrole);
 }
@@ -1163,7 +1162,7 @@ function teachpress_install() {
 						 `course_id` INT ,
 						 `wp_id` INT ,
 						 `waitinglist` INT(1) ,
-						 `date` DATE ,
+						 `date` DATETIME ,
 						 FOREIGN KEY (course_id) REFERENCES " . $teachpress_courses. "(course_id) ,
 						 FOREIGN KEY (wp_id) REFERENCES " . $teachpress_stud . "(wp_id) ,
 						 PRIMARY KEY (con_id)
@@ -1183,7 +1182,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.5', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.6', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");

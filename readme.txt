@@ -130,6 +130,10 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.6 - (24.10.2010) =
+* Changed: Type of the registration timestamp is changed from date to datetime
+* Bugfix: Fixed a security vulnerability (sql injection) which was opened with a fix in version 2.0.5
+* Bugfix: teachPress uses now the right local server time and not longer greenwich time
 = 2.0.5 - (11.10.2010) =
 * New: Now you can set the time (hour, minute) for the start/end of a enrollment period
 * Bugfix: Fixed a bug which displayed a wrong message after adding a student

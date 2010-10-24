@@ -509,6 +509,17 @@ function tp_db_update_function() {
 		}
 		
 		/*
+		 * teachpress_signup
+		*/
+		// Change type in column date
+		$sql = "SELECT date FROM " . $teachpress_signup . "";
+		$wpdb->get_results($sql);
+		$test = $wpdb->get_col_info('type', 0);
+		if ($test == 'date') {
+			$wpdb->query("ALTER TABLE `" . $teachpress_signup . "` CHANGE  `date`  `date` DATETIME NULL DEFAULT NULL");
+		}
+		 
+		/*
 		 * teachpress_settings
 		*/
 		// Stylesheet

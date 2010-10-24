@@ -60,7 +60,7 @@ function teachpress_editstudent_page() {
 		$sql = "SELECT * FROM " . $teachpress_stud . " WHERE wp_id = '$student'";
 		$row3 = $wpdb->get_row($sql);
 	?>
-	<h2 style="padding-top:0px;"><?php echo $row3->firstname; ?> <?php echo $row3->lastname; ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('daten_aendern')" id="daten_aendern_2" style="cursor:pointer;"><?php _e('edit','teachpress'); ?> </a></small></h2>
+	<h2 style="padding-top:0px;"><?php echo stripslashes($row3->firstname); ?> <?php echo stripslashes($row3->lastname); ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('daten_aendern')" id="daten_aendern_2" style="cursor:pointer;"><?php _e('edit','teachpress'); ?> </a></small></h2>
 	  <div id="daten_aendern" style="display:none; padding-top:5px; padding-bottom:5px; margin:5px;">
 		<fieldset style="border:1px solid silver; padding:10px; width:650px;">
 		  <legend><?php _e('Edit Data','teachpress'); ?></legend>
@@ -80,11 +80,11 @@ function teachpress_editstudent_page() {
 			<?php }?>
 			  <tr>
 				<th><label for="firstname"><?php _e('First name','teachpress'); ?></label></th>
-				<td><input name="firstname" type="text" id="firstname" value="<?php echo $row3->firstname; ?>" size="40"/></td>
+				<td><input name="firstname" type="text" id="firstname" value="<?php echo stripslashes($row3->firstname); ?>" size="40"/></td>
 			  </tr>
 			  <tr>
 				<th><label for="lastname"><?php _e('Last name','teachpress'); ?></label></th>
-				<td><input name="lastname" type="text" id="lastname" value="<?php echo $row3->lastname; ?>" size="40"/></td>
+				<td><input name="lastname" type="text" id="lastname" value="<?php echo stripslashes($row3->lastname); ?>" size="40"/></td>
 			  </tr>
 			  <tr>
 			<?php
@@ -103,7 +103,7 @@ function teachpress_editstudent_page() {
 					else {
 						$current = '' ;
 					}
-					echo '<option value="' . $stud->value . '" ' . $current . '>' . $stud->value . '</option>';
+					echo '<option value="' . stripslashes($stud->value) . '" ' . $current . '>' . stripslashes($stud->value) . '</option>';
 				  } ?>
 				</select></td>
 			  </tr>
@@ -187,7 +187,7 @@ function teachpress_editstudent_page() {
 		if ($field2 == '1') {
 			echo '<tr>';
 			echo '<th>' . __('Course of studies','teachpress') . '</th>';
-			echo '<td>' . $row3->course_of_studies . '</td>';
+			echo '<td>' . stripslashes($row3->course_of_studies) . '</td>';
 			echo '</tr>';
 		}
 		if ($field3 == '1') { 
@@ -234,30 +234,36 @@ function teachpress_editstudent_page() {
 		<tbody>
 	<?php
 			// Nach Daten zur Person: Ausgabe aller Einschreibungen
-			$row2= "SELECT " . $teachpress_stud . ".wp_id, " . $teachpress_stud . ".firstname, " . $teachpress_stud . ".lastname, " . $teachpress_courses . ".name, " . $teachpress_courses . ".type, " . $teachpress_courses . ".date, " . $teachpress_courses . ".parent," . $teachpress_signup . ".con_id, " . $teachpress_signup . ".date
-						FROM " . $teachpress_signup . "
-						INNER JOIN " . $teachpress_courses . " ON " . $teachpress_courses . ".course_id=" . $teachpress_signup . ".course_id
-						INNER JOIN " . $teachpress_stud . " ON " . $teachpress_stud . ".wp_id= " . $teachpress_signup . ".wp_id
-						WHERE " . $teachpress_signup . ".wp_id = '$student'";
-			$row2 = $wpdb->get_results($row2);
-			foreach($row2 as $row2) {
-				if ($row2->parent != 0) {
-					$parent_name = $wpdb->get_var("SELECT name FROM " . $teachpress_courses . " WHERE course_id = '$row2->parent'");
-					$parent_name = $parent_name . " ";
-				}
-				else {
-					$parent_name = "";
-				}
-				// Ausgabe der Infos zur gewählten LVS mit integriertem Aenderungsformular
-				echo '<tr>';
-				echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $row2->con_id . '"/></th>';
-				echo '<td>' . $row2->con_id . '</td>';
-				echo '<td>' . $row2->date . '</td>';
-				echo '<td>' . $parent_name . $row2->name . '</td>';
-				echo '<td>' . $row2->type . '</td>';
-				echo '<td>' . $row2->date . '</td>';
-				echo '</tr>';
-			} ?>
+			$sql = "SELECT s.wp_id, s.firstname, s.lastname, c.name, c.type, c.date, c.parent, si.con_id, si.date AS signup
+						FROM " . $teachpress_signup . " si
+						INNER JOIN " . $teachpress_courses . " c ON c.course_id = si.course_id
+						INNER JOIN " . $teachpress_stud . " s ON s.wp_id = si.wp_id
+						WHERE si.wp_id = '$student'";		
+			$test = $wpdb->query($sql);
+			if ($test != 0) {	
+				$row2 = $wpdb->get_results($sql);
+				foreach($row2 as $row2) {
+					if ($row2->parent != 0) {
+						$parent_name = $wpdb->get_var("SELECT name FROM " . $teachpress_courses . " WHERE course_id = '$row2->parent'");
+						$parent_name = $parent_name . " ";
+					}
+					else {
+						$parent_name = "";
+					}
+					// Ausgabe der Infos zur gewählten LVS mit integriertem Aenderungsformular
+					echo '<tr>';
+					echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $row2->con_id . '"/></th>';
+					echo '<td>' . $row2->con_id . '</td>';
+					echo '<td>' . $row2->signup . '</td>';
+					echo '<td>' . stripslashes($parent_name) . stripslashes($row2->name) . '</td>';
+					echo '<td>' . stripslashes($row2->type) . '</td>';
+					echo '<td>' . stripslashes($row2->date) . '</td>';
+					echo '</tr>';
+				} 
+			}
+			else {
+				echo '<tr><td colspan="6"><strong>' . __('Sorry, no entries matched your criteria.','teachpress') . '</strong></td></tr>';
+			}?>
 		</tbody>
 	</table>
 	<table border="0" cellspacing="7" cellpadding="0" id="einzel_optionen">

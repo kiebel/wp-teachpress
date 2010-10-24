@@ -19,43 +19,43 @@ function teachpress_addpublications_page() {
 	$user = $current_user->ID;
 	
 	// form variables from add_publication.php
-	$data['name'] = tp_sec_var($_GET[post_title]);
-	$data['type'] = tp_sec_var($_GET[type]);
-	$data['bibtex'] = tp_sec_var($_GET[bibtex]);
-	$data['author'] = tp_sec_var($_GET[author]);
-	$data['editor'] = tp_sec_var($_GET[editor]);
-	$data['isbn'] = tp_sec_var($_GET[isbn]);
-	$data['url'] = tp_sec_var($_GET[url]);
-	$data['date'] = tp_sec_var($_GET[date]);
-	$data['booktitle'] = tp_sec_var($_GET[booktitle]);
-	$data['journal'] = tp_sec_var($_GET[journal]);
-	$data['volume'] = tp_sec_var($_GET[volume]);
-	$data['number'] = tp_sec_var($_GET[number]);
-	$data['pages'] = tp_sec_var($_GET[pages]);
-	$data['publisher'] = tp_sec_var($_GET[publisher]);
-	$data['address'] = tp_sec_var($_GET[address]);
-	$data['edition'] = tp_sec_var($_GET[edition]);
-	$data['chapter'] = tp_sec_var($_GET[chapter]);
-	$data['institution'] = tp_sec_var($_GET[institution]);
-	$data['organization'] = tp_sec_var($_GET[organization]);
-	$data['school'] = tp_sec_var($_GET[school]);
-	$data['series'] = tp_sec_var($_GET[series]);
-	$data['crossref'] = tp_sec_var($_GET[crossref]);
-	$data['abstract'] = tp_sec_var($_GET[abstrac]);
-	$data['howpublished'] = tp_sec_var($_GET[howpublished]);
-	$data['key'] = tp_sec_var($_GET[key]);
-	$data['techtype'] = tp_sec_var($_GET[techtype]);
-	$data['comment'] = tp_sec_var($_GET[comment]);
-	$data['note'] = tp_sec_var($_GET[note]);
-	$data['image_url'] = tp_sec_var($_GET[image_url]);
-	$data['rel_page'] = tp_sec_var($_GET[rel_page], 'integer');
-	$data['is_isbn'] = tp_sec_var($_GET[is_isbn], 'integer');
+	$data['name'] = tp_sec_var($_POST[post_title]);
+	$data['type'] = tp_sec_var($_POST[type]);
+	$data['bibtex'] = tp_sec_var($_POST[bibtex]);
+	$data['author'] = tp_sec_var($_POST[author]);
+	$data['editor'] = tp_sec_var($_POST[editor]);
+	$data['isbn'] = tp_sec_var($_POST[isbn]);
+	$data['url'] = tp_sec_var($_POST[url]);
+	$data['date'] = tp_sec_var($_POST[date]);
+	$data['booktitle'] = tp_sec_var($_POST[booktitle]);
+	$data['journal'] = tp_sec_var($_POST[journal]);
+	$data['volume'] = tp_sec_var($_POST[volume]);
+	$data['number'] = tp_sec_var($_POST[number]);
+	$data['pages'] = tp_sec_var($_POST[pages]);
+	$data['publisher'] = tp_sec_var($_POST[publisher]);
+	$data['address'] = tp_sec_var($_POST[address]);
+	$data['edition'] = tp_sec_var($_POST[edition]);
+	$data['chapter'] = tp_sec_var($_POST[chapter]);
+	$data['institution'] = tp_sec_var($_POST[institution]);
+	$data['organization'] = tp_sec_var($_POST[organization]);
+	$data['school'] = tp_sec_var($_POST[school]);
+	$data['series'] = tp_sec_var($_POST[series]);
+	$data['crossref'] = tp_sec_var($_POST[crossref]);
+	$data['abstract'] = tp_sec_var($_POST[abstrac]);
+	$data['howpublished'] = tp_sec_var($_POST[howpublished]);
+	$data['key'] = tp_sec_var($_POST[key]);
+	$data['techtype'] = tp_sec_var($_POST[techtype]);
+	$data['comment'] = tp_sec_var($_POST[comment]);
+	$data['note'] = tp_sec_var($_POST[note]);
+	$data['image_url'] = tp_sec_var($_POST[image_url]);
+	$data['rel_page'] = tp_sec_var($_POST[rel_page], 'integer');
+	$data['is_isbn'] = tp_sec_var($_POST[is_isbn], 'integer');
 		
-	$tags = tp_sec_var($_GET[tags]);
-	$delbox = $_GET[delbox];
-	$erstellen = $_GET[erstellen];
-	$bookmark = $_GET[bookmark];
-	$speichern = $_GET[speichern];
+	$tags = tp_sec_var($_POST[tags]);
+	$delbox = $_POST[delbox];
+	$erstellen = $_POST[erstellen];
+	$bookmark = $_POST[bookmark];
+	$speichern = $_POST[speichern];
 	
 	// from show_publications.php
 	$pub_ID = tp_sec_var($_GET[pub_ID], 'integer');
@@ -66,22 +66,22 @@ function teachpress_addpublications_page() {
 	
 	?>
 	<div class="wrap">
-	<form name="form1" method="get" action="<?php echo $PHP_SELF ?>" id="form1">
+	<form name="form1" method="post" action="<?php echo $PHP_SELF ?>" id="form1">
 	<?php
 	// if publications was created
-	if (isset($erstellen)) {
+	if ( isset($erstellen) ) {
 		$pub_ID = tp_add_publication($data, $tags, $bookmark);
 		$message = __('Publication added','teachpress') . ' <a href="admin.php?page=teachpress/addpublications.php">' . __('Add new','teachpress') . '</a>';
 		tp_get_message($message);
 	}
 	// if publication was saved
-	if (isset($speichern)) {
+	if ( isset($speichern) ) {
 		tp_change_publication($pub_ID, $data, $bookmark, $delbox, $tags);
 		$message = __('Publication changed','teachpress');
 		tp_get_message($message);
 	}
 	
-	if ($pub_ID != '') {?>
+	if ( $pub_ID != '' && !isset($erstellen) ) {?>
     <p style="margin-bottom:0px;"><a href="admin.php?page=<?php echo $site; ?>&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>" class="teachpress_back" title="<?php _e('back','teachpress'); ?>">&larr; <?php _e("back",'teachpress'); ?></a></p>
     <?php } ?>
 	<h2><?php if ($pub_ID == '') { _e('Add a new publication','teachpress'); } else { _e('Edit publication','teachpress'); } ?><span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>

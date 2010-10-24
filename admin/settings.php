@@ -154,7 +154,7 @@ function teachpress_admin_settings() {
                         else {
                             $current = '' ;
                         } 
-                        echo '<option value="' . $sem->value . '" ' . $current . '>' . $sem->value . '</option>';
+                        echo '<option value="' . $sem->value . '" ' . $current . '>' . stripslashes($sem->value) . '</option>';
                     } ?>    
 					</select></td>
                     <td><em><?php _e('Here you can change the current term. This value is used for the default settings for all menus.','teachpress'); ?></em></td>
