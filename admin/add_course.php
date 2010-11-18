@@ -247,7 +247,7 @@ function tp_add_course_page() {
 			<p><label for="lecturer" title="<?php _e('The lecturer(s) of the course','teachpress'); ?>"><strong><?php _e('Lecturer','teachpress'); ?></strong></label></p>
 			<input name="lecturer" type="text" id="lecturer" title="<?php _e('The lecturer(s) of the course','teachpress'); ?>" style="width:95%;" tabindex="4" value="<?php echo stripslashes($daten["lecturer"]); ?>" />
 			<p><label for="date" title="<?php _e('The date(s) for the course','teachpress'); ?>"><strong><?php _e('Date','teachpress'); ?></strong></label></p>
-			<input name="date" type="text" id="date" title="<?php _e('The date(s) for the course','teachpress'); ?>" style="width:95%;" tabindex="5" value="<?php echo stripslashes($daten["date"]); ?>" />
+             <input name="date" type="text" id="date" title="<?php _e('The date(s) for the course','teachpress'); ?>" tabindex="5" style="width:95%;" value="<?php echo stripslashes($daten["date"]); ?>" />
 			<p><label for="room" title="<?php _e('The room or place for the course','teachpress'); ?>"><strong><?php _e('Room','teachpress'); ?></strong></label></p>
 			<input name="room" type="text" id="room" title="<?php _e('The room or place for the course','teachpress'); ?>" style="width:95%;" tabindex="6" value="<?php echo stripslashes($daten["room"]); ?>" />
 			<p><label for="platz" title="<?php _e('The number of available places.','teachpress'); ?>"><strong><?php _e('Number of places','teachpress'); ?></strong></label></p>

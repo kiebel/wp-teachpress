@@ -775,7 +775,6 @@ function tpcloud_shortcode($atts) {
 	if ($id != 0) {
 		$autor = $id;
 	}
-	// Zahlen werden auf Integer gesetzt
 	settype($id, 'integer');
 	settype($image_size, 'integer');
 	settype($anchor, 'integer');
@@ -793,12 +792,11 @@ function tpcloud_shortcode($atts) {
 	else {
 		$html_anchor = '';
 	}
+	$permalink = tp_get_option('permalink');
+	
 	/*
 	 * Tag cloud
 	*/
-	
-	// Abfrage ob Permalinks verwendet werden oder nicht
-	$permalink = tp_get_option('permalink');
 	
 	// Ermittle Anzahl der Tags absteigend sortiert
 	if ($id == '0') {
@@ -847,9 +845,7 @@ function tpcloud_shortcode($atts) {
 		}
 		// Falls Permalinks genutzt werden
 		if ($permalink == 1) {
-			// Link zum aktuellen Post herausfinden
 			$link = $pagenow;
-			// das index.php aus der URL schneiden
 			$link = str_replace("index.php", "", $link);
 			// String zusammensetzen
 			// fuer aktuellen Tag
@@ -864,9 +860,7 @@ function tpcloud_shortcode($atts) {
 		// wenn keine Permalinks genutzt werden
 		else {
 			$postid = get_the_ID();
-			// Link zum aktuellen Post herausfinden
 			$link = $pagenow;
-			// das index.php aus der URL schneiden
 			$link = str_replace("index.php", "", $link);
 			// String zusammensetzen
 			// fuer aktuellen Tag
@@ -880,7 +874,7 @@ function tpcloud_shortcode($atts) {
 	}
 	
 	/* 
-	 * Auswahl-Filter
+	 * Filter
 	*/ 
 	
 	// for javascripts
@@ -892,15 +886,16 @@ function tpcloud_shortcode($atts) {
 	else {
 		$tpurl = '' . $link . '?' . $page . '=' . $postid . '&amp;';
 	}
-	// Filter 1
+	
+	// Filter year
 	if ($id == 0) {
-		$row = $wpdb->get_results("SELECT DISTINCT DATE_FORMAT(p.date, '%Y') AS jahr from " . $teachpress_pub . " p ORDER BY jahr DESC");
+		$row = $wpdb->get_results("SELECT DISTINCT DATE_FORMAT(p.date, '%Y') AS jahr FROM " . $teachpress_pub . " p ORDER BY jahr DESC");
 	}
 	else {
-		$row = $wpdb->get_results("SELECT DISTINCT DATE_FORMAT(p.date, '%Y') AS jahr from " . $teachpress_pub . "  p
-							INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
-							WHERE u.user = '$id'
-							ORDER BY jahr DESC");
+		$row = $wpdb->get_results("SELECT DISTINCT DATE_FORMAT(p.date, '%Y') AS jahr FROM " . $teachpress_pub . "  p
+									INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
+									WHERE u.user = '$id'
+									ORDER BY jahr DESC");
 	}
 	$options = '';
 	foreach ($row as $row) {
@@ -916,14 +911,37 @@ function tpcloud_shortcode($atts) {
                <option value="' . $tpurl . 'tgid=' . $tgid . '&amp;yr=0&amp;type=' . $type . '&amp;autor=' . $autor . '' . $html_anchor . '">' . __('All years','teachpress') . '</option>
 			   ' . $options . '
                </select>';
-	// Filter 2
+			   
+	// Filter type
+	if ($id == 0) {
+		$row = $wpdb->get_results("SELECT DISTINCT p.type FROM " . $teachpress_pub . " p ORDER BY p.type ASC");
+	}
+	else {
+		$row = $wpdb->get_results("SELECT DISTINCT p.type from " . $teachpress_pub . "  p
+									INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
+									WHERE u.user = '$id'
+									ORDER BY p.type ASC");
+	}
+	$current = '';	
 	$options = '';
-	$options = get_tp_publication_type_options($type, 'jump', $tpurl, $tgid, $yr, $autor, $anchor);
-	$filter2 ='<span style="padding-left:10px; padding-right:10px;"><select name="type" id="type" onchange="teachpress_jumpMenu(' . $str . 'parent' . $str . ',this,0)">' . $options . '</select></span>';
-	// Filter 3
+	foreach ($row as $row) {
+		if ($row->type == $type && $type != '0') {
+			$current = 'selected="selected"';
+		}
+		else {
+			$current = '';
+		}
+		$options = $options . '<option value = "' . $tpurl . 'tgid=' . $tgid . '&amp;yr=' . $yr . '&amp;type=' . $row->type . '&amp;autor=' . $autor . $html_anchor . '" ' . $current . '>' . __('' . $row->type . '','teachpress') . '</option>';
+	}
+	$filter2 ='<span style="padding-left:10px; padding-right:10px;"><select name="type" id="type" onchange="teachpress_jumpMenu(' . $str . 'parent' . $str . ',this,0)">
+               <option value="' . $tpurl . 'tgid=' . $tgid . '&amp;yr=0&amp;type=' . $type . '&amp;autor=' . $autor . '' . $html_anchor . '">' . __('All types','teachpress') . '</option>
+			   ' . $options . '
+               </select></span>';
+			   
+	// Filter author
 	$current = '';	
 	$options = '';  
-	// Wenn alle Publikationen angefordert werden		   
+	// for all publications	   
 	if ($id == '0') {	
 		$row = $wpdb->get_results("SELECT DISTINCT user FROM " . $teachpress_user . "");	 
 		foreach ($row as $row) {
@@ -941,18 +959,17 @@ function tpcloud_shortcode($atts) {
 				   ' . $options . '
 				   </select>';	
 	}
-	// Bei Publikationen eines bestimmten Autors entfaellt 3. Filter	   	
+	// for publications of one author, where is no third filter	   	
 	else {
 		$filter3 = "";
 	}
-	// Endformatierung
+	
+	// Endformat
 	if ($yr == '' && $type == '' && ($autor == '' || $autor == $id ) && $tgid == '') {
 		$showall = "";
 	}
 	else {
-		// Link zum aktuellen Post herausfinden
 		$link = $pagenow;
-		// das index.php aus der URL schneiden
 		$link = str_replace("index.php", "", $link);
 		if ($permalink == 1) {
 			$showall ='<a href="' . $link . '?tgid=0' . $html_anchor . '" title="' . __('Show all','teachpress') . '">' . __('Show all','teachpress') . '</a>';

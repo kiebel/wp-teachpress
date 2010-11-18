@@ -1,21 +1,21 @@
 <?php 
-/* Bearbeitung von Lehrveranstaltungen
- * @param $course_ID (INT) - ID der Veranstaltung die geladen werden soll
- * @param $sem (String) - angezeigtes Semester auf showlvs.php
- * @param $search (String) - verwendeter Suchstring auf showlvs.php
+/* Single course overview
+ * $_GET parameters:
+ * @param $course_ID (INT) - course ID
+ * @param $sem (String) - semester, from show_courses.php
+ * @param $search (String) - search string, from show_courses.php
 */
 function tp_show_single_course_page() {
 	
-	// Datenbankvariablen
 	global $wpdb;
 	global $teachpress_courses; 
 	global $teachpress_stud; 
 	global $teachpress_settings; 
 	global $teachpress_signup;
-	// WordPressvariablen
+	// WordPress
 	global $user_ID;
 	get_currentuserinfo();
-	// Formularvariablen
+	// form
 	$checkbox = $_GET[checkbox];
 	$delete = $_GET[loeschen];
 	$speichern = $_GET[speichern];
@@ -43,11 +43,10 @@ function tp_show_single_course_page() {
 		$message = __('Enrollments deleted','teachpress');
 		tp_get_message($message);	
 	}
-	// Abfrage-Arrays füllen
-	// LVS-Daten
+	// course data
 	$row = "SELECT * FROM " . $teachpress_courses . " WHERE course_id = '$course_ID'";
 	$daten = $wpdb->get_row($row, ARRAY_A);
-	// Einschreibungen
+	// enrollments
 	$row = "SELECT " . $teachpress_stud . ".matriculation_number, " . $teachpress_stud . ".firstname, " . $teachpress_stud . ".lastname, " . $teachpress_stud . ".course_of_studies,  " . $teachpress_stud . ".userlogin, " . $teachpress_stud . ".email , " . $teachpress_signup . ".date, " . $teachpress_signup . ".con_id, " . $teachpress_signup . ".waitinglist
 				FROM " . $teachpress_signup . " 
 				INNER JOIN " . $teachpress_courses . " ON " . $teachpress_courses . ".course_id=" . $teachpress_signup . ".course_id
@@ -68,7 +67,7 @@ function tp_show_single_course_page() {
 		$daten2[$counter2]["waitinglist"] = $row->waitinglist;
 		$counter2++;
 	}
-	// verfügbare Parents
+	// available course parents
 	$row = "SELECT course_id, name, semester FROM " . $teachpress_courses . " WHERE parent='0' AND course_id != '$veranstaltung' ORDER BY semester DESC, name";
 	$row = $wpdb->get_results($row);
 	$counter3 = 0;
@@ -100,7 +99,7 @@ function tp_show_single_course_page() {
 			for ($x=0; $x < $counter3; $x++) {
 				if ($par[$x]["id"] == $daten["parent"]) {
 					$parent_name = $par[$x]["name"];
-					// Wenn parent_name == child name
+					// if parent name == child name
 					if ($parent_name == $daten["name"]) {
 						$parent_name = "";
 					}
@@ -136,11 +135,11 @@ function tp_show_single_course_page() {
               <?php if ($daten["start"] != '0000-00-00' && $daten["end"] != '0000-00-00') {?>
 			  <tr>
 				<td colspan="2"><strong><?php _e('Start','teachpress'); ?></strong></td>
-				<td colspan="2"><?php echo $daten["start"]; ?></td>
+				<td colspan="2"><?php echo substr($daten["start"],0,strlen($daten["start"])-3); ?></td>
 			  </tr>  
 			  <tr>  
 				<td colspan="2"><strong><?php _e('End','teachpress'); ?></strong></td>
-				<td colspan="2"><?php echo $daten["end"]; ?></td>
+				<td colspan="2"><?php echo substr($daten["end"],0,strlen($daten["end"])-3); ?></td>
 			  </tr>
 			  <tr>
 				<td><strong><?php _e('Places','teachpress'); ?></strong></th>
@@ -216,7 +215,7 @@ function tp_show_single_course_page() {
 				echo '<tr><td colspan="8"><strong>' . __('No entries','teachpress') . '</strong></td></tr>';
 			}
 			else {
-				// Ausgabe der Tabelle zu den in die LVS eingeschriebenen Studenten
+				// all registered students for the course
 				for($i=0; $i<$counter2; $i++) {
 					if ($daten2[$i]["waitinglist"]== 0 ) {
 						echo '<tr>';
@@ -239,7 +238,7 @@ function tp_show_single_course_page() {
 			</tbody>
 			</table>
 			<?php
-			// Ausgabe der waitinglist
+			// waitinglist
 			$test = 0;
 			for($i=0; $i<$counter2; $i++) {
 				if ($daten2[$i]["waitinglist"]== 1 ) {

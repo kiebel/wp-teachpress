@@ -17,12 +17,12 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 		
 		// edit haeader
 		if ($type == "xls") {
-			header("Content-type: application/vnd-ms-excel"); 
+			header("Content-type: application/vnd-ms-excel; charset=utf-8");
 			header("Content-Disposition: attachment; filename=" . $filename . ".xls");
 		}
 		if ($type == 'csv') {
 			header('Content-Type: text/x-csv');
-			header("Content-Disposition: attachment; filename=" . $filename . ".csv"); 
+			header("Content-Disposition: attachment; filename=" . $filename . ".csv");
 		}
 		
 		// Define databases
@@ -34,6 +34,10 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 		
 		$lvs = htmlspecialchars($_REQUEST[lvs_ID]);
 		settype($lvs, 'integer');
+		
+		// For decoding chars
+		$array_1 = array('Ã¼','Ã¶', 'Ã¤', 'Ã¤', 'Ã?','Â§','Ãœ','Ã','Ã–','&Uuml;','&uuml;', '&Ouml;', '&ouml;', '&Auml;','&auml;', '&nbsp;', '&szlig;', '&sect;', '&ndash;', '&rdquo;', '&ldquo;', '&eacute;', '&egrave;', '&aacute;', '&agrave;', '&ograve;','&oacute;', '&copy;', '&reg;', '&micro;', '&pound;', '&raquo;', '&laquo;', '&yen;', '&Agrave;', '&Aacute;', '&Egrave;', '&Eacute;', '&Ograve;', '&Oacute;', '&shy;', '&amp;');
+		$array_2 = array('ü','ö', 'ä', 'ä', 'ß', '§','Ü','Ä','Ö','Ü','ü', 'Ö', 'ö', 'Ä', 'ä', ' ', 'ß', '§', '-', '”', '“', 'é', 'è', 'á', 'à', 'ò', 'ó', '©', '®', 'µ', '£', '»', '«', '¥', 'À', 'Á', 'È', 'É', 'Ò', 'Ó', '­', '&');
 		
 		// load course data
 		$sql = "SELECT * FROM " . $teachpress_courses . " WHERE course_id = '$lvs'";
@@ -54,9 +58,9 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 		$counter2 = 0;
 		foreach($row as $row){
 			$enrolls[$counter2]['matrikulation_number'] = $row->matriculation_number;
-			$enrolls[$counter2]['firstname'] = $row->firstname;
-			$enrolls[$counter2]['lastname'] = $row->lastname;
-			$enrolls[$counter2]['course_of_studies'] = $row->course_of_studies;
+			$enrolls[$counter2]['firstname'] = utf8_decode($row->firstname);
+			$enrolls[$counter2]['lastname'] = utf8_decode($row->lastname);
+			$enrolls[$counter2]['course_of_studies'] = utf8_decode($row->course_of_studies);
 			$enrolls[$counter2]['userlogin'] = $row->userlogin;
 			$enrolls[$counter2]['email'] = $row->email;
 			$enrolls[$counter2]['date'] = $row->date;
@@ -72,16 +76,16 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 				$course_name = $daten['name'];
 			}
 			?>
-			<h2><?php echo $course_name; ?> <?php echo $daten['semester'] ?> </h2>
+			<h2><?php echo utf8_decode($course_name); ?> <?php echo utf8_decode($daten['semester']); ?> </h2>
 			<table border="1" cellspacing="0" cellpadding="5">
 			<thead>
 			  <tr>
 				<th><?php _e('Lecturer','teachpress'); ?></th>
-				<td><?php echo $daten['lecturer']; ?></td>
+				<td><?php echo utf8_decode($daten['lecturer']); ?></td>
 				<th><?php _e('Date','teachpress'); ?></th>
 				<td><?php echo $daten['date']; ?></td>
 				<th><?php _e('Room','teachpress'); ?></th>
-				<td><?php echo $daten['room']; ?></td>
+				<td><?php echo utf8_decode($daten['room']); ?></td>
 			  </tr>
 			  <tr>
 				<th><?php _e('Places','teachpress'); ?></th>
@@ -93,7 +97,7 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			  </tr>
 			  <tr>
 				<th><?php _e('Comment','teachpress'); ?></th>
-				<td colspan="5"><?php echo $daten['comment']; ?></td>
+				<td colspan="5"><?php echo utf8_decode($daten['comment']); ?></td>
 			  </tr>
 			  <tr>
 				<th><?php _e('URL','teachpress'); ?></th>
@@ -164,7 +168,7 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
                             <tr>
                                 <td><?php echo $enrolls[$i]['matrikulation_number']; ?></td>
                                 <td><?php echo $enrolls[$i]['lastname']; ?></td>
-                                <td><?php echo $enrolls[$i]['lfirstname']; ?></td>
+                                <td><?php echo $enrolls[$i]['firstname']; ?></td>
                                 <td><?php echo $enrolls[$i]['course_of_studies']; ?></td>
                                 <td><?php echo $enrolls[$i]['userlogin']; ?></td>
                                 <td><?php echo $enrolls[$i]['email']; ?></td>
@@ -176,25 +180,14 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			<?php  } 
 			global $tp_version;
 			?>       
-			<p style="font-size:11px; font-style:italic;"><?php _e('Created on','teachpress'); ?>: <?php echo date("d.m.Y")?> | teachPress <?php echo $tp_version ?></p>  
+			<p style="font-size:11px; font-style:italic;"><?php _e('Created on','teachpress'); ?>: <?php echo date("d.m.Y")?> | teachPress <?php echo $tp_version ?></p>
     <?php }  
 	if ($type == 'csv') {
 		$headline = "" . __('Matr. number','teachpress') . ";" . __('First name','teachpress') . ";" . __('Last name','teachpress') . ";" . __('Course of studies','teachpress') . ";" . __('User account','teachpress') . ";" . __('E-Mail','teachpress') . ";" . __('Registered at','teachpress') . ";" . __('Record-ID','teachpress') . ";" . __('Waiting list','teachpress') . "\r\n";
-		$array_1 = array('Ã¼','Ã¶', 'Ã¤', 'Ã¤', 'Ã?','Â§','Ãœ','Ã','Ã–','&Uuml;','&uuml;', '&Ouml;', '&ouml;', '&Auml;','&auml;', '&nbsp;', '&szlig;', '&sect;', '&ndash;', '&rdquo;', '&ldquo;', '&eacute;', '&egrave;', '&aacute;', '&agrave;', '&ograve;','&oacute;', '&copy;', '&reg;', '&micro;', '&pound;', '&raquo;', '&laquo;', '&yen;', '&Agrave;', '&Aacute;', '&Egrave;', '&Eacute;', '&Ograve;', '&Oacute;', '&shy;', '&amp;');
-		$array_2 = array('ü','ö', 'ä', 'ä', 'ß', '§','Ü','Ä','Ö','Ü','ü', 'Ö', 'ö', 'Ä', 'ä', ' ', 'ß', '§', '-', '”', '“', 'é', 'è', 'á', 'à', 'ò', 'ó', '©', '®', 'µ', '£', '»', '«', '¥', 'À', 'Á', 'È', 'É', 'Ò', 'Ó', '­', '&');
 		$headline = str_replace($array_1, $array_2, $headline);
 		echo $headline;
 		for($i=0; $i<$counter2; $i++) {
-				$enrolls[$i]['matrikulation_number'] = str_replace($array_1, $array_2, $enrolls[$i]['matrikulation_number']);
-				$enrolls[$i]['lfirstname'] = str_replace($array_1, $array_2, $enrolls[$i]['lfirstname']);
-				$enrolls[$i]['lastname'] = str_replace($array_1, $array_2, $enrolls[$i]['lastname']);
-				$enrolls[$i]['course_of_studies'] = str_replace($array_1, $array_2, $enrolls[$i]['course_of_studies']);
-				$enrolls[$i]['userlogin'] = str_replace($array_1, $array_2, $enrolls[$i]['userlogin']);
-				$enrolls[$i]['email'] = str_replace($array_1, $array_2, $enrolls[$i]['email']);
-				$enrolls[$i]['date'] = str_replace($array_1, $array_2, $enrolls[$i]['date']);
-				$enrolls[$i]['con_id'] = str_replace($array_1, $array_2, $enrolls[$i]['con_id']);
-				$enrolls[$i]['waitinglist'] = str_replace($array_1, $array_2, $enrolls[$i]['waitinglist']);
-				echo "" . $enrolls[$i]['matrikulation_number'] . ";" . $enrolls[$i]['lfirstname'] . ";" . $enrolls[$i]['lastname'] . ";" . $enrolls[$i]['course_of_studies'] . ";" . $enrolls[$i]['userlogin'] . ";" . $enrolls[$i]['email'] . ";" . $enrolls[$i]['date'] . ";" . $enrolls[$i]['con_id'] . ";" . $enrolls[$i]['waitinglist']. "\r\n";
+			echo "" . $enrolls[$i]['matrikulation_number'] . ";" . $enrolls[$i]['firstname'] . ";" . $enrolls[$i]['lastname'] . ";" . $enrolls[$i]['course_of_studies'] . ";" . $enrolls[$i]['userlogin'] . ";" . $enrolls[$i]['email'] . ";" . $enrolls[$i]['date'] . ";" . $enrolls[$i]['con_id'] . ";" . $enrolls[$i]['waitinglist']. "\r\n";
 		}
 	} 
 }
