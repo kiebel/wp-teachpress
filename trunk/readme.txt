@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -69,7 +69,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
 == Upgrade Notice ==
-= 2.0.5 =
+= 2.0.7 =
 If you have installed teachpress with version 2.0.0 or higher, check if is the table teachpress_pub in your database!
 
 == Screenshots ==
@@ -130,8 +130,13 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.7 - (18.11.2010) =
+* Bugfix: Fixed a bug with the charset in the xls-export - teachpress uses now utf8_encode()
+* Bugfix: Fixed a bug in the bibtex output of articles
+* Bugfix: Fixed some small GUI-bugs
+* Bugfix: Fixed style of some buttons
 = 2.0.6 - (24.10.2010) =
-* Changed: Type of the registration timestamp is changed from date to datetime
+* Changed: Type of the registration timestamp has changed from date to datetime
 * Bugfix: Fixed a security vulnerability (sql injection) which was opened with a fix in version 2.0.5
 * Bugfix: teachPress uses now the right local server time and not longer greenwich time
 = 2.0.5 - (11.10.2010) =

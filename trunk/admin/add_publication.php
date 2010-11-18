@@ -97,7 +97,7 @@ function teachpress_addpublications_page() {
 	  $daten = $wpdb->get_row($row, ARRAY_A)
 	  ?>
 	  <input type="hidden" name="pub_ID" value="<?php echo $pub_ID; ?>">
-	  <input type="hidden" name="search" value="<?php echo $search; ?>">
+	  <input type="hidden" name="search" value="<?php echo stripslashes($search); ?>">
       <input type="hidden" name="limit" id="limit" value="<?php echo $entry_limit; ?>"/>
       <input type="hidden" name="site" id="site" value="<?php echo $site; ?>"/>
       <input type="hidden" name="filter" id="filter" value="<?php echo $filter; ?>"/>
@@ -274,7 +274,7 @@ function teachpress_addpublications_page() {
 		<div id="titlediv">
 		<div id="titlewrap">
 		<label class="hide-if-no-js" style="display:none;" id="title-prompt-text" for="title"><?php _e('Name','teachpress'); ?></label>
-		<input type="text" name="post_title" size="30" title="<?php _e('Publication name','teachpress'); ?>" tabindex="1" value="<?php echo $daten["name"]; ?>" id="title" autocomplete="off" />
+		<input type="text" name="post_title" size="30" title="<?php _e('Publication name','teachpress'); ?>" tabindex="1" value="<?php echo stripslashes($daten["name"]); ?>" id="title" autocomplete="off" />
 		</div>
 		</div>
 		</div>
@@ -296,14 +296,14 @@ function teachpress_addpublications_page() {
 			 </td>
 			 <td style="border:none; padding:0 0 0 0; margin: 0 0 0 0;">
 			  <p><label for="bibtex" title="<?php _e('A simple unique key without spaces','teachpress'); ?>"><strong><?php _e('BibTex-Key','teachpress'); ?></strong></label></p>
-			  <input name="bibtex" id="bibtex" type="text" title="<?php _e('A simple unique key without spaces','teachpress'); ?>" value="<?php echo $daten["bibtex"]; ?>" tabindex="3" />
+			  <input name="bibtex" id="bibtex" type="text" title="<?php _e('A simple unique key without spaces','teachpress'); ?>" value="<?php echo stripslashes($daten["bibtex"]); ?>" tabindex="3" />
 			 </td>
 			</tr>
 		   </table>
 		  <p><label for="author" title="<?php _e('The names of the authors, separate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>"><strong><?php _e('Author(s)','teachpress'); ?></strong></label></p>
-		  <textarea name="author" wrap="virtual" id="author" title="<?php _e('The names of the authors, separate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>" style="width:95%" tabindex="4"><?php echo $daten["author"]; ?></textarea>
+		  <textarea name="author" wrap="virtual" id="author" title="<?php _e('The names of the authors, separate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>" style="width:95%" tabindex="4"><?php echo stripslashes($daten["author"]); ?></textarea>
 		  <p><label for="editor" title="<?php _e('The names of the editors, separate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>"><strong><?php _e('Editor(s)','teachpress'); ?></strong></label></p>
-		  <textarea name="editor" id="editor" type="text" title="<?php _e('The names of the editors, separate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>" style="width:95%" tabindex="5"><?php echo $daten["editor"]; ?></textarea>
+		  <textarea name="editor" id="editor" type="text" title="<?php _e('The names of the editors, separate by `and`. Example: Mark Twain and Albert Einstein','teachpress'); ?>" style="width:95%" tabindex="5"><?php echo stripslashes($daten["editor"]); ?></textarea>
 		  <p><label for="date" title="<?php _e('The date of publishing','teachpress'); ?>"><strong><?php _e('Date','teachpress'); ?></strong></label></p>
 		  <input type="text" name="date" id="date" title="<?php _e('The date of publishing','teachpress'); ?>" value="<?php if ($pub_ID != '') { echo $daten["date"]; } else {_e('JJJJ-MM-TT','teachpress'); } ?>" onblur="if(this.value=='') this.value='<?php _e('JJJJ-MM-TT','teachpress'); ?>';" onfocus="if(this.value=='<?php _e('JJJJ-MM-TT','teachpress'); ?>') this.value='';" tabindex="6"/>
 		</td>
@@ -326,7 +326,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_booktitle" <?php echo $display; ?>>
 		  <p><label for="booktitle" title="<?php _e('The title of a book','teachpress'); ?>"><strong><?php _e('booktitle','teachpress'); ?></strong></label></p>
-		  <input name="booktitle" id="booktitle" type="text" title="<?php _e('The title of a book','teachpress'); ?>" style="width:95%" value="<?php echo $daten["booktitle"]; ?>" tabindex="7" />
+		  <textarea name="booktitle" id="booktitle" wrap="virtual" style="width:95%" tabindex="7" title="<?php _e('The title of a book','teachpress'); ?>"><?php echo stripslashes($daten["booktitle"]); ?></textarea>
 		  </div>
 		  <?php
 		  $display = "";
@@ -336,7 +336,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_journal" <?php echo $display; ?>>
 		  <p><label for="journal" title="<?php _e('The title of a journal','teachpress'); ?>"><strong><?php _e('journal','teachpress'); ?></strong></label></p>
-		  <input name="journal" id="journal" type="text" title="<?php _e('The title of a journal','teachpress'); ?>" style="width:95%" value="<?php echo $daten["journal"]; ?>" tabindex="8" />
+		  <input name="journal" id="journal" type="text" title="<?php _e('The title of a journal','teachpress'); ?>" style="width:95%" value="<?php echo stripslashes($daten["journal"]); ?>" tabindex="8" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -346,7 +346,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_volume" <?php echo $display; ?>>
 		  <p><label for="volume" title="<?php _e('The volume of a journal or book','teachpress'); ?>"><strong><?php _e('volume','teachpress'); ?></strong></label></p>
-		  <input name="volume" id="volume" type="text" title="<?php _e('The volume of a journal or book','teachpress'); ?>" value="<?php echo $daten["volume"]; ?>" tabindex="9" />
+		  <input name="volume" id="volume" type="text" title="<?php _e('The volume of a journal or book','teachpress'); ?>" value="<?php echo stripslashes($daten["volume"]); ?>" tabindex="9" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -356,7 +356,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_number" <?php echo $display; ?>>
 		  <p><label for="number" title="<?php _e('The number of a book, journal or work in a series','teachpress'); ?>"><strong><?php _e('Number','teachpress'); ?></strong></label></p>
-		  <input name="number" id="number" type="text" title="<?php _e('The number of a book, journal or work in a series','teachpress'); ?>" value="<?php echo $daten["number"]; ?>" tabindex="10" />
+		  <input name="number" id="number" type="text" title="<?php _e('The number of a book, journal or work in a series','teachpress'); ?>" value="<?php echo stripslashes($daten["number"]); ?>" tabindex="10" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -366,7 +366,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_pages" <?php echo $display; ?>>
 		  <p><label for="pages" title="<?php _e('The page you are referring to.','teachpress'); ?>"><strong><?php _e('pages','teachpress'); ?></strong></label></p>
-		  <input name="pages" id="pages" type="text" title="<?php _e('The page you are referring to.','teachpress'); ?>" value="<?php echo $daten["pages"]; ?>" tabindex="11" />
+		  <input name="pages" id="pages" type="text" title="<?php _e('The page you are referring to.','teachpress'); ?>" value="<?php echo stripslashes($daten["pages"]); ?>" tabindex="11" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -376,7 +376,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_publisher" <?php echo $display; ?>>
 		  <p><label for="publisher" title="<?php _e('The names of publisher','teachpress'); ?>"><strong><?php _e('publisher','teachpress'); ?></strong></label></p>
-		  <input name="publisher" id="publisher" type="text" title="<?php _e('The names of publisher','teachpress'); ?>" style="width:95%" value="<?php echo $daten["publisher"]; ?>" tabindex="12" />
+		  <input name="publisher" id="publisher" type="text" title="<?php _e('The names of publisher','teachpress'); ?>" style="width:95%" value="<?php echo stripslashes($daten["publisher"]); ?>" tabindex="12" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -386,7 +386,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_address" <?php echo $display; ?>>
 		  <p><label for="address" title="<?php _e('The address of the publisher or the place of confernece','teachpress'); ?>"><strong><?php _e('address','teachpress'); ?></strong></label></p>
-		  <textarea name="address" id="address" title="<?php _e('The address of the publisher or the place of confernece','teachpress'); ?>" style="width:95%" tabindex="13"><?php echo $daten["address"]; ?></textarea>
+		  <input name="address" type="text" id="address" style="width:95%" tabindex="13" title="<?php _e('The address of the publisher or the place of confernece','teachpress'); ?>" value="<?php echo stripslashes($daten["address"]); ?>" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -396,7 +396,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_edition" <?php echo $display; ?>>
 		  <p><label for="edition" title="<?php _e('The edition of a book','teachpress'); ?>"><strong><?php _e('edition','teachpress'); ?></strong></label></p>
-		  <input name="edition" id="edition" type="text" title="<?php _e('The edition of a book','teachpress'); ?>" value="<?php echo $daten["edition"]; ?>" tabindex="14" />
+		  <input name="edition" id="edition" type="text" title="<?php _e('The edition of a book','teachpress'); ?>" value="<?php echo stripslashes($daten["edition"]); ?>" tabindex="14" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -406,7 +406,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_chapter" <?php echo $display; ?>>
 		  <p><label for="chapter" title="<?php _e('The chapter or the section number','teachpress'); ?>"><strong><?php _e('chapter','teachpress'); ?></strong></label></p>
-		  <input name="chapter" id="chapter" type="text" title="<?php _e('The chapter or the section number','teachpress'); ?>" value="<?php echo $daten["chapter"]; ?>" tabindex="15" />
+		  <input name="chapter" id="chapter" type="text" title="<?php _e('The chapter or the section number','teachpress'); ?>" value="<?php echo stripslashes($daten["chapter"]); ?>" tabindex="15" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -416,7 +416,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_institution" <?php echo $display; ?>>
 		  <p><label for="institution" title="<?php _e('The name of a sponsoring institution','teachpress'); ?>"><strong><?php _e('institution','teachpress'); ?></strong></label></p>
-		  <input name="institution" id="institution" type="text" title="<?php _e('The name of a sponsoring institution','teachpress'); ?>" style="width:95%" value="<?php echo $daten["institution"]; ?>" tabindex="15"/>
+		  <input name="institution" id="institution" type="text" title="<?php _e('The name of a sponsoring institution','teachpress'); ?>" style="width:95%" value="<?php echo stripslashes($daten["institution"]); ?>" tabindex="15"/>
 		  </div>
 		  <?php
 		  $display = "";
@@ -426,7 +426,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_organization" <?php echo $display; ?>>
 		  <p><label for="organization" title="<?php _e('The names of a sponsoring organization','teachpress'); ?>"><strong><?php _e('organization','teachpress'); ?></strong></label></p>
-		  <input name="organization" id="organization" type="text" title="<?php _e('The names of a sponsoring organization','teachpress'); ?>" style="width:95%" value="<?php echo $daten["organization"]; ?>" tabindex="16" />
+		  <input name="organization" id="organization" type="text" title="<?php _e('The names of a sponsoring organization','teachpress'); ?>" style="width:95%" value="<?php echo stripslashes($daten["organization"]); ?>" tabindex="16" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -436,7 +436,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_school" <?php echo $display; ?>>
 		  <p><label for="school" title="<?php _e('The names of the academic instituion where a thesis was written','teachpress'); ?>"><strong><?php _e('school','teachpress'); ?></strong></label></p>
-		  <input name="school" id="school" type="text" title="<?php _e('The names of the academic instituion where a thesis was written','teachpress'); ?>" style="width:95%" value="<?php echo $daten["school"]; ?>" tabindex="17" />
+		  <input name="school" id="school" type="text" title="<?php _e('The names of the academic instituion where a thesis was written','teachpress'); ?>" style="width:95%" value="<?php echo stripslashes($daten["school"]); ?>" tabindex="17" />
 		  </div>
 		  <?php
 		  $display = "";
@@ -446,15 +446,15 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_series" <?php echo $display; ?>>
 		  <p><label for="series" title="<?php _e('The name of a series','teachpress'); ?>"><strong><?php _e('series','teachpress'); ?></strong></label></p>
-		  <input name="series" id="series" type="text" title="<?php _e('The name of a series','teachpress'); ?>" value="<?php echo $daten["series"]; ?>" tabindex="18"/>
+		  <input name="series" id="series" type="text" title="<?php _e('The name of a series','teachpress'); ?>" value="<?php echo stripslashes($daten["series"]); ?>" tabindex="18"/>
 		  </div>
 		  <div id="div_crossref" style="display:none;">
 		  <p><label for="crossref" title="<?php _e('The bibTeX key this work is referring to','teachpress'); ?>"><strong><?php _e('crossref','teachpress'); ?></strong></label></p>
-		  <input name="crossref" id="crossref" type="text" title="<?php _e('The bibTeX key this work is referring to','teachpress'); ?>" value="<?php echo $daten["crossref"]; ?>" tabindex="19" />
+		  <input name="crossref" id="crossref" type="text" title="<?php _e('The bibTeX key this work is referring to','teachpress'); ?>" value="<?php echo stripslashes($daten["crossref"]); ?>" tabindex="19" />
 		  </div>
 		  <div id="div_abstrac">
 		  <p><label for="abstrac" title="<?php _e('A short summary of the publication','teachpress'); ?>"><strong><?php _e('abstract','teachpress'); ?></strong></label></p>
-		  <textarea name="abstrac" id="abstrac" rows="3" title="<?php _e('A short summary of the publication','teachpress'); ?>" style="width:95%" tabindex="20" ><?php echo $daten["abstract"]; ?></textarea>
+		  <textarea name="abstrac" id="abstrac" rows="3" title="<?php _e('A short summary of the publication','teachpress'); ?>" style="width:95%" tabindex="20" ><?php echo stripslashes($daten["abstract"]); ?></textarea>
 		  </div>
 		  <?php
 		  $display = "";
@@ -464,11 +464,11 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_howpublished" <?php echo $display; ?>>
 		  <p><label for="howpublished" title="<?php _e('An unusual method for publishing','teachpress'); ?>"><strong><?php _e('howpublished','teachpress'); ?></strong></label></p>
-		  <input name="howpublished" id="howpublished" type="text" title="<?php _e('An unusual method for publishing','teachpress'); ?>" value="<?php echo $daten["howpublished"]; ?>" tabindex="21" />
+		  <input name="howpublished" id="howpublished" type="text" title="<?php _e('An unusual method for publishing','teachpress'); ?>" value="<?php echo stripslashes($daten["howpublished"]); ?>" tabindex="21" />
 		  </div>
 		  <div id="div_key" style="display:none;">
 		  <p><label for="key" title="<?php _e('If there is no author or editor given, so this field is used for the sorting.','teachpress'); ?>"><strong><?php _e('Key','teachpress'); ?></strong></label></p>
-		  <input name="key" id="key" type="text" title="<?php _e('If there is no author or editor given, so this field is used for the sorting.','teachpress'); ?>" value="<?php echo $daten["key"]; ?>" tabindex="22"/>
+		  <input name="key" id="key" type="text" title="<?php _e('If there is no author or editor given, so this field is used for the sorting.','teachpress'); ?>" value="<?php echo stripslashes($daten["key"]); ?>" tabindex="22"/>
 		  </div>
 		  <?php
 		  $display = "";
@@ -478,7 +478,7 @@ function teachpress_addpublications_page() {
 		  ?>
 		  <div id="div_techtype" <?php echo $display; ?>>
 		  <p><label for="techtype" title="<?php _e('The type of a technical report.','teachpress'); ?>"><strong><?php _e('Type','teachpress'); ?></strong></label></p>
-		  <input name="techtype" id="techtype" type="text" title="<?php _e('The type of a technical report.','teachpress'); ?>" value="<?php echo $daten["techtype"]; ?>" tabindex="23" />
+		  <input name="techtype" id="techtype" type="text" title="<?php _e('The type of a technical report.','teachpress'); ?>" value="<?php echo stripslashes($daten["techtype"]); ?>" tabindex="23" />
 		  </div>
 		  <div id="div_isbn">
 		  <p><label for="isbn" title="<?php _e('The ISBN or ISSN of the publication','teachpress'); ?>"><strong><?php _e('ISBN/ISSN','teachpress'); ?></strong></label></p>
@@ -503,9 +503,9 @@ function teachpress_addpublications_page() {
 		<tr>
 		  <td>
 		  <p><label for="comment" title="<?php _e('A not vissible private comment','teachpress'); ?>"><strong><?php _e('private comment','teachpress'); ?></strong></label></p>
-		  <textarea name="comment" wrap="virtual" id="comment" title="<?php _e('A not vissible private comment','teachpress'); ?>" style="width:95%" tabindex="28"><?php echo $daten["comment"]; ?></textarea>
+		  <textarea name="comment" wrap="virtual" id="comment" title="<?php _e('A not vissible private comment','teachpress'); ?>" style="width:95%" tabindex="28"><?php echo stripslashes($daten["comment"]); ?></textarea>
 		  <p><label for="comment" title="<?php _e('Additional information','teachpress'); ?>"><strong><?php _e('note','teachpress'); ?></strong></label></p>
-		  <textarea name="note" wrap="virtual" id="note" title="<?php _e('Additional information','teachpress'); ?>" style="width:95%" tabindex="29"><?php echo $daten["note"]; ?></textarea>
+		  <textarea name="note" wrap="virtual" id="note" title="<?php _e('Additional information','teachpress'); ?>" style="width:95%" tabindex="29"><?php echo stripslashes($daten["note"]); ?></textarea>
 		  </td>
 		</tr>
 		</thead>    

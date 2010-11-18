@@ -77,20 +77,20 @@ function tp_get_bibtex($row) {
 	/* 
 	 * compound the entry
 	*/ 
-	$string = '@' . $row->type . '{' . $row->bibtex . ',' . chr(13) . chr(10);
+	$string = '@' . stripslashes($row->type) . '{' . stripslashes($row->bibtex) . ',' . chr(13) . chr(10);
 	// Author
 	if ($row->author != "") {
-		$string = $string . 'author  = {' . $row->author . '},' . chr(13) . chr(10);
+		$string = $string . 'author  = {' . stripslashes($row->author) . '},' . chr(13) . chr(10);
 	}
 	// Editor
 	if ($row->editor != "") {
-		$string = $string . 'editor  = {' . $row->editor . '},' . chr(13) . chr(10);
+		$string = $string . 'editor  = {' . stripslashes($row->editor) . '},' . chr(13) . chr(10);
 	}
 	// Title
-		$string = $string . 'title   = {' . $row->name . '},' . chr(13) . chr(10);
+		$string = $string . 'title   = {' . stripslashes($row->name) . '},' . chr(13) . chr(10);
 	// Note
 	if ($row->note != "") {
-		$string = $string . 'note  = {' . $row->note . '},' . chr(13) . chr(10);
+		$string = $string . 'note  = {' . stripslashes($row->note) . '},' . chr(13) . chr(10);
 	}
 	// URL
 	if ($row->url != '') {
@@ -113,79 +113,79 @@ function tp_get_bibtex($row) {
 	
 	// booktitle
 	if ($row->booktitle != '') {
-		$string = $string . 'booktitle = {' . $row->booktitle . '},' . chr(13) . chr(10);
+		$string = $string . 'booktitle = {' . stripslashes($row->booktitle) . '},' . chr(13) . chr(10);
 	}
 	// journal
 	if ($row->journal != '') {
-		$string = $string . 'journal = {' . $row->journal . '},' . chr(13) . chr(10);
+		$string = $string . 'journal = {' . stripslashes($row->journal) . '},' . chr(13) . chr(10);
 	}
 	// volume
 	if ($row->volume != '') {
-		$string = $string . 'volume = {' . $row->volume . '},' . chr(13) . chr(10);
+		$string = $string . 'volume = {' . stripslashes($row->volume) . '},' . chr(13) . chr(10);
 	}
 	// number
 	if ($row->number != '') {
-		$string = $string . 'number = {' . $row->number . '},' . chr(13) . chr(10);
+		$string = $string . 'number = {' . stripslashes($row->number) . '},' . chr(13) . chr(10);
 	}
 	// pages
 	if ($row->pages != '') {
-		$string = $string . 'pages = {' . $row->pages . '},' . chr(13) . chr(10);
+		$string = $string . 'pages = {' . stripslashes($row->pages) . '},' . chr(13) . chr(10);
 	}
 	// publisher
 	if ($row->publisher != '') {
-		$string = $string . 'publisher = {' . $row->publisher . '},' . chr(13) . chr(10);
+		$string = $string . 'publisher = {' . stripslashes($row->publisher) . '},' . chr(13) . chr(10);
 	}
 	// address
 	if ($row->address != '') {
-		$string = $string . 'address = {' . $row->address . '},' . chr(13) . chr(10);
+		$string = $string . 'address = {' . stripslashes($row->address) . '},' . chr(13) . chr(10);
 	}
 	// edition
 	if ($row->edition != '') {
-		$string = $string . 'edition = {' . $row->edition . '},' . chr(13) . chr(10);
+		$string = $string . 'edition = {' . stripslashes($row->edition) . '},' . chr(13) . chr(10);
 	}
 	// chapter
 	if ($row->chapter != '') {
-		$string = $string . 'chapter = {' . $row->chapter . '},' . chr(13) . chr(10);
+		$string = $string . 'chapter = {' . stripslashes($row->chapter) . '},' . chr(13) . chr(10);
 	}
 	// institution
 	if ($row->institution != '') {
-		$string = $string . 'institution = {' . $row->institution . '},' . chr(13) . chr(10);
+		$string = $string . 'institution = {' . stripslashes($row->institution) . '},' . chr(13) . chr(10);
 	}
 	// organization
 	if ($row->organization != '') {
-		$string = $string . 'organization = {' . $row->organization . '},' . chr(13) . chr(10);
+		$string = $string . 'organization = {' . stripslashes($row->organization) . '},' . chr(13) . chr(10);
 	}
 	// school
 	if ($row->school != '') {
-		$string = $string . 'school = {' . $row->school . '},' . chr(13) . chr(10);
+		$string = $string . 'school = {' . stripslashes($row->school) . '},' . chr(13) . chr(10);
 	}
 	// series
 	if ($row->series != '') {
-		$string = $string . 'series = {' . $row->series . '},' . chr(13) . chr(10);
+		$string = $string . 'series = {' . stripslashes($row->series) . '},' . chr(13) . chr(10);
 	}
 	// crossref
 	if ($row->crossref != '') {
-		$string = $string . 'crossref = {' . $row->crossref . '},' . chr(13) . chr(10);
+		$string = $string . 'crossref = {' . stripslashes($row->crossref) . '},' . chr(13) . chr(10);
 	}
 	// abstract
 	if ($row->abstract != '') {
-		$string = $string . 'abstract = {' . $row->abstract . '},' . chr(13) . chr(10);
+		$string = $string . 'abstract = {' . stripslashes($row->abstract) . '},' . chr(13) . chr(10);
 	}
 	// howpublished
 	if ($row->howpublished != '') {
-		$string = $string . 'howpublished = {' . $row->howpublished . '},' . chr(13) . chr(10);
+		$string = $string . 'howpublished = {' . stripslashes($row->howpublished) . '},' . chr(13) . chr(10);
 	}
 	// key
 	if ($row->key != '') {
-		$string = $string . 'key = {' . $row->key . '},' . chr(13) . chr(10);
+		$string = $string . 'key = {' . stripslashes($row->key) . '},' . chr(13) . chr(10);
 	}
 	// techtype
 	if ($row->techtype != '') {
-		$string = $string . 'type = {' . $row->techtype . '},' . chr(13) . chr(10);
+		$string = $string . 'type = {' . stripslashes($row->techtype) . '},' . chr(13) . chr(10);
 	}
 	// note
 	if ($row->note != '') {
-		$string = $string . 'note = {' . $row->note . '},' . chr(13) . chr(10);
+		$string = $string . 'note = {' . stripslashes($row->note) . '},' . chr(13) . chr(10);
 	}
 	$string = $string . '}' . chr(13) . chr(10);
 	return $string;
@@ -250,12 +250,7 @@ function tp_publication_advanced_information($row) {
 	}
 	// pages
 	if ($row->pages != '') {
-		if ($row->type == 'article') {
-			$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . '';
-		}
-		else {
-			$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . ', ';
-		}
+		$pages = '' . __('Page(s)','teachpress') . ': ' . $row->pages . ', ';
 	}
 	// publisher
 	if ($row->publisher != '') {
