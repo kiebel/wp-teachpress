@@ -283,7 +283,7 @@ function tp_add_course_page() {
 			</select>
 			<p><label for="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>"><strong><?php _e('Comment or Description','teachpress'); ?></strong></label></p>
 			<textarea name="comment" cols="75" rows="2" id="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>" tabindex="10" style="width:100%;"><?php echo stripslashes($daten["comment"]); ?></textarea>
-			<p><label for="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>"><strong><?php _e('Related Page','teachpress'); ?></strong></label></p>
+			<p><label for="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>"><strong><?php _e('Related page','teachpress'); ?></strong></label></p>
 			<select name="rel_page" id="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>" tabindex="11">
 				<?php teachpress_wp_pages("menu_order","ASC",$daten["rel_page"],0,0); ?>
 			</select>

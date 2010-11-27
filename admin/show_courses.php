@@ -30,6 +30,9 @@ function teachpress_show_courses_page() {
 	elseif ($_GET[action] == 'show') {
 		tp_show_single_course_page();
 	}
+	elseif ($_GET[action] == 'schedule') {
+		tp_show_calendar_page();
+	}
 	elseif ($_GET[action] == 'list') {
 		tp_lists_page();
 	}

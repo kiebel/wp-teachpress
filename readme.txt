@@ -2,8 +2,8 @@
 Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
-Tested up to: 3.0.1
-Stable tag: 2.0.7
+Tested up to: 3.1
+Stable tag: 2.0.8
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -27,7 +27,8 @@ For more information see [here](http://www.mtrv.wordpress.com/teachpress/).
 
 = Supported Languages =
 * English 
-* Deutsch
+* German
+* Italian
 
 = Disclaimer =  
 Use at your own risk. No warranty expressed or implied is provided.  
@@ -51,7 +52,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 **Special thanks for supporting:**  
-[Chair of Business Information Systems, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/)
+[Chair of Business Information Systems, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/)  
+
+**Translations**  
+Italian - Elisabetta Mancini  
 
 == Installation ==
 
@@ -130,6 +134,9 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.8 - (27.11.2010) =
+* New: Support for WordPress 3.1
+* New: Basic italian translation
 = 2.0.7 - (18.11.2010) =
 * Bugfix: Fixed a bug with the charset in the xls-export - teachpress uses now utf8_encode()
 * Bugfix: Fixed a bug in the bibtex output of articles
