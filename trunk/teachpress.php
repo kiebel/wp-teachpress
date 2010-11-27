@@ -3,11 +3,11 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.7
+Version: 2.0.8
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
-Max WP Version: 3.0.1
+Max WP Version: 3.1
 */
 
 /*
@@ -1182,7 +1182,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.7', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.8', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");
@@ -1308,7 +1308,7 @@ function tp_uninstall() {
  * used in: Wordpress-Admin-Header
 */ 
 function teachpress_admin_head() {
-	// load scripts only, if there is a teachpress page
+	// load scripts only, when it's teachpress page
 	if ( eregi('teachpress', $_GET[page]) || eregi('publications', $_GET[page]) ) {
 		$lang = __('de','teachpress');
 		wp_enqueue_script('teachpress-standard', WP_PLUGIN_URL . '/teachpress/js/backend.js');

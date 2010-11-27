@@ -174,7 +174,7 @@ function teachpress_publications_page() {
 					<li><?php _e('minsize - min. font size in the tag cloud (default: 11)','teachpress'); ?></li>
 					<li><?php _e('limit - maximum of visible tags (default: 30)','teachpress'); ?></li>
 					<li><?php _e('image - image position: left, right, bottom (default: none)','teachpress'); ?></li>
-					<li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0). ','teachpress'); ?></li>
+					<li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0).','teachpress'); ?></li>
 				</ul>
 				<p class="hilfe_text"><?php _e('For normal publication lists:','teachpress'); ?> <strong><?php _e('[tplist user="u" tag="v" year="w" headline="x" image="y" image_size="z"]','teachpress'); ?></strong>
 				<ul style="list-style:disc; padding-left:40px;">
@@ -183,7 +183,7 @@ function teachpress_publications_page() {
 					<li><?php _e('year','teachpress'); ?></li>
 					<li><?php _e('headline - 0(off) or 1(on)','teachpress'); ?></li>
 					<li><?php _e('image - image position: left, right, bottom (default: none)','teachpress'); ?></li>
-					<li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0). ','teachpress'); ?></li>
+					<li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0).','teachpress'); ?></li>
 				</ul>
 				</p>
 				<p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>

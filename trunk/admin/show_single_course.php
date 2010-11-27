@@ -179,7 +179,7 @@ function tp_show_single_course_page() {
 					<td colspan="3"><?php echo stripslashes($daten["comment"]); ?></td>
 				  </tr>
 				  <tr>
-					<th><?php _e('Related Page','teachpress'); ?></th>
+					<th><?php _e('Related page','teachpress'); ?></th>
 					<td colspan="3"><?php if ( $daten["rel_page"] != 0) {echo get_permalink( $daten["rel_page"] ); } else { _e('none','teachpress'); } ?></td>
 				  </tr>
 				  </thead>
