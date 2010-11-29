@@ -1,32 +1,33 @@
 /*
- * for shortcode [tpdate]
+ * shortcode: [tpdate]
  */
-/*  
-.the_course {}
-.tpdate {}
+.tpdate {width:100%; border:none;}
 .tpdate tr {}
-.tpdate td {}
-*/
-.tpdatecol {border-bottom:1px dotted silver; font-size:2px;}
+.tpdate td {border-bottom:1px solid silver; padding:5px;}
+.tpdate td.tp_date_type {vertical-align:middle;}
+.tpdate td.tp_date_info p {margin-top:3px; margin-bottom:3px;}
+.tpdate td.tp_date_lecturer {vertical-align:middle;}
 
 /* 
- * enrollments page, shortcode: [tpenrollments]
+ * shortcode: [tpenrollments]
  */
+/* table for user's old enrollments */ 
+#enrollments .teachpress_enr_old {border-collapse: collapse; border: 1px solid silver; font-size:11px;}
+#enrollments .teachpress_enr_old th{padding:5px; color:#FFFFFF; background-image:url(../images/table_background.png); background-color:#418f7c; background-repeat:repeat-x; margin:5px; border-collapse: collapse; border: 1px solid silver; font-size:11px;}
+#enrollments .teachpress_enr_old tr {padding:5px; background-color:#FFFFFF; color:#000000; margin:5px; border-collapse: collapse; border: 1px solid silver; font-size:12px;}
+#enrollments .teachpress_enr_old td {padding:5px; margin:5px;}
+/* table for current enrollments */
+#enrollments .teachpress_enr {font-size:13px; border:none;}
+#enrollments .teachpress_enr td {border:none; padding:5px; margin:5px;}
+#enrollments .teachpress_course_group {padding-bottom:10px;}
+#enrollments .teachpress_course_name a {font-size:15px; font-weight:bold;}
+/* table for edit userdata */
+#enrollments .teachpress_enr_edit {border:1px solid silver;}
+#enrollments .teachpress_enr_edit td {padding:5px;}
+/* misc */
 h3.tp_enrollments {color:#005A46;}
 .waitinglist {font-size:10px; color:#FF0000; padding-left:5px;}
 .einschreibefrist {font-size:10px; color:#FF0000;}
-/*
-.enrollments {}
-*/
-
-/* 
- * table desgin, shortcode: [tpenrollments]
- */
-.teachpress_table {border-collapse: collapse; border: 1px solid silver; font-size:11px;}
-.teachpress_table th{padding:5px; color:#FFFFFF; background-image:url(../images/table_background.png); background-color:#418f7c; background-repeat:repeat-x; margin:5px; border-collapse: collapse; border: 1px solid silver; font-size:11px;}
-.teachpress_table tr {padding:5px; background-color:#FFFFFF; color:#000000; margin:5px; border-collapse: collapse; border: 1px solid silver; font-size:12px;}
-.teachpress_table td {padding:5px; margin:5px;}
-#teachpress_copy {background-image:url(../images/logo_small.png); background-repeat:no-repeat; padding-left:20px;}
 
 /* 
  * teachPress tag cloud, shortcode [tpcloud] 
@@ -42,7 +43,7 @@ h3.tp_enrollments {color:#005A46;}
 /*
  * publication lists, shortcodes: [tpcloud] [tplist]
  */
-.teachpress_publication_list, .teachpress_course_list {width:100%;}
+.teachpress_publication_list {width:100%; border:none;}
 .teachpress_publication_list td, .teachpress_course_list td {padding:5px;}
 td.tp_pub_info {border-bottom:1px solid silver; vertical-align:top; padding:8px;}
 .tp_pub_autor, #content p.tp_pub_autor {font-size:small; margin-bottom:1px; margin-top:1px;}
@@ -71,7 +72,8 @@ span.tp_single_additional {font-size:small; font-style:italic;}
 /* 
  * course overview, shortcode: [tpcourselist]
  */
-#anzeigelvs h3 {color:#177665;}
+#tpcourselist h3 {color:#177665;}
+#tpcourselist table.teachpress_course_list {border:none; width:100%;}
 .tp_auswahl {margin:3px; padding:3px;}
 .tp_lvs_name {font-size:14px; color:#177665;}
 .tp_lvs_container {margin:5px; border-bottom:1px solid silver; border-right:1px solid silver; padding:10px;}

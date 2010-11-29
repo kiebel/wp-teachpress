@@ -64,7 +64,7 @@ function tpenrollments_shortcode($atts) {
 	
 	$str = "'";
 	
-	$a1 = '<div class="enrollments">
+	$a1 = '<div id="enrollments">
     		<h2 class="tp_enrollments">' . __('Enrollments for the','teachpress') . ' ' . $sem . '</h2>
     		<form name="anzeige" method="post" id="anzeige" action="' . $PHP_SELF . '">';
     /*
@@ -200,26 +200,27 @@ function tpenrollments_shortcode($atts) {
 				*/
 				$a5 = '<div class="tp_user_menu" style="padding:5px;">
 					   <h4>' . __('Hello','teachpress') . ', ' . stripslashes($row->firstname) . ' ' . stripslashes($row->lastname) . '</h4>';
-				// ID Namen bei abgeschalteten Permalinks ermitteln
+				// handle permalink usage
+				// No Permalinks: Page or Post?
 				if (is_page()) {
 					$page = "page_id";
 				}
 				else {
 					$page = "p";
 				}
-				// Define links
+				// Define permalinks
 				if ($permalink == '1') {
 					$link = $pagenow;
 					$link = str_replace("index.php", "", $link);
 					$link = $link . '?tab=';
 				}
-				// wenn keine Permalinks genutzt werden
 				else {
 					$postid = get_the_ID();
 					$link = $pagenow;
 					$link = str_replace("index.php", "", $link);
 					$link = $link . '?' . $page . '=' . $postid . '&amp;tab=';
 				}
+				// Create Tabs
 				if ($tab == '' || $tab == 'current') {
 					$tab1 = '<strong>' . __('Current enrollments','teachpress') . '</strong>';
 				}
@@ -246,7 +247,7 @@ function tpenrollments_shortcode($atts) {
 				*/
 				if ($tab == 'old') {
 					$a5 = $a5 . '<p><strong>' . __('Signed up for','teachpress') . '</strong></p>   
-								<table border="1" cellpadding="5" cellspacing="0" class="teachpress_table">
+								<table class="teachpress_enr_old" border="1" cellpadding="5" cellspacing="0">
 								<tr>';
 					if ($is_sign_out == '0') {
 						$a5 = $a5 . '<th>&nbsp;</th>';
@@ -287,7 +288,7 @@ function tpenrollments_shortcode($atts) {
 				$test = $wpdb->query($row1);
 				if ($test != 0) {
 					$a5 = $a5 . '<p><strong>' . __('Waiting list','teachpress') . '</strong></p>
-								<table border="1" cellpadding="5" cellspacing="0" class="teachpress_table">
+								<table class="teachpress_enr_old" border="1" cellpadding="5" cellspacing="0">
 								<tr>';
 					if ($is_sign_out == '0') {
 						$a5 = $a5 . '<th>&nbsp;</th>';
@@ -326,7 +327,7 @@ function tpenrollments_shortcode($atts) {
 				 * Edit userdata
 				*/
 				if ($tab == 'data') {
-					$a5 = $a5 . '<table border="0" cellpadding="0" cellspacing="5">';
+					$a5 = $a5 . '<table class="teachpress_enr_edit">';
 					$field1 = tp_get_option('regnum');
 					if ($field1 == '1') {
 						$a5 = $a5 . '<tr>
@@ -420,9 +421,9 @@ function tpenrollments_shortcode($atts) {
 		foreach($row as $row) {
 			$date1 = $row->start;
 			$date2 = $row->end;
-			$a6 = $a6 . '<div style="margin:10px; padding:5px;">
-				   		 <div class="the_course" style="font-size:15px;"><a href="' . get_permalink($row->rel_page) . '">' . stripslashes($row->name) . '</a></div>
-				   		 <table width="100%" border="0" cellpadding="1" cellspacing="0">
+			$a6 = $a6 . '<div class="teachpress_course_group">
+				   		 <div class="teachpress_course_name"><a href="' . get_permalink($row->rel_page) . '">' . stripslashes($row->name) . '</a></div>
+				   		 <table class="teachpress_enr" width="100%" border="0" cellpadding="1" cellspacing="0">
 				   		 <tr>
 						 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
 			if (is_user_logged_in() && $auswahl != '') {
@@ -575,7 +576,7 @@ function tp_courselist_shortcode($atts) {
 		$sem = $semester;
 	}
 
-	$a1 = '<div id="anzeigelvs">
+	$a1 = '<div id="tpcourselist">
 			<h2>' . __('Courses for the','teachpress') . ' ' . stripslashes($sem) . '</h2>
 			<form name="lvs" method="get">
 			<input type="hidden" name="' . $page . '" id="' . $page . '" value="' . $postid . '"/>
@@ -654,7 +655,7 @@ function tp_courselist_shortcode($atts) {
 */
 function tpdate_shortcode($attr) {
 	$a1 = '<div class="untertitel">' . __('Date(s)','teachpress') . '</div>
-			<table border="0" cellspacing="0" cellpadding="5" width="100%" class= "tpdate">';
+			<table class="tpdate">';
 	global $wpdb;	
 	global $teachpress_courses; 
 	$row = "SELECT name, type, room, lecturer, date, comment FROM " . $teachpress_courses . " WHERE course_id= ". $attr["id"] . "";
@@ -662,18 +663,14 @@ function tpdate_shortcode($attr) {
 	foreach($row as $row) {
 		$v_test = $row->name;
 		$a2 = $a2 . ' 
-			  <tr>
-				<td rowspan="2"><strong>' . stripslashes($row->type) . '</strong></td>
-				<td>' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</td>
-				<td rowspan="2">' . stripslashes($row->lecturer) . '</td>
-				<td rowspan="2">&nbsp;</td>
-			  </tr>
-			  <tr>
-				<td>' . stripslashes($row->comment) . '</td>
-			  </tr>
-			  <tr>
-				<td colspan="4" class="tpdatecol">&nbsp;</td>
-			  </tr>';
+		  <tr>
+			<td class="tp_date_type"><strong>' . stripslashes($row->type) . '</strong></td>
+			<td class="tp_date_info">
+				<p>' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</p>
+				<p>' . stripslashes($row->comment) . '</p>
+			</td>
+			<td clas="tp_date_lecturer">' . stripslashes($row->lecturer) . '</td>
+		  </tr>';
 	} 
 	// Search the child courses
 	$row = "SELECT name, type, room, lecturer, date, comment FROM " . $teachpress_courses . " WHERE parent= ". $attr["id"] . " ORDER BY name";
@@ -685,18 +682,13 @@ function tpdate_shortcode($attr) {
 		}
         $a3 = $a3 . '
 		  <tr>
-			<td rowspan="2"><strong>' . stripslashes($row->name) . '</strong></td>
-			<td>' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</td>
-			<td rowspan="2">' . stripslashes($row->lecturer) . '</td>
-			<td rowspan="2">&nbsp;</td>
-		  </tr>
-		  <tr>
-			<td>' . stripslashes($row->comment) . '</td>
-		  </tr>
-          <tr>
-          	<td colspan="4" class="tpdatecol">&nbsp;</td>
-          </tr>
-		';
+			<td class="tp_date_type"><strong>' . stripslashes($row->name) . '</strong></td>
+			<td class="tp_date_info">
+				<p>' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</p>
+				<p>' . stripslashes($row->comment) . '</p>
+			</td>
+			<td class="tp_date_lecturer">' . stripslashes($row->lecturer) . '</td>
+		  </tr>';
 	} 
 	$a4 = '</table>';
 	$asg = '' . $a1 . '' . $a2 . '' . $a3 . '' . $a4 . '';
