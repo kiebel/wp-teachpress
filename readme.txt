@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0.8
+Stable tag: 2.0.9
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -51,11 +51,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-**Special thanks for supporting:**  
-[Chair of Business Information Systems, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/)  
+= Thanks =
+I would like to thank the team of [CBIS, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/) for the support and the collaboration during the last years.
 
-**Translations**  
-Italian - Elisabetta Mancini  
+Translators who did a great job in translating the plugin into other languages. Thank you!   
+Elisabetta Mancini (Italian)
 
 == Installation ==
 
@@ -134,6 +134,10 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.9 - (30.11.2010) =
+* New: Better style permissions for all shortcodes. Some nasty hard coded CSS code is removed.
+* Changed: Style for tpenrollments, tpdate and tpcloud shortcodes
+* Changed: Italian translation updated
 = 2.0.8 - (27.11.2010) =
 * New: Support for WordPress 3.1
 * New: Basic italian translation
