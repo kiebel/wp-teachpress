@@ -203,7 +203,7 @@ function teachpress_show_courses_page() {
 				$courses[$z]['visible'] = $row->visible;
 				$z++;
 			}
-			// Ausgabe Kurse
+			// display courses
 			for ($i=0; $i<$z; $i++) {
 				if ($search == "") {
 					if ($courses[$i]['parent'] == 0) {
@@ -242,7 +242,7 @@ function teachpress_show_courses_page() {
 							echo '<td>' . __('no','teachpress') . '</td>';
 						}
 						echo '</tr>';
-						// Childs suchen
+						// Search Childs
 						for ($j=0; $j<$z; $j++) {
 							if ($courses[$i]['course_id'] == $courses[$j]['parent']) {
 								echo '<tr id="teachpress_table">';
@@ -253,7 +253,7 @@ function teachpress_show_courses_page() {
 									} 
 								}
 								echo '/></th>';
-								echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$j]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">';
+								echo '<td><strong>&mdash;</strong> <a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$j]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">';
 								if ($courses[$i]['name'] == $courses[$j]['name']) {
 									echo $courses[$i]['name']; 
 								} else {
@@ -288,10 +288,10 @@ function teachpress_show_courses_page() {
 								echo '</tr>';
 							}
 						}
-						// Ende Childs suchen
+						// End search childs
 					}	
 				}
-				// Wenn Suche genutzt wird
+				// if the user is using the search
 				else {
 					if ($courses[$i]['parent'] != 0) {
 						$parent_name = $wpdb->get_var("SELECT name FROM " . $teachpress_courses . " WHERE course_id = '" . $courses[$i]['parent'] . "'");

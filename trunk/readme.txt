@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0.9
+Stable tag: 2.0.10
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -35,7 +35,7 @@ Use at your own risk. No warranty expressed or implied is provided.
 
 == Credits ==
 
-Copyright 2008-2010 by Michael Winkler
+Copyright 2008-2011 by Michael Winkler
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 I would like to thank the team of [CBIS, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/) for the support and the collaboration during the last years.
 
 Translators who did a great job in translating the plugin into other languages. Thank you!   
-Elisabetta Mancini (Italian)
+* Elisabetta Mancini (Italian)
 
 == Installation ==
 
@@ -134,6 +134,11 @@ Before you can use this features you must define the $root parameter in the para
 * image_size = maximum size of an image (default: 0)
 
 == Changelog ==
+= 2.0.10 - (23.01.2011) =
+* New: Highlighting of child courses in the course overview
+* Bugfix: Fixed a html bug in show_single_course.php
+* Bugfix: Fixed the sort of participants if the registration number is disabled
+* Bugfix: Fixed a bug with the table of participants if the registration number is disabled
 = 2.0.9 - (30.11.2010) =
 * New: Better style permissions for all shortcodes. Some nasty hard coded CSS code is removed.
 * Changed: Style for tpenrollments, tpdate and tpcloud shortcodes
