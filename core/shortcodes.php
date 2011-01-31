@@ -720,7 +720,15 @@ function tpsingle_shortcode ($atts) {
 }
 
 /* Publication list with tag cloud
- * @param $atts (Array) with userid (INT), maxsize (INT), minsize (INT), limit (INT), image (STRING), size (INT), anchor (INT)
+ * @param $atts (Array) with: 
+ 	 @param userid (INT) => 0 for all publications of all users, default: 0
+	 @param maxsize (INT) => maximal font size for the tag cloud, default: 35
+	 @param minsize (INT) => minimal font size for the tag cloud, default: 11
+	 @param limit (INT) => Number of tags, default: 30
+	 @param image (STRING) => none, left, right or bottom, default: none 
+	 @param image_size (INT) => max. Image size, default: 0
+	 @param anchor (INT) => 0 (false) or 1 (true), default: 1
+	 @param author_name (STRING) => last, initials or old, default: old
  * $_GET: $yr (Year, INT), $type (Type, STRING), $autor (Author, INT)
  * Return $asg (String)
  * used in WordPress shortcode API
@@ -742,6 +750,7 @@ function tpcloud_shortcode($atts) {
 		'image' => 'none',
 		'image_size' => 0,
 		'anchor' => 1,
+		'author_name' => 'old',
 	), $atts));
 	// tgid - shows the current tag
 	$tgid = tp_sec_var($_GET[tgid], 'integer');
@@ -1051,14 +1060,7 @@ function tpcloud_shortcode($atts) {
 	}
 	$row = $wpdb->get_results($row);
 	$sql = "SELECT name, tag_id, pub_id FROM (SELECT t.name AS name, t.tag_id AS tag_id, b.pub_id AS pub_id FROM " . $teachpress_tags . " t LEFT JOIN " . $teachpress_relation . " b ON t.tag_id = b.tag_id ) as temp";
-	$temp = $wpdb->get_results($sql);
-	$atag = 0;
-	foreach ($temp as $temp) {
-		$all_tags[$atag][0] = $temp->name;
-		$all_tags[$atag][1] = $temp->tag_id;
-		$all_tags[$atag][2] = $temp->pub_id;
-		$atag++;
-	}
+	$all_tags = $wpdb->get_results($sql, ARRAY_A);
 	$tpz = 0;
 	$jahr = 0;
 	$colspan = '';
@@ -1068,7 +1070,7 @@ function tpcloud_shortcode($atts) {
 	}
 	foreach ($row as $row) {
 		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = tp_get_publication_html($row,$pad_size,$image, $all_tags, $atag, 1 ,$html_anchor);
+		$tparray[$tpz][1] = tp_get_publication_html($row, $pad_size, $image, $all_tags, 1 ,$html_anchor, $author_name);
 		$tpz++;
 	}
 	if ($tpz != 0) {
@@ -1112,7 +1114,14 @@ function tpcloud_shortcode($atts) {
 }
 
 /* Publication list without tag cloud
- * @param $attr (Array) with user (INT), tag (INT), year (string), headline (INT), image (string), image_size (INT)
+ * @param $atts (Array) with: 
+ 	 @param user (INT) => 0 for all publications of all users, default: 0
+	 @param tag (INT) => tag-ID, default: 0
+	 @param year (INT) => default: 0
+	 @param headline (INT) => show headlines(1) or not(0), default: 1
+	 @param image (STRING) => none, left, right or bottom, default: none 
+	 @param image_size (INT) => max. Image size, default: 0
+	 @param author_name (STRING) => last, initials or old, default: old
  * Return: $asg (String)
  * used in WordPress Shortcode-API
 */
@@ -1130,6 +1139,7 @@ function tplist_shortcode($atts){
 		'headline' => 1,
 		'image' => 'none',
 		'image_size' => 0,
+		'author_name' => 'old',
 	), $atts));
 	$userid = $user;
 	$tag_id = $tag;
@@ -1184,7 +1194,7 @@ function tplist_shortcode($atts){
 	$row = $wpdb->get_results($row);
 	foreach ($row as $row) {
 		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = tp_get_publication_html($row,$pad_size,$image, $all_tags, $atag,0);
+		$tparray[$tpz][1] = tp_get_publication_html($row,$pad_size,$image, $all_tags,0, "", $author_name);
 		$tpz++;			
 	}
 	// Strings nach Publikationstyp zusammensetzen
