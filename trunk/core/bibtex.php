@@ -350,18 +350,19 @@ function tp_publication_advanced_information($row) {
  * @param $pad_size (int)
  * @param $image (string) - left, right or bottom
  * @param $all_tags (array) - array with tags
- * @param $all_tags (int) - number of lines
  * @param $with_tags (int) - for a publication with tags 1, else 0
+ * @param $html_anchor (string)
+ * @param $author_name - simple, last or first (different styles of the author name)
  * Return $string (string)
 */ 
-function tp_get_publication_html($row, $pad_size, $image, $all_tags, $atag, $with_tags = 1, $html_anchor = '#tppubs') {
+function tp_get_publication_html($row, $pad_size, $image, $all_tags, $with_tags = 1, $html_anchor = '#tppubs', $author_name) {
 	$tag_string = '';
 	$str = "'";
-	// Tags suchen
+	// show tags
 	if ($with_tags == '1') {
-		for ($i = 0; $i < $atag; $i++) {
-			if ($all_tags[$i][2] == $row->pub_id) {
-				$tag_string = $tag_string . '<a href="' . $link . '?tgid=' . $all_tags[$i][1] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . $all_tags[$i][0] . '</a>, ';
+		foreach ($all_tags as $tag) {
+			if ($tag["pub_id"] == $row->pub_id) {
+				$tag_string = $tag_string . '<a href="' . $link . '?tgid=' . $tag["tag_id"] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($tag["name"]) . '</a>, ';
 			}
 		}
 		$tag_string = substr($tag_string, 0, -2);
@@ -385,7 +386,7 @@ function tp_get_publication_html($row, $pad_size, $image, $all_tags, $atag, $wit
 			$image_bottom = '<div class="tp_pub_image_bottom"><img name="' . $row->name . '" src="' . $row->image_url . '" style="max-width:' . ($pad_size - 5) .'px;" alt="' . $row->name . '" /></div>';
 		}
 	}
-	// Falls url eingegeben wurde, wird ein Link draus
+	// transform URL into full HTML link
 	if ($row->url !='') {
 		$name = '<a href="' . $row->url . '">' . $row->name . '</a>';
 	}
@@ -394,22 +395,48 @@ function tp_get_publication_html($row, $pad_size, $image, $all_tags, $atag, $wit
 	}
 	
 	// sort author names
-	$all_authors = "";
-	$array = explode(" and ",$row->author);
-	$lenth = count ($array);
-	for ($i=0; $i < $lenth; $i++) {
-		$array[$i] = trim($array[$i]);
-		$names = explode(" ",$array[$i]);
-		$lenth2 = count ($names);
-		for ($j=0; $j < $lenth2-1; $j++) {
-			$one_author = $one_author . ' ' . trim( $names[$j] );
+	if ($author_name == 'last' || $author_name == 'initials') {
+		$creator = new PARSECREATORS();
+		$creatorArray = $creator->parse($row->author);
+		$all_authors = "";
+		for ($i = 0; $i < count($creatorArray); $i++) {
+			$one_author = "";
+			if ($author_name == 'last' || $author_name == 'initials') {
+				if ($creatorArray[$i][3] != '') { $one_author = trim($creatorArray[$i][3]);}
+				if ($creatorArray[$i][2] != '') { $one_author = $one_author . ' ' .trim($creatorArray[$i][2]) . ',';}
+				if ($creatorArray[$i][0] != '') { $one_author = $one_author . ' ' .trim($creatorArray[$i][0]);}
+				if ($author_name == 'initials') { 
+					if ($creatorArray[$i][1] != '') { $one_author = $one_author . ' ' .trim($creatorArray[$i][1]);}
+				}
+				$all_authors = $all_authors . stripslashes($one_author);
+				if ($i < count($creatorArray) -1) {$all_authors = $all_authors . '; ';}
+			}
 		}
-		$one_author = trim( $names[$lenth2 - 1] ). ', ' . $one_author;
-		$all_authors = $all_authors . $one_author;
-		if ($i < $lenth - 1) {
-			$all_authors = $all_authors . '; ';
+	}
+	elseif ($author_name == 'old') {
+		$all_authors = "";
+		$array = explode(" and ",$row->author);
+		$lenth = count ($array);
+		for ($i=0; $i < $lenth; $i++) {
+			$array[$i] = trim($array[$i]);
+			$names = explode(" ",$array[$i]);
+			$lenth2 = count ($names);
+			// example: Adolf Ferdinand Weinhold --> Weinhold, Adolf Ferdinand
+			// but: 	Ludwig van Beethoven --> Beethoven, Ludwig van
+			for ($j=0; $j < $lenth2-1; $j++) {
+				$one_author = $one_author . ' ' . trim( $names[$j] );
+			}
+			$one_author = trim( $names[$lenth2 - 1] ). ', ' . $one_author;
+			$all_authors = $all_authors . $one_author;
+			if ($i < $lenth - 1) {
+				$all_authors = $all_authors . '; ';
+			}
+			$one_author = "";
 		}
-		$one_author = "";
+	}
+	// simple
+	else {
+		$all_authors = str_replace(' and ', ', ', $row->author);
 	}
 	
 	// language sensitive publication type

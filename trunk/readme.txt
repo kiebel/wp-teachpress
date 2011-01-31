@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0.10
+Stable tag: 2.0.11
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -99,41 +99,12 @@ An example: [tplist id="0" image="left" image_size="70"]. Important: You must sp
 = I see only error messages if I use the RSS-Feed for publications or the xls/csv-Export for enrollments. What's wrong? =
 Before you can use this features you must define the $root parameter in the parameters.php: You find in the teachPress directory the file: parameters_sample.php. Open this file and change the $root paramter (you find some examples there). After that rename the file to parameters.php and upload the file in the teachPress directory.
 
-= Reference of shortcode parameters =
-= For course information: [tpdate id="x"] =  
-* id = Course-ID
-
-= For the enrollments system [tpenrollments] =
-* no parameters
-
-= For course lists [tpcourselist image="x" image_size="y"] =
-* image = image position: left, right or bottom (default: none)
-* image_size = maximum size in of an image in px(default: 0)
-
-= For protected posts: [tpost id="x"] =
-* id = Course-ID
-
-= For single publications [tpsingle id="x"] =
-* id = Publication-ID
-
-= For publication lists with tag-cloud: [tpcloud (args)] =  
-* user = WP User-ID (0 for all)
-* minsize = min. font size in the tag-cloud
-* maxsize = max. font size in the tag-cloud
-* limit = number of tags in the tag-cloud
-* image = image position: left, right or bottom (default: none)
-* image_size = maximum size in of an image in px (default: 0)
-* anchor = html link anchor on(1) or off (0), default: 1
-
-= For normal publication lists: [tplist (args)] =  
-* id - WP User-ID (0 for all)  
-* tag - Tag-ID  
-* year  
-* headline - 0(off) or 1(on), default: 1   
-* image = image position: left, right or bottom (default: none)
-* image_size = maximum size of an image (default: 0)
+= How I can use the shortcodes? =
+[See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.0.11 - (31.01.2011) =
+* New: New style options for author names - available for the shortcodes [tpcloud], [tplist]
 = 2.0.10 - (23.01.2011) =
 * New: Highlighting of child courses in the course overview
 * Bugfix: Fixed a html bug in show_single_course.php
