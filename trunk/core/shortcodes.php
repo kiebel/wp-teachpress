@@ -657,8 +657,10 @@ function tpdate_shortcode($attr) {
 	$a1 = '<div class="untertitel">' . __('Date(s)','teachpress') . '</div>
 			<table class="tpdate">';
 	global $wpdb;	
-	global $teachpress_courses; 
-	$row = "SELECT name, type, room, lecturer, date, comment FROM " . $teachpress_courses . " WHERE course_id= ". $attr["id"] . "";
+	global $teachpress_courses;
+	$id = $attr["id"];
+	settype($id, 'integer');
+	$row = "SELECT name, type, room, lecturer, date, comment FROM " . $teachpress_courses . " WHERE course_id= ". $id . "";
 	$row = $wpdb->get_results($row);
 	foreach($row as $row) {
 		$v_test = $row->name;
@@ -696,7 +698,9 @@ function tpdate_shortcode($attr) {
 }
 
 /* Shorcode for a single publication
- * @param $atts (Array) with id (INT)
+ * @param $atts (Array) with: 
+ 	@param id (INT)
+  	@param author_name (STRING) => last, initials or old, default: old
  * Return $asg (String)
  * used in WordPress shorcode API
 */ 
@@ -708,14 +712,21 @@ function tpsingle_shortcode ($atts) {
 	global $wpdb;
 	// Shortcode options
 	extract(shortcode_atts(array(
-		'id' => 0
+		'id' => 0,
+		'author_name' => 'simple',
+		'editor_name' => 'old'
 	), $atts));
+	// secure parameters
+	settype($id, 'integer');
+	$author_name = tp_sec_var($author_name);
+	$editor_name = tp_sec_var($editor_name);
 	// Select from database
 	$id = tp_sec_var($id, 'integer');
 	$row = "SELECT * FROM " . $teachpress_pub . " WHERE pub_id = '$id'";
   	$daten = $wpdb->get_row($row, OBJECT);
+	$author = tp_bibtex_parse_author($daten->author, $author_name);
 	// Return
-	$asg = '<div class="tp_single_publication"><span class="tp_single_author">' . $daten->author . '</span>, "<span class="tp_single_title">' . $daten->name . '</span>", <span class="tp_single_additional">' . tp_publication_advanced_information($daten) . '</span></div>';
+	$asg = '<div class="tp_single_publication"><span class="tp_single_author">' . stripslashes($author) . '</span>: "<span class="tp_single_title">' . stripslashes($daten->name) . '</span>", <span class="tp_single_additional">' . tp_publication_advanced_information($daten, $editor_name) . '</span></div>';
 	return $asg;
 }
 
@@ -729,6 +740,7 @@ function tpsingle_shortcode ($atts) {
 	 @param image_size (INT) => max. Image size, default: 0
 	 @param anchor (INT) => 0 (false) or 1 (true), default: 1
 	 @param author_name (STRING) => last, initials or old, default: old
+	 @param editor_name (STRING) => last, initials or old, default: old
  * $_GET: $yr (Year, INT), $type (Type, STRING), $autor (Author, INT)
  * Return $asg (String)
  * used in WordPress shortcode API
@@ -751,6 +763,7 @@ function tpcloud_shortcode($atts) {
 		'image_size' => 0,
 		'anchor' => 1,
 		'author_name' => 'old',
+		'editor_name' => 'old'
 	), $atts));
 	// tgid - shows the current tag
 	$tgid = tp_sec_var($_GET[tgid], 'integer');
@@ -776,9 +789,13 @@ function tpcloud_shortcode($atts) {
 	if ($id != 0) {
 		$autor = $id;
 	}
+	// secure parameters
 	settype($id, 'integer');
 	settype($image_size, 'integer');
 	settype($anchor, 'integer');
+	$author_name = tp_sec_var($author_name);
+	$editor_name = tp_sec_var($editor_name);
+	$image = tp_sec_var($image);
 	// ID Namen bei abgeschalteten Permalinks ermitteln
 	if (is_page()) {
 		$page = "page_id";
@@ -851,11 +868,11 @@ function tpcloud_shortcode($atts) {
 			// String zusammensetzen
 			// fuer aktuellen Tag
 			if ( $tgid == $tagcloud['tag_id'] ) {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
+				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . stripslashes($tagcloud['name']) . ' </a></span> ';
 			}
 			// Normaler Tag
 			else {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=' . $tagcloud['tag_id'] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . $tagcloud['tagPeak'] . ' ' . $pub . '">' . $tagcloud['name'] . ' </a></span> ';
+				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?tgid=' . $tagcloud['tag_id'] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . $tagcloud['tagPeak'] . ' ' . $pub . '">' . stripslashes($tagcloud['name']) . ' </a></span> ';
 			}
 		}
 		// wenn keine Permalinks genutzt werden
@@ -866,10 +883,10 @@ function tpcloud_shortcode($atts) {
 			// String zusammensetzen
 			// fuer aktuellen Tag
 			if ( $tgid == $tagcloud['tag_id'] ) {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . $tagcloud['name'] . ' </a></span> ';
+				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=0&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" class = "teachpress_cloud_active" title="' . __('Delete tag as filter','teachpress') . '">' . stripslashes($tagcloud['name']) . ' </a></span> ';
 			}
 			else {
-				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=' . $tagcloud['tag_id'] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . $tagcloud['tagPeak'] . ' ' . $pub . '"> ' . $tagcloud['name'] . '</a></span> ';
+				$asg = $asg . '<span style="font-size:' . $size . 'px;"><a href="' . $link . '?' . $page . '=' . $postid . '&amp;tgid=' . $tagcloud['tag_id'] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . $tagcloud['tagPeak'] . ' ' . $pub . '"> ' . stripslashes($tagcloud['name']) . '</a></span> ';
 			}
 		}
 	}
@@ -1070,7 +1087,7 @@ function tpcloud_shortcode($atts) {
 	}
 	foreach ($row as $row) {
 		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = tp_get_publication_html($row, $pad_size, $image, $all_tags, 1 ,$html_anchor, $author_name);
+		$tparray[$tpz][1] = tp_get_publication_html($row, $pad_size, $image, $all_tags, 1 ,$html_anchor, $author_name, $editor_name);
 		$tpz++;
 	}
 	if ($tpz != 0) {
@@ -1122,6 +1139,7 @@ function tpcloud_shortcode($atts) {
 	 @param image (STRING) => none, left, right or bottom, default: none 
 	 @param image_size (INT) => max. Image size, default: 0
 	 @param author_name (STRING) => last, initials or old, default: old
+	 @param editor_name (STRING) => last, initials or old, default: old
  * Return: $asg (String)
  * used in WordPress Shortcode-API
 */
@@ -1140,16 +1158,20 @@ function tplist_shortcode($atts){
 		'image' => 'none',
 		'image_size' => 0,
 		'author_name' => 'old',
+		'editor_name' => 'old'
 	), $atts));
 	$userid = $user;
 	$tag_id = $tag;
 	$yr = $year;
-	// Define some parameters as integer
+	// Secure parameters
 	settype($userid, 'integer');
 	settype($tag_id, 'integer');
 	settype($yr, 'integer');
 	settype($headline, 'integer');
 	settype($image_size, 'integer');
+	$author_name = tp_sec_var($author_name);
+	$editor_name = tp_sec_var($editor_name);
+	$image = tp_sec_var($image);
 	$select = "SELECT DISTINCT p.pub_id, p.name, p.type, p.bibtex, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url 
 			FROM " . $teachpress_relation ." b "; 
 	// Publikationen aller Autoren
@@ -1194,7 +1216,7 @@ function tplist_shortcode($atts){
 	$row = $wpdb->get_results($row);
 	foreach ($row as $row) {
 		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = tp_get_publication_html($row,$pad_size,$image, $all_tags,0, "", $author_name);
+		$tparray[$tpz][1] = tp_get_publication_html($row,$pad_size,$image, $all_tags,0, "", $author_name, $editor_name);
 		$tpz++;			
 	}
 	// Strings nach Publikationstyp zusammensetzen

@@ -86,7 +86,7 @@ function teachpress_show_courses_page() {
 			<p class="hilfe_text">
 			<select name="copysem" id="copysem">
 				<?php    
-				$term = "SELECT value FROM " . $teachpress_settings . " WHERE category = 'semester' ORDER BY setting_id DESC";
+				$term = "SELECT `value` FROM " . $teachpress_settings . " WHERE `category` = 'semester' ORDER BY `setting_id` DESC";
 				$term = $wpdb->get_results($term);
 				foreach ($term as $term) { 
 					if ($term->value == $sem) {
@@ -122,7 +122,7 @@ function teachpress_show_courses_page() {
 			<select name="sem" id="sem">
 				<option value="alle"><?php _e('All terms','teachpress'); ?></option>
 				<?php    
-				$row = "SELECT value FROM " . $teachpress_settings . " WHERE category = 'semester' ORDER BY setting_id DESC";
+				$row = "SELECT `value` FROM " . $teachpress_settings . " WHERE `category` = 'semester' ORDER BY `setting_id` DESC";
 				$row = $wpdb->get_results($row);
 				foreach ($row as $row) { 
 					if ($row->value == $sem) {
@@ -148,8 +148,7 @@ function teachpress_show_courses_page() {
 			<th>&nbsp;</th>
 			<th><?php _e('Name','teachpress'); ?></th>
 			<th><?php _e('ID','teachpress'); ?></th>
-			<th><?php _e('Type','teachpress'); ?></th> 
-			<th><?php _e('Room','teachpress'); ?></th>
+			<th><?php _e('Type','teachpress'); ?></th>
 			<th><?php _e('Lecturer','teachpress'); ?></th>
 			<th><?php _e('Date','teachpress'); ?></th>
 			<th colspan="2" align="center" style="text-align:center;"><?php _e('Places','teachpress'); ?></th>
@@ -218,7 +217,6 @@ function teachpress_show_courses_page() {
 						echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$i]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">' . $courses[$i]['name'] . '</a></td>';
 						echo '<td>' . $courses[$i]['course_id'] . '</td>';
 						echo '<td>' . $courses[$i]['type'] . '</td>';
-						echo '<td>' . $courses[$i]['room'] . '</td>';
 						echo '<td>' . $courses[$i]['lecturer'] . '</td>';
 						echo '<td>' . $courses[$i]['date'] . '</td>';
 						echo '<td>' . $courses[$i]['places'] . '</td>';
@@ -242,7 +240,7 @@ function teachpress_show_courses_page() {
 							echo '<td>' . __('no','teachpress') . '</td>';
 						}
 						echo '</tr>';
-						// Search Childs
+						// Search childs
 						for ($j=0; $j<$z; $j++) {
 							if ($courses[$i]['course_id'] == $courses[$j]['parent']) {
 								echo '<tr id="teachpress_table">';
@@ -262,7 +260,6 @@ function teachpress_show_courses_page() {
 								echo '</a></td>';
 								echo '<td>' . $courses[$j]['course_id'] . '</td>';
 								echo '<td>' . $courses[$j]['type'] . '</td>';
-								echo '<td>' . $courses[$j]['room'] . '</td>';
 								echo '<td>' . $courses[$j]['lecturer'] . '</td>';
 								echo '<td>' . $courses[$j]['date'] . '</td>';
 								echo '<td>' . $courses[$j]['places'] . '</td>';
@@ -288,7 +285,7 @@ function teachpress_show_courses_page() {
 								echo '</tr>';
 							}
 						}
-						// End search childs
+						// END search childs
 					}	
 				}
 				// if the user is using the search
@@ -318,7 +315,6 @@ function teachpress_show_courses_page() {
 					echo '</a></td>';
 					echo '<td>' . $courses[$i]['course_id'] . '</td>';
 					echo '<td>' . $courses[$i]['type'] . '</td>';
-					echo '<td>' . $courses[$i]['room'] . '</td>';
 					echo '<td>' . $courses[$i]['lecturer'] . '</td>';
 					echo '<td>' . $courses[$i]['date'] . '</td>';
 					echo '<td>' . $courses[$i]['places'] . '</td>';
@@ -327,7 +323,7 @@ function teachpress_show_courses_page() {
 						echo ' style="color:#ff6600; font-weight:bold;"'; 
 					}
 					echo '>' . $courses[$i]['fplaces'] . '</td>';
-					if ($courses[$i]['start'] != '0000-00-00' && $courses[$i]['end'] != '0000-00-00') {
+					if ($courses[$i]['start'] != '0000-00-00 00:00:00' && $courses[$i]['end'] != '0000-00-00 00:00:00') {
 						echo '<td>' . $courses[$i]['start'] . '</td>';
 						echo '<td>' . $courses[$i]['end'] . '</td>';
 					} 

@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0.11
+Stable tag: 2.0.12
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -20,10 +20,7 @@ For more information see [here](http://www.mtrv.wordpress.com/teachpress/).
 * xls/csv-export for course lists
 * RSS-feed for publicaitons
 * Widget for displaying books in the sidebar
-* New shortcode "tpsingle" for displaying single publications
-* New shortcode "tpcourselist" for displaying a course overview (replaced `<!--LVS2-->`)
-* New shortcode "tpenrollments" for displaying the enrollement system (replaced `<!--LVS-->`)
-* New Shortcode "tppost" for displaying parts of a post only for registered students
+* Many shortcodes for an easy using of publication lists, enrollments and course overviews
 
 = Supported Languages =
 * English 
@@ -35,7 +32,7 @@ Use at your own risk. No warranty expressed or implied is provided.
 
 == Credits ==
 
-Copyright 2008-2011 by Michael Winkler
+Copyright 2008-2010 by Michael Winkler
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -103,12 +100,23 @@ Before you can use this features you must define the $root parameter in the para
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.0.12 - (01.02.2011) =
+* New: Improved tag menu
+* New: Improved students menu
+* New: New style options for editor names - available for the shortcodes [tpcloud], [tplist], [tpsingle]
+* New: New style options for author names - available for the shortcodes [tpsingle]
+* Bugfix: Waiting lists are now sorted by registration date and not longer by user name
+* Bugfix: Fixed a bug in single course menu: If there is no enrollment, enrollment details are not longer visible
+* Bugfix: Some shortcode parameters are now more secure
+* Bugfix: Fixed a bug which insert wrong links to the publication feeds in the settings menu
+* Bugfix: Fixed some bugs with slashes with was not stripped for the final displaying. It's fixed for the xls/csv-export, the RSS parser and in some menus
+* Bugfix: Fixed some bugs in xls/csv export
 = 2.0.11 - (31.01.2011) =
 * New: New style options for author names - available for the shortcodes [tpcloud], [tplist]
-= 2.0.10 - (23.01.2011) =
-* New: Highlighting of child courses in the course overview
-* Bugfix: Fixed a html bug in show_single_course.php
-* Bugfix: Fixed the sort of participants if the registration number is disabled
+= 2.0.10 - (23.01.2011) = 
+* New: Highlighting of child courses in the course overview 
+* Bugfix: Fixed a html bug in show_single_course.php 
+* Bugfix: Fixed the sort of participants if the registration number is disabled 
 * Bugfix: Fixed a bug with the table of participants if the registration number is disabled
 = 2.0.9 - (30.11.2010) =
 * New: Better style permissions for all shortcodes. Some nasty hard coded CSS code is removed.

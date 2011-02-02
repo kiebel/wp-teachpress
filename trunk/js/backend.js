@@ -31,16 +31,75 @@ function teachpress_change_label_color(id) {
 
 // for show/hide buttons
 function teachpress_showhide(where) {
-	 var mode = "block";
-	 if (where == "show_all_fields" || where == "show_recommend_fields") {
-		 mode = "inline";
-	 }
-     if (document.getElementById(where).style.display != mode) {
-     	document.getElementById(where).style.display = mode;
-     }
-     else {
+	var mode = "block";
+	if (where == "show_all_fields" || where == "show_recommend_fields") {
+		mode = "inline";
+	}
+    if (document.getElementById(where).style.display != mode) {
+    	document.getElementById(where).style.display = mode;
+    }
+    else {
      	document.getElementById(where).style.display = "none";
-     }
+    }
+}
+
+// for switch the date input form in courses
+function teachpress_switch_dateform() {
+	if (document.getElementById("date_free").style.display == "none") {
+    	document.getElementById("date_free").style.display = "block";
+		document.getElementById("date_strict").style.display = "none";
+    }
+    else {
+     	document.getElementById("date_free").style.display = "none";
+		document.getElementById("date_strict").style.display = "block";
+    }
+}
+
+// for edit tags
+function teachpress_editTags(tag_ID) {
+	var parent = "tp_tag_row_" + tag_ID;
+	var message_text_field = "tp_tag_row_name_" + tag_ID;
+	var input_field = "tp_edit_tag_name";
+	var text;
+	
+	if (isNaN(document.getElementById(input_field))) {
+	}
+	else {
+		var reg = /<(.*?)>/g;
+		text = document.getElementById(message_text_field).value;
+		text = text.replace( reg, "" );
+		// create div
+		var editor = document.createElement('div');
+		editor.id = "div_edit";
+		// create hidden fields
+		var field_neu = document.createElement('input');
+		field_neu.name = "tp_edit_tag_ID";
+		field_neu.type = "hidden";
+		field_neu.value = tag_ID;
+		// create textarea
+		var tagname_new = document.createElement('input');
+		tagname_new.id = input_field;
+		tagname_new.name = input_field;
+		tagname_new.value = text;
+		tagname_new.style.width = "98%";
+		// create button
+		var save_button = document.createElement('input');
+		save_button.name = "tp_edit_tag_submit";
+		save_button.value = "Save";
+		save_button.type = "submit";
+		save_button.className = "button-primary";
+		// create cancel button
+		var cancel_button = document.createElement('input');
+		cancel_button.value = "Cancel";
+		cancel_button.type = "button";
+		cancel_button.className = "button";
+		cancel_button.onclick = function () { document.getElementById(parent).removeChild(editor);};
+		document.getElementById(parent).appendChild(editor);
+		document.getElementById("div_edit").appendChild(field_neu);
+		document.getElementById("div_edit").appendChild(tagname_new);
+		document.getElementById("div_edit").appendChild(save_button);
+		document.getElementById("div_edit").appendChild(cancel_button);
+	}
 }
 
 // validate forms
@@ -61,7 +120,7 @@ function teachpress_validateForm() {
     document.teachpress_returnValue = (errors == '');
 } }
 
-// for show/hide buttons
+// for show/hide bibtex fields
 function teachpress_publicationFields(mode) {
 	if (mode == "std" || mode == "std2") {
 		if (mode == "std2") {

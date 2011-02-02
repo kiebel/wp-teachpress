@@ -140,6 +140,7 @@ else {
 		$array_1 = array('&Uuml;','&uuml;', '&Ouml;', '&ouml;', '&Auml;','&auml;', '&nbsp;', '&szlig;', '&sect;', '&ndash;', '&rdquo;', '&ldquo;', '&eacute;', '&egrave;', '&aacute;', '&agrave;', '&ograve;','&oacute;', '&copy;', '&reg;', '&micro;', '&pound;', '&raquo;', '&laquo;', '&yen;', '&Agrave;', '&Aacute;', '&Egrave;', '&Eacute;', '&Ograve;', '&Oacute;', '&shy;', '&amp;');
 		$array_2 = array('Ü','ü', 'Ö', 'ö', 'Ä', 'ä', ' ', 'ß', '§', '-', '”', '“', 'é', 'è', 'á', 'à', 'ò', 'ó', '©', '®', 'µ', '£', '»', '«', '¥', 'À', 'Á', 'È', 'É', 'Ò', 'Ó', '­', '&');
 		$row->auhtor = str_replace($array_1, $array_2, $row->author);
+		$row->auhtor = str_replace(' and ', ', ', $row->auhtor);
 		$row->name = str_replace($array_1, $array_2, $row->name); 
 		$item_link = str_replace($array_1, $array_2, $item_link);
 		$array_1 = array('&');
@@ -147,10 +148,10 @@ else {
 		$row->author = str_replace($array_1, $array_2, $row->auhtor);
 		$row->name = str_replace($array_1, $array_2, $row->name);
 		echo '<item>
-				<title>' . $row->name . '</title>
-				<description>' . tp_publication_advanced_information($row) . '</description>
+				<title>' . stripslashes($row->name) . '</title>
+				<description>' . tp_publication_advanced_information($row, 'simple') . '</description>
 				<link><![CDATA[' . $item_link . ']]></link>
-				<dc:creator>' . $row->author . '</dc:creator>
+				<dc:creator>' . stripslashes($row->author) . '</dc:creator>
 				<guid isPermaLink="false">' . get_bloginfo('url') . '?publication=' . $row->pub_id . '</guid>
 				<pubDate>' . $row->date . '</pubDate>
 				</item>';
