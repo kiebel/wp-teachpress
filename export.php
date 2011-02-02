@@ -2,7 +2,7 @@
 /*
  * teachPress XLS and CSV export for courses
 */
-if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
+if ( isset($_GET['lvs_ID']) && isset($_GET['type']) ) {
 	include_once('parameters.php');
 	include_once('version.php');
 	
@@ -10,9 +10,12 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 	global $root;
 	require( '' . $_SERVER['DOCUMENT_ROOT'] . '/' . $root . '/wp-load.php' );
 	
+	// secure parameters
+	$lvs = $_GET['lvs_ID'];
+	settype ($lvs, 'integer');
 	if (is_user_logged_in()) {
 	
-		$type = htmlspecialchars($_REQUEST[type]);
+		$type = htmlspecialchars($_GET[type]);
 		$filename = 'teachpress_' . date('dmY');
 		
 		// edit haeader
@@ -32,9 +35,6 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 		$teachpress_settings = $wpdb->prefix . 'teachpress_settings';
 		$teachpress_signup = $wpdb->prefix . 'teachpress_signup';
 		
-		$lvs = htmlspecialchars($_REQUEST[lvs_ID]);
-		settype($lvs, 'integer');
-		
 		// For decoding chars
 		$array_1 = array('Ã¼','Ã¶', 'Ã¤', 'Ã¤', 'Ã?','Â§','Ãœ','Ã','Ã–','&Uuml;','&uuml;', '&Ouml;', '&ouml;', '&Auml;','&auml;', '&nbsp;', '&szlig;', '&sect;', '&ndash;', '&rdquo;', '&ldquo;', '&eacute;', '&egrave;', '&aacute;', '&agrave;', '&ograve;','&oacute;', '&copy;', '&reg;', '&micro;', '&pound;', '&raquo;', '&laquo;', '&yen;', '&Agrave;', '&Aacute;', '&Egrave;', '&Eacute;', '&Ograve;', '&Oacute;', '&shy;', '&amp;');
 		$array_2 = array('ü','ö', 'ä', 'ä', 'ß', '§','Ü','Ä','Ö','Ü','ü', 'Ö', 'ö', 'Ä', 'ä', ' ', 'ß', '§', '-', '”', '“', 'é', 'è', 'á', 'à', 'ò', 'ó', '©', '®', 'µ', '£', '»', '«', '¥', 'À', 'Á', 'È', 'É', 'Ò', 'Ó', '­', '&');
@@ -47,28 +47,19 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			$parent = $wpdb->get_var("SELECT name FROM " . $teachpress_courses . " WHERE course_id = '$id'");
 		}
 		
-		// load enrollments
-		$row = "SELECT s.matriculation_number, s.firstname, s.lastname, s.course_of_studies, s.userlogin, s.email, u.date, u.con_id, u.waitinglist
+		// load settings
+		$field1 = tp_get_option('regnum');
+		$field2 = tp_get_option('studies');
+		
+		$sql = "SELECT s.matriculation_number, s.firstname, s.lastname, s.course_of_studies, s.userlogin, s.email, u.date, u.con_id, u.waitinglist
 				FROM " . $teachpress_signup . " u
 				INNER JOIN " . $teachpress_courses . " c ON c.course_id=u.course_id
-				INNER JOIN " . $teachpress_stud . " s ON s.wp_id=u.wp_id
-				WHERE c.course_id = '$lvs'
-				ORDER BY s.matriculation_number";
-		$row = $wpdb->get_results($row);
-		$counter2 = 0;
-		foreach($row as $row){
-			$enrolls[$counter2]['matrikulation_number'] = $row->matriculation_number;
-			$enrolls[$counter2]['firstname'] = utf8_decode($row->firstname);
-			$enrolls[$counter2]['lastname'] = utf8_decode($row->lastname);
-			$enrolls[$counter2]['course_of_studies'] = utf8_decode($row->course_of_studies);
-			$enrolls[$counter2]['userlogin'] = $row->userlogin;
-			$enrolls[$counter2]['email'] = $row->email;
-			$enrolls[$counter2]['date'] = $row->date;
-			$enrolls[$counter2]['con_id'] = $row->con_id;
-			$enrolls[$counter2]['waitinglist'] = $row->waitinglist;
-			$counter2++;
-		}
+				INNER JOIN " . $teachpress_stud . " s ON s.wp_id=u.wp_id";
 		if ($type == "xls") {
+			$order = "ORDER BY s.lastname ASC";	
+			$where = "WHERE c.course_id = '$lvs' AND u.waitinglist = '0'";
+			$row = $sql . " " . $where . " " . $order;
+			$row = $wpdb->get_results($row, ARRAY_A);
 			if ($parent != '') {
 				$course_name = $parent . ' ' . $daten['name'];
 			}
@@ -76,16 +67,16 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 				$course_name = $daten['name'];
 			}
 			?>
-			<h2><?php echo utf8_decode($course_name); ?> <?php echo utf8_decode($daten['semester']); ?> </h2>
+			<h2><?php echo stripslashes(utf8_decode($course_name)); ?> <?php echo stripslashes(utf8_decode($daten['semester'])); ?> </h2>
 			<table border="1" cellspacing="0" cellpadding="5">
 			<thead>
 			  <tr>
 				<th><?php _e('Lecturer','teachpress'); ?></th>
-				<td><?php echo utf8_decode($daten['lecturer']); ?></td>
+				<td><?php echo stripslashes(utf8_decode($daten['lecturer'])); ?></td>
 				<th><?php _e('Date','teachpress'); ?></th>
 				<td><?php echo $daten['date']; ?></td>
 				<th><?php _e('Room','teachpress'); ?></th>
-				<td><?php echo utf8_decode($daten['room']); ?></td>
+				<td><?php echo stripslashes(utf8_decode($daten['room'])); ?></td>
 			  </tr>
 			  <tr>
 				<th><?php _e('Places','teachpress'); ?></th>
@@ -97,7 +88,7 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			  </tr>
 			  <tr>
 				<th><?php _e('Comment','teachpress'); ?></th>
-				<td colspan="5"><?php echo utf8_decode($daten['comment']); ?></td>
+				<td colspan="5"><?php echo stripslashes(utf8_decode($daten['comment'])); ?></td>
 			  </tr>
 			  <tr>
 				<th><?php _e('URL','teachpress'); ?></th>
@@ -109,10 +100,14 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			 <table border="1" cellpadding="5" cellspacing="0">
                  <thead>
                   <tr>
-                      <th><?php _e('Matr. number','teachpress'); ?></th>
                       <th><?php _e('Last name','teachpress'); ?></th>
                       <th><?php _e('First name','teachpress'); ?></th>
+                      <?php if ($field1 == '1') {?>
+                      <th><?php _e('Matr. number','teachpress'); ?></th>
+                      <?php } ?>
+                      <?php if ($field2 == '1') {?>
                       <th><?php _e('Course of studies','teachpress'); ?></th>
+                      <?php } ?>
                       <th><?php _e('User account','teachpress'); ?></th>
                       <th><?php _e('E-Mail','teachpress'); ?></th>
                       <th><?php _e('Registered at','teachpress'); ?></th>
@@ -121,41 +116,49 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
                  <tbody>
                 <?php
                     // Ausgabe der Tabelle zu den in die LVS eingeschriebenen Studenten
-                    for($i=0; $i<$counter2; $i++) {
-                        if ($enrolls[$i]['waitinglist']== 0 ) {
-                          ?>
-                          <tr>
-                            <td><?php echo $enrolls[$i]['matrikulation_number']; ?></td>
-                            <td><?php echo $enrolls[$i]['lastname']; ?></td>
-                            <td><?php echo $enrolls[$i]['firstname']; ?></td>
-                            <td><?php echo $enrolls[$i]['course_of_studies']; ?></td>
-                            <td><?php echo $enrolls[$i]['userlogin']; ?></td>
-                            <td><?php echo $enrolls[$i]['email']; ?></td>
-                            <td><?php echo $enrolls[$i]['date']; ?></td>
-                          </tr>
-                          <?php
-                      }
+                    foreach($row as $row) {
+					  	$row['firstname'] = str_replace($array_1, $array_2, $row['firstname']);
+						$row['lastname'] = str_replace($array_1, $array_2, $row['lastname']);
+						$row['course_of_studies'] = str_replace($array_1, $array_2, $row['course_of_studies']);
+						?>
+					  <tr>
+						<td><?php echo stripslashes(utf8_decode($row['lastname'])); ?></td>
+						<td><?php echo stripslashes(utf8_decode($row['firstname'])); ?></td>
+						<?php if ($field1 == '1') {?>
+						<td><?php echo $row['matriculation_number']; ?></td>
+						<?php } ?>
+						<?php if ($field2 == '1') {?>
+						<td><?php echo stripslashes(utf8_decode( $row['course_of_studies'])); ?></td>
+						<?php } ?>
+						<td><?php echo $row['userlogin']; ?></td>
+						<td><?php echo $row['email']; ?></td>
+						<td><?php echo $row['date']; ?></td>
+					  </tr>
+					  <?php
                    }
                     ?>
                 </tbody>
                 </table>
                 <?php
-                // Ausgabe der waitinglist
-                $test = 0;
-                for($i=0; $i<$counter2; $i++) {
-                    if ($enrolls[$i]['waitinglist']== 1 ) {
-                        $test++;
-                    }
-                }	
+                // waitinglist
+				$order = "ORDER BY u.date ASC";	
+				$where = "WHERE c.course_id = '$lvs' AND u.waitinglist = '1'";
+				$row = $sql . " " . $where . " " . $order;
+				$test = $wpdb->query($row);
+				$row = $wpdb->get_results($row, ARRAY_A);
                 if ($test != 0) { ?>
                     <h3><?php _e('Waiting list','teachpress'); ?></h3>
                     <table border="1" cellpadding="5" cellspacing="0">
                      <thead>
                       <tr>
-                          <th><?php _e('Matr. number','teachpress'); ?></th>
                           <th><?php _e('Last name','teachpress'); ?></th>
                           <th><?php _e('First name','teachpress'); ?></th>
-                          <th><?php _e('Course of studies','teachpress'); ?></th>
+                          <?php if ($field1 == '1') {?>
+						  <td><?php echo $row['matriculation_number']; ?></td>
+						  <?php } ?>
+						  <?php if ($field2 == '1') {?>
+						  <td><?php echo stripslashes(utf8_decode( $row['course_of_studies'])); ?></td>
+						  <?php } ?>
                           <th><?php _e('User account','teachpress'); ?></th>
                           <th><?php _e('E-Mail','teachpress'); ?></th>
                           <th><?php _e('Registered at','teachpress'); ?></th>
@@ -163,18 +166,25 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
                      </thead>  
                      <tbody> 
                      <?php
-                    for($i=0; $i<$counter2; $i++) {
-                        if ($enrolls[$i]['waitinglist']== 1 ) { ?>
-                            <tr>
-                                <td><?php echo $enrolls[$i]['matrikulation_number']; ?></td>
-                                <td><?php echo $enrolls[$i]['lastname']; ?></td>
-                                <td><?php echo $enrolls[$i]['firstname']; ?></td>
-                                <td><?php echo $enrolls[$i]['course_of_studies']; ?></td>
-                                <td><?php echo $enrolls[$i]['userlogin']; ?></td>
-                                <td><?php echo $enrolls[$i]['email']; ?></td>
-                                <td><?php echo $enrolls[$i]['date']; ?></td>
-                            </tr> 
-                        <?php } }?>
+                     foreach($row as $row) {
+					 	$row['firstname'] = str_replace($array_1, $array_2, $row['firstname']);
+						$row['lastname'] = str_replace($array_1, $array_2, $row['lastname']);
+						$row['course_of_studies'] = str_replace($array_1, $array_2, $row['course_of_studies']);
+					 ?>
+                        <tr>
+                            <td><?php echo stripslashes(utf8_decode($row['lastname'])); ?></td>
+                            <td><?php echo stripslashes(utf8_decode($row['firstname'])); ?></td>
+                            <?php if ($field1 == '1') {?>
+							<td><?php echo $row['matriculation_number']; ?></td>
+							<?php } ?>
+							<?php if ($field2 == '1') {?>
+							<td><?php echo stripslashes(utf8_decode( $row['course_of_studies'])); ?></td>
+							<?php } ?>
+                            <td><?php echo $row['userlogin']; ?></td>
+                            <td><?php echo $row['email']; ?></td>
+                            <td><?php echo $row['date']; ?></td>
+                        </tr> 
+                    <?php }?>
                     </tbody>
 				</table>
 			<?php  } 
@@ -183,11 +193,26 @@ if (isset($_REQUEST[lvs_ID]) && isset($_REQUEST[type]) ) {
 			<p style="font-size:11px; font-style:italic;"><?php _e('Created on','teachpress'); ?>: <?php echo date("d.m.Y")?> | teachPress <?php echo $tp_version ?></p>
     <?php }  
 	if ($type == 'csv') {
-		$headline = "" . __('Matr. number','teachpress') . ";" . __('First name','teachpress') . ";" . __('Last name','teachpress') . ";" . __('Course of studies','teachpress') . ";" . __('User account','teachpress') . ";" . __('E-Mail','teachpress') . ";" . __('Registered at','teachpress') . ";" . __('Record-ID','teachpress') . ";" . __('Waiting list','teachpress') . "\r\n";
+		$order = "ORDER BY s.lastname ASC";	
+		$where = "WHERE c.course_id = '$lvs'";
+		$row = $sql . " " . $where . " " . $order;
+		$row = $wpdb->get_results($row, ARRAY_A);
+		
+		if ($field1 == '1') { $matr = "" . __('Matr. number','teachpress') . ";"; } else { $matr = ""; }
+		if ($field2 == '1') { $cos = "" . __('Course of studies','teachpress') . ";"; } else { $cos = ""; }
+		
+		$headline = "" . __('Last name','teachpress') . ";" . __('First name','teachpress') . ";" . $matr . "" . $cos . "" . __('User account','teachpress') . ";" . __('E-Mail','teachpress') . ";" . __('Registered at','teachpress') . ";" . __('Record-ID','teachpress') . ";" . __('Waiting list','teachpress') . "\r\n";
 		$headline = str_replace($array_1, $array_2, $headline);
 		echo $headline;
-		for($i=0; $i<$counter2; $i++) {
-			echo "" . $enrolls[$i]['matrikulation_number'] . ";" . $enrolls[$i]['firstname'] . ";" . $enrolls[$i]['lastname'] . ";" . $enrolls[$i]['course_of_studies'] . ";" . $enrolls[$i]['userlogin'] . ";" . $enrolls[$i]['email'] . ";" . $enrolls[$i]['date'] . ";" . $enrolls[$i]['con_id'] . ";" . $enrolls[$i]['waitinglist']. "\r\n";
+		foreach($row as $row) {
+			$row['firstname'] = str_replace($array_1, $array_2, $row['firstname']);
+			$row['lastname'] = str_replace($array_1, $array_2, $row['lastname']);
+			$row['course_of_studies'] = str_replace($array_1, $array_2, $row['course_of_studies']);
+			
+			if ($field1 == '1') { $matr = "" . $row['matriculation_number'] . ";"; } else { $matr = ""; }
+			if ($field2 == '1') { $cos = "" . stripslashes(utf8_decode($row['course_of_studies'])) . ";"; } else { $cos = ""; }
+			
+			echo "" . stripslashes(utf8_decode($row['lastname'])) . ";" . stripslashes(utf8_decode($row['firstname'])) . ";" . $matr . "" . $cos . "" . $row['userlogin'] . ";" . $row['email'] . ";" . $row['date'] . ";" . $row['con_id'] . ";" . $row['waitinglist']. "\r\n";
 		}
 	} 
 }

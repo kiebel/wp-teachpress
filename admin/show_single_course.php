@@ -46,45 +46,28 @@ function tp_show_single_course_page() {
 		$message = __('Enrollments deleted','teachpress');
 		tp_get_message($message);	
 	}
+	
 	// course data
 	$row = "SELECT * FROM " . $teachpress_courses . " WHERE course_id = '$course_ID'";
 	$daten = $wpdb->get_row($row, ARRAY_A);
+	
 	// enrollments
-	if ( $field1 == '1' ) {
-		$order = "ORDER BY " . $teachpress_stud . ".matriculation_number";
-	}
-	else {
-		$order = "ORDER BY " . $teachpress_stud . ".lastname";
-	}
-	$row = "SELECT " . $teachpress_stud . ".matriculation_number, " . $teachpress_stud . ".firstname, " . $teachpress_stud . ".lastname, " . $teachpress_stud . ".course_of_studies,  " . $teachpress_stud . ".userlogin, " . $teachpress_stud . ".email , " . $teachpress_signup . ".date, " . $teachpress_signup . ".con_id, " . $teachpress_signup . ".waitinglist
-				FROM " . $teachpress_signup . " 
-				INNER JOIN " . $teachpress_courses . " ON " . $teachpress_courses . ".course_id=" . $teachpress_signup . ".course_id
-				INNER JOIN " . $teachpress_stud . " ON " . $teachpress_stud . ".wp_id=" . $teachpress_signup . ".wp_id
-				WHERE " . $teachpress_courses . ".course_id = '$course_ID' " . $order;
-	$row = $wpdb->get_results($row);
-	$counter2 = 0;
-	foreach($row as $row){
-		$daten2[$counter2]["matriculation_number"] = $row->matriculation_number;
-		$daten2[$counter2]["firstname"] = stripslashes($row->firstname);
-		$daten2[$counter2]["lastname"] = stripslashes($row->lastname);
-		$daten2[$counter2]["course_of_studies"] = stripslashes($row->course_of_studies);
-		$daten2[$counter2]["userlogin"] = $row->userlogin;
-		$daten2[$counter2]["email"] = $row->email;
-		$daten2[$counter2]["date"] = $row->date;
-		$daten2[$counter2]["con_id"] = $row->con_id;
-		$daten2[$counter2]["waitinglist"] = $row->waitinglist;
-		$counter2++;
-	}
-	// available course parents
-	$row = "SELECT course_id, name, semester FROM " . $teachpress_courses . " WHERE parent='0' AND course_id != '$veranstaltung' ORDER BY semester DESC, name";
-	$row = $wpdb->get_results($row);
-	$counter3 = 0;
-	foreach($row as $row){
-		$par[$counter3]["id"] = $row->course_id;
-		$par[$counter3]["name"] = $row->name;
-		$par[$counter3]["semester"] = $row->semester;
-		$counter3++;
-	}
+	$sql = "SELECT st.matriculation_number, st.firstname, st.lastname, st.course_of_studies, st.userlogin, st.email , s.date, s.con_id, s.waitinglist
+				FROM " . $teachpress_signup . " s 
+				INNER JOIN " . $teachpress_courses . " c ON c.course_id=s.course_id
+				INNER JOIN " . $teachpress_stud . " st ON st.wp_id=s.wp_id";	
+	$enrollments = $sql . " WHERE c.course_id = '$course_ID' AND s.waitinglist = '0' ORDER BY st.lastname ASC";		
+	$enrollments = $wpdb->get_results($enrollments, ARRAY_A);
+	$count_enrollments = count($enrollments);
+	
+	// waitinglist
+	$waitinglist = $sql . " WHERE c.course_id = '$course_ID' AND s.waitinglist = '1' ORDER BY s.date ASC";
+	$waitinglist = $wpdb->get_results($waitinglist, ARRAY_A);
+	$count_waitinglist = count($waitinglist);
+
+	// course parent
+	$row = "SELECT `course_id`, `name` FROM " . $teachpress_courses . " WHERE `parent` = '0' AND `course_id` = '" . $daten["parent"] . "'";
+	$parent = $wpdb->get_row($row, ARRAY_A);
 	
 	if ($speichern != __('save','teachpress')) { ?>
 		<p>
@@ -96,21 +79,19 @@ function tp_show_single_course_page() {
 		  </select>
 		  <select name="mail" id="mail" onchange="teachpress_jumpMenu('parent',this,0)" class="teachpress_select">
 			<option><?php _e('E-Mail to','teachpress'); ?> ... </option>
-			<option value="mailto:<?php for($i=0; $i<$counter2; $i++) { if ($daten2[$i]["waitinglist"]== 0 ) { ?><?php echo $daten2[$i]["email"]; ?> ,<?php } } ?>"><?php _e('registered participants','teachpress'); ?></option>
-			<option value="mailto:<?php for($i=0; $i<$counter2; $i++) { if ($daten2[$i]["waitinglist"]== 1 ) { ?><?php echo $daten2[$i]["email"]; ?> ,<?php } } ?>"><?php _e('participants in waiting list','teachpress'); ?></option>
-			<option value="mailto:<?php for($i=0; $i<$counter2; $i++) { echo '' . $daten2[$i]["email"] . ' ,'; } ?>"><?php _e('all participants','teachpress'); ?></option>
+			<option value="mailto:<?php foreach($enrollments as $e) { echo $e["email"] . ' ,'; } ?>"><?php _e('registered participants','teachpress'); ?></option>
+			<option value="mailto:<?php foreach($waitinglist as $w) { echo $w["email"] . ' ,'; } ?>"><?php _e('participants in waiting list','teachpress'); ?></option>
+			<option value="mailto:<?php foreach($enrollments as $e) { echo $e["email"] . ' ,'; } foreach($waitinglist as $w) { echo $w["email"] . ' ,'; } ?>"><?php _e('all participants','teachpress'); ?></option>
 		  </select>
 		</p>
 	  <?php } 
 	// define course name
 	if ($daten["parent"] != 0) {
-		for ($x=0; $x < $counter3; $x++) {
-			if ($par[$x]["id"] == $daten["parent"]) {
-				$parent_name = $par[$x]["name"];
-				// if parent name == child name
-				if ($parent_name == $daten["name"]) {
-					$parent_name = "";
-				}
+		if ($parent["course_id"] == $daten["parent"]) {
+			$parent_name = $parent["name"];
+			// if parent name == child name
+			if ($parent_name == $daten["name"]) {
+				$parent_name = "";
 			}
 		}
 	}
@@ -139,7 +120,7 @@ function tp_show_single_course_page() {
               <tr>
                 <th colspan="4"><?php _e('Enrollments','teachpress'); ?></th>
               </tr>
-              <?php if ($daten["start"] != '0000-00-00' && $daten["end"] != '0000-00-00') {?>
+              <?php if ($daten["start"] != '0000-00-00 00:00:00' && $daten["end"] != '0000-00-00 00:00:00') {?>
               <tr>
                 <td colspan="2"><strong><?php _e('Start','teachpress'); ?></strong></td>
                 <td colspan="2"><?php echo substr($daten["start"],0,strlen($daten["start"])-3); ?></td>
@@ -193,11 +174,6 @@ function tp_show_single_course_page() {
          <thead>
           <tr>
             <th>&nbsp;</th>
-            <?php
-            if ($field1 == '1') {
-                echo '<th>' .  __('Matr. number','teachpress') . '</th>';
-            }
-            ?>
             <th><?php _e('Last name','teachpress'); ?></th>
             <th><?php _e('First name','teachpress'); ?></th>
             <?php
@@ -212,49 +188,35 @@ function tp_show_single_course_page() {
          </thead>  
          <tbody>
         <?php
-        if ($counter2 == 0) {
+        if ($count_enrollments == 0) {
             echo '<tr><td colspan="8"><strong>' . __('No entries','teachpress') . '</strong></td></tr>';
         }
         else {
             // all registered students for the course
-            for($i=0; $i<$counter2; $i++) {
-                if ($daten2[$i]["waitinglist"]== 0 ) {
-                    echo '<tr>';
-                    echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $daten2[$i]["con_id"] . '"/></th>';
-                    if ($field1 == '1') {
-                        echo '<td>' . $daten2[$i]["matriculation_number"] . '</td>';
-                    }
-                    echo '<td>' . $daten2[$i]["lastname"] . '</td>';
-                    echo '<td>' . $daten2[$i]["firstname"] . '</td>';
-                    if ($field2 == '1') {
-                        echo '<td>' . $daten2[$i]["course_of_studies"] . '</td>';
-                    }
-                    echo '<td>' . $daten2[$i]["userlogin"] . '</td>';
-                    echo '<td><a href="mailto:' . $daten2[$i]["email"] . '" title="' . __('send E-Mail','teachpress') . '">' . $daten2[$i]["email"] . '</a></td>';
-                    echo '<td>' . $daten2[$i]["date"] . '</td>';
-                    echo '</tr>';
-                }
+            foreach ($enrollments as $enrollments) {
+				echo '<tr>';
+				echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $enrollments["con_id"] . '"/></th>';
+				echo '<td>' . stripslashes($enrollments["lastname"]) . '</td>';
+				echo '<td>' . stripslashes($enrollments["firstname"]) . '</td>';
+				if ($field2 == '1') {
+					echo '<td>' . stripslashes($enrollments["course_of_studies"]) . '</td>';
+				}
+				echo '<td>' . stripslashes($enrollments["userlogin"]) . '</td>';
+				echo '<td><a href="mailto:' . stripslashes($enrollments["email"]) . '" title="' . __('send E-Mail','teachpress') . '">' . stripslashes($enrollments["email"]) . '</a></td>';
+				echo '<td>' . $enrollments["date"] . '</td>';
+				echo '</tr>';
             } 
         }?>
         </tbody>
 		</table>
 		<?php
         // waitinglist
-        $test = 0;
-        for($i=0; $i<$counter2; $i++) {
-            if ($daten2[$i]["waitinglist"]== 1 ) {
-                $test++;
-            }
-        }	
-        if ($test != 0) { ?>
+        if ($count_waitinglist != 0) { ?>
             <h3><?php _e('Waitinglist','teachpress'); ?></h3>
             <table class="widefat">
              <thead>
               <tr>
                 <th>&nbsp;</th>
-                <?php if ($field1 == '1') {?>
-                <th><?php _e('Matr. number','teachpress'); ?></th>
-                <?php } ?>
                 <th><?php _e('Last name','teachpress'); ?></th>
                 <th><?php _e('First name','teachpress'); ?></th>
                 <?php if ($field2 == '1') {?>
@@ -267,29 +229,25 @@ function tp_show_single_course_page() {
              </thead>  
              <tbody> 
              <?php
-            for($i=0; $i<$counter2; $i++) {
-                if ($daten2[$i]["waitinglist"]== 1 ) { ?>
-                 <tr>
-                    <th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo $daten2[$i]["con_id"]; ?>"/></th>
-                    <?php if ($field1 == '1') {?>
-                    <td><?php echo $daten2[$i]["matriculation_number"]; ?></td>
-                    <?php } ?>
-                    <td><?php echo $daten2[$i]["lastname"]; ?></td>
-                    <td><?php echo $daten2[$i]["firstname"]; ?></td>
-                    <?php if ($field2 == '1') {?>
-                    <td><?php echo $daten2[$i]["course_of_studies"]; ?></td>
-                    <?php } ?>
-                    <td><?php echo $daten2[$i]["userlogin"]; ?></td>
-                    <td><a href="mailto:<?php echo $daten2[$i]["email"]; ?>" title="<?php _e('send E-Mail','teachpress'); ?>"><?php echo $daten2[$i]["email"]; ?></a></td>
-                    <td><?php echo $daten2[$i]["date"]; ?></td>
-                 </tr> 
-                <?php } }?>
+            foreach ( $waitinglist as $waitinglist ) { ?>
+             <tr>
+                <th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo $waitinglist["con_id"]; ?>"/></th>
+                <td><?php echo stripslashes($waitinglist["lastname"]); ?></td>
+                <td><?php echo stripslashes($waitinglist["firstname"]); ?></td>
+                <?php if ($field2 == '1') {?>
+                <td><?php echo stripslashes($waitinglist["course_of_studies"]); ?></td>
+                <?php } ?>
+                <td><?php echo stripslashes($waitinglist["userlogin"]); ?></td>
+                <td><a href="mailto:<?php echo stripslashes($waitinglist["email"]); ?>" title="<?php _e('send E-Mail','teachpress'); ?>"><?php echo stripslashes($waitinglist["email"]); ?></a></td>
+                <td><?php echo stripslashes($waitinglist["date"]); ?></td>
+             </tr> 
+            <?php }?>
             </tbody>
             </table>
         <?php  } ?>      
 	<table border="0" cellspacing="7" cellpadding="0" id="einzel_optionen">
 	  <tr>
-		<td><?php if ($test != 0) { ?><input name="aufnehmen" type="submit" value="+ <?php _e('ingest','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/><?php } ?></td>
+		<td><?php if ($count_waitinglist != 0) { ?><input name="aufnehmen" type="submit" value="+ <?php _e('ingest','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/><?php } ?></td>
 		<td><input name="loeschen" type="submit" value="<?php _e('delete enrollment','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/></td>
 	  </tr>
 	</table>

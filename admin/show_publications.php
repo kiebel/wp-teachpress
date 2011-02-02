@@ -98,15 +98,16 @@ function teachpress_publications_page() {
 	}
 	else {
 		if ($page == 'publications.php') {
+			$order = "ORDER BY date DESC, p.name ASC";
 			if ($search != "") {
 				$abfrage = "SELECT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year FROM " . $teachpress_pub . " p
 						WHERE p.name like '%$search%' OR p.author like '%$search%' OR p.editor like '%$search%'
-						ORDER BY date DESC";
+						" . $order . "";
 			}
 			elseif ($filter != ""&& $filter != '0') {
 				$abfrage = "SELECT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year FROM " . $teachpress_pub . " p
 						WHERE p.type = '$filter'
-						ORDER BY date DESC";
+						" . $order . "";
 			}
 			elseif ($tag_id != "") {
 				$abfrage = "SELECT DISTINCT p.pub_id,p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year 
@@ -114,10 +115,10 @@ function teachpress_publications_page() {
 						INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 						INNER JOIN " . $teachpress_tags . " t ON t.tag_id=b.tag_id
 						WHERE b.tag_id = $tag_id
-						ORDER BY p.date DESC";
+						" . $order . "";
 			}
 			else {
-				$abfrage = "SELECT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year FROM " . $teachpress_pub . " p ORDER BY date DESC";
+				$abfrage = "SELECT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year FROM " . $teachpress_pub . " p " . $order . "";
 			}
 		}
 		else {
@@ -127,7 +128,7 @@ function teachpress_publications_page() {
 						INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 						INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
 						WHERE u.user = '$current_user->ID' AND ( p.name like '%$search%' OR p.author like '%$search%' OR p.editor like '%$search%' )
-						ORDER BY p.date DESC";
+						" . $order . "";
 			}
 			elseif ($filter != "" && $filter != '0') {
 				$abfrage = "SELECT DISTINCT p.pub_id,p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year, u.bookmark_id 
@@ -135,7 +136,7 @@ function teachpress_publications_page() {
 						INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 						INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
 						WHERE u.user = '$current_user->ID' AND p.type = '$filter'
-						ORDER BY p.date DESC";
+						" . $order . "";
 			}
 			elseif ($tag_id != "") {
 				$abfrage = "SELECT DISTINCT p.pub_id,p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year, u.bookmark_id 
@@ -144,7 +145,7 @@ function teachpress_publications_page() {
 						INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
 						INNER JOIN " . $teachpress_tags . " t ON t.tag_id=b.tag_id
 						WHERE u.user = '$current_user->ID' AND b.tag_id = $tag_id
-						ORDER BY p.date DESC";
+						" . $order . "";
 			}
 			else {
 				$abfrage = "SELECT DISTINCT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year, u.bookmark_id 
@@ -152,7 +153,7 @@ function teachpress_publications_page() {
 				INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 				INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
 				WHERE u.user = '$current_user->ID'
-				ORDER BY p.date DESC";
+				" . $order . "";
 			}
 		}
 		$test = $wpdb->query($abfrage);	
@@ -307,26 +308,19 @@ function teachpress_publications_page() {
 						}
 						echo '<td><input style="margin-left:8px; padding-left:7px; text-align:left;" name="checkbox[]" type="checkbox" ' . $checked . 'value="' . $row->pub_id . '" /></td>';
 						?>
-						<td><a href="admin.php?page=teachpress/addpublications.php&pub_ID=<?php echo $row->pub_id; ?>&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>&amp;site=<?php echo $page; ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo $row->name; ?></a></td>
+						<td><a href="admin.php?page=teachpress/addpublications.php&pub_ID=<?php echo $row->pub_id; ?>&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>&amp;site=<?php echo $page; ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo stripslashes($row->name); ?></a></td>
 						<td><?php echo $row->pub_id; ?></td>
 						<td><?php _e('' . $row->type . '','teachpress'); ?></td>
-						<td><?php echo str_replace(' and ', ', ', $row->author); ?></td>
+						<td><?php echo stripslashes( str_replace(' and ', ', ', $row->author) ); ?></td>
 						<td>
 						<?php
 						// Tags
 						$sql = "SELECT name, tag_id, pub_id FROM (SELECT t.name AS name, t.tag_id AS tag_id, b.pub_id AS pub_id FROM " . $teachpress_tags . " t LEFT JOIN " . $teachpress_relation . " b ON t.tag_id = b.tag_id ) as temp";
-						$temp = $wpdb->get_results($sql);
-						$atag = 0;
-						foreach ($temp as $temp) {
-							$all_tags[$atag][0] = $temp->name;
-							$all_tags[$atag][1] = $temp->tag_id;
-							$all_tags[$atag][2] = $temp->pub_id;
-							$atag++;
-						}
+						$tags = $wpdb->get_results($sql, ARRAY_A);
 						$tag_string = '';
-						for ($i = 0; $i < $atag; $i++) {
-							if ($all_tags[$i][2] == $row->pub_id) {
-								$tag_string = $tag_string . '<a href="admin.php?page=' . $page . '&amp;tag=' . $all_tags[$i][1] . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . $all_tags[$i][0] . '</a>, ';
+						for ($i = 0; $i < count($tags); $i++) {
+							if ($tags["pub_id"] == $row->pub_id) {
+								$tag_string = $tag_string . '<a href="admin.php?page=' . $page . '&amp;tag=' . $tags["tag_id"] . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($tags["name"]) . '</a>, ';
 							}
 						}
 						$tag_string = substr($tag_string, 0, -2);
