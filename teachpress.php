@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.13
+Version: 2.0.14
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
@@ -1025,7 +1025,7 @@ class teachpress_books_widget extends WP_Widget {
         if ( $title ) {
         	echo $before_title . $title . $after_title;
 		}
-		echo '<p style="text-align:center"><a href="' . $rel_page . '" title="' . $pub_title . '"><img class="tp_image" name="' . $pub_title . '" src="' . $image_url . '" alt="' . $pub_title . '" title="' . $pub_title . '" /></a></p>';
+		echo '<p style="text-align:center"><a href="' . $rel_page . '" title="' . $pub_title . '"><img class="tp_image" src="' . $image_url . '" alt="' . $pub_title . '" title="' . $pub_title . '" /></a></p>';
         echo '<p style="text-align:center"><a href="' . $all_url . '" title="' . __('All books','teachpress') . '">' . __('All books','teachpress') . '</a></p>';
         echo $after_widget;
     }
@@ -1182,7 +1182,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.13', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.14', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");

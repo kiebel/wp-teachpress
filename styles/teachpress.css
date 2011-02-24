@@ -1,6 +1,6 @@
 /* Help container */
 div#hilfe_anzeigen {-webkit-border-radius: 5px; -khtml-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color: rgb(243,243,243); border:1px solid silver; padding:5px; margin:5px; display:none;}
-/* Help headline */
+/* Help section */
 h3.teachpress_help {color:#005A46; margin-bottom:5px;}
 p.hilfe_headline {font-weight:bold;}
 p.hilfe_text {padding-left:10px;}
@@ -14,3 +14,5 @@ a.teachpress_delete:hover {text-decoration:underline;}
 .tp_print td {border:1px solid black; padding:5px 5px 5px 5px;}
 .teachpress_message {-webkit-border-radius: 5px; -khtml-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color:#FFFFCC; border:1px solid silver; padding:5px;nmargin:5px; width:80%;
 }
+/* others */
+td.tp_course_child {padding-left:25px; background: url(../images/child.png) no-repeat 8px 6px;}
