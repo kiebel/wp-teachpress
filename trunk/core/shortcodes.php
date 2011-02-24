@@ -739,8 +739,9 @@ function tpsingle_shortcode ($atts) {
 	 @param image (STRING) => none, left, right or bottom, default: none 
 	 @param image_size (INT) => max. Image size, default: 0
 	 @param anchor (INT) => 0 (false) or 1 (true), default: 1
-	 @param author_name (STRING) => last, initials or old, default: old
-	 @param editor_name (STRING) => last, initials or old, default: old
+	 @param author_name (STRING) => simple, last, initials or old, default: old
+	 @param editor_name (STRING) => simple, last, initials or old, default: old
+	 @param style (STRING) => simple or std, default: std
  * $_GET: $yr (Year, INT), $type (Type, STRING), $autor (Author, INT)
  * Return $asg (String)
  * used in WordPress shortcode API
@@ -763,7 +764,8 @@ function tpcloud_shortcode($atts) {
 		'image_size' => 0,
 		'anchor' => 1,
 		'author_name' => 'old',
-		'editor_name' => 'old'
+		'editor_name' => 'old',
+		'style' => 'std'
 	), $atts));
 	// tgid - shows the current tag
 	$tgid = tp_sec_var($_GET[tgid], 'integer');
@@ -795,6 +797,7 @@ function tpcloud_shortcode($atts) {
 	settype($anchor, 'integer');
 	$author_name = tp_sec_var($author_name);
 	$editor_name = tp_sec_var($editor_name);
+	$style = tp_sec_var($style);
 	$image = tp_sec_var($image);
 	// ID Namen bei abgeschalteten Permalinks ermitteln
 	if (is_page()) {
@@ -1087,7 +1090,7 @@ function tpcloud_shortcode($atts) {
 	}
 	foreach ($row as $row) {
 		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = tp_get_publication_html($row, $pad_size, $image, $all_tags, 1 ,$html_anchor, $author_name, $editor_name);
+		$tparray[$tpz][1] = tp_get_publication_html($row, $pad_size, $image, $all_tags, 1 ,$html_anchor, $author_name, $editor_name, $style);
 		$tpz++;
 	}
 	if ($tpz != 0) {
@@ -1140,6 +1143,7 @@ function tpcloud_shortcode($atts) {
 	 @param image_size (INT) => max. Image size, default: 0
 	 @param author_name (STRING) => last, initials or old, default: old
 	 @param editor_name (STRING) => last, initials or old, default: old
+	 @param style (STRING) => simple or std, default: std
  * Return: $asg (String)
  * used in WordPress Shortcode-API
 */
@@ -1158,7 +1162,8 @@ function tplist_shortcode($atts){
 		'image' => 'none',
 		'image_size' => 0,
 		'author_name' => 'old',
-		'editor_name' => 'old'
+		'editor_name' => 'old',
+		'style' => 'std'
 	), $atts));
 	$userid = $user;
 	$tag_id = $tag;
@@ -1171,6 +1176,7 @@ function tplist_shortcode($atts){
 	settype($image_size, 'integer');
 	$author_name = tp_sec_var($author_name);
 	$editor_name = tp_sec_var($editor_name);
+	$style = tp_sec_var($style);
 	$image = tp_sec_var($image);
 	$select = "SELECT DISTINCT p.pub_id, p.name, p.type, p.bibtex, p.author, p.editor, p.date, DATE_FORMAT(p.date, '%Y') AS jahr, p.isbn , p.url, p.booktitle, p.journal, p.volume, p.number, p.pages, p.publisher, p.address, p.edition, p.chapter, p.institution, p.organization, p.school, p.series, p.crossref, p.abstract, p.howpublished, p.key, p.techtype, p.note, p.is_isbn, p.image_url 
 			FROM " . $teachpress_relation ." b "; 
@@ -1216,7 +1222,7 @@ function tplist_shortcode($atts){
 	$row = $wpdb->get_results($row);
 	foreach ($row as $row) {
 		$tparray[$tpz][0] = '' . $row->jahr . '' ;
-		$tparray[$tpz][1] = tp_get_publication_html($row,$pad_size,$image, $all_tags,0, "", $author_name, $editor_name);
+		$tparray[$tpz][1] = tp_get_publication_html($row,$pad_size,$image, $all_tags,0, "", $author_name, $editor_name, $style);
 		$tpz++;			
 	}
 	// Strings nach Publikationstyp zusammensetzen

@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0.13
+Stable tag: 2.0.14
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -102,6 +102,10 @@ Before you can use this features you must define the $root parameter in the para
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.0.14 - (24.02.2011) =
+* New: New style option for [tpcloud], [tplist]
+* Bugfix: Fixed a bug in teachPress books widget - the name of a book is no longer a html-element name
+* Bugfix: The Room is now vissible again in single course overviews (Bug was introcuced with teachPress 2.0.10)
 = 2.0.13 - (20.02.2011) =
 * New: Spanish translation added
 = 2.0.12 - (01.02.2011) =

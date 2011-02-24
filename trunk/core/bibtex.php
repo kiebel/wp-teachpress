@@ -193,12 +193,12 @@ function tp_get_bibtex($row) {
 
 /* Parse the author name
  * @param $author (STRING)
- * @param $author_name - simple, last or initials (different styles of the author name)
+ * @param $author_name - simple, old, last or initials (different styles of the author name)
  * return $all_author (STRING)
 */ 
 function tp_bibtex_parse_author ($author, $mode) {
 	global $PARSECREATORS;
-	/* the nre teachpress_parsing
+	/* the new teachpress_parsing
 	 * last: 		Adolf F. Weinhold and Ludwig van Beethoven --> Weinhold, Adolf; van Beethoven, Ludwig
 	 * initials: 	Adolf F. Weinhold and Ludwig van Beethoven --> Weinhold, Adolf F; van Beethoven, Ludwig
 	*/
@@ -398,9 +398,10 @@ function tp_publication_advanced_information($row, $editor_name) {
  * @param $html_anchor (string)
  * @param $author_name - simple, last or initials (different styles of the author name)
  * @param $editor_name - simple, last or initials (different styles of the author name)
+ * @param style (STRING) => simple or std (different styles for a single entry)
  * Return $string (string)
 */ 
-function tp_get_publication_html($row, $pad_size, $image, $all_tags, $with_tags = 1, $html_anchor = '#tppubs', $author_name, $editor_name) {
+function tp_get_publication_html($row, $pad_size, $image, $all_tags, $with_tags = 1, $html_anchor = '#tppubs', $author_name, $editor_name, $style) {
 	$tag_string = '';
 	$str = "'";
 	// show tags
@@ -444,25 +445,34 @@ function tp_get_publication_html($row, $pad_size, $image, $all_tags, $with_tags 
 	
 	// language sensitive publication type
 	$type = __('' . $row->type . '','teachpress');
-	
-	$a1 = '<tr class="tp_publication">
-				' . $td_left . '
-				<td class ="tp_pub_info">
-				<p class="tp_pub_autor">' . stripslashes($all_authors) . '</p>
-				<p class="tp_pub_titel">' . stripslashes($name) . ' <span class="tp_pub_typ">(' . stripslashes($type) . ')</span></p>
-				<p class="tp_pub_zusatz">' . tp_publication_advanced_information($row, $editor_name) . '</p>';
-	if ($with_tags == '1') {			
-		$a2 = '<p class="tp_pub_tags">(<a onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')" style="cursor:pointer;" title="' . __('Show BibTeX entry','teachpress') . '">' . __('BibTeX','teachpress') . '</a> | ' . __('Tags','teachpress') . ': ' . $tag_string . ')</p>';
+	if ($style == 'simple') {
+		$a1 = '<tr class="tp_publication_simple">
+					' . $td_left . '
+					<td class="tp_pub_info_simple">
+					<span class="tp_pub_autor_simple">' . stripslashes($all_authors) . '</span> <span class="tp_pub_year_simple">(' . $row->jahr . ')</span>: <span class="tp_pub_titel_simple">' . stripslashes($name) . '.</span> <span class="tp_pub_zusatz_simple">' . tp_publication_advanced_information($row, $editor_name) . '</span>';
+		if ($with_tags == '1') {			
+			$a2 = ' <span class="tp_pub_tags_simple">(' . __('Type','teachpress') . ': <span class="tp_pub_typ_simple">' . stripslashes($type) . '</span> | <a onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')" style="cursor:pointer;" title="' . __('Show BibTeX entry','teachpress') . '">' . __('BibTeX','teachpress') . '</a> | ' . __('Tags','teachpress') . ': ' . $tag_string . ')</span>';
+		}			
 	}
+	else {
+		$a1 = '<tr class="tp_publication">
+					' . $td_left . '
+					<td class="tp_pub_info">
+					<p class="tp_pub_autor">' . stripslashes($all_authors) . '</p>
+					<p class="tp_pub_titel">' . stripslashes($name) . ' <span class="tp_pub_typ">(' . stripslashes($type) . ')</span></p>
+					<p class="tp_pub_zusatz">' . tp_publication_advanced_information($row, $editor_name) . '</p>';
+		if ($with_tags == '1') {			
+			$a2 = '<p class="tp_pub_tags">(<a onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')" style="cursor:pointer;" title="' . __('Show BibTeX entry','teachpress') . '">' . __('BibTeX','teachpress') . '</a> | ' . __('Tags','teachpress') . ': ' . $tag_string . ')</p>';
+		}
+	}	
 	$a3 = '<div class="tp_bibtex" id="tp_bibtex_' . $row->pub_id . '" style="display:none;">
 			<textarea name="tp_bibtex_area" rows="10" cols="30" style="width:90%; margin:10px;">' . tp_get_bibtex($row) . '</textarea>
 			<p class="tp_bibtex_menu"><a class="tp_bibtex_close" onclick="teachpress_showhide(' . $str . 'tp_bibtex_' . $row->pub_id . $str . ')">' . __('close','teachpress') . '</a></p>
 		   </div>';
-	$a4 = '
-				' . $image_bottom . '
-				</td>
-				' . $td_right . '
-				</tr>';
+	$a4 = '' . $image_bottom . '
+			</td>
+			' . $td_right . '
+			</tr>';			
 	$a = $a1 . $a2 . $a3 . $a4;			
 	return $a;
 }

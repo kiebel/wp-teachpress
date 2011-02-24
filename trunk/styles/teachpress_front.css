@@ -3,7 +3,7 @@
  */
 .tpdate {width:100%; border:none;}
 .tpdate tr {}
-.tpdate td {border-bottom:1px solid silver; padding:5px;}
+.tpdate td {border-bottom:1px dotted silver; padding:5px;}
 .tpdate td.tp_date_type {vertical-align:middle;}
 .tpdate td.tp_date_info p {margin-top:3px; margin-bottom:3px;}
 .tpdate td.tp_date_lecturer {vertical-align:middle;}
@@ -45,6 +45,7 @@ h3.tp_enrollments {color:#005A46;}
  */
 .teachpress_publication_list {width:100%; border:none;}
 .teachpress_publication_list td, .teachpress_course_list td {padding:5px;}
+/* standard style */ 
 td.tp_pub_info {border-bottom:1px solid silver; vertical-align:top; padding:8px;}
 .tp_pub_autor, #content p.tp_pub_autor {font-size:small; margin-bottom:1px; margin-top:1px;}
 .tp_pub_titel, #content p.tp_pub_titel {font-size:small; font-weight:bold; margin-top:1px; margin-bottom:1px;}
@@ -53,6 +54,16 @@ td.tp_pub_info {border-bottom:1px solid silver; vertical-align:top; padding:8px;
 .tp_pub_tags a {color:#AAAAAA; text-decoration:underline;}
 .tp_pub_tags a:hover {color:#AAAAAA; text-decoration:none;}
 .tp_pub_typ {font-weight:bold;}
+/* simple style */
+td.tp_pub_info_simple {border-bottom:1px solid silver; vertical-align:top; padding:8px;}
+.tp_pub_autor_simple, #content span.tp_pub_autor_simple {}
+.tp_pub_titel_simple, #content span.tp_pub_titel_simple {font-weight:bold;}
+.tp_pub_zusatz_simple, #content span.tp_pub_zusatz_simple {}
+.tp_pub_tags_simple, #content span.tp_pub_tags_simple  {color:#AAAAAA;}
+.tp_pub_tags_simple a {color:#AAAAAA; text-decoration:underline;}
+.tp_pub_tags_simple a:hover {color:#AAAAAA; text-decoration:none;}
+.tp_pub_typ_simple {}
+
 .tp_bibtex_menu {margin-top:1px; margin-bottom:1px;}
 .tp_bibtex_close {cursor:pointer;}
 .tp_pub_image_bottom {text-align:center;}

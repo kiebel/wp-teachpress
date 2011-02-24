@@ -153,7 +153,11 @@ function tp_show_single_course_page() {
             <tr>
                 <th><?php _e('Lecturer','teachpress'); ?></th>
                 <td colspan="3"><?php echo stripslashes($daten["lecturer"]); ?></td>
-            </tr>  
+            </tr>
+            <tr>
+                <th><?php _e('Room','teachpress'); ?></th>
+                <td colspan="3"><?php echo stripslashes($daten["room"]); ?></td>
+            </tr>
             <tr>
                 <th><?php _e('Date','teachpress'); ?></th>
                 <td colspan="3"><?php echo stripslashes($daten["date"]); ?></td>
