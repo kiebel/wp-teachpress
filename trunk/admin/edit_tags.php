@@ -85,7 +85,7 @@ if ( isset($save)) {
 		foreach ($row2 as $row2) { ?>
           <tr>
             <th class="check-column"><input name="checkbox[]" type="checkbox" value="<?php echo $row2->tag_id; ?>"></th>
-            <td id="tp_tag_row_<?php echo $row2->tag_id; ?>"><a onclick="teachpress_editTags('<?php echo $row2->tag_id; ?>')" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>" style="cursor:pointer;"><?php echo stripslashes($row2->name); ?></a><input type="hidden" id="tp_tag_row_name_<?php echo $row2->tag_id; ?>" value="<?php echo stripslashes($row2->name); ?>"/></td>
+            <td id="tp_tag_row_<?php echo $row2->tag_id; ?>"><a onclick="teachpress_editTags('<?php echo $row2->tag_id; ?>')" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>" style="cursor:pointer;"><strong><?php echo stripslashes($row2->name); ?></strong></a><input type="hidden" id="tp_tag_row_name_<?php echo $row2->tag_id; ?>" value="<?php echo stripslashes($row2->name); ?>"/></td>
             <td><?php echo $row2->tag_id; ?></td>
             <td>
 			<?php 

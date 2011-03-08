@@ -69,6 +69,9 @@ td.tp_pub_info_simple {border-bottom:1px solid silver; vertical-align:top; paddi
 .tp_pub_image_bottom {text-align:center;}
 h3.tp_h3 {color:#177665;}
 .teachpress_message {border:1px solid #f90; border-left-width:0.9em; font-weight:bold; margin:1em; padding:.5em 1em;}
+.teachpress_message_error {border:1px solid #FF0000; border-left-width:0.9em; font-weight:bold; margin:1em; padding:.5em 1em;}
+.teachpress_message_success {border:1px solid #00FF00; border-left-width:0.9em; font-weight:bold; margin:1em; padding:.5em 1em;}
+.teachpress_message_info {border:1px solid #f90; border-left-width:0.9em; font-weight:bold; margin:1em; padding:.5em 1em;}
 /*
 .tp_publication {}
 */

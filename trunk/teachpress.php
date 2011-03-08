@@ -3,7 +3,7 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.0.14
+Version: 2.1.0
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
 Min WP Version: 2.8
@@ -160,6 +160,77 @@ function teachpress_wp_pages($sort_column = "menu_order", $sort_order = "ASC", $
 	} else {
 		return false;
 	}
+}
+
+/* Gives a single table row for show_courses.php
+ * @param $couse (ARRAY_A) --> course data
+ * @param $checkbox (ARRAY)
+ * @param $static (ARRAY_A):
+ 		@param $static['bulk'] --> copy or delete
+		@param $static['sem'] --> semester
+		@param $static['search'] --> input from search field
+ * @param $parent_course_name
+ * @param $type (STRING) --> parent or child
+*/ 
+function tp_get_single_table_row_course ($course, $checkbox, $static, $parent_course_name = '', $type = 'parent') {
+	$check = '';
+	$style = '';
+	// Check if checkbox must be activated or not
+	if ( $static['bulk'] == "copy" || $static['bulk'] == "delete") { 
+		for( $k = 0; $k < count( $checkbox ); $k++ ) { 
+			if ( $course['course_id'] == $checkbox[$k] ) { $check = 'checked="checked"';} 
+		} 
+	}
+	// Change the style for an important information
+	if ( $course['places'] > 0 && $course['fplaces'] == 0 ) {
+		$style = ' style="color:#ff6600; font-weight:bold;"'; 
+	}
+	// Type specifics
+	if ( $type == 'parent' || $type == 'search' ) {
+		$class = ' class="tp_course_parent"';
+	}
+	else {
+		$class = ' class="tp_course_child"';
+	}
+	
+	if ( $type == 'child' || $type == 'search' ) {
+		if ( $course['name'] != $parent_course_name ) {
+			$course['name'] = $parent_course_name . ' ' . $course['name'];
+		}
+	}
+	// complete the row
+	$a1 = '<tr>
+				<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $course['course_id'] . '"' . $check . '/></th>
+				<td' . $class . '>
+					<a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $course['course_id'] . '&amp;sem=' . $static['sem'] . '&amp;search=' . $static['search'] . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '"><strong>' . $course['name'] . '</strong></a>
+					<div class="tp_row_actions">
+						<a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $course['course_id'] . '&amp;sem=' . $static['sem'] . '&amp;search=' . $static['search'] . '&amp;action=show" title="' . __('Show this element','teachpress') . '">' . __('Show','teachpress') . '</a> | <a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $course['course_id'] . '&amp;sem=' . $static['sem'] . '&amp;search=' . $static['search'] . '&amp;action=edit&amp;ref=overview" title="' . __('Edit this element','teachpress') . '">' . __('Edit','teachpress') . '</a> | <a href="admin.php?page=teachpress/teachpress.php&amp;sem=' . $static['sem'] . '&amp;search=' . $static['search'] . '&amp;checkbox%5B%5D=' . $course['course_id'] . '&amp;bulk=delete" style="color:red;" title="' . __('Delete this element','teachpress') . '">' . __('Delete','teachpress') . '</a>
+					</div>
+				</td>
+				<td>' . $course['course_id'] . '</td>
+				<td>' . $course['type'] . '</td>
+				<td>' . $course['lecturer'] . '</td>
+				<td>' . $course['date'] . '</td>
+				<td>' . $course['places'] . '</td>
+				<td' . $style . '>' . $course['fplaces'] . '</td>';
+	if ( $course['start'] != '0000-00-00' && $course['end'] != '0000-00-00' ) {
+		$a2 ='<td>' . $course['start'] . '</td>
+			  <td>' . $course['end'] . '</td>';
+	} 
+	else {
+		$a2 = '<td colspan="2" style="text-align:center;">' . __('none','teachpress') . '</td>';
+	}
+	$a3 = '<td>' . $course['semester'] . '</td>';
+	if ( $course['visible'] == 1 ) {
+		$a4 = '<td>' . __('yes','teachpress') . '</td>';
+	} 
+	else {
+		$a4 = '<td>' . __('no','teachpress') . '</td>';
+	}
+	$a5 = '</tr>';
+	// Return
+	$return = $a1 . $a2 . $a3 . $a4 . $a5;
+	return $return;
 }
 
 /* Gives an array with all publication types
@@ -343,7 +414,7 @@ function tp_add_course($data) {
 	global $teachpress_courses;
 	$data['start'] = $data['start'] . ' ' . $data['start_hour'] . ':' . $data['start_minute'] . ':00';
 	$data['end'] = $data['end'] . ' ' . $data['end_hour'] . ':' . $data['end_minute'] . ':00';
-	$wpdb->insert( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['places'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'] ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s' ) );
+	$wpdb->insert( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['places'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'], 'strict_signup' => $data['strict_signup'] ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s', '%d' ) );
 	return $wpdb->insert_id;
 }
 	
@@ -383,7 +454,7 @@ function tp_change_course($course_ID, $data){
 	$course_ID = tp_sec_var($course_ID, 'integer');
 	$data['start'] = $data['start'] . ' ' . $data['start_hour'] . ':' . $data['start_minute'] . ':00';
 	$data['end'] = $data['end'] . ' ' . $data['end_hour'] . ':' . $data['end_minute'] . ':00';
-	$wpdb->update( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['fplaces'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'] ), array( 'course_id' => $course_ID ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s' ), array( '%d' ) );
+	$wpdb->update( $teachpress_courses, array( 'name' => $data['name'], 'type' => $data['type'], 'room' => $data['room'], 'lecturer' => $data['lecturer'], 'date' => $data['date'], 'places' => $data['places'], 'fplaces' => $data['fplaces'], 'start' => $data['start'], 'end' => $data['end'], 'semester' => $data['semester'], 'comment' => $data['comment'], 'rel_page' => $data['rel_page'], 'parent' => $data['parent'], 'visible' => $data['visible'], 'waitinglist' => $data['waitinglist'], 'image_url' => $data['image_url'], 'strict_signup' => $data['strict_signup'] ), array( 'course_id' => $course_ID ), array( '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s', '%s', '%s', '%s', '%d', '%d', '%d', '%d', '%s', '%d' ), array( '%d' ) );
 }
 
 /* Copy courses
@@ -463,8 +534,25 @@ function tp_copy_course($checkbox, $copysem) {
 /* Registrations */
 /*****************/
 
-/* Add registration (= Student subscribes in a course)
- * @param $checkbox (Array) - ID der Veranstaltungen
+/* Get parent course data
+ * @param $id (INT) - Parent-ID (Course_ID)
+ * @param $col (STRING) - Column name
+ * @mode $mode (STRING) - single (default), all
+ * Return $value, or $value[] (if mode = all)
+*/  
+function tp_get_parent_data ($id, $col, $mode = 'single') {
+	global $wpdb;
+	global $teachpress_courses;
+	$id = tp_sec_var($id, 'integer');
+	if ( $mode == 'single' ) {
+		$value = "SELECT `" . $col . "` FROM `" . $teachpress_courses . "` WHERE `course_id` = '$id'";
+		$value = $wpdb->get_var($value);
+		return $value;
+	}
+}
+
+/* Add registration (= subscribe student in a course)
+ * @param $checkbox (INT) - Course_ID
  * @param $wp_id (INT) - User_ID
  * Return (Message)
 */
@@ -474,65 +562,64 @@ function tp_add_registration($checkbox, $wp_id){
 	global $teachpress_stud;
 	global $teachpress_signup;
 	settype($checkbox, 'integer');
-	if ( $checkbox != 0 ) {
-		// check if there are free places available
-		$row1 = "SELECT fplaces, name, start, end, waitinglist, parent FROM " . $teachpress_courses . " WHERE course_id = '$checkbox'";
-		$row1 = $wpdb->get_results($row1);
-		foreach ($row1 as $row1) {
-			if ($row1->parent != '0') {
-				$sql = "SELECT name FROM " . $teachpress_courses . " WHERE course_id = '$row1->parent'";
-				$parent = $wpdb->get_var($sql);
-				if ($row1->name == $parent) {
-					$row1->name = $row1->name;
-				}
-				else {
-					$row1->name = $parent . ' ' . $row1->name; 
-				}
-			}
-			// if is true
-			if ($row1->fplaces > 0 ) {
-				// Check if the user is already registered
-				$check = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$checkbox' and wp_id = '$wp_id'";
+	// if there is no course selected
+	if ( $checkbox == 0 ) {
+		return '';
+	}
+	// load data
+	$row1 = "SELECT fplaces, name, start, end, waitinglist, parent FROM " . $teachpress_courses . " WHERE course_id = '$checkbox'";
+	$row1 = $wpdb->get_row($row1);
+	// handle parent and child name
+	if ($row1->parent != '0') {
+		$parent = tp_get_parent_data ($row1->parent, 'name');
+		if ($row1->name != $parent) {
+			$row1->name = $parent . ' ' . $row1->name; 
+		}
+	}
+	//Check if there are free places available
+	if ($row1->fplaces > 0 ) {
+		// Check if the user is already registered
+		$check = "SELECT `con_id` FROM " . $teachpress_signup . " WHERE course_id = '$checkbox' and wp_id = '$wp_id'";
+		$check = $wpdb->query($check);
+		if ( $check == 0 ) {
+			// Check if there is a parent course with strict signup
+			$check = tp_get_parent_data ($row1->parent, 'strict_signup');
+			if ( $check != 0 ) {
+				$check = "SELECT c.course_id FROM " . $teachpress_courses . " c INNER JOIN " . $teachpress_signup . " s ON s.course_id = c.course_id WHERE c.parent = '$row1->parent' AND s.wp_id = '$wp_id' AND s.waitinglist = '0'";
 				$check = $wpdb->query($check);
-				// If not: subscribe the user
-				if ($check == 0 ) {		
-					$eintragen = "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$checkbox', '$wp_id', '0', NOW() )";
-					$wpdb->query( $eintragen );
-					// reduce the number of free places
-					$fplaces = "SELECT fplaces FROM " . $teachpress_courses . " WHERE course_id = '$checkbox'";
-					$fplaces = $wpdb->get_var($fplaces);
-					$neu = $fplaces - 1;
-					$aendern = "UPDATE " . $teachpress_courses . " SET fplaces = '$neu' WHERE course_id = '$checkbox'";
-					$wpdb->query( $aendern );
-					return '<div class="teachpress_message">' . __('Registration for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('successful','teachpress') . '.</div>';
-				}
-				else {
-					return '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '.</div>';
+				// if the user is signed in a child course of the parent
+				if ( $check != 0 ) {
+					return '<div class="teachpress_message_error">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('Registration is not possible, because you are already registered for an other course of this course group.','teachpress') . '</div>';
 				}
 			}
-			// if not
+			$wpdb->query( "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$checkbox', '$wp_id', '0', NOW() )" );
+			// reduce the number of free places in the course
+			$neu = $row1->fplaces - 1;
+			$wpdb->query( "UPDATE " . $teachpress_courses . " SET `fplaces` = '$neu' WHERE `course_id` = '$checkbox'" );
+			return '<div class="teachpress_message_success">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('Registration was successful.','teachpress') . '</div>';
+		}
+		else {
+			return '<div class="teachpress_message_error">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('You are already registered for this course.','teachpress') . '</div>';
+		}		
+	}
+	else {
+		// if there is a waiting lis available
+		if ($row1->waitinglist == '1') {
+			// Check if the user is already registered in the waitinglist
+			$check = $wpdb->query("SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$checkbox' AND wp_id = '$wp_id'");
+			// if not: subscribe the user
+			if ($check == 0 ) {
+				$wpdb->query( "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$checkbox', '$wp_id', '1', NOW() )" );
+				return'<div class="teachpress_message_info">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('For this course there are no more free places. You are automatically signed up in a waiting list.','teachpress') . '</div>';
+			}
+			// if the user is already registered
 			else {
-				// if there is a waiting lis available
-				if ($row1->waitinglist == '1') {
-					// Check if the user is already registered in the waitinglist
-					$check = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$checkbox' AND wp_id = '$wp_id'";
-					$check = $wpdb->query($check);
-					// if not: subscribe the user
-					if ($check == 0 ) {
-						$eintragen = "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$checkbox', '$wp_id', '1', NOW() )";
-						$wpdb->query( $eintragen );
-						return'<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places. You are automatically signed in a waiting list.','teachpress') . '</div>';
-					}
-					// if the user is already registered
-					else {
-						return '<div class="teachpress_message">' . __('You are already for','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('registered','teachpress') . '</div>';
-					}
-				}
-				// if there is no waiting liszt
-				else {
-					return '<div class="teachpress_message">' . __('For','teachpress') . ' &quot;' . $row1->name . '&quot; ' . __('there are no more free places.','teachpress') . '</div>';
-				}
+				return '<div class="teachpress_message_error">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('You are already registered for this course.','teachpress') . '</div>';
 			}
+		}
+		// if there is no waiting list
+		else {
+			return '<div class="teachpress_message_error">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('Registration is not possible, because there are no more free places available','teachpress') . '</div>';
 		}
 	}
 }
@@ -1131,6 +1218,7 @@ function teachpress_install() {
 						 `visible` INT(1) ,
 						 `waitinglist` INT(1),
 						 `image_url` VARCHAR(400) ,
+						 `strict_signup` INT(1) ,
 						 PRIMARY KEY (course_id)
 					   ) $charset_collate;";
 		require_once(ABSPATH . 'wp-admin/upgrade-functions.php');			
@@ -1182,7 +1270,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.0.14', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.1.0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");

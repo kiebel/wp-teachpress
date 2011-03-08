@@ -187,6 +187,8 @@ function teachpress_publications_page() {
 					<li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0).','teachpress'); ?></li>
 				</ul>
 				</p>
+                <p class="hilfe_headline"><?php _e('More information','teachpress'); ?></p>
+                <p class="hilfe_text"><a href="http://mtrv.wordpress.com/teachpress/shortcode-reference/" target="_blank" title="<?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?>"><?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?></a></p>
 				<p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 		</div>
 		<div id="searchbox" style="float:right; padding-bottom:5px;">
@@ -308,7 +310,7 @@ function teachpress_publications_page() {
 						}
 						echo '<td><input style="margin-left:8px; padding-left:7px; text-align:left;" name="checkbox[]" type="checkbox" ' . $checked . 'value="' . $row->pub_id . '" /></td>';
 						?>
-						<td><a href="admin.php?page=teachpress/addpublications.php&pub_ID=<?php echo $row->pub_id; ?>&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>&amp;site=<?php echo $page; ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><?php echo stripslashes($row->name); ?></a></td>
+						<td><a href="admin.php?page=teachpress/addpublications.php&pub_ID=<?php echo $row->pub_id; ?>&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>&amp;site=<?php echo $page; ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><strong><?php echo stripslashes($row->name); ?></strong></a></td>
 						<td><?php echo $row->pub_id; ?></td>
 						<td><?php _e('' . $row->type . '','teachpress'); ?></td>
 						<td><?php echo stripslashes( str_replace(' and ', ', ', $row->author) ); ?></td>

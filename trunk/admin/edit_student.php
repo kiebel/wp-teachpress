@@ -2,14 +2,14 @@
 /* Edit a student
  * from show_students.php:
  * @param $student_ID (Int)
- * @param $suche (String)
+ * @param $search (String)
  * @param $studenten (String)
 */ 
 function teachpress_editstudent_page() { 
 	// Eingangsparameter
 	$student = tp_sec_var($_GET[student_ID]);
 	$studenten = tp_sec_var($_GET[studenten]);
-	$suche = tp_sec_var($_GET[suche]);
+	$search = tp_sec_var($_GET[search]);
 	$entry_limit = tp_sec_var($_GET[limit]);
 	global $wpdb;
 	global $teachpress_courses; 
@@ -47,14 +47,14 @@ function teachpress_editstudent_page() {
 		$message = __('Changes successful','teachpress');
 		tp_get_message($message);
 	}
-	echo '<p><a href="admin.php?page=teachpress/students.php&amp;suche=' . $suche . '&amp;studenten=' . $studenten . '&amp;limit=' . $entry_limit . '" class="teachpress_back" title="' . __('back to the overview','teachpress') . '">&larr; ' . __('back','teachpress') . ' </a></p>';
+	echo '<p><a href="admin.php?page=teachpress/students.php&amp;search=' . $search . '&amp;studenten=' . $studenten . '&amp;limit=' . $entry_limit . '" class="teachpress_back" title="' . __('back to the overview','teachpress') . '">&larr; ' . __('back','teachpress') . ' </a></p>';
 	?>
 	<form name="personendetails" method="get" action="<?php echo $PHP_SELF ?>">
 	<input name="page" type="hidden" value="teachpress/students.php" />
     <input name="action" type="hidden" value="show" />
 	<input name="student_ID" type="hidden" value="<?php echo $student; ?>" />
 	<input name="studenten" type="hidden" value="<?php echo $studenten; ?>" />
-	<input name="suche" type="hidden" value="<?php echo $suche; ?>" />
+	<input name="search" type="hidden" value="<?php echo $search; ?>" />
     <input name="limit" type="hidden" value="<?php echo $entry_limit; ?>"
 	<?php
 		$sql = "SELECT * FROM " . $teachpress_stud . " WHERE wp_id = '$student'";
@@ -218,7 +218,7 @@ function teachpress_editstudent_page() {
 	<form method="get" action="<?php echo $PHP_SELF ?>">
 	<input name="page" type="hidden" value="teachpress/editstudent.php">
 	<input name="student_ID" type="hidden" value="<?php echo"$student" ?>">
-	<input name="suche" type="hidden" value="<?php echo"$suche" ?>">
+	<input name="search" type="hidden" value="<?php echo"$search" ?>">
 	<input name="typ" type="hidden" value="<?php echo"$typ" ?>">
 	<table border="1" cellspacing="0" cellpadding="5" class="widefat">
 		<thead>
@@ -269,7 +269,7 @@ function teachpress_editstudent_page() {
 	<table border="0" cellspacing="7" cellpadding="0" id="einzel_optionen">
 	  <tr>
 		<td><?php _e('delete enrollment','teachpress'); ?></td>
-		<td> <input name="loeschen" type="submit" value="<?php _e('delete','teachpress'); ?>" id="teachpress_suche_delete" class="teachpress_button"/></td>
+		<td> <input name="loeschen" type="submit" value="<?php _e('delete','teachpress'); ?>" id="teachpress_search_delete" class="teachpress_button"/></td>
 	  </tr>
 	</table>
 	</form>

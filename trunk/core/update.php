@@ -83,6 +83,7 @@ function tp_db_update_function() {
 								 `visible` INT(1) ,
 								 `waitinglist` INT(1),
 								 `image_url` VARCHAR(400) ,
+								 `strict_signup` INT(1) ,
 								 PRIMARY KEY (course_id)
 							   ) $charset_collate;";			
 				$wpdb->query($sql);
@@ -506,6 +507,13 @@ function tp_db_update_function() {
 		$test = $wpdb->get_col_info('type', 0);
 		if ($test == 'date') {
 			$wpdb->query("ALTER TABLE `" . $teachpress_courses . "` CHANGE  `end`  `end` DATETIME NULL DEFAULT NULL");
+		}
+		// insert column strict_signup
+		// since version 2.1
+		$sql = "SHOW COLUMNS FROM " . $teachpress_courses . " LIKE 'strict_signup'";
+		$test = $wpdb->query($sql);
+		if ($test == '0') {
+			$wpdb->query("ALTER TABLE " . $teachpress_courses . " ADD `strict_signup` INT( 1 ) NULL DEFAULT NULL");
 		}
 		
 		/*
