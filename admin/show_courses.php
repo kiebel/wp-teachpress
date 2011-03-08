@@ -33,6 +33,9 @@ function teachpress_show_courses_page() {
 	elseif ($_GET[action] == 'list') {
 		tp_lists_page();
 	}
+	elseif ($_GET[action] == 'cal') {
+		tp_show_calendar_page();
+	}
 	else {
 	
 	// Formular-Einträge aus dem Post Array holen
@@ -58,6 +61,8 @@ function teachpress_show_courses_page() {
 			<p class="hilfe_text"><?php _e('For course informations','teachpress'); ?>: <strong><?php _e('[tpdate id="x"]','teachpress'); ?></strong> <?php _e('x = Course-ID','teachpress'); ?></p>
             <p class="hilfe_text"><?php _e('For the course list','teachpress'); ?>: <strong><?php _e('[tp_courselist image="x" image_size="y"]','teachpress'); ?></strong> <?php _e('x = image position (left, right, bottom or none), y = size of the images (for example 50)','teachpress'); ?></p>
             <p class="hilfe_text"><?php _e('For the enrollment system','teachpress'); ?>: <strong><?php _e('[tpenrollments]','teachpress'); ?></strong></p>
+            <p class="hilfe_headline"><?php _e('More information','teachpress'); ?></p>
+            <p class="hilfe_text"><a href="http://mtrv.wordpress.com/teachpress/shortcode-reference/" target="_blank" title="<?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?>"><?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?></a></p>
 			<p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 		</div>
 	  <form id="showlvs" name="showlvs" method="get" action="<?php echo $PHP_SELF ?>">
@@ -182,6 +187,9 @@ function teachpress_show_courses_page() {
 		}
 		// Zusammenstellung Ergebnisse
 		else {
+			$static['bulk'] = $bulk;
+			$static['sem'] = $sem;
+			$static['search'] = $search;
 			$z = 0;
 			$ergebnis = $wpdb->get_results($abfrage);
 			foreach ($ergebnis as $row){
@@ -206,83 +214,11 @@ function teachpress_show_courses_page() {
 			for ($i=0; $i<$z; $i++) {
 				if ($search == "") {
 					if ($courses[$i]['parent'] == 0) {
-						echo '<tr>';
-						echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$i]['course_id'] . '"';
-						if ( $bulk == "copy" || $bulk == "delete") { 
-							for( $k = 0; $k < count( $checkbox ); $k++ ) { 
-								if ( $courses[$i]['course_id'] == $checkbox[$k] ) { echo 'checked="checked"';} 
-							} 
-						}
-						echo '/></th>';
-						echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$i]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">' . $courses[$i]['name'] . '</a></td>';
-						echo '<td>' . $courses[$i]['course_id'] . '</td>';
-						echo '<td>' . $courses[$i]['type'] . '</td>';
-						echo '<td>' . $courses[$i]['lecturer'] . '</td>';
-						echo '<td>' . $courses[$i]['date'] . '</td>';
-						echo '<td>' . $courses[$i]['places'] . '</td>';
-						echo '<td';
-						if ($courses[$i]['places'] > 0 && $courses[$i]['fplaces'] == 0) {
-							echo ' style="color:#ff6600; font-weight:bold;"'; 
-						}
-						echo '>' . $courses[$i]['fplaces'] . '</td>';
-						if ($courses[$i]['start'] != '0000-00-00' && $courses[$i]['end'] != '0000-00-00') {
-							echo '<td>' . $courses[$i]['start'] . '</td>';
-							echo '<td>' . $courses[$i]['end'] . '</td>';
-						} 
-						else {
-							echo '<td colspan="2" style="text-align:center;">' . __('none','teachpress') . '</td>';
-						}
-						echo '<td>' . $courses[$i]['semester'] . '</td>';
-						if ($courses[$i]['visible'] == 1) {
-							echo '<td>' . __('yes','teachpress') . '</td>';
-						} 
-						else {
-							echo '<td>' . __('no','teachpress') . '</td>';
-						}
-						echo '</tr>';
+						echo tp_get_single_table_row_course ($courses[$i], $checkbox, $static);
 						// Search childs
 						for ($j=0; $j<$z; $j++) {
 							if ($courses[$i]['course_id'] == $courses[$j]['parent']) {
-								echo '<tr id="teachpress_table">';
-								echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$j]['course_id'] . '"';
-								if ( $bulk == "copy" || $bulk == "delete") { 
-									for( $k = 0; $k < count( $checkbox ); $k++ ) { 
-										if ( $courses[$j]['course_id'] == $checkbox[$k] ) { echo 'checked="checked"';} 
-									} 
-								}
-								echo '/></th>';
-								echo '<td><strong>&mdash;</strong> <a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$j]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to show','teachpress') . '">';
-								if ($courses[$i]['name'] == $courses[$j]['name']) {
-									echo $courses[$i]['name']; 
-								} else {
-									echo $courses[$i]['name'] . ' ' . $courses[$j]['name'];
-								}
-								echo '</a></td>';
-								echo '<td>' . $courses[$j]['course_id'] . '</td>';
-								echo '<td>' . $courses[$j]['type'] . '</td>';
-								echo '<td>' . $courses[$j]['lecturer'] . '</td>';
-								echo '<td>' . $courses[$j]['date'] . '</td>';
-								echo '<td>' . $courses[$j]['places'] . '</td>';
-								echo '<td';
-								if ($courses[$j]['places'] > 0 && $courses[$j]['fplaces'] == 0) {
-									echo ' style="color:#ff6600; font-weight:bold;"'; 
-								}
-								echo '>' . $courses[$j]['fplaces'] . '</td>';
-								if ($courses[$j]['start'] != '0000-00-00' && $courses[$j]['end'] != '0000-00-00') {
-									echo '<td>' . $courses[$j]['start'] . '</td>';
-									echo '<td>' . $courses[$j]['end'] . '</td>';
-								} 
-								else {
-									echo '<td colspan="2" style="text-align:center;">' . __('none','teachpress') . '</td>';
-								}
-								echo '<td>' . $courses[$j]['semester'] . '</td>';
-								if ($courses[$j]['visible'] == 1) {
-									echo '<td>' . __('yes','teachpress') . '</tr>';
-								} 
-								else {
-									echo '<td>' . __('no','teachpress') . '</tr>';
-								}
-								echo '</tr>';
+								echo tp_get_single_table_row_course ($courses[$j], $checkbox, $static, $courses[$i]['name'],'child');
 							}
 						}
 						// END search childs
@@ -291,53 +227,12 @@ function teachpress_show_courses_page() {
 				// if the user is using the search
 				else {
 					if ($courses[$i]['parent'] != 0) {
-						$parent_name = $wpdb->get_var("SELECT name FROM " . $teachpress_courses . " WHERE course_id = '" . $courses[$i]['parent'] . "'");
-						$parent_name = $parent_name . " ";
+						$parent_name = tp_get_parent_data($courses[$i]['parent'], 'name'); 
 					}
 					else {
 						$parent_name = "";
-					} 
-					echo '<tr id="teachpress_table">';
-					echo '<th class="check-column"><input name="checkbox[]" type="checkbox" value="' . $courses[$i]['course_id'] . '"';
-					if ( $bulk == "copy" || $bulk == "delete") { 
-						for( $k = 0; $k < count( $checkbox ); $k++ ) { 
-							if ( $courses[$i]['course_id'] == $checkbox[$k] ) { echo 'checked="checked"';} 
-						} 
 					}
-					echo '/></th>';
-					echo '<td><a href="admin.php?page=teachpress/teachpress.php&amp;lvs_ID=' . $courses[$i]['course_id'] . '&amp;sem=' . $sem . '&amp;search=' . $search . '&amp;action=show" class="teachpress_link" title="' . __('Click to edit','teachpress') . '">';
-					if ($courses[$i]['name'] == $parent_name) {
-						echo $parent_name; 
-					} 
-					else {
-						echo $parent_name . ' ' . $courses[$i]['name'] . '';
-					} 
-					echo '</a></td>';
-					echo '<td>' . $courses[$i]['course_id'] . '</td>';
-					echo '<td>' . $courses[$i]['type'] . '</td>';
-					echo '<td>' . $courses[$i]['lecturer'] . '</td>';
-					echo '<td>' . $courses[$i]['date'] . '</td>';
-					echo '<td>' . $courses[$i]['places'] . '</td>';
-					echo '<td';
-					if ($courses[$i]['places'] > 0 && $courses[$i]['fplaces'] == 0) {
-						echo ' style="color:#ff6600; font-weight:bold;"'; 
-					}
-					echo '>' . $courses[$i]['fplaces'] . '</td>';
-					if ($courses[$i]['start'] != '0000-00-00 00:00:00' && $courses[$i]['end'] != '0000-00-00 00:00:00') {
-						echo '<td>' . $courses[$i]['start'] . '</td>';
-						echo '<td>' . $courses[$i]['end'] . '</td>';
-					} 
-					else {
-						echo '<td colspan="2" style="text-align:center;">' . __('none','teachpress') . '</td>';
-					}
-					echo '<td>' . $courses[$i]['semester'] . '</td>';
-					if ($courses[$i]['visible'] == 1) {
-						echo '<td>' . __('yes','teachpress') . '</tr>';
-					} 
-					else {
-						echo '<td>' . __('no','teachpress') . '</tr>';
-					}
-					echo '</tr>';
+					echo tp_get_single_table_row_course ($courses[$i], $checkbox, $static, $parent_name, 'search');
 				}
 			}	
 		}   

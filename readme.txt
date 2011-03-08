@@ -3,12 +3,12 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.0.14
+Stable tag: 2.1.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
-The plugin unites a course management system with integrated enrollments and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
+The plugin unites a course management system (with enrollments) and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
 
 For more information see [here](http://www.mtrv.wordpress.com/teachpress/).
 
@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 = Thanks =
 I would like to thank the team of [CBIS, Chemnitz University of Technology](http://www.tu-chemnitz.de/wirtschaft/wi2/wp/en/) for the support and the collaboration during the last years.
 
-Translators who did a great job in translating the plugin into other languages. Thank you!   
+= Translators who did a great job in translating the plugin into other languages. Thank you! =
 * Elisabetta Mancini (Italian)
 * Aurelio Pons (Spanish)
 
@@ -90,7 +90,7 @@ When you writing a post or page use the following tag: [tpcourselist]
 Create a new page or post and use the following tag: [tpenrollments]
 
 = How can I add longer course desciptions? =
-You can write long course desciptions, as normal WordPress pages. The main function of teachPress is only to connect the static page with a course overview and an enrollment system. For this you can specify a related pages for your course.
+You can write long course desciptions, as normal WordPress pages. The main function of teachPress is only to connect the static page with a course overview and an enrollment system. For this you can specify a related page for your course.
 
 = How can I display images in publication lists? =
 An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
@@ -102,6 +102,10 @@ Before you can use this features you must define the $root parameter in the para
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.1.0 - (08.03.2011) =
+* New: Strict Subscribing
+* New: Improved Admin menu
+* Bugfix: Fixed a bug with a wrong redirect after the user cancelled the deleting of students
 = 2.0.14 - (24.02.2011) =
 * New: New style option for [tpcloud], [tplist]
 * Bugfix: Fixed a bug in teachPress books widget - the name of a book is no longer a html-element name

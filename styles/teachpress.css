@@ -12,7 +12,11 @@ a.teachpress_delete {color:#d62719; text-decoration:none; font-size:12px; font-w
 a.teachpress_delete:hover {text-decoration:underline;}
 .tp_print th {border:1px solid black; padding:5px 5px 5px 5px;}
 .tp_print td {border:1px solid black; padding:5px 5px 5px 5px;}
-.teachpress_message {-webkit-border-radius: 5px; -khtml-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color:#FFFFCC; border:1px solid silver; padding:5px;nmargin:5px; width:80%;
-}
+.teachpress_message {-webkit-border-radius: 5px; -khtml-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; background-color:#FFFFCC; border:1px solid silver; padding:5px;margin:5px 0 5px 0; width:80%;}
 /* others */
 td.tp_course_child {padding-left:25px; background: url(../images/child.png) no-repeat 8px 6px;}
+/* Message menu */
+.tp_row_actions {visibility: hidden;padding: 2px 0 0;color:#000000;}
+.tp_row_actions a:hover {color:#FF6600;}
+tr:hover .tp_row_actions {visibility: visible;}
+.tp_row_actions-visible {padding: 2px 0 0;cursor: pointer;}
