@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.8
 Tested up to: 3.1
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -102,6 +102,11 @@ Before you can use this features you must define the $root parameter in the para
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.1.1 - (10.03.2011) =
+* Bugfix: Fixed a bug in the publication overview (backend): The tags were not displayed
+* Bugfix: Fixed a bug in the updater which set the field type for birthday in the table teachpress_stud to varchar and not to date
+* Bugfix: Fixed a bug when student data were edited via backend: Data were lost
+* Bugfix: Fixed a bug which prevent an direct edit after adding a course/publication
 = 2.1.0 - (08.03.2011) =
 * New: Strict Subscribing
 * New: Improved Admin menu

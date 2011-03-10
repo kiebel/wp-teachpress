@@ -58,7 +58,7 @@ function teachpress_addpublications_page() {
 	$speichern = $_POST[speichern];
 	
 	// from show_publications.php
-	$pub_ID = tp_sec_var($_GET[pub_ID], 'integer');
+	$pub_ID = tp_sec_var($_REQUEST[pub_ID], 'integer');
 	$search = tp_sec_var($_GET[search]);
 	$filter = tp_sec_var($_GET[filter]);
 	$site = tp_sec_var($_GET[site]);
@@ -82,7 +82,7 @@ function teachpress_addpublications_page() {
 	}
 	
 	if ( $pub_ID != '' && !isset($erstellen) ) {?>
-    <p style="margin-bottom:0px;"><a href="admin.php?page=<?php echo $site; ?>&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>" class="teachpress_back" title="<?php _e('back','teachpress'); ?>">&larr; <?php _e("back",'teachpress'); ?></a></p>
+    <p style="margin-bottom:0px;"><a href="admin.php?page=publications.php&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>" class="teachpress_back" title="<?php _e('back','teachpress'); ?>">&larr; <?php _e("back",'teachpress'); ?></a></p>
     <?php } ?>
 	<h2><?php if ($pub_ID == '') { _e('Add a new publication','teachpress'); } else { _e('Edit publication','teachpress'); } ?><span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>
 	<div id="hilfe_anzeigen">

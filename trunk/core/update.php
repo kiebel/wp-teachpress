@@ -210,43 +210,43 @@ function tp_db_update_function() {
 		$sql = "SHOW COLUMNS FROM " . $teachpress_stud . " LIKE 'vorname'";
 		$test = $wpdb->query($sql);
 		if ($test == '1') {
-			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE  `vorname`  `firstname` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `vorname` `firstname` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
 		}
 		// rename column nachname to lastname
 		$sql = "SHOW COLUMNS FROM " . $teachpress_stud . " LIKE 'nachname'";
 		$test = $wpdb->query($sql);
 		if ($test == '1') {
-			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE  `nachname`  `lastname` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `nachname` `lastname` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
 		}
 		// rename column studiengang to course_of_studies
 		$sql = "SHOW COLUMNS FROM " . $teachpress_stud . " LIKE 'studiengang'";
 		$test = $wpdb->query($sql);
 		if ($test == '1') {
-			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE  `studiengang`  `course_of_studies` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `studiengang` `course_of_studies` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
 		}
 		// rename column urzkurz to userlogin
 		$sql = "SHOW COLUMNS FROM " . $teachpress_stud . " LIKE 'urzkurz'";
 		$test = $wpdb->query($sql);
 		if ($test == '1') {
-			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE  `urzkurz`  `userlogin` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `urzkurz` `userlogin` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
 		}
 		// rename column gebdat to birthday
 		$sql = "SHOW COLUMNS FROM " . $teachpress_stud . " LIKE 'gebdat'";
 		$test = $wpdb->query($sql);
 		if ($test == '1') {
-			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE  `gebdat`  `birthday` VARCHAR( 100 ) " . $charset_collate . " NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `gebdat` `birthday` DATE " . $charset_collate . " NULL DEFAULT NULL");
 		}
 		// rename column fachsemester to semesternumber
 		$sql = "SHOW COLUMNS FROM " . $teachpress_stud . " LIKE 'fachsemester'";
 		$test = $wpdb->query($sql);
 		if ($test == '1') {
-			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE  `fachsemester`  `semesternumber` INT(2) NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `fachsemester` `semesternumber` INT(2) NULL DEFAULT NULL");
 		}
 		// rename column matrikel to matriculation_number
 		$sql = "SHOW COLUMNS FROM " . $teachpress_stud . " LIKE 'matrikel'";
 		$test = $wpdb->query($sql);
 		if ($test == '1') {
-			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE  `matrikel`  `matriculation_number` INT NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `matrikel` `matriculation_number` INT NULL DEFAULT NULL");
 			// get message
 			echo '<p>' . __('Table for students updated.','teachpress') . '</p>';
 		}
@@ -524,7 +524,7 @@ function tp_db_update_function() {
 		$wpdb->get_results($sql);
 		$test = $wpdb->get_col_info('type', 0);
 		if ($test == 'date') {
-			$wpdb->query("ALTER TABLE `" . $teachpress_signup . "` CHANGE  `date`  `date` DATETIME NULL DEFAULT NULL");
+			$wpdb->query("ALTER TABLE `" . $teachpress_signup . "` CHANGE `date` `date` DATETIME NULL DEFAULT NULL");
 		}
 		 
 		/*
@@ -573,6 +573,21 @@ function tp_db_update_function() {
 			$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('birthday', '1', 'system')"); 
 		}
 		
+		/*********/
+		/* Fixes */
+		/*********/
+		// Change type in column birthday
+		// Fixed a bug with the installer in tp 2.0.0 to 2.1.0
+		$sql = "SELECT `birthday` FROM " . $teachpress_stud . "";
+		$wpdb->get_results($sql);
+		$test = $wpdb->get_col_info('type', 0);
+		if ($test != 'date') {
+			$wpdb->query("ALTER TABLE `" . $teachpress_stud . "` CHANGE `birthday` `birthday` DATE NULL DEFAULT NULL");
+		}
+		
+		/********/
+		/* Last */
+		/********/
 		// Update version information in the database
 		$wpdb->query("UPDATE " . $teachpress_settings . " SET  value = '$version' WHERE variable = 'db-version'");
 		// Finalize

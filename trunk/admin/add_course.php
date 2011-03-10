@@ -38,7 +38,7 @@ function tp_add_course_page() {
 	// Handle that the activation of strict sign up is not possible for a child course
 	if ( $data['parent'] != 0) { $data['strict_signup'] = 0; }
 	
-	$course_ID = tp_sec_var($_GET[lvs_ID], 'integer');
+	$course_ID = tp_sec_var($_REQUEST[lvs_ID], 'integer');
 	$search = tp_sec_var($_GET[search]);
 	$sem = tp_sec_var($_GET[sem]);
 	$ref = tp_sec_var($_GET[ref]);
