@@ -158,6 +158,12 @@ function teachpress_publications_page() {
 		}
 		$test = $wpdb->query($abfrage);	
 		$abfrage = $abfrage . " LIMIT $entry_limit, $number_messages";
+		
+		// Load tags
+		$sql = "SELECT DISTINCT t.name, b.tag_id, b.pub_id FROM " . $teachpress_relation . " b
+				INNER JOIN " . $teachpress_tags . " t ON t.tag_id = b.tag_id
+				INNER JOIN " . $teachpress_pub . " p ON p.pub_id = b.pub_id";
+		$tags = $wpdb->get_results($sql, ARRAY_A);
 		?>
 		<h2><?php echo $title; ?> <span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>
         <div id="hilfe_anzeigen">
@@ -317,12 +323,10 @@ function teachpress_publications_page() {
 						<td>
 						<?php
 						// Tags
-						$sql = "SELECT name, tag_id, pub_id FROM (SELECT t.name AS name, t.tag_id AS tag_id, b.pub_id AS pub_id FROM " . $teachpress_tags . " t LEFT JOIN " . $teachpress_relation . " b ON t.tag_id = b.tag_id ) as temp";
-						$tags = $wpdb->get_results($sql, ARRAY_A);
 						$tag_string = '';
-						for ($i = 0; $i < count($tags); $i++) {
-							if ($tags["pub_id"] == $row->pub_id) {
-								$tag_string = $tag_string . '<a href="admin.php?page=' . $page . '&amp;tag=' . $tags["tag_id"] . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($tags["name"]) . '</a>, ';
+						foreach ($tags as $temp) {
+							if ($temp["pub_id"] == $row->pub_id) {
+								$tag_string = $tag_string . '<a href="admin.php?page=' . $page . '&amp;tag=' . $temp["tag_id"] . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($temp["name"]) . '</a>, ';
 							}
 						}
 						$tag_string = substr($tag_string, 0, -2);

@@ -22,14 +22,14 @@ function teachpress_editstudent_page() {
 	$speichern = $_GET[speichern];
 		
 	$wp_id = tp_sec_var($_GET[wp_id], 'integer');
-	$data['$matriculation_number'] = tp_sec_var($_GET[matriculation_number], 'integer');
-	$data['$firstname'] = tp_sec_var($_GET[firstname]);
-	$data['$lastname'] = tp_sec_var($_GET[lastname]);
-	$data['$course_of_studies'] = tp_sec_var($_GET[course_of_studies]);
-	$data['$semesternumber'] = tp_sec_var($_GET[semesternumber]);
-	$data['$userlogin'] = tp_sec_var($_GET[userlogin]);
-	$data['$birthday'] = tp_sec_var($_GET[birthday]);
-	$data['$email'] = tp_sec_var($_GET[email]);
+	$data['matriculation_number'] = tp_sec_var($_GET[matriculation_number], 'integer');
+	$data['firstname'] = tp_sec_var($_GET[firstname]);
+	$data['lastname'] = tp_sec_var($_GET[lastname]);
+	$data['course_of_studies'] = tp_sec_var($_GET[course_of_studies]);
+	$data['semester_number'] = tp_sec_var($_GET[semesternumber]);
+	$data['userlogin'] = tp_sec_var($_GET[userlogin]);
+	$data['birthday'] = tp_sec_var($_GET[birthday]);
+	$data['email'] = tp_sec_var($_GET[email]);
 	// WP User ID
 	global $user_ID;
 	get_currentuserinfo();
