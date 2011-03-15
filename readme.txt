@@ -1,9 +1,9 @@
 === teachPress ===
 Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
-Requires at least: 2.8
+Requires at least: 2.9
 Tested up to: 3.1
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -102,6 +102,9 @@ Before you can use this features you must define the $root parameter in the para
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.1.2 - (15.03.2011) =
+* New: If you want it, you can now use custom post types instead of pages for the related page links
+* Info: WordPress 2.8 is not longer supported
 = 2.1.1 - (10.03.2011) =
 * Bugfix: Fixed a bug in the publication overview (backend): The tags were not displayed
 * Bugfix: Fixed a bug in the updater which set the field type for birthday in the table teachpress_stud to varchar and not to date

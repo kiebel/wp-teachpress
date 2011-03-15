@@ -572,6 +572,18 @@ function tp_db_update_function() {
 		if ($test == '0') {
 			$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('birthday', '1', 'system')"); 
 		}
+		// rel_page_courses
+		$sql = "SELECT value FROM " . $teachpress_settings . " WHERE variable = 'rel_page_courses'";
+		$test = $wpdb->query($sql);
+		if ($test == '0') {
+			$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('rel_page_courses', 'page', 'system')"); 
+		}
+		// rel_page_publications
+		$sql = "SELECT value FROM " . $teachpress_settings . " WHERE variable = 'rel_page_publications'";
+		$test = $wpdb->query($sql);
+		if ($test == '0') {
+			$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('rel_page_publications', 'page', 'system')"); 
+		}
 		
 		/*********/
 		/* Fixes */
