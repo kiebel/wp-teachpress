@@ -260,7 +260,10 @@ function teachpress_addpublications_page() {
 			<p><label for="rel_page" title="<?php _e('With the related page you can link a publication with a normal post/page. It is only used for the teachPress books widget.','teachpress'); ?>"><strong><?php _e('Related page','teachpress'); ?></strong></label></p>
 			<div style="overflow:hidden;">
 			<select name="rel_page" id="rel_page" title="<?php _e('With the related page you can link a publication with a normal post/page. It is only used for the teachPress books widget.','teachpress'); ?>" style="width:90%;">
-			<?php teachpress_wp_pages("menu_order","ASC",$daten["rel_page"],0,0); ?>
+			<?php
+			$post_type = tp_get_option('rel_page_publications');
+			teachpress_wp_pages("menu_order","ASC",$daten["rel_page"],$post_type,0,0); 
+			?>
 			</select>
 			</div>
 			</td>

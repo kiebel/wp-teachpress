@@ -9,25 +9,28 @@ function teachpress_admin_settings() {
 	global $teachpress_stud; 
 	global $teachpress_courses;
 	
-	$semester = tp_sec_var($_GET[semester]);
-	$permalink = tp_sec_var($_GET[permalink], 'integer');
-	$stylesheet = tp_sec_var($_GET[stylesheet], 'integer');
-	$sign_out = tp_sec_var($_GET[sign_out], 'integer');
-	$matriculation_number_field = tp_sec_var($_GET[matriculation_number_field]);
-	$course_of_studies_field = tp_sec_var($_GET[course_of_studies_field]);
-	$semesternumber_field = tp_sec_var($_GET[semesternumber_field]);
-	$birthday_field = tp_sec_var($_GET[birthday_field]);
-	$drop_tp = tp_sec_var($_GET[drop_tp], 'integer');
-	$login = tp_sec_var($_GET[login]);
-	$userrole = $_GET[userrole];
-	$einstellungen = $_GET[einstellungen];
-	$delete = $_GET[delete];
-	$name = tp_sec_var($_GET[name]);
-	$typ = tp_sec_var($_GET[typ]);
-	$newsem = tp_sec_var($_GET[newsem]);
-	$addstud = $_GET[addstud];
-	$addtyp = $_GET[addtyp];
-	$addsem = $_GET[addsem];
+	$all_options['semester'] = tp_sec_var($_POST[semester]);
+	$all_options['permalink'] = tp_sec_var($_POST[permalink], 'integer');
+	$all_options['rel_page_courses'] = tp_sec_var($_POST[rel_page_courses]);
+	$all_options['rel_page_publications'] = tp_sec_var($_POST[rel_page_publications]);
+	$all_options['stylesheet'] = tp_sec_var($_POST[stylesheet], 'integer');
+	$all_options['sign_out'] = tp_sec_var($_POST[sign_out], 'integer');
+	$all_options['matriculation_number'] = tp_sec_var($_POST[matriculation_number_field]);
+	$all_options['course_of_studies'] = tp_sec_var($_POST[course_of_studies_field]);
+	$all_options['semesternumber'] = tp_sec_var($_POST[semesternumber_field]);
+	$all_options['birthday'] = tp_sec_var($_POST[birthday_field]);
+	$all_options['login'] = tp_sec_var($_POST[login]);
+	$all_options['userrole'] = $_POST[userrole];
+	
+	$drop_tp = tp_sec_var($_POST[drop_tp], 'integer');
+	$einstellungen = $_POST[einstellungen];
+	$delete = tp_sec_var($_GET[delete], 'integer');
+	$name = tp_sec_var($_POST[name]);
+	$typ = tp_sec_var($_POST[typ]);
+	$newsem = tp_sec_var($_POST[newsem]);
+	$addstud = $_POST[addstud];
+	$addtyp = $_POST[addtyp];
+	$addsem = $_POST[addsem];
 	$site = 'options-general.php?page=teachpress/settings.php';
 	$tab = $_GET[tab];
 	?> 
@@ -57,7 +60,7 @@ function teachpress_admin_settings() {
 			tp_uninstall();
 		}
 		else {
-			tp_change_settings($semester, $permalink, $stylesheet, $sign_out, $userrole, $matriculation_number_field, $course_of_studies_field, $semesternumber_field, $birthday_field, $login);
+			tp_change_settings($all_options);
 		}
 		$message = __('Settings updated','teachpress');
 		tp_get_message($message);
@@ -101,7 +104,7 @@ function teachpress_admin_settings() {
 	?>
     <h3><?php echo $set_menu_1 . ' | ' .  $set_menu_2 . ' | ' . $set_menu_3; ?></h3>
     <div id="einstellungen" style="float:left; width:97%;">
-  	<form id="form1" name="form1" method="get" action="<?php echo $PHP_SELF ?>">
+  	<form id="form1" name="form1" method="post" action="<?php echo $PHP_SELF ?>">
 	<input name="page" type="hidden" value="teachpress/settings.php" />
     <input name="tab" type="hidden" value="<?php echo $tab; ?>" />
     <?php
@@ -114,7 +117,7 @@ function teachpress_admin_settings() {
         	<thead>
 			  <tr>
 				<th width="160"><label title="<?php _e('teachPress version','teachpress'); ?>"><?php _e('teachPress version','teachpress'); ?></label></th>
-				<td width="160"><?php 
+				<td width="210"><?php 
 					// Test ob Datenbank installiert ist
 					$test = tp_get_option('db-version');
 					if ($test != '') {
@@ -142,7 +145,7 @@ function teachpress_admin_settings() {
 			  </tr>
 			  <tr>
 				<th><label for="semester" title="<?php _e('Current term','teachpress'); ?>"><?php _e('Current term','teachpress'); ?></label></th>
-				<td style="vertical-align:middle;"><select name="semester" id="semester">
+				<td style="vertical-align:middle;"><select name="semester" id="semester" title="<?php _e('Current term','teachpress'); ?>">
 					<?php
                     $value = tp_get_option('sem');   
                     $sem = "SELECT setting_id, value FROM " . $teachpress_settings . " WHERE category = 'semester' ORDER BY setting_id DESC";
@@ -161,7 +164,7 @@ function teachpress_admin_settings() {
 			  </tr>
 			  <tr>
 				<th><label for="permalink" title="<?php _e('Permalinks','teachpress'); ?>"><?php _e('Permalinks','teachpress'); ?></label></th>
-				<td style="vertical-align:middle;"><select name="permalink" id="permalink">
+				<td style="vertical-align:middle;"><select name="permalink" id="permalink" title="<?php _e('Permalinks','teachpress'); ?>">
 					  <?php
 					  $value = tp_get_option('permalink');
 					  if ($value == '1') {
@@ -177,8 +180,54 @@ function teachpress_admin_settings() {
                  <td><em><?php _e('Here you can specify, if your WordPress installation using permalinks or not.','teachpress'); ?></em></td>   
 			  </tr>
               <tr>
+              	<th><?php _e('Related pages (Post type)','teachpress'); ?></th>
+                <td style="vertical-align:middle;">
+                	<p><select name="rel_page_courses" id="rel_page_courses" title="<?php _e('for courses','teachpress');?>">
+                        <option value="page"><?php _e('Pages');?></option>
+                        <?php
+                        $value = tp_get_option('rel_page_courses');
+                        $args=array(
+                          'public'   => true,
+                          '_builtin' => false
+                        ); 
+                        $post_types=get_post_types($args,'objects'); 
+                        foreach ($post_types as $post_type ) {
+                            if ($post_type->name == $value) {
+                                    $current = 'selected="selected"' ;
+                                }
+                                else {
+                                    $current = '' ;
+                                } 
+                          echo '<option value="'. $post_type->name . '" ' . $current . '>'. $post_type->label. '</option>';
+                        }
+                        ?>
+                    </select> <label for="rel_page_courses" title="<?php _e('for courses','teachpress');?>"><?php _e('for courses','teachpress');?></label></p>
+                    <p><select name="rel_page_publications" id="rel_page_publications" title="<?php _e('for publications','teachpress');?>">
+                        <option value="page"><?php _e('Pages');?></option>
+                        <?php
+                        $value = tp_get_option('rel_page_publications');
+                        $args=array(
+                          'public'   => true,
+                          '_builtin' => false
+                        ); 
+                        $post_types=get_post_types($args,'objects'); 
+                        foreach ($post_types as $post_type ) {
+                            if ($post_type->name == $value) {
+                                    $current = 'selected="selected"' ;
+                                }
+                                else {
+                                    $current = '' ;
+                                } 
+                          echo '<option value="'. $post_type->name . '" ' . $current . '>'. $post_type->label. '</option>';
+                        }
+                        ?>
+                    </select> <label for="rel_page_publications" title="<?php _e('for publications','teachpress');?>"><?php _e('for publications','teachpress');?></label></p>
+                </td>
+                <td><em><?php _e('If you create a course or a publication you can define a related page. It is kind of a "more information link", which helps you to connect a course/publication with a page. If you want to use custom post types instead of pages, so you can set it here.','teachpress'); ?></em></td>
+              </tr>
+              <tr>
               	<th><label for="stylesheet" title="<?php _e('Frontend styles','teachpress'); ?>"><?php _e('Frontend styles','teachpress'); ?></label></th>
-                <td style="vertical-align:middle;"><select name="stylesheet" id="stylesheet">
+                <td style="vertical-align:middle;"><select name="stylesheet" id="stylesheet" title="<?php _e('Frontend styles','teachpress'); ?>">
                 	  <?php
 					  $value = tp_get_option('stylesheet');
 					  if ($value == '1') {
@@ -196,7 +245,7 @@ function teachpress_admin_settings() {
               <tr>
               	<th><label for="userrole" title="<?php _e('Backend access for','teachpress'); ?>"><?php _e('Backend access for','teachpress'); ?></label></th>
                 <td style="vertical-align:middle;">
-                	<select name="userrole[]" id="userrole" multiple="multiple" style="height:80px;">
+                	<select name="userrole[]" id="userrole" multiple="multiple" style="height:80px;" title="<?php _e('Backend access for','teachpress'); ?>">
                     <?php
 					global $wp_roles;
     				$wp_roles->WP_Roles();
@@ -219,8 +268,8 @@ function teachpress_admin_settings() {
              <thead>
               <tr>
               	<th width="160"><label for="login"><?php _e('Mode','teachpress'); ?></label></th>
-                <td width="160" style="vertical-align:middle;">
-                <select name="login" id="login">
+                <td width="210" style="vertical-align:middle;">
+                <select name="login" id="login" title="<?php _e('Mode','teachpress'); ?>">
                   <?php
                   $value = tp_get_option('login');
                   if ($value == 'int') {
@@ -238,7 +287,7 @@ function teachpress_admin_settings() {
               </tr>
               <tr>
               <th><label for="sign_out" title="<?php _e('Prevent sign out','teachpress'); ?>"><?php _e('Prevent sign out','teachpress'); ?></label></th>
-              <td style="vertical-align:middle;"><select name="sign_out" id="sign_out">
+              <td style="vertical-align:middle;"><select name="sign_out" id="sign_out" title="<?php _e('Prevent sign out','teachpress'); ?>">
 				  <?php
                   $value = tp_get_option('sign_out');
                   if ($value == '1') {
