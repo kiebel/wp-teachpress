@@ -62,6 +62,7 @@ function teachpress_addpublications_page() {
 	$search = tp_sec_var($_GET[search]);
 	$filter = tp_sec_var($_GET[filter]);
 	$site = tp_sec_var($_GET[site]);
+	$tag_id = tp_sec_var($_GET[tag]);
 	$entry_limit = tp_sec_var($_GET[limit]);
 	
 	?>
@@ -81,26 +82,21 @@ function teachpress_addpublications_page() {
 		tp_get_message($message);
 	}
 	
-	if ( $pub_ID != '' && !isset($erstellen) ) {?>
-    <p style="margin-bottom:0px;"><a href="admin.php?page=publications.php&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>" class="teachpress_back" title="<?php _e('back','teachpress'); ?>">&larr; <?php _e("back",'teachpress'); ?></a></p>
-    <?php } ?>
-	<h2><?php if ($pub_ID == '') { _e('Add a new publication','teachpress'); } else { _e('Edit publication','teachpress'); } ?><span class="tp_break">|</span> <small><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('Help','teachpress'); ?></a></small></h2>
-	<div id="hilfe_anzeigen">
-		<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
-		<p><?php _e('No text available.','teachpress'); ?></p>
-		
-		<p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
-	</div>
+	if ( $pub_ID != '' && !isset($erstellen) ) {
+		echo '<p style="margin-bottom:0px;"><a href="admin.php?page=publications.php&amp;search=' . $search . '&amp;filter=' .  $filter . '&amp;limit=' . $entry_limit . '&amp;tag=' . $tag_id . '" class="teachpress_back" title="' . __('back','teachpress') . '">&larr; ' . __("back",'teachpress') . '</a></p>';
+    } ?>
+	<h2><?php if ($pub_ID == '') { _e('Add a new publication','teachpress'); } else { _e('Edit publication','teachpress'); } ?></h2>
 	  <input name="page" type="hidden" value="teachpress/addpublications.php">
 	  <?php if ($pub_ID != '') { 
 	  $row = "SELECT * FROM " . $teachpress_pub . " WHERE pub_id = '$pub_ID'";
 	  $daten = $wpdb->get_row($row, ARRAY_A)
 	  ?>
-	  <input type="hidden" name="pub_ID" value="<?php echo $pub_ID; ?>">
-	  <input type="hidden" name="search" value="<?php echo stripslashes($search); ?>">
-      <input type="hidden" name="limit" id="limit" value="<?php echo $entry_limit; ?>"/>
-      <input type="hidden" name="site" id="site" value="<?php echo $site; ?>"/>
-      <input type="hidden" name="filter" id="filter" value="<?php echo $filter; ?>"/>
+	  <input type="hidden" name="pub_ID" value="<?php echo $pub_ID; ?>" />
+	  <input type="hidden" name="search" value="<?php echo stripslashes($search); ?>" />
+      <input type="hidden" name="limit" id="limit" value="<?php echo $entry_limit; ?>" />
+      <input type="hidden" name="site" id="site" value="<?php echo $site; ?>" />
+      <input type="hidden" name="filter" id="filter" value="<?php echo $filter; ?>" />
+      <input type="hidden" name="tag" id="tag" value="<?php echo $tag_id; ?>" />
 	  <?php } ?>
 	  <div style="min-width:780px; width:100%; max-width:1100px;">
 	  <div style="width:30%; float:right; padding-right:2%; padding-left:1%;">

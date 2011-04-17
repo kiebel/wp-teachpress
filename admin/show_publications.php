@@ -26,19 +26,22 @@ function teachpress_publications_page() {
 	$tag_id = tp_sec_var($_GET[tag], 'integer');
 	// Page menu
 	$number_messages = 50;
-	// Handles limits 
+	// Handle limits
 	if (isset($_GET[limit])) {
-		$entry_limit = (int)$_GET[limit];
-		if ($entry_limit < 0) {
-			$entry_limit = 0;
+		$curr_page = (int)$_GET[limit] ;
+		if ( $curr_page <= 0 ) {
+			$curr_page = 1;
 		}
+		$entry_limit = ( $curr_page - 1 ) * $number_messages;
 	}
 	else {
 		$entry_limit = 0;
+		$curr_page = 1;
 	}
 	// test if teachpress database is up to date
 	$test = tp_get_option('db-version');
 	$version = get_tp_version();
+	
 	// if is the actual one
 	if ($test != $version) {
 		$message = __('An database update is necessary.','teachpress') . ' <a href="options-general.php?page=teachpress/settings.php&amp;up=1">' . __('Update','teachpress') . '</a>';
@@ -55,10 +58,8 @@ function teachpress_publications_page() {
 	?>
 	<div class="wrap">
 	<form id="showlvs" name="form1" method="get" action="<?php echo $PHP_SELF ?>">
-	<input type="hidden" name="page" id="page" value="<?php echo $page; ?>"/>
-    <input type="hidden" name="limit" id="limit" value="<?php echo $entry_limit; ?>"/>
-    <input type="hidden" name="filter" id="filter" value="<?php echo $filter; ?>" />
-    <input type="hidden" name="search" id="search" value="<?php echo $search; ?>" />
+	<input type="hidden" name="page" id="page" value="<?php echo $page; ?>" />
+    <input type="hidden" name="tag" id="tag" value="<?php echo $tag_id; ?>" />
 	<?php
 	
 	// Delete publications - part 1
@@ -84,7 +85,7 @@ function teachpress_publications_page() {
 	}
 	// For displaying as bibtex entries
 	if ($action == 'bibtex') {
-		echo '<p><a href="admin.php?page=' . $page . '&amp;search=' . $search . '&amp;limit=' . $entry_limit . '" class="teachpress_back">&larr; ' . __('back','teachpress') . '</a></p>';
+		echo '<p><a href="admin.php?page=' . $page . '&amp;search=' . $search . '&amp;limit=' . $curr_page . '" class="teachpress_back">&larr; ' . __('back','teachpress') . '</a></p>';
 		echo '<h2>' . __('BibTeX','teachpress') . '</h2>';
 		echo '<textarea name="bibtex_area" rows="20" style="width:90%;">';
 		for ($i=0; $i < count ($checkbox); $i++) {
@@ -97,58 +98,61 @@ function teachpress_publications_page() {
 		echo '</textarea>';
 	}
 	else {
+		// Build SQL-Statements
+		$order = "ORDER BY date DESC, p.name ASC";
+		$select = "p.pub_id, p.name, p.type, p.author, p.editor, DATE_FORMAT(p.date, '%Y') AS year";
+		
+		if ($filter != "" && $filter != '0') {
+			$where = "( p.type = '$filter' ) AND ";
+		}
+		else {
+			$where = "";
+		}
+		if ($search != "") {
+			$where = $where . "( p.name like '%$search%' OR p.author like '%$search%' OR p.editor like '%$search%' ) AND ";
+		}
+		else {
+			$where = $where . "";
+		}
+		
 		if ($page == 'publications.php') {
-			$order = "ORDER BY date DESC, p.name ASC";
-			if ($search != "") {
-				$abfrage = "SELECT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year FROM " . $teachpress_pub . " p
-						WHERE p.name like '%$search%' OR p.author like '%$search%' OR p.editor like '%$search%'
+			if ($where != "" && $tag_id == 0) {
+				$abfrage = "SELECT " . $select . " FROM " . $teachpress_pub . " p
+						WHERE " . substr($where, 0, -4) . "
 						" . $order . "";
 			}
-			elseif ($filter != ""&& $filter != '0') {
-				$abfrage = "SELECT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year FROM " . $teachpress_pub . " p
-						WHERE p.type = '$filter'
-						" . $order . "";
-			}
-			elseif ($tag_id != "") {
-				$abfrage = "SELECT DISTINCT p.pub_id,p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year 
+			elseif ($tag_id != 0) {
+				$abfrage = "SELECT DISTINCT " . $select . " 
 						FROM " . $teachpress_relation . " b
 						INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 						INNER JOIN " . $teachpress_tags . " t ON t.tag_id=b.tag_id
-						WHERE b.tag_id = $tag_id
+						WHERE " . $where . " b.tag_id = $tag_id
 						" . $order . "";
 			}
 			else {
-				$abfrage = "SELECT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year FROM " . $teachpress_pub . " p " . $order . "";
+				$abfrage = "SELECT " . $select . " FROM " . $teachpress_pub . " p " . $order . "";
 			}
 		}
 		else {
-			if ($search != "") {
-				$abfrage = "SELECT DISTINCT p.pub_id,p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year, u.bookmark_id 
+			if ($where != "" && $tag_id == 0) {
+				$abfrage = "SELECT DISTINCT " . $select . ", u.bookmark_id 
 						FROM " . $teachpress_relation . " b
 						INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 						INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
-						WHERE u.user = '$current_user->ID' AND ( p.name like '%$search%' OR p.author like '%$search%' OR p.editor like '%$search%' )
+						WHERE u.user = '$current_user->ID' AND " . substr($where, 0, -4) . "
 						" . $order . "";
 			}
-			elseif ($filter != "" && $filter != '0') {
-				$abfrage = "SELECT DISTINCT p.pub_id,p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year, u.bookmark_id 
-						FROM " . $teachpress_relation . " b
-						INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
-						INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
-						WHERE u.user = '$current_user->ID' AND p.type = '$filter'
-						" . $order . "";
-			}
-			elseif ($tag_id != "") {
-				$abfrage = "SELECT DISTINCT p.pub_id,p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year, u.bookmark_id 
+			elseif ($tag_id != 0) {
+				$abfrage = "SELECT DISTINCT " . $select . ", u.bookmark_id 
 						FROM " . $teachpress_relation . " b
 						INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 						INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
 						INNER JOIN " . $teachpress_tags . " t ON t.tag_id=b.tag_id
-						WHERE u.user = '$current_user->ID' AND b.tag_id = $tag_id
+						WHERE u.user = '$current_user->ID' AND " . $where . " b.tag_id = $tag_id
 						" . $order . "";
 			}
 			else {
-				$abfrage = "SELECT DISTINCT p.pub_id, p.name, p.type, p.author, p.editor,  DATE_FORMAT(p.date, '%Y') AS year, u.bookmark_id 
+				$abfrage = "SELECT DISTINCT " . $select . ", u.bookmark_id 
 				FROM " . $teachpress_relation . " b
 				INNER JOIN " . $teachpress_pub . " p ON p.pub_id=b.pub_id
 				INNER JOIN " . $teachpress_user . " u ON u.pub_id=p.pub_id
@@ -158,7 +162,6 @@ function teachpress_publications_page() {
 		}
 		$test = $wpdb->query($abfrage);	
 		$abfrage = $abfrage . " LIMIT $entry_limit, $number_messages";
-		
 		// Load tags
 		$sql = "SELECT DISTINCT t.name, b.tag_id, b.pub_id FROM " . $teachpress_relation . " b
 				INNER JOIN " . $teachpress_tags . " t ON t.tag_id = b.tag_id
@@ -170,37 +173,18 @@ function teachpress_publications_page() {
 			<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
 				<p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
 				<p class="hilfe_text"><?php _e('You can use publications in a page or article with the following shortcodes:','teachpress'); ?></p>
-				<p class="hilfe_text"><?php _e('For a single publication:','teachpress'); ?> <strong><?php _e('[tpsingle id="u"]','teachpress'); ?></strong></p>
-				 <ul style="list-style:disc; padding-left:40px;">
-					<li><?php _e('id - ID of the publication','teachpress'); ?></li>
-				</ul>
-				<p class="hilfe_text"><?php _e('For a publication list with tag cloud:','teachpress'); ?> <strong><?php _e('[tpcloud id="u" maxsize="v" minsize="w" limit="x" image="y" image_size="z"]','teachpress'); ?></strong></p>
-				 <ul style="list-style:disc; padding-left:40px;">
-					<li><?php _e('id - WP User-ID (0 for all)','teachpress'); ?></li>
-					<li><?php _e('maxsize - max. font size in the tag cloud (default: 35)','teachpress'); ?> </li>
-					<li><?php _e('minsize - min. font size in the tag cloud (default: 11)','teachpress'); ?></li>
-					<li><?php _e('limit - maximum of visible tags (default: 30)','teachpress'); ?></li>
-					<li><?php _e('image - image position: left, right, bottom (default: none)','teachpress'); ?></li>
-					<li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0).','teachpress'); ?></li>
-				</ul>
-				<p class="hilfe_text"><?php _e('For normal publication lists:','teachpress'); ?> <strong><?php _e('[tplist user="u" tag="v" year="w" headline="x" image="y" image_size="z"]','teachpress'); ?></strong>
-				<ul style="list-style:disc; padding-left:40px;">
-					<li><?php _e('user - WP User-ID (0 for all)','teachpress'); ?></li>
-					<li><?php _e('tag - Tag-ID (You can only choice one tag!)','teachpress'); ?> </li>
-					<li><?php _e('year','teachpress'); ?></li>
-					<li><?php _e('headline - 0(off) or 1(on)','teachpress'); ?></li>
-					<li><?php _e('image - image position: left, right, bottom (default: none)','teachpress'); ?></li>
-					<li><?php _e('image_size - maximum size in pixel (px) of an image (default: 0).','teachpress'); ?></li>
-				</ul>
+				<p class="hilfe_text"><?php _e('For a single publication:','teachpress'); ?> <strong>[tpsingle]</strong></p>
+				<p class="hilfe_text"><?php _e('For a publication list with tag cloud:','teachpress'); ?> <strong>[tpcloud]</strong></p>
+				<p class="hilfe_text"><?php _e('For normal publication lists:','teachpress'); ?> <strong>[tplist]</strong>
 				</p>
                 <p class="hilfe_headline"><?php _e('More information','teachpress'); ?></p>
                 <p class="hilfe_text"><a href="http://mtrv.wordpress.com/teachpress/shortcode-reference/" target="_blank" title="<?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?>"><?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?></a></p>
 				<p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 		</div>
 		<div id="searchbox" style="float:right; padding-bottom:5px;">
-        	<?php if ($search != "") { ?>
-			<a href="admin.php?page=<?php echo $page; ?>" style="font-size:14px; font-weight:bold; text-decoration:none; padding-right:3px;" title="<?php _e('Cancel the search','teachpress'); ?>">X</a>
-			<?php } ?>
+        	<?php if ($search != "") { 
+				echo '<a href="admin.php?page=' . $page . '&amp;filter=' . $filter . '&amp;tag=' . $tag_id . '" style="font-size:14px; font-weight:bold; text-decoration:none; padding-right:3px;" title="' . __('Cancel the search','teachpress') . '">X</a>';
+			} ?>
 			<input type="text" name="search" id="pub_search_field" value="<?php echo $search; ?>"/>
 			<input type="submit" name="pub_search_button" id="pub_search_button" value="<?php _e('search','teachpress'); ?>" class="teachpress_button"/>
 		</div>
@@ -220,53 +204,7 @@ function teachpress_publications_page() {
 		<input name="filter-ok" value="<?php _e('Limit selection','teachpress'); ?>" type="submit" class="teachpress_button"/>
          <?php
 		// Page Menu
-		if ($test > $number_messages) {
-			$num_pages = floor (($test / $number_messages) + 1);
-			// previous page link
-			if ($entry_limit != 0) {
-				$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ($entry_limit - $number_messages) . '&amp;search=' . $search . '" title="' . __('previous page','teachpress') . '" class="page-numbers">&larr;</a> ';
-			}	
-			// page numbers
-			$akt_seite = $entry_limit + $number_messages;
-			for($i=1; $i <= $num_pages; $i++) { 
-				$s = $i * $number_messages;
-				// First and last page
-				if ( ($i == 1 && $s != $akt_seite ) || ($i == $num_pages && $s != $akt_seite ) ) {
-					$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ( $s - $number_messages) . '&amp;search=' . $search . '" title="' . __('Page','teachpress') . ' ' . $i . '" class="page-numbers">' . $i . '</a> ';
-				}
-				// current page
-				elseif ( $s == $akt_seite ) {
-					$all_pages = $all_pages . '<span class="page-numbers current">' . $i . '</span> ';
-				}
-				else {
-					// Placeholder before
-					if ( $s == $akt_seite - (2 * $number_messages) && $num_pages > 4 ) {
-						$all_pages = $all_pages . '... ';
-					}
-					// Normal page
-					if ( $s >= $akt_seite - (2 * $number_messages) && $s <= $akt_seite + (2 * $number_messages) ) {
-						$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ( ( $i * $number_messages ) - $number_messages) . '&amp;search=' . $search . '" title="' . __('Page','teachpress') . ' ' . $i . '" class="page-numbers">' . $i . '</a> ';
-					}
-					// Placeholder after
-					if ( $s == $akt_seite + (2 * $number_messages) && $num_pages > 4 ) {
-						$all_pages = $all_pages . '... ';
-					}
-				}
-			}
-			// next page link
-			if ( ( $entry_limit + $number_messages ) <= ($test)) { 
-				$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ($entry_limit + $number_messages) . '&amp;author=' . $author . '&amp;search=' . $search . '&amp;tag=' . $tag . '" title="' . __('next page','teachpress') . '" class="page-numbers">&rarr;</a> ';
-			}
-			// handle displaying entry number
-			if ($akt_seite - 1 > $test) {
-				$anz2 = $test;
-			}
-			else {
-				$anz2 = $akt_seite - 1;
-			}
-			// print menu
-			echo '<div class="tablenav-pages" style="float:right;">' . __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' of ' . $test . ' ' . $all_pages . '</div>';
-		}?>
+		echo tp_admin_page_menu ($test, $number_messages, $curr_page, $entry_limit, 'admin.php?page=' . $page . '', 'search=' . $search . '&amp;filter=' . $filter . '&amp;tag=' . $tag_id . ''); ?>
 		</div>
 		<table class="widefat">
 			<thead>
@@ -298,13 +236,13 @@ function teachpress_publications_page() {
 						if ($page == 'publications.php') {
 							// Add to your own list icon
 							if ($test2 == 0) {
-								echo '<a href="' . $pagenow . '?page=' . $page . '&amp;add_id='. $row->pub_id . '&amp;user=' . $current_user->ID . '&amp;search=' . $search . '&amp;filter=' . $filter . '&amp;limit=' . $entry_limit . '" title="' . __('Add to your own list','teachpress') . '">+</a>';
+								echo '<a href="' . $pagenow . '?page=' . $page . '&amp;add_id='. $row->pub_id . '&amp;user=' . $current_user->ID . '&amp;search=' . $search . '&amp;filter=' . $filter . '&amp;limit=' . $curr_page . '&amp;tag=' . $tag_id . '" title="' . __('Add to your own list','teachpress') . '">+</a>';
 							} 
 						}
 						else {
 							$bookmark = $wpdb->get_var($sql);
 							// Delete from your own list icon
-							echo '<a href="' . $pagenow . '?page=' . $page .'&amp;del_id='. $bookmark . '&amp;search=' . $search . '&amp;filter=' . $filter . '&amp;limit=' . $entry_limit . '" title="' . __('Delete from you own publication list','teachpress') . '">&laquo;</a>';
+							echo '<a href="' . $pagenow . '?page=' . $page .'&amp;del_id='. $bookmark . '&amp;search=' . $search . '&amp;filter=' . $filter . '&amp;limit=' . $curr_page . '&amp;tag=' . $tag_id . '" title="' . __('Delete from you own publication list','teachpress') . '">&laquo;</a>';
 						} ?>
 						</td>
 						<?php 
@@ -316,7 +254,7 @@ function teachpress_publications_page() {
 						}
 						echo '<td><input style="margin-left:8px; padding-left:7px; text-align:left;" name="checkbox[]" type="checkbox" ' . $checked . 'value="' . $row->pub_id . '" /></td>';
 						?>
-						<td><a href="admin.php?page=teachpress/addpublications.php&pub_ID=<?php echo $row->pub_id; ?>&amp;search=<?php echo $search; ?>&amp;filter=<?php echo $filter; ?>&amp;limit=<?php echo $entry_limit; ?>&amp;site=<?php echo $page; ?>" class="teachpress_link" title="<?php _e('Click to edit','teachpress'); ?>"><strong><?php echo stripslashes($row->name); ?></strong></a></td>
+						<td><?php echo '<a href="admin.php?page=teachpress/addpublications.php&amp;pub_ID=' . $row->pub_id . '&amp;search=' . $search . '&amp;filter=' . $filter . '&amp;limit=' . $curr_page . '&amp;site=' . $page . '&amp;tag=' . $tag_id . '" class="teachpress_link" title="' . __('Click to edit','teachpress') . '"><strong>' . stripslashes($row->name) . '</strong></a>'; ?></td>
 						<td><?php echo $row->pub_id; ?></td>
 						<td><?php _e('' . $row->type . '','teachpress'); ?></td>
 						<td><?php echo stripslashes( str_replace(' and ', ', ', $row->author) ); ?></td>
@@ -326,7 +264,12 @@ function teachpress_publications_page() {
 						$tag_string = '';
 						foreach ($tags as $temp) {
 							if ($temp["pub_id"] == $row->pub_id) {
-								$tag_string = $tag_string . '<a href="admin.php?page=' . $page . '&amp;tag=' . $temp["tag_id"] . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($temp["name"]) . '</a>, ';
+								if ($temp["tag_id"] == $tag_id) {
+									$tag_string = $tag_string . '<a href="admin.php?page=' . $page . '&amp;search=' . $search . '&amp;filter=' . $filter . '&amp;limit=' . $curr_page . '" title="' . __('Delete tag as filter','teachpress') . '"><strong>' . stripslashes($temp["name"]) . '</strong></a>, ';
+								}
+								else {
+									$tag_string = $tag_string . '<a href="admin.php?page=' . $page . '&amp;search=' . $search . '&amp;filter=' . $filter . '&amp;tag=' . $temp["tag_id"] . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($temp["name"]) . '</a>, ';
+								}
 							}
 						}
 						$tag_string = substr($tag_string, 0, -2);
@@ -343,10 +286,15 @@ function teachpress_publications_page() {
         <div class="tablenav"><div class="tablenav-pages" style="float:right;">
 		<?php 
 		if ($test > $number_messages) {
-			echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '';
+			echo tp_admin_page_menu ($test, $number_messages, $curr_page, $entry_limit, 'admin.php?page=' . $page . '', 'search=' . $search . '&amp;filter=' . $filter . '&amp;tag=' . $tag_id . '', 'bottom');
 		} 
 		else {
-			echo __('Displaying','teachpress') . ' ' . $test . ' ' . __('entries','teachpress') . ' '. $all_pages . '';
+			if ($test == 1) {
+				echo '' . $test . ' ' . __('entry','teachpress') . '';
+			}
+			else {
+				echo '' . $test . ' ' . __('entries','teachpress') . '';
+			}
 		}?>
 		</div></div>
 	<?php } ?>

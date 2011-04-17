@@ -115,7 +115,18 @@ function tp_show_single_course_page() {
               </tr>  
               <tr>  
                 <td><strong><?php _e('Visibility','teachpress'); ?></strong></td>
-                <td colspan="3"><?php if ($daten["visible"] == 1) {_e('yes','teachpress');} else {_e('no','teachpress');} ?></td>
+                <td colspan="3">
+				<?php 
+					if ( $daten["visible"] == 1 ) {
+						_e('normal','teachpress');
+				  	}
+					elseif ( $daten["visible"] == 2 ) {
+						_e('extend','teachpress');
+					}
+				  	else {
+				  		_e('invisible','teachpress');
+				  	} 
+				?></td>
               </tr>
               <tr>
                 <th colspan="4"><?php _e('Enrollments','teachpress'); ?></th>

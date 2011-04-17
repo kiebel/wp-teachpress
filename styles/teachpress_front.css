@@ -90,5 +90,5 @@ span.tp_single_additional {font-size:small; font-style:italic;}
 #tpcourselist table.teachpress_course_list {border:none; width:100%;}
 .tp_auswahl {margin:3px; padding:3px;}
 .tp_lvs_name {font-size:14px; color:#177665;}
-.tp_lvs_container {margin:5px; border-bottom:1px solid silver; border-right:1px solid silver; padding:10px;}
-.tp_lvs_comments {padding-top:5px;}
+td.tp_lvs_container {margin:5px; border-bottom:1px solid silver; border-right:1px solid silver; padding:7px 5px 7px 5px;}
+.tp_lvs_comments {padding-top:5px; margin:0; min-height:17px;}
