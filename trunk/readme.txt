@@ -3,12 +3,12 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 2.9
 Tested up to: 3.1
-Stable tag: 2.1.2
+Stable tag: 2.2.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
-The plugin unites a course management system (with enrollments) and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 2.8.0 or higher.
+The plugin unites a course management system (with enrollments) and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 2.9.0 or higher.
 
 For more information see [here](http://www.mtrv.wordpress.com/teachpress/).
 
@@ -102,6 +102,19 @@ Before you can use this features you must define the $root parameter in the para
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.2.0 - (17.04.2011) =
+* New: "order" option for the shortcodes [tplist], [tpcloud]
+* New: "type" option for the shortcodes [tplist], [tpcloud]
+* New: Improved filter system for the backend publication menu
+* New: teachPress can now manage the number of free places of a course automatically.
+* New: Improved visibility options for courses
+* Changed: Pagemenus have now the WordPress 3.0 Design
+* Changed: Backend function have their own file: core/admin.php
+* Bugfix: Fixed a redirect bug in the backend publication menu
+* Bugfix: Fixed a small CSS bug in the frontend courselist, shortcode: [tpcourselist]
+* Bugfix: The year 0000 is no longer visible in the year filter of [tpcloud] - 0000 stands for no date given - publications with no date are furthermore visible at the end of the publication list
+* Killed: Detailed parameter description for shortcodes in the help sections --> moved to docs/shortcodes.html
+* Killed: Language files for en_US (because it's already the basic plugin langauge)
 = 2.1.2 - (15.03.2011) =
 * New: If you want it, you can now use custom post types instead of pages for the related page links
 * Info: WordPress 2.8 is not longer supported

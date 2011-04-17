@@ -1,7 +1,7 @@
 <?php
-/********************/
-/* BibTeX functions */
-/********************/ 
+/*********************************************************/
+/* teachPress BibTeX and publication shortcode functions */
+/*********************************************************/ 
 
 /* teachPress bibtex import
  * @param $input (String) - BibTeX format
@@ -257,9 +257,9 @@ function tp_bibtex_parse_author ($author, $mode) {
  * Return $end (string)
 */ 
 function tp_publication_advanced_information($row, $editor_name) {
-	// Falls isbn eingegeben wurde, wird formatiert
+	// For ISBN or ISSN number
 	if ($row->isbn != '') {
-		// Test ob ISBN oder ISSN
+		// test if ISBN or ISSN
 		if ($row->is_isbn == '0') { 
 			$isbn = ', ISSN: ' . $row->isbn . '';
 		}
@@ -395,20 +395,30 @@ function tp_publication_advanced_information($row, $editor_name) {
  * @param $image (string) - left, right or bottom
  * @param $all_tags (array) - array with tags
  * @param $with_tags (int) - for a publication with tags 1, else 0
+ * @param $url (array):
+ 		@param $permalink (INT) 
+		@param $link (String)
+		@param $post_id (INT)
  * @param $html_anchor (string)
  * @param $author_name - simple, last or initials (different styles of the author name)
  * @param $editor_name - simple, last or initials (different styles of the author name)
  * @param style (STRING) => simple or std (different styles for a single entry)
  * Return $string (string)
 */ 
-function tp_get_publication_html($row, $pad_size, $image, $all_tags, $with_tags = 1, $html_anchor = '#tppubs', $author_name, $editor_name, $style) {
+function tp_get_publication_html($row, $pad_size, $image, $all_tags, $with_tags = 1, $url, $html_anchor = '#tppubs', $author_name, $editor_name, $style) {
 	$tag_string = '';
 	$str = "'";
 	// show tags
-	if ($with_tags == '1') {
+	if ( $with_tags == 1 ) {
+		if ( $url["permalink"] == 1 ) {
+			$href = $url["link"] . '?';
+		}
+		else {
+			$href = $url["link"] . '?p=' . $url["post_id"] . '&amp;';
+		}
 		foreach ($all_tags as $tag) {
 			if ($tag["pub_id"] == $row->pub_id) {
-				$tag_string = $tag_string . '<a href="' . $link . '?tgid=' . $tag["tag_id"] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($tag["name"]) . '</a>, ';
+				$tag_string = $tag_string . '<a href="' . $href . 'tgid=' . $tag["tag_id"] . '&amp;yr=' . $yr . '&amp;type=' . $type . '&amp;autor=' . $autor . $html_anchor . '" title="' . __('Show all publications which have a relationship to this tag','teachpress') . '">' . stripslashes($tag["name"]) . '</a>, ';
 			}
 		}
 		$tag_string = substr($tag_string, 0, -2);

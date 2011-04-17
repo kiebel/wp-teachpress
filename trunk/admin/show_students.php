@@ -3,7 +3,7 @@
  *
  * from editstudent.php (GET):
  * @param $search - String
- * @param $studenten - String
+ * @param $students_group - String
 */
 function teachpress_students_page() { 
 
@@ -14,20 +14,22 @@ function teachpress_students_page() {
 	$checkbox = $_GET[checkbox];
 	$bulk = $_GET[bulk];
 	$search = tp_sec_var($_GET[search]); 
-	$studenten = tp_sec_var($_GET[studenten]);
+	$students_group = tp_sec_var($_GET[students_group]);
 	
 	// Page menu
 	$page = 'teachpress/students.php';
 	$number_messages = 50;
-	// Handles limits 
+ 	// Handle limits
 	if (isset($_GET[limit])) {
-		$entry_limit = (int)$_GET[limit];
-		if ($entry_limit < 0) {
-			$entry_limit = 0;
+		$curr_page = (int)$_GET[limit] ;
+		if ( $curr_page <= 0 ) {
+			$curr_page = 1;
 		}
+		$entry_limit = ( $curr_page - 1 ) * $number_messages;
 	}
 	else {
 		$entry_limit = 0;
+		$curr_page = 1;
 	}
 	
 	// Event handler
@@ -42,28 +44,26 @@ function teachpress_students_page() {
 			$abfrage = "SELECT * FROM " . $teachpress_stud . " WHERE `matriculation_number` like '%$search%' OR `wp_id` like '%$search%' OR `firstname` LIKE '%$search%' OR `lastname` LIKE '%$search%' ORDER BY " . $order . "";
 		}
 		else {
-			if ($studenten == 'alle' || $studenten == '') {
+			if ($students_group == 'alle' || $students_group == '') {
 				$abfrage = "SELECT * FROM " . $teachpress_stud . " ORDER BY " . $order . "";
 			}
 			else {
-				$abfrage = "SELECT * FROM " . $teachpress_stud . " WHERE `course_of_studies` = '$studenten' ORDER BY " . $order . "";
+				$abfrage = "SELECT * FROM " . $teachpress_stud . " WHERE `course_of_studies` = '$students_group' ORDER BY " . $order . "";
 			}
 		}
 		$test = $wpdb->query($abfrage);
 		$abfrage = $abfrage . " LIMIT $entry_limit, $number_messages";
-		// Test ob Eintraege vorhanden
 		?>
 		<div class="wrap">
 		<form name="search" method="get" action="<?php echo $PHP_SELF ?>">
 		<input name="page" type="hidden" value="teachpress/students.php" />
-        <input type="hidden" name="limit" id="limit" value="<?php echo $entry_limit; ?>"/>
 		<?php
 		// Delete students part 1
 		if ( $bulk == "delete" ) {
 			echo '<div class="teachpress_message">
 			<p class="hilfe_headline">' . __('Are you sure to delete the selected students?','teachpress') . '</p>
 			<p><input name="delete_ok" type="submit" class="teachpress_button" value="' . __('delete','teachpress') . '"/>
-			<a href="admin.php?page=teachpress/students.php&amp;search=' . $search . '&amp;studenten=' . $studenten . '&amp;limit=' . $entry_limit . '"> ' . __('cancel','teachpress') . '</a></p>
+			<a href="admin.php?page=teachpress/students.php&amp;search=' . $search . '&amp;students_group=' . $students_group . '&amp;limit=' . $curr_page . '"> ' . __('cancel','teachpress') . '</a></p>
 			</div>';
 		}
 		// Delete students part 2
@@ -88,13 +88,13 @@ function teachpress_students_page() {
 		</select>
 		<input type="submit" name="teachpress_submit" value="<?php _e('ok','teachpress'); ?>" id="teachpress_submit2" class="teachpress_button"/>
       	<?php if ($field2 == '1') { ?>
-		<select name="studenten" id="studenten">
+		<select name="students_group" id="students_group">
 			<option value="alle">- <?php _e('All students','teachpress'); ?> -</option>
 			<?php
 			$row = "SELECT DISTINCT `course_of_studies` FROM " . $teachpress_stud . " ORDER BY `course_of_studies`";
 			$row = $wpdb->get_results($row);
 			foreach($row as $row){
-				if ($row->course_of_studies == $studenten) {
+				if ($row->course_of_studies == $students_group) {
 					$current = ' selected="selected"' ;
 				}
 				else {
@@ -106,53 +106,7 @@ function teachpress_students_page() {
 		<input name="anzeigen" type="submit" id="teachpress_search_senden" value="<?php _e('show','teachpress'); ?>" class="teachpress_button"/>
         <?php }
 		// Page Menu
-		if ($test > $number_messages) {
-			$num_pages = floor (($test / $number_messages) + 1);
-			// previous page link
-			if ($entry_limit != 0) {
-				$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ($entry_limit - $number_messages) . '&amp;search=' . $search . '" title="' . __('previous page','teachpress') . '" class="page-numbers">&larr;</a> ';
-			}	
-			// page numbers
-			$akt_seite = $entry_limit + $number_messages;
-			for($i=1; $i <= $num_pages; $i++) { 
-				$s = $i * $number_messages;
-				// First and last page
-				if ( ($i == 1 && $s != $akt_seite ) || ($i == $num_pages && $s != $akt_seite ) ) {
-					$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ( $s - $number_messages) . '&amp;search=' . $search . '" title="' . __('Page','teachpress') . ' ' . $i . '" class="page-numbers">' . $i . '</a> ';
-				}
-				// current page
-				elseif ( $s == $akt_seite ) {
-					$all_pages = $all_pages . '<span class="page-numbers current">' . $i . '</span> ';
-				}
-				else {
-					// Placeholder before
-					if ( $s == $akt_seite - (2 * $number_messages) && $num_pages > 4 ) {
-						$all_pages = $all_pages . '... ';
-					}
-					// Normal page
-					if ( $s >= $akt_seite - (2 * $number_messages) && $s <= $akt_seite + (2 * $number_messages) ) {
-						$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ( ( $i * $number_messages ) - $number_messages) . '&amp;search=' . $search . '" title="' . __('Page','teachpress') . ' ' . $i . '" class="page-numbers">' . $i . '</a> ';
-					}
-					// Placeholder after
-					if ( $s == $akt_seite + (2 * $number_messages) && $num_pages > 4 ) {
-						$all_pages = $all_pages . '... ';
-					}
-				}
-			}
-			// next page link
-			if ( ( $entry_limit + $number_messages ) <= ($test)) { 
-				$all_pages = $all_pages . '<a href="admin.php?page=' . $page . '&amp;limit=' . ($entry_limit + $number_messages) . '&amp;search=' . $search . '" title="' . __('next page','teachpress') . '" class="page-numbers">&rarr;</a> ';
-			}
-			// handle displaying entry number
-			if ($akt_seite - 1 > $test) {
-				$anz2 = $test;
-			}
-			else {
-				$anz2 = $akt_seite - 1;
-			}
-			// print menu
-			echo '<div class="tablenav-pages" style="float:right;">' . __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' of ' . $test . ' ' . $all_pages . '</div>';
-		}?>
+		echo tp_admin_page_menu ($test, $number_messages, $curr_page, $entry_limit, 'admin.php?page=' . $page . '', 'search=' . $search . '&amp;students_group=' . $students_group . ''); ?>
 	  </div>
 	  <table border="1" cellpadding="5" cellspacing="0" class="widefat">
 		<thead>
@@ -197,7 +151,7 @@ function teachpress_students_page() {
 					} 
 				}
 				echo '/></th>';
-				echo '<td><a href="admin.php?page=teachpress/students.php&amp;student_ID=' . $row3->wp_id . '&amp;search=' . $search . '&amp;studenten=' . $studenten . '&amp;limit=' . $entry_limit . '&amp;action=show" class="teachpress_link" title="' . __('Click to edit','teachpress') . '"><strong>' . stripslashes($row3->lastname) . '</strong></a></td>';
+				echo '<td><a href="admin.php?page=teachpress/students.php&amp;student_ID=' . $row3->wp_id . '&amp;search=' . $search . '&amp;students_group=' . $students_group . '&amp;limit=' . $curr_page . '&amp;action=show" class="teachpress_link" title="' . __('Click to edit','teachpress') . '"><strong>' . stripslashes($row3->lastname) . '</strong></a></td>';
 				echo '<td>' . stripslashes($row3->firstname) . '</td>';
 				if ($field1 == '1') {
 					echo '<td>' . $row3->matriculation_number . '</td>';
@@ -222,10 +176,15 @@ function teachpress_students_page() {
         <div class="tablenav"><div class="tablenav-pages" style="float:right;">
 		<?php 
 		if ($test > $number_messages) {
-			echo __('Displaying','teachpress') . ' ' . ($entry_limit + 1) . '-' . $anz2 . ' ' . __('of','teachpress') . ' ' . $test . ' ' . $all_pages . '';
+			echo tp_admin_page_menu ($test, $number_messages, $curr_page, $entry_limit, 'admin.php?page=' . $page . '', 'search=' . $search . '&amp;students_group=' . $students_group . '', 'bottom');
 		} 
 		else {
-			echo __('Displaying','teachpress') . ' ' . $test . ' ' . __('entries','teachpress') . ' '. $all_pages . '';
+			if ($test == 1) {
+				echo '' . $test . ' ' . __('entry','teachpress') . '';
+			}
+			else {
+				echo '' . $test . ' ' . __('entries','teachpress') . '';
+			}
 		}?>
 		</div></div>
 		</form>

@@ -92,10 +92,17 @@ function tp_add_course_page() {
 			<p class="hilfe_headline"><?php _e('Enrollments','teachpress'); ?></p>
 			<p class="hilfe_text"><?php _e('If you have a course without enrollments, so add no dates in the fields start and end. teachPress will be deactivate the enrollments automatically.','teachpress'); ?></p>
             <p class="hilfe_text"><?php _e('Please note, that your local time is not the same as the server time. The current server time is:','teachpress'); ?> <strong><?php echo current_time('mysql'); ?></strong></p>
-			<p class="hilfe_headline"><?php _e('Terms and course types','teachpress'); ?></p>
-			<p class="hilfe_text"><?php _e('You can add new course types and terms','teachpress'); ?> <a href="options-general.php?page=teachpress/settings.php&amp;tab=courses"><?php _e('here','teachpress'); ?></a>.</p>
             <p class="hilfe_headline"><?php _e('Strict sign up','teachpress'); ?></p>
             <p class="hilfe_text"><?php _e('This is an option only for parent courses. If you activate it, subscribing is only possible for one of the child courses and not in all. This option has no influence on waiting lists.','teachpress'); ?></p>
+            <p class="hilfe_headline"><?php _e('Terms and course types','teachpress'); ?></p>
+			<p class="hilfe_text"><?php _e('You can add new course types and terms','teachpress'); ?> <a href="options-general.php?page=teachpress/settings.php&amp;tab=courses"><?php _e('here','teachpress'); ?></a>.</p>
+            <p class="hilfe_headline"><?php _e('Visibility','teachpress'); ?></p>
+            <p class="hilfe_text"><?php _e('You can choice between the following visibiltiy options','teachpress'); ?>:</p>
+            <ul style="list-style:disc; padding-left:40px;">
+            	<li><strong><?php _e('normal','teachpress'); ?>:</strong> <?php _e('The course is visible at the enrollment pages.','teachpress'); ?></li>
+                <li><strong><?php _e('extend','teachpress'); ?> (<?php _e('only for parent courses','teachpress'); ?>):</strong> <?php _e('The course is visible at the enrollment pages. Sub courses are visible at the frontend semester overview.','teachpress'); ?></li>
+                <li><strong><?php _e('invisible','teachpress'); ?>:</strong> <?php _e('The course is invisible at the enrollment pages and at the frontend semester overview.','teachpress'); ?></li>
+            </ul>
             <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 		</div>
 	  <form id="add_course" name="form1" method="post" action="<?php echo $PHP_SELF ?>">
@@ -121,16 +128,10 @@ function tp_add_course_page() {
         	<input name="image_url" id="image_url" type="text" title="<?php _e('Image URL','teachpress'); ?>" style="width:90%;" tabindex="12" value="<?php echo $daten["image_url"]; ?>"/>
          	<a id="upload_image_button" class="thickbox" title="<?php _e('Add Image','teachpress'); ?>" style="cursor:pointer;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
 			<p><label for="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?>"><strong><?php _e('Visibility','teachpress'); ?></strong></label></p>
-			<select name="visible" id="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?>" tabindex="13">
-              <?php
-                if ($daten["visible"] == 1) {
-                    echo '<option value="1" selected="selected">' . __('yes','teachpress') . '</option>';
-                    echo '<option value="0">' . __('no','teachpress') . '</option>';
-                }
-				else {
-					echo '<option value="1">' . __('yes','teachpress') . '</option>';
-                    echo '<option value="0">' . __('no','teachpress') . '</option>';
-				}?>
+			<select name="visible" id="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments.','teachpress'); ?>" tabindex="13">
+            	<option value="1"<?php if ( $daten["visible"] == 1 && $course_ID != 0 ) {echo ' selected="selected"'; } ?>><?php _e('normal','teachpress'); ?></option>
+                <option value="2"<?php if ( $daten["visible"] == 2 && $course_ID != 0 ) {echo ' selected="selected"'; } ?>><?php _e('extend','teachpress'); ?></option>
+                <option value="0"<?php if ( $daten["visible"] == 0 && $course_ID != 0 ) {echo ' selected="selected"'; } ?>><?php _e('invisible','teachpress'); ?></option>
 			</select>            
 			</td>
 			</tr>
@@ -195,7 +196,7 @@ function tp_add_course_page() {
         <p>
         <?php 
 		if ($daten["parent"] != 0) {
-			$parent_data_strict = tp_get_parent_data($daten["parent"], 'strict_signup'); 
+			$parent_data_strict = tp_get_course_data($daten["parent"], 'strict_signup'); 
 			if ( $parent_data_strict == 1 ) {
 				$check = 'checked="checked"';
 			}
@@ -290,11 +291,11 @@ function tp_add_course_page() {
 			<input name="places" type="text" id="places" title="<?php _e('The number of available places.','teachpress'); ?>" style="width:70px;" tabindex="7" value="<?php echo $daten["places"]; ?>" />
             <?php 
 			if ($course_ID != 0) {?>
-            	<p><label for="fplaces" title="<?php _e('The number of free places','teachpress'); ?>"><strong><?php _e('free places','teachpress'); ?></strong></label></p>
-				<input name="fplaces" id="fplaces" type="text" title="<?php _e('The number of free places','teachpress'); ?>" style="width:70px;" tabindex="8" value="<?php echo $daten["fplaces"]; ?>"/>
+            	| <?php echo __('free places','teachpress') . ': ' . $daten["fplaces"]; ?>
+				<input name="fplaces" id="fplaces" type="hidden" value="<?php echo $daten["fplaces"]; ?>"/>
 			<?php } ?>
-			<p><label for="parent2" title="<?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?>"><strong><?php _e('Parent','teachpress'); ?></strong></label></p>
-			<select name="parent2" id="parent2" title="<?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?>" tabindex="9">
+			<p><label for="parent2" title="<?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?>"><strong><?php _e('Parent course','teachpress'); ?></strong></label></p>
+			<select name="parent2" id="parent2" title="<?php _e('Here you can connect a course with a parent one. With this function you can create courses with an hierarchical order.','teachpress'); ?>" tabindex="8">
 			  <option value="0"><?php _e('none','teachpress'); ?></option>
 			  <option>------</option>
 			  <?php 	
@@ -318,9 +319,9 @@ function tp_add_course_page() {
                 }?>
 			</select>
 			<p><label for="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>"><strong><?php _e('Comment or Description','teachpress'); ?></strong></label></p>
-			<textarea name="comment" cols="75" rows="2" id="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>" tabindex="10" style="width:100%;"><?php echo stripslashes($daten["comment"]); ?></textarea>
+			<textarea name="comment" cols="75" rows="2" id="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>" tabindex="9" style="width:100%;"><?php echo stripslashes($daten["comment"]); ?></textarea>
 			<p><label for="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>"><strong><?php _e('Related page','teachpress'); ?></strong></label></p>
-			<select name="rel_page" id="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>" tabindex="11">
+			<select name="rel_page" id="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>" tabindex="10">
 				<?php 
 				$post_type = tp_get_option('rel_page_courses');
 				teachpress_wp_pages("menu_order","ASC",$daten["rel_page"],$post_type,0,0); 

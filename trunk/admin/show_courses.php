@@ -38,12 +38,11 @@ function teachpress_show_courses_page() {
 	}
 	else {
 	
-	// Formular-Einträge aus dem Post Array holen
 	$checkbox = $_GET[checkbox];
 	$bulk = $_GET[bulk];
 	$copysem = tp_sec_var($_GET[copysem]);
 	$search = tp_sec_var($_GET[search]);
-	// Wenn Semester vorher von User ausgewaehlt wurde
+	// if the semester is selected by user
 	if (isset($_GET[sem])) {
 		$sem = tp_sec_var($_GET[sem]);
 	}
@@ -58,9 +57,9 @@ function teachpress_show_courses_page() {
 			<h3 class="teachpress_help"><?php _e('Help','teachpress'); ?></h3>
 			<p class="hilfe_headline"><?php _e('Shortcodes','teachpress'); ?></p>
             <p class="hilfe_text"><?php _e('You can use courses in a page or article with the following shortcodes:','teachpress'); ?></p>
-			<p class="hilfe_text"><?php _e('For course informations','teachpress'); ?>: <strong><?php _e('[tpdate id="x"]','teachpress'); ?></strong> <?php _e('x = Course-ID','teachpress'); ?></p>
-            <p class="hilfe_text"><?php _e('For the course list','teachpress'); ?>: <strong><?php _e('[tp_courselist image="x" image_size="y"]','teachpress'); ?></strong> <?php _e('x = image position (left, right, bottom or none), y = size of the images (for example 50)','teachpress'); ?></p>
-            <p class="hilfe_text"><?php _e('For the enrollment system','teachpress'); ?>: <strong><?php _e('[tpenrollments]','teachpress'); ?></strong></p>
+			<p class="hilfe_text"><?php _e('For course informations','teachpress'); ?>: <strong>[tpdate id="x"]</strong> <?php _e('x = Course-ID','teachpress'); ?></p>
+            <p class="hilfe_text"><?php _e('For the course list','teachpress'); ?>: <strong>[tp_courselist image="x" image_size="y"]</strong> <?php _e('x = image position (left, right, bottom or none), y = size of the images (for example 50)','teachpress'); ?></p>
+            <p class="hilfe_text"><?php _e('For the enrollment system','teachpress'); ?>: <strong>[tpenrollments]</strong></p>
             <p class="hilfe_headline"><?php _e('More information','teachpress'); ?></p>
             <p class="hilfe_text"><a href="http://mtrv.wordpress.com/teachpress/shortcode-reference/" target="_blank" title="<?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?>"><?php _e('teachPress Shortcode Reference (engl.)', 'teachpress') ?></a></p>
 			<p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
@@ -68,8 +67,7 @@ function teachpress_show_courses_page() {
 	  <form id="showlvs" name="showlvs" method="get" action="<?php echo $PHP_SELF ?>">
 	  <input name="page" type="hidden" value="teachpress/teachpress.php" />
 		<?php 	
-		// Prüfen welche Checkbox genutzt wurde und Aufteilung an die Funktionen mit Variablenübergabe
-		// Veranstaltungen loeschen
+		// delete a course, part 1
 		if ( $bulk == "delete" ) {
 			echo '<div class="teachpress_message">
 			<p class="hilfe_headline">' . __('Are you sure to delete the selected courses?','teachpress') . '</p>
@@ -77,13 +75,13 @@ function teachpress_show_courses_page() {
 			<a href="admin.php?page=teachpress/teachpress.php&sem=' . $sem . '&search=' . $search . '"> ' . __('cancel','teachpress') . '</a></p>
 			</div>';
 		}
-		// Veranstaltung loeschen Teil 2
+		// delete a course, part 2
 		if ( isset($_GET[delete_ok]) ) {
 			tp_delete_course($checkbox);
 			$message = __('Course(s) deleted','teachpress');
 			tp_get_message($message);
 		}
-		// Veranstaltungen kopieren
+		// copy a course, part 1
 		if ( $bulk == "copy" ) { ?>
 			<div class="teachpress_message">
 			<p class="hilfe_headline"><?php _e('Copy courses','teachpress'); ?></p>
@@ -109,7 +107,7 @@ function teachpress_show_courses_page() {
 			</div>
 		<?php
 		}
-		// Kopiervorgang Teil 2
+		// copy a course, part 2
 		if ( isset($_GET[copy_ok]) ) {
 			tp_copy_course($checkbox, $copysem);
 			$message = __('Copying successful','teachpress');
@@ -164,28 +162,26 @@ function teachpress_show_courses_page() {
 		</thead>
 		<tbody>
 	<?php
-		// Abfragen je nachdem was im Filter gewaehlt wurde
 		if ($search == "") {
 			if ($sem == 'alle') {
-				$abfrage = "SELECT * FROM " . $teachpress_courses . " ORDER BY name";
+				$abfrage = "SELECT * FROM " . $teachpress_courses . " ORDER BY `name`";
 			}
 			else {
-				$abfrage = "SELECT * FROM " . $teachpress_courses . " WHERE semester = '$sem' ORDER BY name, course_id";
+				$abfrage = "SELECT * FROM " . $teachpress_courses . " WHERE `semester` = '$sem' ORDER BY `name`, `course_id`";
 			}	
 		}
-		// Falls Eingabe in Suchfeld
+		// if the user is using the search
 		else {
-			$abfrage = "SELECT course_id, name, type, lecturer, date, room, places, fplaces, start, end, semester, parent, visible, parent_name 
+			$abfrage = "SELECT `course_id`, `name`, `type`, `lecturer`, `date`, `room`, `places`, `fplaces`, `start`, `end`, ´semester`, `parent`, `visible`, `parent_name` 
 			FROM (SELECT t.course_id AS course_id, t.name AS name, t.type AS type, t.lecturer AS lecturer, t.date AS date, t.room As room, t.places AS places, t.fplaces AS fplaces, t.start AS start, t.end As end, t.semester AS semester, t.parent As parent, t.visible AS visible, p.name AS parent_name FROM " . $teachpress_courses . " t LEFT JOIN " . $teachpress_courses . " p ON t.parent = p.course_id ) AS temp 
-			WHERE name like '%$search%' OR parent_name like '%$search%' OR lecturer like '%$search%' OR date like '%$search%' OR room like '%$search%' OR course_id = '$search' 
-			ORDER BY semester DESC, name";
+			WHERE `name` like '%$search%' OR `parent_name` like '%$search%' OR `lecturer` like '%$search%' OR `date` like '%$search%' OR `room` like '%$search%' OR `course_id` = '$search' 
+			ORDER BY `semester` DESC, `name`";
 		}
 		$test = $wpdb->query($abfrage);	
-		// Falls es keine Treffer gibt
+		// is the query is empty
 		if ($test == 0) { 
 			echo '<tr><td colspan="13"><strong>' . __('Sorry, no entries matched your criteria.','teachpress') . '</strong></td></tr>';
 		}
-		// Zusammenstellung Ergebnisse
 		else {
 			$static['bulk'] = $bulk;
 			$static['sem'] = $sem;
@@ -227,7 +223,7 @@ function teachpress_show_courses_page() {
 				// if the user is using the search
 				else {
 					if ($courses[$i]['parent'] != 0) {
-						$parent_name = tp_get_parent_data($courses[$i]['parent'], 'name'); 
+						$parent_name = tp_get_course_data($courses[$i]['parent'], 'name'); 
 					}
 					else {
 						$parent_name = "";

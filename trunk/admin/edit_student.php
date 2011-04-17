@@ -3,12 +3,12 @@
  * from show_students.php:
  * @param $student_ID (Int)
  * @param $search (String)
- * @param $studenten (String)
+ * @param $students_group (String)
 */ 
 function teachpress_editstudent_page() { 
 	// Eingangsparameter
 	$student = tp_sec_var($_GET[student_ID]);
-	$studenten = tp_sec_var($_GET[studenten]);
+	$students_group = tp_sec_var($_GET[students_group]);
 	$search = tp_sec_var($_GET[search]);
 	$entry_limit = tp_sec_var($_GET[limit]);
 	global $wpdb;
@@ -47,15 +47,15 @@ function teachpress_editstudent_page() {
 		$message = __('Changes successful','teachpress');
 		tp_get_message($message);
 	}
-	echo '<p><a href="admin.php?page=teachpress/students.php&amp;search=' . $search . '&amp;studenten=' . $studenten . '&amp;limit=' . $entry_limit . '" class="teachpress_back" title="' . __('back to the overview','teachpress') . '">&larr; ' . __('back','teachpress') . ' </a></p>';
+	echo '<p><a href="admin.php?page=teachpress/students.php&amp;search=' . $search . '&amp;students_group=' . $students_group . '&amp;limit=' . $entry_limit . '" class="teachpress_back" title="' . __('back to the overview','teachpress') . '">&larr; ' . __('back','teachpress') . ' </a></p>';
 	?>
 	<form name="personendetails" method="get" action="<?php echo $PHP_SELF ?>">
 	<input name="page" type="hidden" value="teachpress/students.php" />
     <input name="action" type="hidden" value="show" />
 	<input name="student_ID" type="hidden" value="<?php echo $student; ?>" />
-	<input name="studenten" type="hidden" value="<?php echo $studenten; ?>" />
+	<input name="students_group" type="hidden" value="<?php echo $students_group; ?>" />
 	<input name="search" type="hidden" value="<?php echo $search; ?>" />
-    <input name="limit" type="hidden" value="<?php echo $entry_limit; ?>"
+    <input name="limit" type="hidden" value="<?php echo $entry_limit; ?>" />
 	<?php
 		$sql = "SELECT * FROM " . $teachpress_stud . " WHERE wp_id = '$student'";
 		$row3 = $wpdb->get_row($sql);
@@ -232,7 +232,7 @@ function teachpress_editstudent_page() {
 			</tr>
 		</thead>    
 		<tbody>
-	<?php
+		<?php
 			// Nach Daten zur Person: Ausgabe aller Einschreibungen
 			$sql = "SELECT s.wp_id, s.firstname, s.lastname, c.name, c.type, c.date, c.parent, si.con_id, si.date AS signup
 						FROM " . $teachpress_signup . " si

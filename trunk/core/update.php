@@ -1,4 +1,8 @@
 <?php
+/***************************************/
+/* teachPress database update function */
+/***************************************/ 
+
 function tp_db_update_function() {	
 
 	global $wpdb;
