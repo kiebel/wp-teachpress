@@ -3,11 +3,11 @@
 Plugin Name: teachPress
 Plugin URI: http://mtrv.wordpress.com/teachpress/
 Description: With teachPress you can easy manage courses, enrollments and publications.
-Version: 2.2.0
+Version: 2.3.0
 Author: Michael Winkler
 Author URI: http://mtrv.wordpress.com/
-Min WP Version: 2.9
-Max WP Version: 3.1
+Min WP Version: 3.0
+Max WP Version: 3.2
 */
 
 /*
@@ -232,7 +232,6 @@ function get_tp_version(){
  */
 function tp_update_userrole($roles) {
 	global $wp_roles;
-    $wp_roles->WP_Roles();
 
     if ( empty($roles) || ! is_array($roles) ) { 
 		$roles = array(); 
@@ -342,9 +341,9 @@ class teachpress_books_widget extends WP_Widget {
         $title = esc_attr($instance['title']);
 		$url = esc_attr($instance['url']);
 		$books = $instance['books'];
-		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title:', 'teachpress') . ' <input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
+		echo '<p><label for="' . $this->get_field_id('title') . '">' . __('Title', 'teachpress') . ': <input class="widefat" id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title') . '" type="text" value="' . $title . '" /></label></p>';
 		
-		echo '<p><label for="' . $this->get_field_id('books') . '">' . __('Books:', 'teachpress') . ' <select class="widefat" id="' . $this->get_field_id('books') . '" name="' . $this->get_field_name('books') . '[]" style="height:auto; max-height:25em" multiple="multiple" size="10">';
+		echo '<p><label for="' . $this->get_field_id('books') . '">' . __('Books', 'teachpress') . ': <select class="widefat" id="' . $this->get_field_id('books') . '" name="' . $this->get_field_name('books') . '[]" style="height:auto; max-height:25em" multiple="multiple" size="10">';
 		$sql= "SELECT pub_id, name FROM " . $teachpress_pub . " WHERE type = 'Book' ORDER BY date DESC";
 		$row= $wpdb->get_results($sql);
 		foreach ($row as $row) {
@@ -362,7 +361,7 @@ class teachpress_books_widget extends WP_Widget {
 		
 		$post_type = tp_get_option('rel_page_publications');
 		teachpress_wp_pages("menu_order","ASC",$url,$post_type,0,0);
-		$items = $wpdb->get_results( "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY menu_order ASC" );
+		//$items = $wpdb->get_results( "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'page' AND post_status = 'publish' ORDER BY menu_order ASC" );
 			echo '</select></label></p>';
 		}
 }
@@ -394,7 +393,6 @@ function teachpress_install() {
 	
 	// Add capabilities
 	global $wp_roles;
-	$wp_roles->WP_Roles();
 	$role = $wp_roles->get_role('administrator');
 	if ( !$role->has_cap('use_teachpress') ) {
 		$wp_roles->add_cap('administrator', 'use_teachpress');
@@ -484,7 +482,7 @@ function teachpress_install() {
 		dbDelta($sql);
 		// Default settings		
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sem', 'Example term', 'system')");
-		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.2.0', 'system')");
+		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('db-version', '2.3.0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('permalink', '1', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('sign_out', '0', 'system')");
 		$wpdb->query("INSERT INTO " . $teachpress_settings . " (variable, value, category) VALUES ('login', 'std', 'system')");
@@ -654,19 +652,26 @@ function teachpress_language_support() {
 
 // Register WordPress-Hooks
 register_activation_hook( __FILE__, 'teachpress_install');
-add_action('widgets_init', create_function('', 'return register_widget("teachpress_books_widget");'));
 add_action('init', 'teachpress_language_support');
-add_action('admin_menu', 'teachpress_add_menu');
-add_action('admin_menu', 'teachpress_add_menu2');
 add_action('admin_menu', 'teachpress_add_menu_settings');
 add_action('admin_head', 'teachpress_js_admin_head');
 add_action('wp_head', 'teachpress_js_wp_header');
 add_action('admin_init','teachpress_admin_head');
-add_shortcode('tpdate', 'tpdate_shortcode');
-add_shortcode('tpcourselist', 'tp_courselist_shortcode');
-add_shortcode('tpenrollments', 'tpenrollments_shortcode');
-add_shortcode('tpcloud', 'tpcloud_shortcode');
-add_shortcode('tplist', 'tplist_shortcode');
-add_shortcode('tpsingle','tpsingle_shortcode');
-add_shortcode('tppost','tppost_shortcode');
+
+if ( !defined('TP_COURSE_SYSTEM') ) {
+	add_action('admin_menu', 'teachpress_add_menu');
+	add_action('widgets_init', create_function('', 'return register_widget("teachpress_books_widget");'));
+	add_shortcode('tpdate', 'tpdate_shortcode');
+	add_shortcode('tpcourselist', 'tp_courselist_shortcode');
+	add_shortcode('tpenrollments', 'tpenrollments_shortcode');
+	add_shortcode('tppost','tppost_shortcode');
+}
+
+if ( !defined('TP_PUBLICATION_SYSTEM') ) {
+	add_action('admin_menu', 'teachpress_add_menu2');
+	add_shortcode('tpcloud', 'tpcloud_shortcode');
+	add_shortcode('tplist', 'tplist_shortcode');
+	add_shortcode('tpsingle','tpsingle_shortcode');
+}
+
 ?>

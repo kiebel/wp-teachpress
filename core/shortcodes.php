@@ -419,118 +419,136 @@ function tpenrollments_shortcode($atts) {
 		$row = "SELECT * FROM " . $teachpress_courses . " WHERE `semester` = '$sem' AND `parent` = '0' AND (`visible` = '1' OR `visible` = '2') ORDER BY `type` DESC, `name`";
 		$row = $wpdb->get_results($row);
 		foreach($row as $row) {
-			$date1 = $row->start;
-			$date2 = $row->end;
-			$a6 = $a6 . '<div class="teachpress_course_group">
-				   		 <div class="teachpress_course_name"><a href="' . get_permalink($row->rel_page) . '">' . stripslashes($row->name) . '</a></div>
-				   		 <table class="teachpress_enr" width="100%" border="0" cellpadding="1" cellspacing="0">
-				   		 <tr>
-						 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
-			if (is_user_logged_in() && $auswahl != '') {
-				if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
-					$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row->course_id . '" title="' . stripslashes($row->name) . ' ' . __('select','teachpress') . '" id="checkbox_' . $row->course_id . '"/>';
-				} 
-			}
-			else {
-				$a6 = $a6 . '&nbsp;';
-			}	
-			$a6 = $a6 . '</td>
-						 <td colspan="2">&nbsp;</td>
-						 <td align="center"><strong>' . __('Date(s)','teachpress') . '</strong></td>
-						 <td align="center">';
-			if ($date1 != '0000-00-00 00:00:00') {
-				$a6 = $a6 . '<strong>' . __('free places','teachpress') . '</strong>';
-			}
-			$a6 = $a6 . '</td>
-						</tr>
-						<tr>
-						 <td width="20%" style="font-weight:bold;">';
-			if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
-				$a6 = $a6 . '<label for="checkbox_' . $row->course_id . '" style="line-height:normal;">';
-			}
-			$a6 = $a6 . stripslashes($row->type);
-			if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
-				$a6 = $a6 . '</label>';
-			}
-			$a6 = $a6 . '</td>
-						 <td width="20%">' . stripslashes($row->lecturer) . '</td>
-						 <td align="center">' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</td>
-						 <td align="center">';
-			if ($date1 != '0000-00-00 00:00:00') { 
-				$a6 = $a6 . $row->fplaces . ' ' . __('of','teachpress') . ' ' .  $row->places;
-			}
-			$a6 = $a6 . '</td>
-						</tr>
-						<tr>
-						 <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="waitinglist">';
-			if ($row->waitinglist == 1 && $row->fplaces == 0) {
-				$a6 = $a6 . __('Possible to subscribe in the waiting list','teachpress'); 
-			}
-			else {
-				$a6 = $a6 . '&nbsp;';
-			}
-			$a6 = $a6 . '</td>
-						 <td style="border-bottom:1px solid silver; border-collapse: collapse;" align="center" class="einschreibefrist">';
-			if ($date1 != '0000-00-00 00:00:00') {
-				$a6 = $a6 . __('Registration period','teachpress') . ': ' . substr($row->start,0,strlen($row->start)-3) . ' ' . __('to','teachpress') . ' ' . substr($row->end,0,strlen($row->end)-3);
-			}
-			$a6 = $a6 . '</td>
-						</tr>';
-			// Select all childs
-			$row2 = "Select * FROM " . $teachpress_courses . " WHERE `parent` = '$row->course_id' AND (`visible` = '1' OR `visible` = '2') ORDER BY `name`";
+			// load all childs
+			$row2 = "Select * FROM " . $teachpress_courses . " WHERE `parent` = '$row->course_id' AND (`visible` = '1' OR `visible` = '2') AND (`start` != '0000-00-00 00:00:00') ORDER BY `name`";
 			$row2 = $wpdb->get_results($row2);
-			foreach ($row2 as $row2) {
-				$date3 = $row2->start;
-				$date4 = $row2->end;
-				if ($row->name == $row2->name) {
-					$row2->name = $row->type;
+			// test if  a child has an enrollment
+			$test = false;
+			foreach ( $row2 as $childs ) {
+				if ( $childs->start != '0000-00-00 00:00:00' ) {
+					$test = true;
+				}	
+			}
+			if ( $row->start != '0000-00-00 00:00:00' || $test == true ) {
+				// define some course variables
+				$date1 = $row->start;
+				$date2 = $row->end;
+				if ($row->rel_page != 0) {
+					$course_name = '<a href="' . get_permalink($row->rel_page) . '">' . stripslashes($row->name) . '</a>';
 				}
-				$a6 = $a6 . '<tr>
+				else {
+					$course_name = '' . stripslashes($row->name) . '';
+				}
+				// build course string
+				$a6 = $a6 . '<div class="teachpress_course_group">
+							 <div class="teachpress_course_name">' . $course_name . '</div>
+							 <table class="teachpress_enr" width="100%" border="0" cellpadding="1" cellspacing="0">
+							 <tr>
 							 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
 				if (is_user_logged_in() && $auswahl != '') {
-					if ($date3 != '0000-00-00 00:00:00' && current_time('mysql') >= $date3 && current_time('mysql') <= $date4) {
-						$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row2->course_id . '" title="' . stripslashes($row2->name) . ' ausw&auml;hlen" id="checkbox_' . $row2->course_id . '"/>';
-					}
+					if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
+						$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row->course_id . '" title="' . stripslashes($row->name) . ' ' . __('select','teachpress') . '" id="checkbox_' . $row->course_id . '"/>';
+					} 
+				}
+				else {
+					$a6 = $a6 . '&nbsp;';
+				}	
+				$a6 = $a6 . '</td>
+							 <td colspan="2">&nbsp;</td>
+							 <td align="center"><strong>' . __('Date(s)','teachpress') . '</strong></td>
+							 <td align="center">';
+				if ($date1 != '0000-00-00 00:00:00') {
+					$a6 = $a6 . '<strong>' . __('free places','teachpress') . '</strong>';
 				}
 				$a6 = $a6 . '</td>
-						 	 <td colspan="2">&nbsp;</td>
-						 	 <td align="center"><strong>' . __('Date(s)','teachpress') . '</strong></td>
-							 <td align="center"><strong>' . __('free places','teachpress') . '</strong></td>
 							</tr>
 							<tr>
 							 <td width="20%" style="font-weight:bold;">';
 				if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
-					$a6 = $a6 . '<label for="checkbox_' . $row2->course_id . '" style="line-height:normal;">';
+					$a6 = $a6 . '<label for="checkbox_' . $row->course_id . '" style="line-height:normal;">';
 				}
-				$a6 = $a6 . $row2->name;
+				$a6 = $a6 . stripslashes($row->type);
 				if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
 					$a6 = $a6 . '</label>';
 				}
 				$a6 = $a6 . '</td>
-							 <td width="20%">' . stripslashes($row2->lecturer) . '</td>
-							 <td align="center">' . stripslashes($row2->date) . ' ' . stripslashes($row2->room) . '</td>
-							 <td align="center">' . $row2->fplaces . ' ' . __('of','teachpress') . ' ' . $row2->places . '</td>
+							 <td width="20%">' . stripslashes($row->lecturer) . '</td>
+							 <td align="center">' . stripslashes($row->date) . ' ' . stripslashes($row->room) . '</td>
+							 <td align="center">';
+				if ($date1 != '0000-00-00 00:00:00') { 
+					$a6 = $a6 . $row->fplaces . ' ' . __('of','teachpress') . ' ' .  $row->places;
+				}
+				$a6 = $a6 . '</td>
 							</tr>
 							<tr>
 							 <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="waitinglist">';
-				$a6 = $a6 . stripslashes($row2->comment) . ' ';
-				if ($row2->waitinglist == 1 && $row2->fplaces == 0) {
-					$a6 = $a6 . __('Possible to subscribe in the waiting list','teachpress');
-				} 
+				if ($row->waitinglist == 1 && $row->fplaces == 0) {
+					$a6 = $a6 . __('Possible to subscribe in the waiting list','teachpress'); 
+				}
 				else {
 					$a6 = $a6 . '&nbsp;';
 				}
 				$a6 = $a6 . '</td>
-							 <td align="center" class="einschreibefrist" style="border-bottom:1px solid silver; border-collapse: collapse;">';
-				if ($date3 != '0000-00-00 00:00:00') {
-					$a6 = $a6 . __('Registration period','teachpress') . ': ' . substr($row2->start,0,strlen($row2->start)-3) . ' ' . __('to','teachpress') . ' ' . substr($row2->end,0,strlen($row2->end)-3);
+							 <td style="border-bottom:1px solid silver; border-collapse: collapse;" align="center" class="einschreibefrist">';
+				if ($date1 != '0000-00-00 00:00:00') {
+					$a6 = $a6 . __('Registration period','teachpress') . ': ' . substr($row->start,0,strlen($row->start)-3) . ' ' . __('to','teachpress') . ' ' . substr($row->end,0,strlen($row->end)-3);
 				}
 				$a6 = $a6 . '</td>
-							</tr>'; 
-			} 
-			// End (search for childs)
-			$a6 = $a6 . '</table>
-						</div>';
+							</tr>';
+				// search childs
+				foreach ($row2 as $row2) {
+					$date3 = $row2->start;
+					$date4 = $row2->end;
+					if ($row->name == $row2->name) {
+						$row2->name = $row2->type;
+					}
+					$a6 = $a6 . '<tr>
+								 <td rowspan="3" width="25" style="border-bottom:1px solid silver; border-collapse: collapse;">';
+					if (is_user_logged_in() && $auswahl != '') {
+						if ($date3 != '0000-00-00 00:00:00' && current_time('mysql') >= $date3 && current_time('mysql') <= $date4) {
+							$a6 = $a6 . '<input type="checkbox" name="checkbox[]" value="' . $row2->course_id . '" title="' . stripslashes($row2->name) . ' ausw&auml;hlen" id="checkbox_' . $row2->course_id . '"/>';
+						}
+					}
+					$a6 = $a6 . '</td>
+								 <td colspan="2">&nbsp;</td>
+								 <td align="center"><strong>' . __('Date(s)','teachpress') . '</strong></td>
+								 <td align="center"><strong>' . __('free places','teachpress') . '</strong></td>
+								</tr>
+								<tr>
+								 <td width="20%" style="font-weight:bold;">';
+					if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
+						$a6 = $a6 . '<label for="checkbox_' . $row2->course_id . '" style="line-height:normal;">';
+					}
+					$a6 = $a6 . $row2->name;
+					if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
+						$a6 = $a6 . '</label>';
+					}
+					$a6 = $a6 . '</td>
+								 <td width="20%">' . stripslashes($row2->lecturer) . '</td>
+								 <td align="center">' . stripslashes($row2->date) . ' ' . stripslashes($row2->room) . '</td>
+								 <td align="center">' . $row2->fplaces . ' ' . __('of','teachpress') . ' ' . $row2->places . '</td>
+								</tr>
+								<tr>
+								 <td colspan="3" style="border-bottom:1px solid silver; border-collapse: collapse;" class="waitinglist">';
+					$a6 = $a6 . stripslashes($row2->comment) . ' ';
+					if ($row2->waitinglist == 1 && $row2->fplaces == 0) {
+						$a6 = $a6 . __('Possible to subscribe in the waiting list','teachpress');
+					} 
+					else {
+						$a6 = $a6 . '&nbsp;';
+					}
+					$a6 = $a6 . '</td>
+								 <td align="center" class="einschreibefrist" style="border-bottom:1px solid silver; border-collapse: collapse;">';
+					if ($date3 != '0000-00-00 00:00:00') {
+						$a6 = $a6 . __('Registration period','teachpress') . ': ' . substr($row2->start,0,strlen($row2->start)-3) . ' ' . __('to','teachpress') . ' ' . substr($row2->end,0,strlen($row2->end)-3);
+					}
+					$a6 = $a6 . '</td>
+								</tr>'; 
+				} 
+				// End (search for childs)
+				$a6 = $a6 . '</table>
+							</div>';
+			}				
 		}	
 		if (is_user_logged_in() && $auswahl != '') {
 			$a6 = $a6 . '<input name="einschreiben" type="submit" value="' . __('Sign up','teachpress') . '" />';
@@ -566,11 +584,18 @@ function tp_courselist_shortcode($atts) {
 	$sem = tp_get_option('sem');
 	$url["post_id"] = get_the_ID();
 	
-	if (is_page()) {
-		$page = "page_id";
+	if ( $url["permalink"] == 0 ) {
+		if (is_page()) {
+			$page = "page_id";
+			
+		}
+		else {
+			$page = "p";
+		}
+		$page = '<input type="hidden" name="' . $page . '" id="' . $page . '" value="' . $url["post_id"] . '"/>';
 	}
 	else {
-		$page = "p";
+		$page = "";
 	}
 	
 	$semester = tp_sec_var($_GET[semester]);	
@@ -581,7 +606,7 @@ function tp_courselist_shortcode($atts) {
 	$a1 = '<div id="tpcourselist">
 			<h2>' . __('Courses for the','teachpress') . ' ' . stripslashes($sem) . '</h2>
 			<form name="lvs" method="get">
-			<input type="hidden" name="' . $page . '" id="' . $page . '" value="' . $url["post_id"] . '"/>
+			' . $page . '		
 			<div class="tp_auswahl"><label for="semester">' . __('Select the term','teachpress') . '</label> <select name="semester" id="semester" title="' . __('Select the term','teachpress') . '">';
 	$rowsem = "SELECT value FROM " . $teachpress_settings . " WHERE category = 'semester' ORDER BY setting_id DESC";
 	$rowsem = $wpdb->get_results($rowsem);
@@ -592,7 +617,7 @@ function tp_courselist_shortcode($atts) {
 		else {
 			$current = '';
 		}
-		$a2 = $a2 . '<option value="' . $rowsem->value . '" ' . $current . '>' . $rowsem->value . '</option>';
+		$a2 = $a2 . '<option value="' . $rowsem->value . '" ' . $current . '>' . stripslashes($rowsem->value) . '</option>';
 	}
 	$a3 = '</select>
 	       <input type="submit" name="start" value="' . __('show','teachpress') . '" id="teachpress_submit" class="teachpress_button"/>

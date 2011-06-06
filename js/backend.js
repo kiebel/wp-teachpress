@@ -1,5 +1,23 @@
 // teachPress javascript for the admin menu
 
+// for selecting all checkboxes on an admin page
+function teachpress_checkboxes() {
+	if (document.getElementById("tp_check_all").checked == true) {
+		for(i=0;i<document.forms[0].elements.length;i++) {
+			if(document.forms[0].elements[i].type=="checkbox") {
+				document.forms[0].elements[i].checked=true; 
+			}
+		}
+	}
+	else {
+		for(i=0;i<document.forms[0].elements.length;i++) {
+			if(document.forms[0].elements[i].type=="checkbox") {
+				document.forms[0].elements[i].checked=false; 
+			}
+		}
+	}
+}
+
 // for jumpmenu
 function teachpress_jumpMenu(targ,selObj,restore){
   eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");

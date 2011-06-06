@@ -1,10 +1,15 @@
-<?php 
+﻿<?php 
 /*
  * Import BibTeX
 */ 
 function teachpress_import_page() {
-$bibtex = tp_sec_var($_POST[bibtex_area]);
-
+$bibtex = $_POST[bibtex_area];
+// replace bibtex special chars
+$bibtex = str_replace(chr(92),'',$bibtex);
+$bibtex = str_replace(array ('{"A}','{"a}','{"O}','{"o}','{ss}','{"U}','{"u}'), array('Ä','ä','Ö','ö','ß','Ü','ü'), $bibtex);
+// END
+$bibtex = tp_sec_var( $bibtex );
+echo $bibtex;
 if (isset($_POST[tp_submit])) {
 	tp_bibtex_import ($bibtex);
 	echo '<p><a href="admin.php?page=teachpress/import.php" class="teachpress_back">&larr; ' . __('back','teachpress') . '</a></p>';

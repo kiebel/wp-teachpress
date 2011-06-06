@@ -111,8 +111,8 @@ function teachpress_students_page() {
 	  <table border="1" cellpadding="5" cellspacing="0" class="widefat">
 		<thead>
 		 <tr>
+         	<th class="check-column"><input name="tp_check_all" id="tp_check_all" type="checkbox" value="" onclick="teachpress_checkboxes();" /></th>
 			<?php
-			echo '<th>&nbsp;</th>'; 
 			echo '<th>' . __('Last name','teachpress') . '</th>';
 			echo '<th>' . __('First name','teachpress') . '</th>'; 
 			if ($field1 == '1') {

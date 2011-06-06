@@ -50,7 +50,6 @@ function tp_db_update_function() {
 		 * Capabilities
 		*/
 		global $wp_roles;
-		$wp_roles->WP_Roles();
 		$role = $wp_roles->get_role('administrator');
 		if ( !$role->has_cap('use_teachpress') ) {
 			$wp_roles->add_cap('administrator', 'use_teachpress');

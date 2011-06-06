@@ -70,7 +70,7 @@ function teachpress_show_courses_page() {
 		// delete a course, part 1
 		if ( $bulk == "delete" ) {
 			echo '<div class="teachpress_message">
-			<p class="hilfe_headline">' . __('Are you sure to delete the selected courses?','teachpress') . '</p>
+			<p class="hilfe_headline">' . __('Are you sure to delete the selected elements?','teachpress') . '</p>
 			<p><input name="delete_ok" type="submit" class="teachpress_button" value="' . __('delete','teachpress') . '"/>
 			<a href="admin.php?page=teachpress/teachpress.php&sem=' . $sem . '&search=' . $search . '"> ' . __('cancel','teachpress') . '</a></p>
 			</div>';
@@ -148,7 +148,7 @@ function teachpress_show_courses_page() {
 	<table cellpadding="5" cellspacing="0" border="1" class="widefat">
 		<thead>
 		<tr>
-			<th>&nbsp;</th>
+			<th class="check-column"><input name="tp_check_all" id="tp_check_all" type="checkbox" value="" onclick="teachpress_checkboxes();" /></th>
 			<th><?php _e('Name','teachpress'); ?></th>
 			<th><?php _e('ID','teachpress'); ?></th>
 			<th><?php _e('Type','teachpress'); ?></th>
