@@ -99,9 +99,9 @@ function tp_add_course_page() {
             <p class="hilfe_headline"><?php _e('Visibility','teachpress'); ?></p>
             <p class="hilfe_text"><?php _e('You can choice between the following visibiltiy options','teachpress'); ?>:</p>
             <ul style="list-style:disc; padding-left:40px;">
-            	<li><strong><?php _e('normal','teachpress'); ?>:</strong> <?php _e('The course is visible at the enrollment pages.','teachpress'); ?></li>
-                <li><strong><?php _e('extend','teachpress'); ?> (<?php _e('only for parent courses','teachpress'); ?>):</strong> <?php _e('The course is visible at the enrollment pages. Sub courses are visible at the frontend semester overview.','teachpress'); ?></li>
-                <li><strong><?php _e('invisible','teachpress'); ?>:</strong> <?php _e('The course is invisible at the enrollment pages and at the frontend semester overview.','teachpress'); ?></li>
+            	<li><strong><?php _e('normal','teachpress'); ?>:</strong> <?php _e('The course is visible at the enrollment pages, if enrollments are justified. If it is a parent course, the course is visible at the frontend semester overview.','teachpress'); ?></li>
+                <li><strong><?php _e('extend','teachpress'); ?> (<?php _e('only for parent courses','teachpress'); ?>):</strong> <?php _e('The same as normal, but in the frontend semester overview all sub-courses will also be displayed.','teachpress'); ?></li>
+                <li><strong><?php _e('invisible','teachpress'); ?>:</strong> <?php _e('The course is invisible.','teachpress'); ?></li>
             </ul>
             <p class="hilfe_close"><strong><a onclick="teachpress_showhide('hilfe_anzeigen')" style="cursor:pointer;"><?php _e('close','teachpress'); ?></a></strong></p>
 		</div>
@@ -127,7 +127,7 @@ function tp_add_course_page() {
             <p><label for="image_url" title="<?php _e('With the image field you can add an image to a course.','teachpress'); ?>"><strong><?php _e('Image URL','teachpress'); ?></strong></label></p>
         	<input name="image_url" id="image_url" type="text" title="<?php _e('Image URL','teachpress'); ?>" style="width:90%;" tabindex="12" value="<?php echo $daten["image_url"]; ?>"/>
          	<a id="upload_image_button" class="thickbox" title="<?php _e('Add Image','teachpress'); ?>" style="cursor:pointer;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
-			<p><label for="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments. If this is a course with inferier events so must select "Yes".','teachpress'); ?>"><strong><?php _e('Visibility','teachpress'); ?></strong></label></p>
+			<p><label for="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments.','teachpress'); ?>"><strong><?php _e('Visibility','teachpress'); ?></strong></label></p>
 			<select name="visible" id="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments.','teachpress'); ?>" tabindex="13">
             	<option value="1"<?php if ( $daten["visible"] == 1 && $course_ID != 0 ) {echo ' selected="selected"'; } ?>><?php _e('normal','teachpress'); ?></option>
                 <option value="2"<?php if ( $daten["visible"] == 2 && $course_ID != 0 ) {echo ' selected="selected"'; } ?>><?php _e('extend','teachpress'); ?></option>

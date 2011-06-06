@@ -1,9 +1,9 @@
 === teachPress ===
 Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
-Requires at least: 2.9
-Tested up to: 3.1
-Stable tag: 2.2.0
+Requires at least: 3.0
+Tested up to: 3.2
+Stable tag: 2.3.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -95,6 +95,13 @@ You can write long course desciptions, as normal WordPress pages. The main funct
 = How can I display images in publication lists? =
 An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
 
+= How can I deactivate parts of the plugin? =
+If you want to use only one part of the plugin, so write the following in the wp-config.php of your WordPress installation (or in the parameters.php of the plugin):  
+For deactivating the course system:  
+define ('TP_COURSE_SYSTEM','disable');  
+For deactivating the publication system:  
+define ('TP_PUBLICATION_SYSTEM','disable');  
+
 = I see only error messages if I use the RSS-Feed for publications or the xls/csv-Export for enrollments. What's wrong? =
 Before you can use this features you must define the $root parameter in the parameters.php: You find in the teachPress directory the file: parameters_sample.php. Open this file and change the $root paramter (you find some examples there). After that rename the file to parameters.php and upload the file in the teachPress directory.
 
@@ -102,6 +109,16 @@ Before you can use this features you must define the $root parameter in the para
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.3.0 - (06.06.2011) =
+* New: teachPress is now compatible with WordPress 3.2
+* New: An option for selecting all checkboxes is now available in some admin menus
+* New: The deactivation of the course/publication system is possible
+* Changed: Visibility handling for courses
+* Bugfix: Fixed a bug in the shortcode [tpcourselist]: With activated permalink structure it was in some cases for users not possible to select an other semester
+* Bugfix: Fixed a bug in the page menu: Wrong page number calculation under determined conditions
+* Bugfix: Fixed a bug in the enrollments system: If the course and the sub-course name were the same, the course type was displayed instead of the sub-course type
+* Bugfix: Fixed a bug in the enrollments system: If there is no related page given, the course name is no longer a link
+* Bugfix: Fixed the bibtex import for several special chars
 = 2.2.0 - (17.04.2011) =
 * New: "order" option for the shortcodes [tplist], [tpcloud]
 * New: "type" option for the shortcodes [tplist], [tpcloud]

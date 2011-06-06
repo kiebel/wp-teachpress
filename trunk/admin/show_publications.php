@@ -65,7 +65,7 @@ function teachpress_publications_page() {
 	// Delete publications - part 1
 	if ( $action == "delete" ) {
 		echo '<div class="teachpress_message">
-			<p class="hilfe_headline">' . __('Are you sure to delete the selected courses?','teachpress') . '</p>
+			<p class="hilfe_headline">' . __('Are you sure to delete the selected elements?','teachpress') . '</p>
 			<p><input name="delete_ok" type="submit" class="teachpress_button" value="' . __('delete','teachpress') . '"/>
 			<a href="admin.php?page=publications.php&search=' . $search . '"> ' . __('cancel','teachpress') . '</a></p>
 			</div>';
@@ -210,7 +210,7 @@ function teachpress_publications_page() {
 			<thead>
 				<tr>
 					<th>&nbsp;</th>
-					<th>&nbsp;</th>
+					<th><input name="tp_check_all" id="tp_check_all" type="checkbox" value="" onclick="teachpress_checkboxes();" /></th>
 					<th><?php _e('Name','teachpress'); ?></th>
 					<th><?php _e('ID','teachpress'); ?></th>
 					<th><?php _e('Type','teachpress'); ?></th> 

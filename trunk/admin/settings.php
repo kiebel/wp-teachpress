@@ -90,7 +90,7 @@ function teachpress_admin_settings() {
 	if ($tab == 'courses') {
 		$set_menu_2 = __('Courses','teachpress'); 
 	}
-	else { 
+	else {
 		$set_menu_2 = '<a href="' . $site . '&amp;tab=courses" title="' . __('Courses','teachpress') . '">' . __('Courses','teachpress') . '</a>'; 
 	}
 	
@@ -102,7 +102,15 @@ function teachpress_admin_settings() {
 	}
 	// End Site Menu
 	?>
-    <h3><?php echo $set_menu_1 . ' | ' .  $set_menu_2 . ' | ' . $set_menu_3; ?></h3>
+    <h3><?php 
+	echo $set_menu_1;
+	if ( !defined('TP_COURSE_SYSTEM') ) {
+		echo ' | ' . $set_menu_2;
+	}
+	if ( !defined('TP_PUBLICATION_SYSTEM') ) {	
+		echo ' | ' . $set_menu_3; 
+	}
+	?></h3>
     <div id="einstellungen" style="float:left; width:97%;">
   	<form id="form1" name="form1" method="post" action="<?php echo $PHP_SELF ?>">
 	<input name="page" type="hidden" value="teachpress/settings.php" />
@@ -141,7 +149,7 @@ function teachpress_admin_settings() {
 						}
 					} ?>
                </td>
-               <td><em><?php _e('Shows the teachPress database version and available database updates','teachpress'); ?></em></td>
+               <td><?php _e('Shows the teachPress database version and available database updates','teachpress'); ?></td>
 			  </tr>
 			  <tr>
 				<th><label for="semester" title="<?php _e('Current term','teachpress'); ?>"><?php _e('Current term','teachpress'); ?></label></th>
@@ -160,7 +168,7 @@ function teachpress_admin_settings() {
                         echo '<option value="' . $sem->value . '" ' . $current . '>' . stripslashes($sem->value) . '</option>';
                     } ?>    
 					</select></td>
-                    <td><em><?php _e('Here you can change the current term. This value is used for the default settings for all menus.','teachpress'); ?></em></td>
+                    <td><?php _e('Here you can change the current term. This value is used for the default settings for all menus.','teachpress'); ?></td>
 			  </tr>
 			  <tr>
 				<th><label for="permalink" title="<?php _e('Permalinks','teachpress'); ?>"><?php _e('Permalinks','teachpress'); ?></label></th>
@@ -177,7 +185,7 @@ function teachpress_admin_settings() {
 					  } 
 					  ?>
 					</select></td>
-                 <td><em><?php _e('Here you can specify, if your WordPress installation using permalinks or not.','teachpress'); ?></em></td>   
+                 <td><?php _e('Here you can specify, if your WordPress installation using permalinks or not.','teachpress'); ?></td>   
 			  </tr>
               <tr>
               	<th><?php _e('Related pages (Post type)','teachpress'); ?></th>
@@ -223,7 +231,7 @@ function teachpress_admin_settings() {
                         ?>
                     </select> <label for="rel_page_publications" title="<?php _e('for publications','teachpress');?>"><?php _e('for publications','teachpress');?></label></p>
                 </td>
-                <td><em><?php _e('If you create a course or a publication you can define a related page. It is kind of a "more information link", which helps you to connect a course/publication with a page. If you want to use custom post types instead of pages, so you can set it here.','teachpress'); ?></em></td>
+                <td><?php _e('If you create a course or a publication you can define a related page. It is kind of a "more information link", which helps you to connect a course/publication with a page. If you want to use custom post types instead of pages, so you can set it here.','teachpress'); ?></td>
               </tr>
               <tr>
               	<th><label for="stylesheet" title="<?php _e('Frontend styles','teachpress'); ?>"><?php _e('Frontend styles','teachpress'); ?></label></th>
@@ -240,7 +248,7 @@ function teachpress_admin_settings() {
 					  } 
 					  ?>
                 	</select></td>
-                <td><em><?php _e('Select which style sheet you will use. teachpress_front.css is the teachPress default style. If you have created your own style in the default style sheet of your theme, you can activate this here.','teachpress'); ?></em></td>
+                <td><?php _e('Select which style sheet you will use. teachpress_front.css is the teachPress default style. If you have created your own style in the default style sheet of your theme, you can activate this here.','teachpress'); ?></td>
               </tr>
               <tr>
               	<th><label for="userrole" title="<?php _e('Backend access for','teachpress'); ?>"><?php _e('Backend access for','teachpress'); ?></label></th>
@@ -248,9 +256,7 @@ function teachpress_admin_settings() {
                 	<select name="userrole[]" id="userrole" multiple="multiple" style="height:80px;" title="<?php _e('Backend access for','teachpress'); ?>">
                     <?php
 					global $wp_roles;
-    				$wp_roles->WP_Roles();
-					foreach ($wp_roles->role_names as $roledex => $rolename) 
-					{
+					foreach ($wp_roles->role_names as $roledex => $rolename){
 						$role = $wp_roles->get_role($roledex);
 						$select = $role->has_cap('use_teachpress') ? 'selected="selected"' : '';
 						echo '<option value="'.$roledex.'" '.$select.'>'.$rolename.'</option>';
@@ -259,7 +265,7 @@ function teachpress_admin_settings() {
                     </select>
 					
                 </td>
-                <td><em><?php _e('Select which userrole your users must have to use the teachPress backend.','teachpress'); ?><br /><?php _e('use &lt;Ctrl&gt; key to select multiple roles','teachpress'); ?></em></td>
+                <td><?php _e('Select which userrole your users must have to use the teachPress backend.','teachpress'); ?><br /><?php _e('use &lt;Ctrl&gt; key to select multiple roles','teachpress'); ?></td>
               </tr>
              </thead>
              </table>
@@ -283,7 +289,7 @@ function teachpress_admin_settings() {
                   ?>
                 </select>
                 </td>
-                <td><em><?php _e('Standard - teachPress has a separate registration. This is usefull if you have an auto login for WordPress or most of your users are registered in your blog, for example in a network.','teachpress'); ?><br /><?php _e('Integrated - teachPress deactivates the own registration and uses all available data from WordPress. This is usefull, if most of your users has not an acount in your blog.','teachpress'); ?></em></td>
+                <td><?php _e('Standard - teachPress has a separate registration. This is usefull if you have an auto login for WordPress or most of your users are registered in your blog, for example in a network.','teachpress'); ?><br /><?php _e('Integrated - teachPress deactivates the own registration and uses all available data from WordPress. This is usefull, if most of your users has not an acount in your blog.','teachpress'); ?></td>
               </tr>
               <tr>
               <th><label for="sign_out" title="<?php _e('Prevent sign out','teachpress'); ?>"><?php _e('Prevent sign out','teachpress'); ?></label></th>
@@ -300,7 +306,7 @@ function teachpress_admin_settings() {
                   } 
                   ?>
               </select></td>
-              <td><em><?php _e('Prevent sign out for your users','teachpress'); ?></em></td>
+              <td><?php _e('Prevent sign out for your users','teachpress'); ?></td>
               </tr>
               <tr>
               	<th><?php _e('User data fields','teachpress'); ?></th>
@@ -350,7 +356,7 @@ function teachpress_admin_settings() {
                 <input name="birthday_field" id="birthday_field" type="checkbox"<?php echo $check; ?> value="1" /> <label for="birthday_field"><?php _e('Date of birth','teachpress'); ?></label><br />
                 <input name="email_field" type="checkbox" checked="checked" disabled="disabled" /> <?php _e('E-Mail','teachpress'); ?><br />
                 </td>
-                <td><em><?php _e('Define which fields for the registration form you will use. Some are required.','teachpress'); ?></em></td>
+                <td><?php _e('Define which fields for the registration form you will use. Some are required.','teachpress'); ?></td>
               </tr>
              </thead> 
 			</table>

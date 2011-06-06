@@ -20,7 +20,7 @@
 #enrollments .teachpress_enr {font-size:13px; border:none;}
 #enrollments .teachpress_enr td {border:none; padding:5px; margin:5px;}
 #enrollments .teachpress_course_group {padding-bottom:10px;}
-#enrollments .teachpress_course_name a {font-size:15px; font-weight:bold;}
+#enrollments .teachpress_course_name {font-size:15px; font-weight:bold;}
 /* table for edit userdata */
 #enrollments .teachpress_enr_edit {border:1px solid silver;}
 #enrollments .teachpress_enr_edit td {padding:5px;}

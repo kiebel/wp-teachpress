@@ -8,18 +8,23 @@
 /*********************/
 
 /* teachPress Admin Page Menu
- * @param $number_entries (Integer)
- * @param $entries_per_page (Integer)
- * @param $current_page (Integer)
- * @entry_limit (Integer) -> SQL entry limit
- * @param $page_link (String)
- * @param $link_atrributes (String)
- * @param $type - top or bottom, default: top
+ * @access	public
+ * @param 	$number_entries (Integer) 	-> Number of all available entries
+ * @param 	$entries_per_page (Integer) -> Number of entries per page
+ * @param 	$current_page (Integer)		-> current displayed page
+ * @param	$entry_limit (Integer) 		-> SQL entry limit
+ * @param 	$page_link (String)
+ * @param	$link_atrributes (String)
+ * @param 	$type - top or bottom, default: top
 */
 function tp_admin_page_menu ($number_entries, $entries_per_page, $current_page, $entry_limit, $page_link = '', $link_attributes = '', $type = 'top') {
 	// if number of entries > number of entries per page
 	if ($number_entries > $entries_per_page) {
-		$num_pages = floor (($number_entries / $entries_per_page) + 1);
+		$num_pages = floor (($number_entries / $entries_per_page));
+		$mod = $number_entries % $entries_per_page;
+		if ($mod != 0) {
+			$num_pages = $num_pages + 1;
+		}
 		
 		// first page / previous page
 		if ($entry_limit != 0) {
@@ -95,14 +100,14 @@ function teachpress_wp_pages($sort_column = "menu_order", $sort_order = "ASC", $
 }
 
 /* Gives a single table row for show_courses.php
- * @param $couse (ARRAY_A) --> course data
- * @param $checkbox (ARRAY)
- * @param $static (ARRAY_A):
- 		@param $static['bulk'] --> copy or delete
-		@param $static['sem'] --> semester
-		@param $static['search'] --> input from search field
- * @param $parent_course_name
- * @param $type (STRING) --> parent or child
+ * @param 	$couse (ARRAY_A) --> course data
+ * @param 	$checkbox (ARRAY)
+ * @param 	$static (ARRAY_A):
+ 				$static['bulk'] --> copy or delete
+				$static['sem'] --> semester
+				$static['search'] --> input from search field
+ * @param 	$parent_course_name
+ * @param 	$type (STRING) --> parent or child
 */ 
 function tp_get_single_table_row_course ($course, $checkbox, $static, $parent_course_name = '', $type = 'parent') {
 	$check = '';
@@ -173,9 +178,10 @@ function tp_get_single_table_row_course ($course, $checkbox, $static, $parent_co
 /***********/
 
 /* Add a new course
- * @param $data (ARRAY_A)
  * used in add_course.php
- * Return $insert_ID (INT) - id of the new course
+ * @access	public
+ * @param 	$data (ARRAY_A)
+ * @return 	$insert_ID (INT) - id of the new course
 */
 function tp_add_course($data) {
 	global $wpdb;
@@ -187,8 +193,8 @@ function tp_add_course($data) {
 }
 	
 /* Delete courses
- * @param $checkbox (Array)
  * used in: showlvs.php
+ * @param	$checkbox (Array)
 */
 function tp_delete_course($checkbox){
 	global $wpdb;
@@ -443,11 +449,11 @@ function tp_delete_registration($checkbox, $user_ID) {
     for( $i = 0; $i < count( $checkbox ); $i++ ) {
 		settype($checkbox[$i], 'integer');
 		// select the course_ID
-		$row1 = "SELECT course_id FROM " . $teachpress_signup . " WHERE con_id = '$checkbox[$i]'";
+		$row1 = "SELECT `course_id` FROM " . $teachpress_signup . " WHERE `con_id` = '$checkbox[$i]'";
 		$row1 = $wpdb->get_results($row1);
 		foreach ($row1 as $row1) {
 			// check if there are users in teh waiting list
-			$abfrage = "SELECT con_id FROM " . $teachpress_signup . " WHERE course_id = '$row1->course_id' AND waitinglist = '1' ORDER BY con_id";
+			$abfrage = "SELECT `con_id` FROM " . $teachpress_signup . " WHERE `course_id` = '$row1->course_id' AND `waitinglist` = '1' ORDER BY `con_id`";
 			$test= $wpdb->query($abfrage);
 			// if is true
 			if ($test != 0) {
@@ -455,7 +461,7 @@ function tp_delete_registration($checkbox, $user_ID) {
 				$wpdb->get_results($abfrage);
 				foreach ($row as $row) {
 					if ($zahl < 1) {
-						$aendern = "UPDATE " . $teachpress_signup . " SET waitinglist = '0' WHERE con_id = '$row->con_id'";
+						$aendern = "UPDATE " . $teachpress_signup . " SET `waitinglist` = '0' WHERE `con_id` = '$row->con_id'";
 						$wpdb->query( $aendern );
 						$zahl++;
 					}
@@ -463,14 +469,14 @@ function tp_delete_registration($checkbox, $user_ID) {
 			}
 			// if not enhance the number of free places
 			else {
-				$fplaces= "SELECT fplaces FROM " . $teachpress_courses . " WHERE course_id = '$row1->course_id'";
+				$fplaces= "SELECT `fplaces` FROM " . $teachpress_courses . " WHERE `course_id` = '$row1->course_id'";
 				$fplaces = $wpdb->get_var($fplaces);
 				$neu = $fplaces + 1;
-				$aendern = "UPDATE " . $teachpress_courses . " SET fplaces = '$neu' WHERE course_id = '$row1->course_id'";
+				$aendern = "UPDATE " . $teachpress_courses . " SET `fplaces` = '$neu' WHERE `course_id` = '$row1->course_id'";
 				$wpdb->query( $aendern );
 			}	
 		}
-   	$wpdb->query( "DELETE FROM " . $teachpress_signup . " WHERE con_id = '$checkbox[$i]'" );
+   	$wpdb->query( "DELETE FROM " . $teachpress_signup . " WHERE `con_id` = '$checkbox[$i]'" );
 	// Security log
 	// since version 0.8
 	$mess = __('Delete registration','teachpress');
