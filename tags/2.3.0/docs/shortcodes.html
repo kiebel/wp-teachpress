@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='robots' content='noindex,nofollow' />
+<title>teachPress Shortcode Reference</title></head>
+
+<body>
+<h1 class="page-title">teachPress Shortcode Reference</h1>
+<p>teachPress brings you some powerful shortcodes, which you can use in posts and pages. If you don&#8217;t know, how you can use shortcodes in WordPress, so please <a title="WordPress Codex: Shortcodes" href="http://codex.wordpress.org/Shortcode">read this article before</a>.</p>
+<h2 style="margin-bottom:10px;">Publications</h2>
+<h3 style="border-bottom:1px solid silver;margin-bottom:10px;">Publication lists with tag-cloud: [tpcloud]</h3>
+<p>If you want to show an interactive list of publications with filters and a tag cloud in a post or page.</p>
+<p><strong>id</strong></p>
+<p style="padding-left:30px;">(integer) WordPress User-ID &#8211; The ID of the author its publications you want to show. Default is <strong>0</strong>. (Show all publications of all authors)</p>
+<p><strong>type</strong> (optional)</p>
+<p style="padding-left:30px;">(string) The publication type for publications you want to show. Default is<strong> all</strong>. (Show all publications)</p>
+<p><strong>order</strong> (optional)</p>
+<p style="padding-left:30px;">(string) The order clause for publications. Default is<strong> date DESC</strong>. Possible values: bibtex, name, type, year.</p>
+<div style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;">
+<p><code>Examples:</code></p>
+<p><code>[tpcloud order=&quot;name ASC&quot;]</code></p>
+<p><code>[tpcloud order=&quot;type ASC, name ASC&quot;]</code></p>
+</div>
+<p><strong>minsize (optional)</strong></p>
+<p style="padding-left:30px;">(integer) Min. font size for the words in the tag cloud in px. Default is <strong>11</strong>.</p>
+<p><strong>maxsize (optional)</strong></p>
+<p style="padding-left:30px;">(integer) Max. font size for the words in the tag cloud in px. Default is <strong>35</strong>.</p>
+<p><strong>limit (optional)</strong></p>
+<p style="padding-left:30px;">(integer) Number of tags in the tag cloud. Default is <strong>50</strong>.</p>
+<p><strong>image (optional)</strong></p>
+<p style="padding-left:30px;">(string) Set the image position: left, right or bottom. Default is <strong>none </strong>(No images displaying).</p>
+<p><strong>image_size (optinal)</strong></p>
+<p style="padding-left:30px;">(integer) Maximum size of an image in px. Default is 0. Use this only together with the &#8222;<strong>image&#8220;</strong>-parameter.</p>
+<p><strong>anchor (optional)</strong></p>
+<p style="padding-left:30px;">(integer) Set, if you want to use HTML-Anchor for the Tag-Links (anchor = &#8222;1&#8243;) or not (anchor=&#8220;0&#8243;). Default is <strong>1</strong>.</p>
+<p><strong>author_name (optional)</strong></p>
+<p style="padding-left:30px;">(string) Define the style of the author names. The possible styles are <strong>simple</strong>, <strong>old</strong>, <strong>last</strong> or <strong>initials</strong>. Default is <strong>old</strong>.</p>
+<div style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;">
+<p><code>Examples: If you have the name: Ludwig C. van der Vaart</code></p>
+<p><code>The output is the following:</code></p>
+<p><code>simple --&gt; Ludwig C. van der Vaart</code></p>
+<p><code>old --&gt; Vaart, Ludwig C. van der</code></p>
+<p><code>last --&gt; van der Vaart, Ludwig</code></p>
+<p><code>initials --&gt; van der Vaart, Ludwig C</code></p>
+</div>
+<p><strong>editor_name (optional)</strong></p>
+<p style="padding-left:30px;">(string) Define the style of the editor names. The possible styles are <strong>simple</strong>, <strong>old</strong>, <strong>last</strong> or<strong> initials</strong>. Default is <strong>old</strong>. The usage is similar to author_name.</p>
+<p><strong>style (optional)</strong></p>
+<p style="padding-left:30px;">(string) Define the style of the publication list. The possible styles are <strong>std</strong> (4-line-style) or <strong>simple</strong> (1-line-style). Default is <strong>simple</strong>. Please note that the styles are only basics, which you can  <a href="http://mtrv.wordpress.com/teachpress/change-the-style/" title="teachPress: Change the style">adjust on your theme</a>.</p>
+<h4>Examples</h4>
+<p style="padding-left:30px;">A publication list with images:</p>
+<p style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;"><code>[tpcloud id="0" image="left" image_size="60"]</code></p>
+<p style="padding-left:30px;">A list with an other author name style:</p>
+<p style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;"><code>[tpcloud id="0" author_name="last"]</code></p>
+<p style="padding-left:30px;">A list of a single author (WordPress user-ID: 15) with some changes on the tag cloud:</p>
+<p style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;"><code>[tpcloud id="15" maxsize="40" minsize="10" limit="100"]</code></p>
+<h3 style="border-bottom:1px solid silver;margin-bottom:10px;">Normal publication lists: [tplist]</h3>
+<p>If you want to show a static list of publications without filters or a tag cloud in a post or page.</p>
+<p><strong>user</strong></p>
+<p style="padding-left:30px;">(integer) WordPress User-ID &#8211; The ID of the author its publications you want to show. Default is <strong>0</strong>. (Show all publications of all authors)</p>
+<p><strong>tag (optional)</strong></p>
+<p style="padding-left:30px;">(integer) If you want to display only publications with a determined tag, so set with this parameter the tag-ID of this tag. Default is <strong>0</strong>. (Show all publications)</p>
+<p><strong>year (optional)</strong></p>
+<p style="padding-left:30px;">(integer) If you want to display only publications of a determined year. Default is <strong>0</strong>. (Show all publications)</p>
+<p><strong>type</strong> (optional)</p>
+<p style="padding-left:30px;">(string) The publication type for publications you want to show. Default is<strong> all</strong>. (Show all publications)</p>
+<p><strong>order</strong> (optional)</p>
+<p style="padding-left:30px;">(string) The order clause for publications. Default is<strong> date DESC</strong>. Possible values: bibtex, name, type, year.</p>
+<div style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;">
+<p><code>Examples:</code></p>
+<p><code>[tpcloud order=&quot;name ASC&quot;]</code></p>
+<p><code>[tpcloud order=&quot;type ASC, name ASC&quot;]</code></p>
+</div>
+<p><strong>headline (optional)</strong></p>
+<p style="padding-left:30px;">(integer) If you want to show headlines in the list (headline=&#8220;1&#8243;) or not (headline=&#8220;0&#8243;). Default is <strong>1</strong>.</p>
+<p><strong>image (optional)</strong></p>
+<p style="padding-left:30px;">(string) Set the image position: left, right or bottom. Default is <strong>none </strong>(No images displaying).</p>
+<p><strong>image_size (optinal)</strong></p>
+<p style="padding-left:30px;">(integer) Maximum size of an image in px. Default is 0. Use this only together with the &#8222;<strong>image&#8220;</strong>-parameter.</p>
+<p><strong>author_name (optional) </strong></p>
+<p style="padding-left:30px;">(string) Define the style of the author names. The possible styles are <strong>simple</strong>, <strong>old</strong>, <strong>last</strong> or <strong>initials</strong>. Default is <strong>old</strong>.</p>
+<div style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;">
+<p><code>Examples: If you have the name: Ludwig C. van der Vaart</code></p>
+<p><code>The output is the following:</code></p>
+<p><code>simple --&gt; Ludwig C. van der Vaart</code></p>
+<p><code>old --&gt; Vaart, Ludwig C. van der</code></p>
+<p><code>last --&gt; van der Vaart, Ludwig</code></p>
+<p><code>initials --&gt; van der Vaart, Ludwig C</code></p>
+</div>
+<p><strong>editor_name (optional) </strong></p>
+<p style="padding-left:30px;">(string) Define the style of the editor names. The possible styles are <strong>simple</strong>, <strong>old</strong>, <strong>last</strong> or<strong> initials</strong>. Default is <strong>old</strong>. The usage is similar to author_name.</p>
+<p><strong>style (optional)</strong></p>
+<p style="padding-left:30px;">(string) Define the style of the publication list. The possible styles are <strong>std</strong> (4-line-style) or <strong>simple</strong> (1-line-style). Default is <strong>simple</strong>. Please note that the styles are only basics, which you can  <a href="http://mtrv.wordpress.com/teachpress/change-the-style/" title="teachPress: Change the style">adjust on your theme</a>.</p>
+<h4>Examples</h4>
+<p style="padding-left:30px;">A normal list with images:</p>
+<p style="background-color:#f0f0f0;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;padding-left:30px;border:1px solid silver;"><code>[tplist user="0" image="left" image_size="60"]</code></p>
+<p style="padding-left:30px;">A normal list with publications of one author (WordPress user-ID: 15) from the year 2010:</p>
+<p style="background-color:#f0f0f0;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;padding-left:30px;border:1px solid silver;"><code>[tplist user="15" headline="0" year="2010"]</code></p>
+<h3 style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:silver;margin-bottom:10px;">Show a single publication: [tpsingle]</h3>
+<p>If you want to show a singe publication in a post or page.</p>
+<p><strong>id</strong></p>
+<p style="padding-left:30px;">(integer) The ID of the publication you want to show.</p>
+<p><strong>author_name (optional)</strong></p>
+<p style="padding-left:30px;">(string) Define the style of the author names. The possible styles are <strong>old</strong>, <strong>last</strong> or <strong>initials</strong>. Default is <strong>old</strong>.</p>
+<div style="padding-left:30px;background-color:#f0f0f0;border:1px solid silver;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;">
+<p><code>Examples: If you have the name: Ludwig C. van der Vaart</code></p>
+<p><code>The output is the following:</code></p>
+<p><code>old --&gt; Vaart, Ludwig C. van der</code></p>
+<p><code>last --&gt; van der Vaart, Ludwig</code></p>
+<p><code>initials --&gt; van der Vaart, Ludwig C</code></p>
+</div>
+<p><strong>editor_name (optional) </strong></p>
+<p style="padding-left:30px;">(string) Define the style of the editor names. The possible styles are <strong>old</strong>, <strong>last</strong> or <strong>initials</strong>. Default is <strong>old</strong>. The usage is similar to author_name.</p>
+<h4>Examples</h4>
+<p style="background-color:#f0f0f0;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;padding-left:30px;border:1px solid silver;"><code>[tpsingle id="30"]</code></p>
+<h2 style="margin-bottom:10px;">Course-System</h2>
+<h3 style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:silver;margin-bottom:10px;">Course information: [tpdate]</h3>
+<p>If you want to show some information of a course in a post or page.</p>
+<p><strong>id</strong></p>
+<p style="padding-left:30px;">(integer) the course ID</p>
+<h4>Example</h4>
+<p style="padding-left:30px;">Displaying informations about the course with the course_id = 15:</p>
+<p style="background-color:#f0f0f0;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;padding-left:30px;border:1px solid silver;"><code>[tpdate id="15"]</code></p>
+<h3 style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:silver;margin-bottom:10px;">Displaying enrollment system: [tpenrollments]</h3>
+<p>Shows the enrollemt system in a post or page.</p>
+<h4>Example</h4>
+<p style="background-color:#f0f0f0;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;padding-left:30px;border:1px solid silver;"><code>[tpenrollments]</code></p>
+<h3 style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:silver;margin-bottom:10px;">Overview of courses: [tpcourselist]</h3>
+<p>If you want to show a list of all courses of a semester.</p>
+<p><strong>image (optional)</strong></p>
+<p style="padding-left:30px;">(string) Set the image position: left, right or bottom. Default is <strong>none </strong>(No images displaying).</p>
+<p><strong>image_size (optinal)</strong></p>
+<p style="padding-left:30px;">(integer) Maximum size of an image in px. Default is 0. Use this only together with the &#8222;<strong>image&#8220;</strong>-parameter.</p>
+<h4>Example</h4>
+<p style="background-color:#f0f0f0;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;padding-left:30px;border:1px solid silver;"><code>[tpcourselist]</code></p>
+<h3 style="border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:silver;margin-bottom:10px;">Protected posts: [tppost]</h3>
+<p>If you want to show parts of a post only for registered course participants, which are logged in.</p>
+<p><strong>id</strong></p>
+<p style="padding-left:30px;">(integer) the Course-ID.</p>
+<h4>Example</h4>
+<p style="background-color:#f0f0f0;padding-top:5px;padding-bottom:5px;margin-top:5px;margin-bottom:5px;padding-left:30px;border:1px solid silver;"><code>[tppost id="5"] This part of a text is only vissible for participants, which are registered for the course with the id=5[/tpplost]</code></p>
+</body>
+</html>
