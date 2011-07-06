@@ -100,7 +100,7 @@ function teachpress_addpublications_page() {
 	  <?php } ?>
 	  <div style="min-width:780px; width:100%; max-width:1100px;">
 	  <div style="width:30%; float:right; padding-right:2%; padding-left:1%;">
-	  <table class="widefat">
+	  <table class="widefat" style="margin-bottom:15px;">
 		<thead>
 		<tr>
 			<th><strong><?php _e('Publication','teachpress'); ?></strong></th>
@@ -163,13 +163,12 @@ function teachpress_addpublications_page() {
 		<tr style="background-color:#EAF2FA; text-align:center;">
 			<td>
 			<input type="submit" name="speichern" id="publikation_erstellen" value="<?php _e('save','teachpress'); ?>" class="button-primary" title="<?php _e('Save publication','teachpress'); ?>">
-			<?php } ?>
 			</td>
-		</tr>    
+		</tr>
+        <?php } ?>  
 		</thead>
 	  </table>
-	  <p style="font-size:2px; margin:0px;">&nbsp;</p>
-	   <table class="widefat">
+	   <table class="widefat" style="margin-bottom:15px;">
 		<thead>
 		<tr>
 			<th><?php _e('Tags','teachpress'); ?></th>
@@ -239,7 +238,6 @@ function teachpress_addpublications_page() {
 		</tr>
 		</thead>
 	  </table>
-	  <p style="font-size:2px; margin:0px;">&nbsp;</p>
 	  <table class="widefat">
 		<thead>
 		<tr>
@@ -251,8 +249,8 @@ function teachpress_addpublications_page() {
 				echo '<p><img name="tp_pub_image" src="' . $daten["image_url"] . '" alt="' . $daten["name"] . '" title="' . $daten["name"] . '" style="max-width:100%;"/></p>';
 			} ?>
 			<p><label for="image_url" title="<?php _e('With the image field you can add an image to a publication. You can display images in all publication lists','teachpress'); ?>"><strong><?php _e('Image URL','teachpress'); ?></strong></label></p>
-			<input name="image_url" id="image_url" type="text" title="<?php _e('With the image field you can add an image to a publication. You can display images in all publication lists','teachpress'); ?>" style="width:90%;" value="<?php echo $daten["image_url"]; ?>"/>
-			 <a id="upload_image_button" class="thickbox" title="<?php _e('Add Image','teachpress'); ?>" style="cursor:pointer;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
+			<input name="image_url" id="image_url" class="upload" type="text" title="<?php _e('With the image field you can add an image to a publication. You can display images in all publication lists','teachpress'); ?>" style="width:90%;" value="<?php echo $daten["image_url"]; ?>"/>
+			 <a class="upload_button_image" title="<?php _e('Add Image','teachpress'); ?>" style="cursor:pointer; border:none;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
 			<p><label for="rel_page" title="<?php _e('With the related page you can link a publication with a normal post/page. It is only used for the teachPress books widget.','teachpress'); ?>"><strong><?php _e('Related page','teachpress'); ?></strong></label></p>
 			<div style="overflow:hidden;">
 			<select name="rel_page" id="rel_page" title="<?php _e('With the related page you can link a publication with a normal post/page. It is only used for the teachPress books widget.','teachpress'); ?>" style="width:90%;">
@@ -278,7 +276,7 @@ function teachpress_addpublications_page() {
 		</div>
 		</div>
 		</div>
-		<table class="widefat">
+		<table class="widefat" style="margin-bottom:15px;">
 		<thead>
 		<tr>
 			<th><?php _e('General information','teachpress'); ?></th>
@@ -309,8 +307,7 @@ function teachpress_addpublications_page() {
 		</tr>
 		</thead>
 		</table>
-		<p style="font-size:2px; margin:0px;">&nbsp;</p>
-		<table class="widefat">
+		<table class="widefat" style="margin-bottom:15px;">
 		<thead>
 		<tr>
 		  <th><?php _e('Detailed information','teachpress'); ?> <small><a id="show_all_fields" onclick="teachpress_publicationFields('all')" style="cursor:pointer; display:inline;"><?php _e('Show all fields','teachpress'); ?></a> <a id="show_recommend_fields" onclick="teachpress_publicationFields('std2')" style="cursor:pointer; display:none;"><?php _e('Show recommend fields','teachpress'); ?></a></small></th>
@@ -453,7 +450,7 @@ function teachpress_addpublications_page() {
 		  </div>
 		  <div id="div_abstrac">
 		  <p><label for="abstrac" title="<?php _e('A short summary of the publication','teachpress'); ?>"><strong><?php _e('abstract','teachpress'); ?></strong></label></p>
-		  <textarea name="abstrac" id="abstrac" rows="3" title="<?php _e('A short summary of the publication','teachpress'); ?>" style="width:95%" tabindex="20" ><?php echo stripslashes($daten["abstract"]); ?></textarea>
+		  <textarea name="abstrac" id="abstrac" rows="5" title="<?php _e('A short summary of the publication','teachpress'); ?>" style="width:95%" tabindex="20" ><?php echo stripslashes($daten["abstract"]); ?></textarea>
 		  </div>
 		  <?php
 		  $display = "";
@@ -486,14 +483,14 @@ function teachpress_addpublications_page() {
 			  <label><input name="is_isbn" type="radio" id="is_isbn_0" value="1" <?php if ($daten["is_isbn"] == '1' || $pub_ID == '') { echo 'checked="checked"'; }?> tabindex="25"/><?php _e('ISBN','teachpress'); ?></label>
 			  <label><input name="is_isbn" type="radio" value="0" id="is_isbn_1" <?php if ($daten["is_isbn"] == '0') { echo 'checked="checked"'; }?> tabindex="26"/><?php _e('ISSN','teachpress'); ?></label>
 			</span>
-		  </div>  
-		  <p><label for="url" title="<?php _e('A web link','teachpress'); ?>"><strong><?php _e('URL','teachpress'); ?></strong></label></p>
-		  <input name="url" type="text" id="url" title="<?php _e('A web link','teachpress'); ?>" style="width:95%" value="<?php echo $daten["url"]; ?>" tabindex="27">
+		  </div>
+		  <p><label for="url" title="<?php _e('URL','teachpress'); ?>"><strong><?php _e('URL','teachpress'); ?></strong></label></p>
+          <input name="url" type="text" id="url" class="upload" title="<?php _e('URL','teachpress'); ?>" style="width:95%" value="<?php echo $daten["url"]; ?>" tabindex="27">
+          <a class="upload_button" style="cursor:pointer; border:none;" title="<?php _e('Insert a file from the WordPress Media Library','teachpress'); ?>"><img src="images/media-button-other.gif"/></a>
 		  </td>
 		</tr>
 		</thead>
 		</table>
-		<p style="font-size:2px; margin:0px;">&nbsp;</p>
 		<table class="widefat">
 		<thead>
 		<tr>
@@ -502,9 +499,9 @@ function teachpress_addpublications_page() {
 		<tr>
 		  <td>
 		  <p><label for="comment" title="<?php _e('A not vissible private comment','teachpress'); ?>"><strong><?php _e('private comment','teachpress'); ?></strong></label></p>
-		  <textarea name="comment" wrap="virtual" id="comment" title="<?php _e('A not vissible private comment','teachpress'); ?>" style="width:95%" tabindex="28"><?php echo stripslashes($daten["comment"]); ?></textarea>
+		  <textarea name="comment" wrap="virtual" id="comment" title="<?php _e('A not vissible private comment','teachpress'); ?>" style="width:95%" rows="3" tabindex="28"><?php echo stripslashes($daten["comment"]); ?></textarea>
 		  <p><label for="comment" title="<?php _e('Additional information','teachpress'); ?>"><strong><?php _e('note','teachpress'); ?></strong></label></p>
-		  <textarea name="note" wrap="virtual" id="note" title="<?php _e('Additional information','teachpress'); ?>" style="width:95%" tabindex="29"><?php echo stripslashes($daten["note"]); ?></textarea>
+		  <textarea name="note" wrap="virtual" id="note" title="<?php _e('Additional information','teachpress'); ?>" style="width:95%" rows="3" tabindex="29"><?php echo stripslashes($daten["note"]); ?></textarea>
 		  </td>
 		</tr>
 		</thead>    

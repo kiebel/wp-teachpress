@@ -114,7 +114,7 @@ function tp_add_course_page() {
       <input name="ref" type="hidden" value="<?php echo $ref; ?>" />
 	  <div style="min-width:780px; width:100%; max-width:1100px;">
 	  <div style="width:30%; float:right; padding-right:2%; padding-left:1%;">   
-		<table class="widefat">
+		<table class="widefat" style="margin-bottom:15px;">
 		<thead>
 			<tr>
 			<th><?php _e('Meta','teachpress'); ?></th>
@@ -125,8 +125,8 @@ function tp_add_course_page() {
 				echo '<p><img name="tp_pub_image" src="' . $daten["image_url"] . '" alt="' . $daten["name"] . '" title="' . $daten["name"] . '" style="max-width:100%;"/></p>';
 			} ?>
             <p><label for="image_url" title="<?php _e('With the image field you can add an image to a course.','teachpress'); ?>"><strong><?php _e('Image URL','teachpress'); ?></strong></label></p>
-        	<input name="image_url" id="image_url" type="text" title="<?php _e('Image URL','teachpress'); ?>" style="width:90%;" tabindex="12" value="<?php echo $daten["image_url"]; ?>"/>
-         	<a id="upload_image_button" class="thickbox" title="<?php _e('Add Image','teachpress'); ?>" style="cursor:pointer;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
+        	<input name="image_url" id="image_url" class="upload" type="text" title="<?php _e('Image URL','teachpress'); ?>" style="width:90%;" tabindex="12" value="<?php echo $daten["image_url"]; ?>"/>
+         	<a class="upload_button_image" title="<?php _e('Add Image','teachpress'); ?>" style="cursor:pointer;"><img src="images/media-button-image.gif" alt="<?php _e('Add Image','teachpress'); ?>" /></a>
 			<p><label for="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments.','teachpress'); ?>"><strong><?php _e('Visibility','teachpress'); ?></strong></label></p>
 			<select name="visible" id="visible" title="<?php _e('Here you can edit the visibility of a course in the enrollments.','teachpress'); ?>" tabindex="13">
             	<option value="1"<?php if ( $daten["visible"] == 1 && $course_ID != 0 ) {echo ' selected="selected"'; } ?>><?php _e('normal','teachpress'); ?></option>
@@ -146,7 +146,6 @@ function tp_add_course_page() {
 		</tr>
 	  </thead>      
 	  </table>
-	  <p style="font-size:2px; margin:0px;">&nbsp;</p>
 	  <table class="widefat">
 	  <thead>
 		<tr>
@@ -319,7 +318,7 @@ function tp_add_course_page() {
                 }?>
 			</select>
 			<p><label for="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>"><strong><?php _e('Comment or Description','teachpress'); ?></strong></label></p>
-			<textarea name="comment" cols="75" rows="2" id="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>" tabindex="9" style="width:100%;"><?php echo stripslashes($daten["comment"]); ?></textarea>
+			<textarea name="comment" cols="75" rows="3" id="comment" title="<?php _e('For parent courses the comment is showing in the overview and for child courses in the enrollments system.','teachpress'); ?>" tabindex="9" style="width:95%;"><?php echo stripslashes($daten["comment"]); ?></textarea>
 			<p><label for="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>"><strong><?php _e('Related page','teachpress'); ?></strong></label></p>
 			<select name="rel_page" id="rel_page" title="<?php _e('If you will connect a course with a page (it is used as link in the courses overview) so you can do this here','teachpress'); ?>" tabindex="10">
 				<?php 

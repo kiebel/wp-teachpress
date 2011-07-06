@@ -1,10 +1,10 @@
 <?php
-// build feeds for publications
+/************************************/ 
+/* Build RSS-feeds for publications */
+/************************************/
 
 // include wp-load.php
-include_once('parameters.php');
-global $root;
-require( '' . $_SERVER['DOCUMENT_ROOT'] . '/' . $root . '/wp-load.php' );
+require_once( '../../../wp-load.php' );
 
 // Define databases
 global $wpdb;

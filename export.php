@@ -3,12 +3,10 @@
  * teachPress XLS and CSV export for courses
 */
 if ( isset($_GET['lvs_ID']) && isset($_GET['type']) ) {
-	include_once('parameters.php');
 	include_once('version.php');
 	
 	// include wp-load.php
-	global $root;
-	require( '' . $_SERVER['DOCUMENT_ROOT'] . '/' . $root . '/wp-load.php' );
+	require_once( '../../../wp-load.php' );
 	
 	// secure parameters
 	$lvs = $_GET['lvs_ID'];
