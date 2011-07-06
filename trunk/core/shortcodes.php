@@ -422,7 +422,7 @@ function tpenrollments_shortcode($atts) {
 			// load all childs
 			$row2 = "Select * FROM " . $teachpress_courses . " WHERE `parent` = '$row->course_id' AND (`visible` = '1' OR `visible` = '2') AND (`start` != '0000-00-00 00:00:00') ORDER BY `name`";
 			$row2 = $wpdb->get_results($row2);
-			// test if  a child has an enrollment
+			// test if a child has an enrollment
 			$test = false;
 			foreach ( $row2 as $childs ) {
 				if ( $childs->start != '0000-00-00 00:00:00' ) {
@@ -963,7 +963,7 @@ function tpcloud_shortcode($atts) {
 			$pub = __('publications', 'teachpress');
 		}
 		// if permalinks are on
-		if ($url["permalink"] == 1) {
+		if ( $url["permalink"] == 1 ) {
 			$url["link"] = $pagenow;
 			$url["link"] = str_replace("index.php", "", $url["link"]);
 			// define the string
@@ -999,7 +999,7 @@ function tpcloud_shortcode($atts) {
 	// for javascripts
 	$str ="'";
 	// Link structure
-	if ($url["permalink"] == 1) {
+	if ( $url["permalink"] == 1 ) {
 		$tpurl = '' . $url["link"] . '?';
 	}
 	else {

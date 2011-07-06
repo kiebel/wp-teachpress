@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -60,14 +60,13 @@ I would like to thank the team of [CBIS, Chemnitz University of Technology](http
 
 1. Download the plugin.
 2. Extract all the files. 
-3. Define your wp-root directory path in the parameters_sample.php and rename the file to parameters.php (it is only for RSS-Feeds and CSV/XLS-Export)
-4. Upload everything (keeping the directory structure) to your plugins directory.
-5. Activate the plugin through the 'plugins' menu in WordPress.
+3. Upload everything (keeping the directory structure) to your plugins directory.
+4. Activate the plugin through the 'plugins' menu in WordPress.
 
 **For updates:**
 
 1. Download the plugin.
-2. Delete all files in the 'plugins/teachpress/' directory except parameters.php.
+2. Delete all files in the 'plugins/teachpress/' directory.
 3. Upload all files to the 'plugins/teachpress' directory.
 4. Go in the backend to Courses->Settings and click on "Update to ....".
 
@@ -96,21 +95,25 @@ You can write long course desciptions, as normal WordPress pages. The main funct
 An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
 
 = How can I deactivate parts of the plugin? =
-If you want to use only one part of the plugin, so write the following in the wp-config.php of your WordPress installation (or in the parameters.php of the plugin):  
+If you want to use only one part of the plugin, so write the following in the wp-config.php of your WordPress installation
 For deactivating the course system:  
 define ('TP_COURSE_SYSTEM','disable');  
 For deactivating the publication system:  
 define ('TP_PUBLICATION_SYSTEM','disable');  
 
 = I see only error messages if I use the RSS-Feed for publications or the xls/csv-Export for enrollments. What's wrong? =
-Before you can use this features you must define the $root parameter in the parameters.php: You find in the teachPress directory the file: parameters_sample.php. Open this file and change the $root paramter (you find some examples there). After that rename the file to parameters.php and upload the file in the teachPress directory.
+If you save plugins outside the normal path (/wp-content/plugins/), the plugin can't load required WordPress files in some cases. Solution: Change the path in the following plugin files: export.php (line 9) / feed.php (line 7).
 
 = How I can use the shortcodes? =
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 2.3.3 - (06.07.2011) =
+* New: WordPress Media Importer is now usable for the URL field of a publication
+* Changed: The parameters.php isn't longer required
+* Bugfix: Fixed some CSS bugs in conjunction with WordPress 3.2
 = 2.3.1/2.3.2 - (07.06.2011) =
-* Bugfix: Fixed two internal release errors
+* Bugfix: Fixed two small errors
 = 2.3.0 - (06.06.2011) =
 * New: teachPress is now compatible with WordPress 3.2
 * New: An option for selecting all checkboxes is now available in some admin menus
@@ -119,7 +122,7 @@ Before you can use this features you must define the $root parameter in the para
 * Bugfix: Fixed a bug in the shortcode [tpcourselist]: With activated permalink structure it was in some cases for users not possible to select an other semester
 * Bugfix: Fixed a bug in the page menu: Wrong page number calculation under determined conditions
 * Bugfix: Fixed a bug in the enrollments system: If the course and the sub-course name were the same, the course type was displayed instead of the sub-course type
-* Bugfix: Fixed a bug in the enrollments system: If there is no related page given, the course name is no longer a link
+* Bugfix: Fixed a bug in the enrollments system: If there is no related page given, the course name isn't longer a link
 * Bugfix: Fixed the bibtex import for several special chars
 = 2.2.0 - (17.04.2011) =
 * New: "order" option for the shortcodes [tplist], [tpcloud]
@@ -210,37 +213,27 @@ Before you can use this features you must define the $root parameter in the para
 * Bugfix: Fixed german translation for proceedings and inproceedings
 * Bugfix: BibTeX-Key was not displaying in the frontend
 = 2.0.0 - (18.09.2010) =
-* Changed: Some small improvements for publication lists
-* Bugfix: Fixed some bugs with the pagination in the students and the publication overview
-* Bugfix: Delete the bugfix in tpdate shortcode from version 2.0.b3, because the bug was the bugfix
-= 2.0.b3 - (16.09.2010) =
-* Changed: Style of single publications generated with [tpsingle]
-* Changed: Bibtex export now discerns isbn from issn
-* Bugfix: Fixed a bug in the copy function for courses
-* Bugfix: Fixed a bug in tpdate shortcode - missing number of columns
-* Bugfix: Fixed a bug when adding students manually
-= 2.0.b2 - (14.09.2010) =
-* Bugfix: Fixed a bug in the registration system
-* Bugfix: Fixed style of publication lists
-* Bugfix: Fixed a bug which prevent to delete terms, course types and courses of studies
-* Bugfix: Fixed a bug in the xls export
-= 2.0.b1 - (11.09.2010) =
 * New: BibTeX support (bibtex export, more data fields, more publication types)
 * New: Shortcode "tpsingle" for displaying single publications
 * New: Shortcode "tpcourselist" for displaying a course list
 * New: Shortcode "tpenrollments" for displaying the enrollement system
 * New: Shortcode "tppost" for displaying parts of a post only for registered students
 * New: Images for courses
+* Changed: Style of single publications generated with [tpsingle]
+* Changed: Bibtex export now discerns isbn from issn
 * Changed: Shortcode "tpcloud": It's now possible to deactivate the html anchor
 * Changed: Redesigned user interface
 * Changed: Number of chars for a semester name (from 10 to 100)
 * Changed: Database and directory structure
+* Changed: Some small improvements for publication lists
 * Bugfix: Fixed bugs in the overview of students
 * Bugfix: Fixed problems with the user data field selection for registration forms
 * Bugfix: It's now possible to add images directly from the WordPress Media Library
 * Bugfix: Fixed a bug with the email column in the course lists.
 * Bugfix: Fixed a bug in xls export: The parent course name is now displaying
 * Killed: own database functions tp_var, tp_query, tp_results
+* Bugfix: Fixed some bugs with the pagination in the students and the publication overview
+* Bugfix: Delete the bugfix in tpdate shortcode from version 2.0.b3, because the bug was the bugfix
 = 1.0.0 - (31.05.2010) =
 * New: It is possible to deactivate some fields for user data
 * New: New registration mode available

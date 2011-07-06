@@ -494,7 +494,6 @@ function teachpress_admin_settings() {
         </tr>
         </thead>
     </table>
-    <p><?php _e('Keep in mind that this feeds only work, if you have defined the path for the WordPress directory in parameters.php correctly (You find the file in the teachPress plugin directory).','teachpress'); ?></p>
     <?php
 	}
 	?>   

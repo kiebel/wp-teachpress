@@ -281,15 +281,27 @@ function teachpress_publicationFields(mode) {
 
 // Make it possible to use the wordpress media uploader
 jQuery(document).ready(function() {
-	jQuery('#upload_image_button').click(function() {
-	 formfield = jQuery('#image_url').attr('name');
+	var uploadID = '';
+	jQuery('.upload_button').click(function() {
+	 uploadID = jQuery(this).prev('input');
+	 formfield = jQuery('.upload').attr('name');
+	 tb_show('', 'media-upload.php?TB_iframe=true');
+	 return false;
+	});
+	
+	jQuery('.upload_button_image').click(function() {
+	 uploadID = jQuery(this).prev('input');
+	 formfield = jQuery('.upload').attr('name');
 	 tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
 	 return false;
 	});
 	
 	window.send_to_editor = function(html) {
-	 imgurl = jQuery('img',html).attr('src');
-	 jQuery('#image_url').val(imgurl);
+	 var imgurl = jQuery('img',html).attr('src');
+	 if (typeof(imgurl) == "undefined") {
+		imgurl = jQuery(html).attr('href');
+	 }
+	 uploadID.val(imgurl);
 	 tb_remove();
 	}
 });
