@@ -644,11 +644,13 @@ function teachpress_js_admin_head() {
  * used in: Wordpress-Header
 */ 
 function teachpress_js_wp_header() {
-	echo '<script type="text/javascript" src="' . WP_PLUGIN_URL . '/teachpress/js/frontend.js"></script>';
+	echo chr(13) . chr(10) . '<!-- teachPress ' . get_tp_version() . ' -->' . chr(13) . chr(10);
+	echo '<script type="text/javascript" src="' . WP_PLUGIN_URL . '/teachpress/js/frontend.js"></script>' . chr(13) . chr(10);
 	$value = tp_get_option('stylesheet');
 	if ($value == '1') {
-		echo '<link type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/styles/teachpress_front.css" rel="stylesheet" />';
+		echo '<link type="text/css" href="' . WP_PLUGIN_URL . '/teachpress/styles/teachpress_front.css" rel="stylesheet" />' . chr(13) . chr(10);
 	}
+	echo '<!-- END teachPress -->' . chr(13) . chr(10);
 }
 
 // load language files
