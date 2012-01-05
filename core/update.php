@@ -6,7 +6,7 @@
 function tp_db_update_function() {	
 
 	global $wpdb;
-    global $teachpress_settings;
+        global $teachpress_settings;
 	global $teachpress_pub;
 	global $teachpress_courses;
 	global $teachpress_signup;
@@ -21,12 +21,12 @@ function tp_db_update_function() {
 	$teachpress_einstellungen = $wpdb->prefix . 'teachpress_einstellungen';
 	
 	// test if teachpress database is up to date
-	$test = tp_get_option('db-version');
+	$test = get_tp_option('db-version');
 	$version = get_tp_version();
 	// if is the actual one
 	if ($test == $version) {
 		$message = __('An update is not necessary.','teachpress');
-		tp_get_message($message);
+		get_tp_message($message);
 	} 
 	else {
 		// charset & collate like WordPress
@@ -101,7 +101,7 @@ function tp_db_update_function() {
 			// delete old table
 			$wpdb->query("DROP TABLE " . $teachpress_ver . "");
 			// get message
-			echo '<p>' . __('Table for courses updated.','teachpress') . '</p>';
+			echo '<p>Table for courses updated.</p>';
 		}
 		
 		/*
@@ -133,7 +133,7 @@ function tp_db_update_function() {
 			// delete old table
 			$wpdb->query("DROP TABLE " . $teachpress_beziehung . "");
 			// get message
-			echo '<p>' . __('Table for relations updated.','teachpress') . '</p>';
+			echo '<p>Table for relations updated.</p>';
 		}
 		
 		/*
@@ -167,7 +167,7 @@ function tp_db_update_function() {
 			// delete old table
 			$wpdb->query("DROP TABLE " . $teachpress_kursbelegung . "");
 			// get message
-			echo '<p>' . __('Table for enrollments updated.','teachpress') . '</p>';
+			echo '<p>Table for enrollments updated.</p>';
 		}
 		
 		/*
@@ -204,7 +204,7 @@ function tp_db_update_function() {
 			// delete old table
 			$wpdb->query("DROP TABLE " . $teachpress_einstellungen . "");
 			// get message
-			echo '<p>' . __('Table for settings updated.','teachpress') . '</p>';
+			echo '<p>Table for settings updated.</p>';
 		}
 		/*
 		 * teachpress_students
@@ -251,7 +251,7 @@ function tp_db_update_function() {
 		if ($test == '1') {
 			$wpdb->query("ALTER TABLE " . $teachpress_stud . " CHANGE `matrikel` `matriculation_number` INT NULL DEFAULT NULL");
 			// get message
-			echo '<p>' . __('Table for students updated.','teachpress') . '</p>';
+			echo '<p>Table for students updated.</p>';
 		}
 		
 		/*
@@ -487,7 +487,7 @@ function tp_db_update_function() {
 				$wpdb->query("UPDATE " . $teachpress_pub . " SET editor = '$row->verlag' WHERE pub_id = '$row->pub_id'");
 			}
 			$wpdb->query("ALTER TABLE " . $teachpress_pub . " DROP `verlag`");
-			echo '<p>' . __('Table for publications updated.','teachpress') . '</p>';
+			echo '<p>Table for publications updated.</p>';
 		}
 		
 		/******************************/
@@ -607,7 +607,7 @@ function tp_db_update_function() {
 		$wpdb->query("UPDATE " . $teachpress_settings . " SET  value = '$version' WHERE variable = 'db-version'");
 		// Finalize
 		$message = __('Update successful','teachpress');
-		tp_get_message($message);
+		get_tp_message($message);
 	}
 }
 ?>    

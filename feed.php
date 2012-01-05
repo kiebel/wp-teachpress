@@ -23,7 +23,6 @@ settype ($tag, 'integer');
  */  
 if ($feedtype == 'bibtex') {
 	header('Content-Type: text/plain; charset=utf-8;');
-	include_once('core/bibtex.php');
 	if ($id != '') {
 	}
 	else {
@@ -62,9 +61,9 @@ if ($feedtype == 'bibtex') {
 			}		
 		}
 	}
-	$row = $wpdb->get_results($row);
+	$row = $wpdb->get_results($row, ARRAY_A);
 	foreach ($row as $row) {
-		echo tp_get_bibtex($row);
+		echo tp_bibtex::get_single_publication_bibtex($row);
 	}
 }
 /*
@@ -126,35 +125,32 @@ else {
 				ORDER BY p.date DESC";
 		}		
 	}
-	$row = $wpdb->get_results($row);
+	$row = $wpdb->get_results($row, ARRAY_A);
 	foreach ($row as $row) {
-		if ($row->url != '') {
-			$item_link = $row->url;
+		if ($row['url'] != '') {
+			$item_link = $row['url'];
 		}
-		elseif ($row->rel_page != '') {
-			$item_link = get_bloginfo('url') . '/?page=' . $row->rel_page;
+		elseif ($row['rel_page'] != '') {
+			$item_link = get_bloginfo('url') . '/?page=' . $row['rel_page'];
 		}
 		else {
 			$item_link = get_bloginfo('url');
 		}
 		$array_1 = array('&Uuml;','&uuml;', '&Ouml;', '&ouml;', '&Auml;','&auml;', '&nbsp;', '&szlig;', '&sect;', '&ndash;', '&rdquo;', '&ldquo;', '&eacute;', '&egrave;', '&aacute;', '&agrave;', '&ograve;','&oacute;', '&copy;', '&reg;', '&micro;', '&pound;', '&raquo;', '&laquo;', '&yen;', '&Agrave;', '&Aacute;', '&Egrave;', '&Eacute;', '&Ograve;', '&Oacute;', '&shy;', '&amp;');
 		$array_2 = array('Ü','ü', 'Ö', 'ö', 'Ä', 'ä', ' ', 'ß', '§', '-', '”', '“', 'é', 'è', 'á', 'à', 'ò', 'ó', '©', '®', 'µ', '£', '»', '«', '¥', 'À', 'Á', 'È', 'É', 'Ò', 'Ó', '­', '&');
-		$row->auhtor = str_replace($array_1, $array_2, $row->author);
-		$row->auhtor = str_replace(' and ', ', ', $row->auhtor);
-		$row->name = str_replace($array_1, $array_2, $row->name); 
-		$item_link = str_replace($array_1, $array_2, $item_link);
-		$array_1 = array('&');
-		$array_2 = array('und');
-		$row->author = str_replace($array_1, $array_2, $row->auhtor);
-		$row->name = str_replace($array_1, $array_2, $row->name);
+		$row['author'] = tp_bibtex::replace_html_chars($row['author']);
+		$row['author'] = str_replace(' and ', ', ', $row['author']);
+		$row['name'] = tp_bibtex::replace_html_chars($row['name']); 
+		$item_link = tp_bibtex::replace_html_chars($item_link);
+		$settings['editor_name'] = 'simple';
 		echo '<item>
-				<title>' . stripslashes($row->name) . '</title>
-				<description>' . tp_publication_advanced_information($row, 'simple') . '</description>
-				<link><![CDATA[' . $item_link . ']]></link>
-				<dc:creator>' . stripslashes($row->author) . '</dc:creator>
-				<guid isPermaLink="false">' . get_bloginfo('url') . '?publication=' . $row->pub_id . '</guid>
-				<pubDate>' . $row->date . '</pubDate>
-				</item>';
+                           <title>' . stripslashes($row['name']) . '</title>
+                           <description>' . tp_bibtex::single_publication_meta_row($row, $settings['editor_name']) . '</description>
+                           <link><![CDATA[' . $item_link . ']]></link>
+                           <dc:creator>' . stripslashes($row['author']) . '</dc:creator>
+                           <guid isPermaLink="false">' . get_bloginfo('url') . '?publication=' . $row['pub_id'] . '</guid>
+                           <pubDate>' . $row['date'] . '</pubDate>
+                           </item>';
 	}
 	echo '</channel>';	
 	echo '</rss>';

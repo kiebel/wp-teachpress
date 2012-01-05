@@ -1,14 +1,14 @@
 === teachPress ===
 Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
-Requires at least: 3.0
-Tested up to: 3.2
-Stable tag: 2.3.3
+Requires at least: 3.3
+Tested up to: 3.3.1
+Stable tag: 3.0.0
 
 With this plugin you can easy manage courses, enrollments and publications.
 
 == Description ==
-The plugin unites a course management system (with enrollments) and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 3.0.0 or higher.
+The plugin unites a course management system (with enrollments) and a BibTeX compatible publication management. teachPress is optimized for the needs of professorships and research groups. You can use it with WordPress 3.3.0 or higher.
 
 For more information see [here](http://www.mtrv.wordpress.com/teachpress/).
 
@@ -33,7 +33,7 @@ Use at your own risk. No warranty expressed or implied is provided.
 
 == Credits ==
 
-Copyright 2008-2011 by Michael Winkler
+Copyright 2008-2012 by Michael Winkler
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -77,7 +77,6 @@ If you have installed teachpress with version 2.0.0 or higher, check if is the t
 == Screenshots ==
 1. Add publication menu
 2. Add course menu
-3. teachPress books widget
  
 
 == Frequently Asked Questions ==
@@ -92,7 +91,7 @@ Create a new page or post and use the following tag: [tpenrollments]
 You can write long course desciptions, as normal WordPress pages. The main function of teachPress is only to connect the static page with a course overview and an enrollment system. For this you can specify a related page for your course.
 
 = How can I display images in publication lists? =
-An example: [tplist id="0" image="left" image_size="70"]. Important: You must specify both image parameters.
+An example: [tplist user="0" image="left" image_size="70"]. Important: You must specify both image parameters.
 
 = How can I deactivate parts of the plugin? =
 If you want to use only one part of the plugin, so write the following in the wp-config.php of your WordPress installation
@@ -108,6 +107,30 @@ If you save plugins outside the normal path (/wp-content/plugins/), the plugin c
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 3.0.0 - (05.01.2012) =
+* New: [tpcourselist]: New option for hiding the headline
+* New: [tpcourselist]: New option for displaying a simple text under the headline
+* New: [tpcloud, tplist]: New option for listing publications after type, year (Set headline=2 for this)
+* New: [tpcloud]: New parameter "headline" is available
+* New: Tags (Keywords) will be displayed in BibTeX entries
+* New: E-Mail notifications for users if they are signed up for a course or for a waitinglist of a course
+* New: Writing E-Mails directly from the admin menu
+* New: File export for publications added: .txt(BibTeX) and .rtf format
+* New: Datepicker translations for Spanisch and Italian added
+* New: Plural forms for the publication types added
+* Changed: Use add_help_tab instead an own help tab on teachpress admin screens
+* Changed: Use the integrated jQuery library from WordPress (i.e. datepicker) instead of an own
+* Changed: Use the style of button-primary / button-secondary from WP instead of an own copy
+* Changed: Line breaks in course comments will be displayed
+* Changed: [tpcloud]: "id"-parameter renamed to "user"
+* Changed: [tpdate]: Hide invisible child courses
+* Changed: [tpcloud, tplist]: If there is no URL given for a publication, teachPress tests if there is an related page instead
+* Bugfix: Using of undefined constants
+* Bugfix: Using of undefined variables
+* Bugfix: Publication title was not displayed in BibTeX strings
+* Bugfix: Deprecated call of load_plugin_textdomain
+* Bugfix: Installation of the tables teachpress_relation, teachpress_signup failed
+* Bugfix: [tpcloud]: Unable to reset the publication type filter 
 = 2.3.3 - (06.07.2011) =
 * New: WordPress Media Importer is now usable for the URL field of a publication
 * Changed: The parameters.php isn't longer required
@@ -249,7 +272,7 @@ If you save plugins outside the normal path (/wp-content/plugins/), the plugin c
 * Bugfix: Fixed bug in the "copy course" function
 * Bugfix: Fixed bug in the "add students manually" function
 = 0.85.0 =
-* New: Displaying images in publication lists is possible
+* New: Displaying images in publication lists
 * New: Larger edit field for course comments
 * Bugfix: Size of visible images in the publication edit menu is limited
 * Bufgix: Some function names now more unique
@@ -288,8 +311,8 @@ If you save plugins outside the normal path (/wp-content/plugins/), the plugin c
 = 0.32.0 = 
 * Changed: Design for course overview
 * Changed: Default language changed from german to english
-* Bugfix: Fix bug when student unsubscribes from a course (Thanks to Jean T. )
-* Bugfix: Fix bug in the course overview (frontend)
+* Bugfix: Fixed a bug when student unsubscribes from a course (Thanks to Jean T. )
+* Bugfix: Fixed a bug in the course overview (frontend)
 = 0.30.2 =
 * Fix a little problem with the version name
 = 0.30.0 =
@@ -304,5 +327,5 @@ If you save plugins outside the normal path (/wp-content/plugins/), the plugin c
 * Changed: Course search
 * Bugfix: Fixed bug in 'add courses' form
 * Bugfix: Fixed bug by using students search
-* Bugfix: Fix bug in tp_get_message()
+* Bugfix: Fix bug in get_tp_message()
 * Killed: XML-export for enrollments

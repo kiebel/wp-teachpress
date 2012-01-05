@@ -61,18 +61,6 @@ function teachpress_showhide(where) {
     }
 }
 
-// for switch the date input form in courses
-function teachpress_switch_dateform() {
-	if (document.getElementById("date_free").style.display == "none") {
-    	document.getElementById("date_free").style.display = "block";
-		document.getElementById("date_strict").style.display = "none";
-    }
-    else {
-     	document.getElementById("date_free").style.display = "none";
-		document.getElementById("date_strict").style.display = "block";
-    }
-}
-
 // for edit tags
 function teachpress_editTags(tag_ID) {
 	var parent = "tp_tag_row_" + tag_ID;
