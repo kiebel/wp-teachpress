@@ -3,7 +3,7 @@ Contributors: Michael Winkler
 Tags: management, publications, enrollments, teachpress, education, course management, BibTeX, bibliography
 Requires at least: 3.3
 Tested up to: 3.3.1
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 
 With this plugin you can easy manage courses, enrollments and publications.
 
@@ -107,17 +107,19 @@ If you save plugins outside the normal path (/wp-content/plugins/), the plugin c
 [See teachPress shortcode reference](http://mtrv.wordpress.com/teachpress/shortcode-reference/)
 
 == Changelog ==
+= 3.0.1 - (06.01.2012) =
+* Bugfix: Fixed a bug which prevent sending of e-mail notifications
 = 3.0.0 - (05.01.2012) =
 * New: [tpcourselist]: New option for hiding the headline
 * New: [tpcourselist]: New option for displaying a simple text under the headline
-* New: [tpcloud, tplist]: New option for listing publications after type, year (Set headline=2 for this)
+* New: [tpcloud, tplist]: New option for listing publications after type, year (Set headline="2" for this)
 * New: [tpcloud]: New parameter "headline" is available
 * New: Tags (Keywords) will be displayed in BibTeX entries
-* New: E-Mail notifications for users if they are signed up for a course or for a waitinglist of a course
-* New: Writing E-Mails directly from the admin menu
+* New: E-mail notifications for the enrollment system (if users are signed up for a course or for a waitinglist of a course)
+* New: Writing e-mails directly from the admin menu
 * New: File export for publications added: .txt(BibTeX) and .rtf format
-* New: Datepicker translations for Spanisch and Italian added
-* New: Plural forms for the publication types added
+* New: Datepicker translations for Spanish and Italian added
+* New: Plural forms for publication types added
 * Changed: Use add_help_tab instead an own help tab on teachpress admin screens
 * Changed: Use the integrated jQuery library from WordPress (i.e. datepicker) instead of an own
 * Changed: Use the style of button-primary / button-secondary from WP instead of an own copy

@@ -401,7 +401,7 @@ function tp_add_registration($checkbox, $wp_id){
       return '';
    }
    // load data
-   $row1 = "SELECT fplaces, name, start, end, waitinglist, parent FROM " . $teachpress_courses . " WHERE course_id = '$checkbox'";
+   $row1 = "SELECT `fplaces`, `name`, `start`, `end`, `waitinglist`, `parent` FROM " . $teachpress_courses . " WHERE `course_id` = '$checkbox'";
    $row1 = $wpdb->get_row($row1);
    // handle parent and child name
    if ($row1->parent != '0') {
@@ -430,14 +430,14 @@ function tp_add_registration($checkbox, $wp_id){
          // reduce the number of free places in the course
          $neu = $row1->fplaces - 1;
          $wpdb->query( "UPDATE " . $teachpress_courses . " SET `fplaces` = '$neu' WHERE `course_id` = '$checkbox'" );
-         return '<div class="teachpress_message_success">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('Registration was successful.','teachpress') . '</div>';
-         // Send user an E-Mail
+         // Send user an E-Mail and return a message
          $to = $wpdb->get_var("SELECT `email` FROM " . $teachpress_stud . " WHERE `wp_id` = '$wp_id'");
          $subjetct = '[' . get_bloginfo('name') . '] ' . __('Registration','teachpress');
          $message = __('Your Registration for the following course was successful:','teachpress') . chr(13) . chr(10);
          $message = $message . stripslashes($row1->name);
          $headers = 'From: ' . get_bloginfo('name') . ' ' . utf8_decode(chr(60)) .  get_bloginfo('admin_email') . utf8_decode(chr(62)) . "\r\n";
          wp_mail($to, $subject, $message, $headers);
+         return '<div class="teachpress_message_success">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('Registration was successful.','teachpress') . '</div>';
       }
       else {
               return '<div class="teachpress_message_error">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('You are already registered for this course.','teachpress') . '</div>';
@@ -451,14 +451,14 @@ function tp_add_registration($checkbox, $wp_id){
          // if not: subscribe the user
          if ($check == 0 ) {
             $wpdb->query( "INSERT INTO " . $teachpress_signup . " (course_id, wp_id, waitinglist, date) VALUES ('$checkbox', '$wp_id', '1', NOW() )" );
-            return'<div class="teachpress_message_info">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('For this course there are no more free places. You are automatically signed up in a waiting list.','teachpress') . '</div>';
-            // Send user an E-Mail
+            // Send user an E-Mail and return a message
             $to = $wpdb->get_var("SELECT `email` FROM " . $teachpress_stud . " WHERE `wp_id` = '$wp_id'");
             $subjetct = '[' . get_bloginfo('name') . '] ' . __('Waitinglist','teachpress');
             $message = __('You are signed up in the waitinglist for the following course:','teachpress') . chr(13) . chr(10);
             $message = $message . stripslashes($row1->name);
             $headers = 'From: ' . get_bloginfo('name') . ' ' . utf8_decode(chr(60)) . get_bloginfo('admin_email') . utf8_decode(chr(62)) . "\r\n";
             wp_mail($to, $subject, $message, $headers);
+            return'<div class="teachpress_message_info">&quot;' . stripslashes($row1->name) . '&quot;: ' . __('For this course there are no more free places. You are automatically signed up in a waiting list.','teachpress') . '</div>';
          }
          // if the user is already registered
          else {

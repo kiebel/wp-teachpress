@@ -515,11 +515,11 @@ function tp_enrollments_shortcode($atts) {
                              </tr>
                              <tr>
                               <td width="20%" style="font-weight:bold;">';
-               if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
+               if ($date3 != '0000-00-00 00:00:00' && current_time('mysql') >= $date3 && current_time('mysql') <= $date4) {
                   $rtn = $rtn . '<label for="checkbox_' . $row2->course_id . '" style="line-height:normal;">';
                }
                $rtn = $rtn . $row2->name;
-               if ($date1 != '0000-00-00 00:00:00' && current_time('mysql') >= $date1 && current_time('mysql') <= $date2) {
+               if ($date3 != '0000-00-00 00:00:00' && current_time('mysql') >= $date3 && current_time('mysql') <= $date4) {
                   $rtn = $rtn . '</label>';
                }
                $rtn = $rtn . '</td>
