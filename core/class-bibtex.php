@@ -45,6 +45,7 @@ class tp_bibtex {
                          $time = array(); 
                          preg_match_all($preg, $row[$pub_fields[$i]], $time);
                          $string = $string . 'year  = {' . $time[0][0] . '},' . chr(13) . chr(10);
+                         $string = $string . tp_bibtex::prepare_bibtex_line($row[$pub_fields[$i]],$pub_fields[$i]);
                     }
                     // Change publication type to bibtex type
                     elseif ( $pub_fields[$i] == 'type' ) {
@@ -292,24 +293,24 @@ class tp_bibtex {
           for ($i = 0; $i < count($entries); $i++) {
               $number = $i + 1;
               // for the date of publishing
-              if ($entries[$i]['month'] != '') {
-                    $entries[$i]['date'] = $entries[$i]['year'] . '-' . $entries[$i]['month'] . '-01';
+              if ( $entries[$i]['date'] != '' ) {
+                   $entries[$i]['date'] = $entries[$i]['date'];
               }
-              elseif ($entries[$i]['month'] != '' && $entries[$i]['day'] != '') {
-                    $entries[$i]['date'] = $entries[$i]['year'] . '-' . $entries[$i]['month'] . '-' . $entries[$i]['day'];
+              elseif ($entries[$i]['month'] != '' && $entries[$i]['day'] != '' && $entries[$i]['year'] != '') {
+                   $entries[$i]['date'] = $entries[$i]['year'] . '-' . $entries[$i]['month'] . '-' . $entries[$i]['day'];
               }
               else {
-                    $entries[$i]['date'] = $entries[$i]['year'] . '-01-01';
+                   $entries[$i]['date'] = $entries[$i]['year'] . '-01-01';
               }
               // for tags
               if ($entries[$i]['keywords'] != '') { 
-                    $tags = str_replace($settings['keyword_separator'],",",$entries[$i]['keywords']);   
+                   $tags = str_replace($settings['keyword_separator'],",",$entries[$i]['keywords']);   
               }
               elseif ($entries[$i]['tags'] != '') {
-                    $tags = str_replace($settings['keyword_separator'],",",$entries[$i]['tags']);
+                   $tags = str_replace($settings['keyword_separator'],",",$entries[$i]['tags']);
               }
               else {
-                    $tags = '';
+                   $tags = '';
               }
               // for name
               if ($entries[$i]['name'] == '') {
