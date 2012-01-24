@@ -1407,19 +1407,21 @@ function tp_list_shortcode($atts){
       $order = "p.type ASC, p.date DESC  ";
    }
    $order = substr($order, 0, -2);
-
    // END define order_by clause
-
+   
    // define where clause
-   if ( $sort_type == 'all' ) {
-      $where = "";
-   }
-   else {
+   $where = "";
+   if ( $sort_type != 'all' ) {  
+      $sort_type = explode(',', $sort_type);
+      foreach ( $sort_type as $element ) {
+           $element = trim($element);
+           $where = $where == "" ? "p.type = '" . $element . "'" : $where . " OR p.type = '" . $element . "'";
+      }
       if ( $userid == 0 || $tag_id != 0 ) {
-         $where = "WHERE p.type = '" . $sort_type . "'";
+         $where = "WHERE " . $where . "";
       }
       else {
-         $where = "AND p.type = '" . $sort_type . "'";
+         $where = "AND " . $where. "";
       }
    }
    // END define where clause
